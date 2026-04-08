@@ -75,6 +75,10 @@ const quickSelectOptions = [
   { id: 11, label: 'Layton' },
   { id: 3, label: 'Naxos' },
   { id: 23, label: 'Hacivat' },
+  { id: 49, label: 'Santal 33' },
+  { id: 28, label: 'Pegasus' },
+  { id: 35, label: 'Green Irish Tweed' },
+  { id: 43, label: "Bal d'Afrique" },
 ];
 
 export default function SignatureMatch() {
@@ -104,7 +108,7 @@ export default function SignatureMatch() {
   };
 
   return (
-    <section id="match" className="py-20 px-4">
+    <section id="match" className="py-20 px-4 section-accent">
       <div className="max-w-4xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -113,23 +117,25 @@ export default function SignatureMatch() {
           transition={{ duration: 0.8 }}
           className="text-center mb-12"
         >
-          <p className="text-gold/60 text-[10px] tracking-[0.3em] uppercase font-sans mb-2">
+          <p className="text-gold text-[11px] tracking-[0.2em] uppercase font-sans font-medium mb-2">
             AI INTELLIGENCE
           </p>
-          <h2 className="font-serif text-4xl md:text-5xl gold-gradient mb-3">
+          <h2 className="font-serif text-4xl md:text-5xl gold-text mb-3 font-bold">
             התאמת חתימה
           </h2>
-          <p className="text-ink-muted/60 text-sm font-hebrew max-w-md mx-auto font-light">
+          <p className="text-ink-muted text-sm font-hebrew max-w-md mx-auto font-light">
             בחר את הבשמים שבאוסף שלך ותן ל-AI לגלות את יצירת המופת הבאה
           </p>
         </motion.div>
 
-        <div className="glass-card rounded-2xl p-6 md:p-8 mb-6">
+        <div className="card p-6 md:p-8 mb-6">
           <div className="flex items-center gap-2 mb-4">
-            <Brain className="w-4 h-4 text-gold" />
-            <h3 className="font-serif text-lg text-ink">האוסף שלך</h3>
+            <div className="w-8 h-8 rounded-lg bg-gold-faint flex items-center justify-center">
+              <Brain className="w-4 h-4 text-gold" />
+            </div>
+            <h3 className="font-serif text-xl text-ink font-semibold">האוסף שלך</h3>
           </div>
-          <p className="text-ink-muted/50 text-xs font-hebrew mb-4 font-light">
+          <p className="text-ink-muted text-xs font-hebrew mb-4 font-light">
             בחר את הבשמים שאתה מחזיק כרגע:
           </p>
 
@@ -140,10 +146,10 @@ export default function SignatureMatch() {
                 <button
                   key={opt.id}
                   onClick={() => toggleInCollection(opt.id)}
-                  className={`px-4 py-2 text-xs font-sans tracking-wider uppercase border rounded-full transition-all duration-300 ${
+                  className={`px-4 py-2 text-xs font-sans border rounded-full transition-all duration-200 ${
                     isSelected
-                      ? 'bg-gold/10 border-gold/40 text-gold'
-                      : 'border-ink/8 text-ink-muted/50 hover:border-gold/25 hover:text-ink-muted'
+                      ? 'bg-gold text-white border-gold shadow-sm'
+                      : 'bg-bg-card border-black/[0.06] text-ink-muted hover:border-gold-border hover:text-gold'
                   }`}
                   dir="ltr"
                 >
@@ -156,7 +162,7 @@ export default function SignatureMatch() {
           <button
             onClick={analyze}
             disabled={myCollection.length < 2 || isAnalyzing}
-            className="w-full py-3.5 gold-gradient-bg text-white font-hebrew font-medium text-sm tracking-wide hover:opacity-90 transition-opacity disabled:opacity-25 disabled:cursor-not-allowed flex items-center justify-center gap-2 rounded-sm"
+            className="btn-gold w-full py-3.5 font-hebrew text-sm tracking-wide rounded-lg disabled:opacity-25 disabled:cursor-not-allowed disabled:transform-none disabled:shadow-none flex items-center justify-center gap-2"
           >
             {isAnalyzing ? (
               <>
@@ -177,7 +183,7 @@ export default function SignatureMatch() {
           </button>
 
           {myCollection.length < 2 && myCollection.length > 0 && (
-            <p className="text-ink-muted/30 text-xs font-hebrew text-center mt-2">
+            <p className="text-ink-faint text-xs font-hebrew text-center mt-2">
               בחר לפחות 2 בשמים לניתוח
             </p>
           )}
@@ -190,11 +196,11 @@ export default function SignatureMatch() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
-              className="glass-card rounded-2xl p-6 md:p-8 luxury-shadow"
+              className="card-gold p-6 md:p-8"
             >
               <div className="flex items-center gap-2 mb-6">
                 <Sparkles className="w-4 h-4 text-gold" />
-                <p className="text-gold text-xs tracking-wide font-hebrew font-medium">
+                <p className="text-gold text-xs font-hebrew font-medium">
                   יצירת המופת הבאה שלך
                 </p>
               </div>
@@ -202,22 +208,20 @@ export default function SignatureMatch() {
               <div className="flex flex-col md:flex-row gap-6">
                 <div className="flex-1">
                   <span className="text-5xl block mb-3">{result.match.image}</span>
-                  <p className="text-gold/60 text-[10px] tracking-[0.25em] uppercase font-sans" dir="ltr">
+                  <p className="text-gold text-[10px] tracking-[0.25em] uppercase font-sans font-medium" dir="ltr">
                     {result.match.house}
                   </p>
-                  <h3 className="font-serif text-3xl text-ink mt-1 mb-2" dir="ltr">{result.match.name}</h3>
-                  <p className="text-ink-muted/50 text-xs font-sans mb-4" dir="ltr">
+                  <h3 className="font-serif text-3xl text-ink mt-1 mb-2 font-semibold" dir="ltr">{result.match.name}</h3>
+                  <p className="text-ink-faint text-xs font-sans mb-4" dir="ltr">
                     {result.match.family} &middot; {result.match.concentration} &middot; ₪{result.match.price.toLocaleString()}
                   </p>
 
-                  <div className="bg-shell-dark/50 rounded-xl p-4 mb-4">
+                  <div className="bg-bg-secondary rounded-xl p-4 mb-4">
                     <div className="flex items-center gap-2 mb-2">
                       <Brain className="w-3 h-3 text-gold" />
-                      <span className="text-gold/70 text-[10px] tracking-wider font-hebrew">
-                        ניתוח AI
-                      </span>
+                      <span className="text-gold text-[10px] font-hebrew font-medium">ניתוח AI</span>
                     </div>
-                    <p className="text-ink-muted text-sm font-hebrew leading-relaxed font-light">
+                    <p className="text-ink-secondary text-sm font-hebrew leading-relaxed font-light">
                       {result.reasoning}
                     </p>
                   </div>
@@ -226,28 +230,25 @@ export default function SignatureMatch() {
                 <div className="md:w-64">
                   <div className="flex items-center gap-2 mb-3">
                     <Droplets className="w-4 h-4 text-gold" />
-                    <h4 className="font-serif text-sm text-ink">פירמידת הריח</h4>
+                    <h4 className="font-serif text-base text-ink font-semibold">פירמידת הריח</h4>
                   </div>
 
                   {(['top', 'heart', 'base'] as const).map((type) => {
                     const notes = result.match.notes.filter((n) => n.type === type);
                     if (notes.length === 0) return null;
-                    const labels = { top: 'ראש', heart: 'לב', base: 'בסיס' };
-                    const colors = {
-                      top: 'text-emerald-600/70',
-                      heart: 'text-rose-600/70',
-                      base: 'text-amber-600/70',
+                    const labels = { top: '🌿 ראש', heart: '🌸 לב', base: '🪵 בסיס' };
+                    const noteStyles = {
+                      top: 'bg-emerald-50 text-emerald-700 border-emerald-200',
+                      heart: 'bg-rose-50 text-rose-700 border-rose-200',
+                      base: 'bg-amber-50 text-amber-700 border-amber-200',
                     };
                     return (
                       <div key={type} className="mb-3">
-                        <p className={`text-[10px] tracking-wider font-hebrew mb-1 ${colors[type]}`}>
-                          {labels[type]}
-                        </p>
+                        <p className="text-[11px] font-hebrew mb-1.5 text-ink-muted">{labels[type]}</p>
                         <div className="flex flex-wrap gap-1" dir="ltr">
                           {notes.map((n) => (
-                            <span key={n.name} className="text-ink-muted/60 text-xs font-sans">
+                            <span key={n.name} className={`text-[11px] px-2 py-0.5 border rounded-full font-sans ${noteStyles[type]}`}>
                               {n.name}
-                              <ChevronLeft className="w-2 h-2 inline mx-0.5 opacity-25" />
                             </span>
                           ))}
                         </div>
@@ -255,7 +256,7 @@ export default function SignatureMatch() {
                     );
                   })}
 
-                  <button className="w-full mt-4 py-2.5 border border-gold/25 text-gold text-xs font-hebrew tracking-wide hover:bg-gold/5 transition-colors duration-300 rounded-sm">
+                  <button className="btn-outline w-full mt-4 py-2.5 text-xs font-hebrew rounded-lg">
                     הוסף לרשימת המשאלות
                   </button>
                 </div>

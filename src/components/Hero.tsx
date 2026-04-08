@@ -1,52 +1,76 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, Sparkles } from 'lucide-react';
 import Logo from './Logo';
+
+const stats = [
+  { value: '200+', label: 'בשמי נישה' },
+  { value: '18', label: 'בתי בושם' },
+  { value: 'AI', label: 'התאמה חכמה' },
+];
 
 export default function Hero() {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden px-4">
-      {/* Soft ambient glow */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-1/3 left-1/3 w-[500px] h-[500px] bg-gold/[0.04] rounded-full blur-[150px]" />
-        <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-gold/[0.03] rounded-full blur-[120px]" />
-      </div>
-
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden px-4 hero-pattern">
       <div className="relative z-10 text-center max-w-4xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.4, ease: [0.25, 0.1, 0.25, 1] }}
+          transition={{ duration: 1.2, ease: [0.25, 0.1, 0.25, 1] }}
         >
-          <div className="flex justify-center mb-8">
+          {/* Badge */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold-faint border border-gold-border mb-8"
+          >
+            <Sparkles className="w-3.5 h-3.5 text-gold" />
+            <span className="text-gold text-xs font-hebrew font-medium">פלטפורמת קיור בשמים מבוססת AI</span>
+          </motion.div>
+
+          {/* Logo */}
+          <div className="flex justify-center mb-6">
             <Logo size="xl" />
           </div>
 
-          <div className="gold-line max-w-[120px] mx-auto mb-6" />
-
-          <p className="font-serif text-xl md:text-2xl text-ink-muted italic mb-4">
+          <p className="font-serif text-2xl md:text-3xl text-ink-secondary italic mb-4 font-light">
             הבושם הבא שלך, מפוענח.
           </p>
 
-          <p className="font-hebrew text-sm md:text-base text-ink-muted/60 max-w-xl mx-auto leading-relaxed mb-12 font-light">
-            פלטפורמת קיור חכמה שמנתחת את העדפות הריח שלך
-            ומגלה את יצירת המופת הבאה — מבתי הבושם הנישתיים ביותר בעולם.
+          <p className="font-hebrew text-sm md:text-base text-ink-muted max-w-lg mx-auto leading-relaxed mb-10 font-light">
+            פלטפורמה חכמה שמנתחת את העדפות הריח שלך ומגלה את יצירת המופת הבאה — מבתי הבושם הנישתיים ביותר בעולם.
           </p>
         </motion.div>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
-          className="flex flex-col sm:flex-row gap-4 justify-center"
+          transition={{ duration: 0.8, delay: 0.5 }}
+          className="flex flex-col sm:flex-row gap-3 justify-center mb-16"
         >
-          <button className="px-8 py-3.5 gold-gradient-bg text-white font-hebrew font-medium text-sm tracking-wide hover:opacity-90 transition-opacity duration-500 rounded-sm">
+          <button className="btn-gold px-8 py-3.5 font-hebrew text-sm tracking-wide rounded-lg">
             גלה את החתימה שלך
           </button>
-          <button className="px-8 py-3.5 border border-gold/30 text-gold font-hebrew font-light text-sm tracking-wide hover:bg-gold/5 transition-colors duration-500 rounded-sm">
+          <button className="btn-outline px-8 py-3.5 font-hebrew text-sm tracking-wide rounded-lg">
             חקור את הקולקציה
           </button>
+        </motion.div>
+
+        {/* Stats */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.7 }}
+          className="flex justify-center gap-8 md:gap-16"
+        >
+          {stats.map((stat, i) => (
+            <div key={i} className="text-center">
+              <p className="font-serif text-2xl md:text-3xl text-gold font-semibold">{stat.value}</p>
+              <p className="text-ink-muted text-xs font-hebrew font-light mt-1">{stat.label}</p>
+            </div>
+          ))}
         </motion.div>
       </div>
 
@@ -55,7 +79,7 @@ export default function Hero() {
         animate={{ y: [0, 8, 0] }}
         transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
       >
-        <ChevronDown className="w-5 h-5 text-gold/40" />
+        <ChevronDown className="w-5 h-5 text-ink-faint" />
       </motion.div>
     </section>
   );

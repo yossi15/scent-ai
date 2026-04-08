@@ -13,60 +13,63 @@ interface Props {
 export default function FragranceCard({ fragrance, index, onClick }: Props) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 40 }}
+      initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-50px' }}
-      transition={{ duration: 0.8, delay: index * 0.06, ease: [0.25, 0.1, 0.25, 1] }}
+      viewport={{ once: true, margin: '-40px' }}
+      transition={{ duration: 0.6, delay: index * 0.04, ease: [0.25, 0.1, 0.25, 1] }}
       onClick={() => onClick(fragrance)}
-      className="glass-card glass-card-hover rounded-2xl p-5 cursor-pointer group transition-all duration-500"
+      className="card p-5 cursor-pointer group"
     >
-      <div className="text-4xl mb-4 group-hover:scale-110 transition-transform duration-500">
-        {fragrance.image}
+      {/* Emoji + Rating row */}
+      <div className="flex items-start justify-between mb-3">
+        <span className="text-3xl group-hover:scale-110 transition-transform duration-400">
+          {fragrance.image}
+        </span>
+        <div className="flex items-center gap-1 bg-gold-faint rounded-full px-2 py-0.5">
+          <Star className="w-3 h-3 text-gold fill-gold" />
+          <span className="text-gold text-[11px] font-sans font-semibold">{fragrance.rating}</span>
+        </div>
       </div>
 
-      <p className="text-gold/70 text-[10px] tracking-[0.2em] uppercase font-sans mb-1" dir="ltr">
+      {/* House */}
+      <p className="text-ink-faint text-[10px] tracking-[0.15em] uppercase font-sans mb-0.5" dir="ltr">
         {fragrance.house}
       </p>
 
-      <h3 className="font-serif text-lg text-ink group-hover:text-gold transition-colors duration-300 mb-1" dir="ltr">
+      {/* Name */}
+      <h3 className="font-serif text-xl text-ink group-hover:text-gold transition-colors duration-300 font-semibold mb-0.5 leading-tight" dir="ltr">
         {fragrance.name}
       </h3>
 
-      <p className="text-ink-muted/50 text-xs font-sans mb-3" dir="ltr">
-        {fragrance.family} &middot; {fragrance.year}
+      {/* Family */}
+      <p className="text-ink-faint text-[11px] font-sans mb-3" dir="ltr">
+        {fragrance.family}
       </p>
 
-      <div className="flex items-center gap-1 mb-3" dir="ltr">
-        <Star className="w-3 h-3 text-gold fill-gold" />
-        <span className="text-gold text-xs font-sans font-medium">{fragrance.rating}</span>
-        <span className="text-ink-muted/40 text-xs font-sans mr-1">{fragrance.concentration}</span>
+      {/* Performance stats */}
+      <div className="flex items-center gap-4 mb-3" dir="ltr">
+        <span className="stat-badge">
+          <Clock className="w-3 h-3 text-gold/60" />
+          <span className="font-medium">{fragrance.longevity}</span>/10
+        </span>
+        <span className="stat-badge">
+          <Wind className="w-3 h-3 text-gold/60" />
+          <span className="font-medium">{fragrance.sillage}</span>/10
+        </span>
+        <span className="stat-badge text-[10px] text-ink-faint">{fragrance.concentration}</span>
       </div>
 
-      <div className="flex items-center gap-4 text-ink-muted/50 text-[10px] font-hebrew" dir="ltr">
-        <span className="flex items-center gap-1">
-          <Clock className="w-3 h-3" />
-          {fragrance.longevity}/10
-        </span>
-        <span className="flex items-center gap-1">
-          <Wind className="w-3 h-3" />
-          {fragrance.sillage}/10
-        </span>
-      </div>
-
-      <div className="flex flex-wrap gap-1.5 mt-3" dir="ltr">
+      {/* Tags */}
+      <div className="flex flex-wrap gap-1.5 mb-4" dir="ltr">
         {fragrance.tags.slice(0, 2).map((tag) => (
-          <span
-            key={tag}
-            className="text-[9px] tracking-wider uppercase px-2 py-0.5 border border-gold/15 text-gold/60 font-sans"
-          >
-            {tag}
-          </span>
+          <span key={tag} className="tag">{tag}</span>
         ))}
       </div>
 
-      <div className="mt-4 pt-3 border-t border-ink/5" dir="ltr">
-        <span className="text-gold font-serif text-lg">₪{fragrance.price.toLocaleString()}</span>
-        <span className="text-ink-muted/40 text-xs font-sans ml-1">/ {fragrance.size}</span>
+      {/* Price */}
+      <div className="pt-3 border-t border-black/[0.04]" dir="ltr">
+        <span className="text-gold font-serif text-xl font-semibold">₪{fragrance.price.toLocaleString()}</span>
+        <span className="text-ink-faint text-[11px] font-sans ml-1">/ {fragrance.size}</span>
       </div>
     </motion.div>
   );
