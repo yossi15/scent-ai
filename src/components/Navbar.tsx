@@ -6,6 +6,7 @@ import { Menu, X } from 'lucide-react';
 import Logo from './Logo';
 
 const navLinks = [
+  { label: 'שאלון טעמים', href: '#quiz' },
   { label: 'קולקציה', href: '#collection' },
   { label: 'התאמת חתימה', href: '#match' },
   { label: 'רדאר ריחות', href: '#radar' },
@@ -47,9 +48,9 @@ export default function Navbar() {
                   <span className="absolute -bottom-1 right-0 w-0 h-[1.5px] bg-gold transition-all duration-300 group-hover:w-full" />
                 </a>
               ))}
-              <button className="btn-gold px-5 py-2 text-xs font-hebrew rounded-lg tracking-wide">
+              <a href="#match" className="btn-gold px-5 py-2 text-xs font-hebrew rounded-lg tracking-wide inline-block">
                 התחל עכשיו
-              </button>
+              </a>
             </div>
 
             <button
@@ -82,9 +83,9 @@ export default function Navbar() {
                   {link.label}
                 </a>
               ))}
-              <button className="btn-gold w-full py-3 text-sm font-hebrew rounded-lg tracking-wide mt-3">
+              <a href="#match" onClick={() => setMobileOpen(false)} className="btn-gold w-full py-3 text-sm font-hebrew rounded-lg tracking-wide mt-3 block text-center">
                 התחל עכשיו
-              </button>
+              </a>
             </div>
           </motion.div>
         )}

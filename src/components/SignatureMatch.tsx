@@ -207,7 +207,7 @@ export default function SignatureMatch() {
 
               <div className="flex flex-col md:flex-row gap-6">
                 <div className="flex-1">
-                  <span className="text-5xl block mb-3">{result.match.image}</span>
+                  <Droplets className="w-10 h-10 text-gold/30 mb-3" />
                   <p className="text-gold text-[10px] tracking-[0.25em] uppercase font-sans font-medium" dir="ltr">
                     {result.match.house}
                   </p>
@@ -256,8 +256,14 @@ export default function SignatureMatch() {
                     );
                   })}
 
-                  <button className="btn-outline w-full mt-4 py-2.5 text-xs font-hebrew rounded-lg">
-                    הוסף לרשימת המשאלות
+                  <button
+                    onClick={() => {
+                      const el = document.getElementById('collection');
+                      el?.scrollIntoView({ behavior: 'smooth' });
+                    }}
+                    className="btn-gold w-full mt-4 py-2.5 text-xs font-hebrew rounded-lg"
+                  >
+                    צפה בקולקציה
                   </button>
                 </div>
               </div>

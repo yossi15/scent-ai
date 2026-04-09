@@ -1,11 +1,13 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
-import { Search, SlidersHorizontal, X } from 'lucide-react';
+import { Search, SlidersHorizontal, X, Heart } from 'lucide-react';
 import { fragrances, type Fragrance } from '@/data/fragrances';
 import FragranceCard from './FragranceCard';
 import FragranceModal from './FragranceModal';
+
+const COLLECTION_KEY = 'scent-ai-collection';
 
 const houses = ['הכל', ...Array.from(new Set(fragrances.map((f) => f.house))).sort()];
 
@@ -15,9 +17,36 @@ export default function Collection() {
   const [selected, setSelected] = useState<Fragrance | null>(null);
   const [showFilters, setShowFilters] = useState(false);
   const [visibleCount, setVisibleCount] = useState(12);
+  const [collection, setCollection] = useState<Set<number>>(new Set());
+  const [showMyCollection, setShowMyCollection] = useState(false);
+
+  // Load collection from localStorage
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem(COLLECTION_KEY);
+      if (saved) setCollection(new Set(JSON.parse(saved)));
+    } catch {}
+  }, []);
+
+  // Save collection to localStorage
+  const saveCollection = useCallback((newSet: Set<number>) => {
+    setCollection(newSet);
+    localStorage.setItem(COLLECTION_KEY, JSON.stringify([...newSet]));
+  }, []);
+
+  const toggleCollection = useCallback((f: Fragrance) => {
+    setCollection(prev => {
+      const next = new Set(prev);
+      if (next.has(f.id)) next.delete(f.id);
+      else next.add(f.id);
+      localStorage.setItem(COLLECTION_KEY, JSON.stringify([...next]));
+      return next;
+    });
+  }, []);
 
   const filtered = useMemo(() => {
     return fragrances.filter((f) => {
+      if (showMyCollection && !collection.has(f.id)) return false;
       const matchesSearch =
         f.name.toLowerCase().includes(search.toLowerCase()) ||
         f.house.toLowerCase().includes(search.toLowerCase()) ||
@@ -25,7 +54,7 @@ export default function Collection() {
       const matchesHouse = houseFilter === 'הכל' || f.house === houseFilter;
       return matchesSearch && matchesHouse;
     });
-  }, [search, houseFilter]);
+  }, [search, houseFilter, showMyCollection, collection]);
 
   const visible = filtered.slice(0, visibleCount);
   const hasMore = visibleCount < filtered.length;
@@ -100,6 +129,21 @@ export default function Collection() {
           )}
         </div>
 
+        {/* My Collection Toggle */}
+        <div className="flex justify-center mb-6">
+          <button
+            onClick={() => { setShowMyCollection(!showMyCollection); setVisibleCount(12); }}
+            className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-hebrew font-medium transition-all duration-200 ${
+              showMyCollection
+                ? 'bg-gold text-white shadow-sm'
+                : 'bg-bg-card border border-black/[0.06] text-ink-muted hover:border-gold-border hover:text-gold'
+            }`}
+          >
+            <Heart className={`w-4 h-4 ${showMyCollection ? 'fill-white' : ''}`} />
+            האוסף שלי {collection.size > 0 && `(${collection.size})`}
+          </button>
+        </div>
+
         {/* Results count */}
         {(search || houseFilter !== 'הכל') && (
           <p className="text-center text-ink-faint text-xs font-hebrew mb-6">
@@ -110,7 +154,7 @@ export default function Collection() {
         {/* Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
           {visible.map((f, i) => (
-            <FragranceCard key={f.id} fragrance={f} index={i} onClick={setSelected} />
+            <FragranceCard key={f.id} fragrance={f} index={i} onClick={setSelected} inCollection={collection.has(f.id)} onToggleCollection={toggleCollection} />
           ))}
         </div>
 
@@ -140,7 +184,7 @@ export default function Collection() {
         )}
       </div>
 
-      <FragranceModal fragrance={selected} onClose={() => setSelected(null)} />
+      <FragranceModal fragrance={selected} onClose={() => setSelected(null)} inCollection={selected ? collection.has(selected.id) : false} onToggleCollection={toggleCollection} />
     </section>
   );
 }

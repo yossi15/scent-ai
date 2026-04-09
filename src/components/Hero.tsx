@@ -1,18 +1,57 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { ChevronDown, Sparkles } from 'lucide-react';
+import { ChevronDown, Sparkles, Droplets } from 'lucide-react';
 import Logo from './Logo';
 
 const stats = [
   { value: '200+', label: 'בשמי נישה' },
-  { value: '18', label: 'בתי בושם' },
+  { value: '18+', label: 'בתי בושם' },
   { value: 'AI', label: 'התאמה חכמה' },
 ];
 
 export default function Hero() {
+  const scrollTo = (id: string) => {
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden px-4 hero-pattern">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden px-4">
+      {/* Elegant gradient background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-[#f5f0e8] via-[#faf8f5] to-[#f0ebe0]" />
+
+      {/* Decorative elements */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute top-[10%] right-[10%] w-[500px] h-[500px] rounded-full bg-gradient-to-br from-[#96793a]/[0.04] to-transparent blur-3xl" />
+        <div className="absolute bottom-[15%] left-[5%] w-[400px] h-[400px] rounded-full bg-gradient-to-tr from-[#96793a]/[0.06] to-transparent blur-3xl" />
+        <div className="absolute top-[40%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] rounded-full border border-[#96793a]/[0.06]" />
+        <div className="absolute top-[40%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full border border-[#96793a]/[0.04]" />
+        <div className="absolute top-[40%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full border border-[#96793a]/[0.02]" />
+
+        {/* Floating scent drops */}
+        <motion.div
+          className="absolute top-[20%] right-[20%]"
+          animate={{ y: [-10, 10, -10], rotate: [0, 5, 0] }}
+          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+        >
+          <Droplets className="w-6 h-6 text-gold/10" />
+        </motion.div>
+        <motion.div
+          className="absolute bottom-[30%] left-[15%]"
+          animate={{ y: [10, -10, 10], rotate: [0, -5, 0] }}
+          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+        >
+          <Droplets className="w-8 h-8 text-gold/[0.07]" />
+        </motion.div>
+        <motion.div
+          className="absolute top-[60%] right-[12%]"
+          animate={{ y: [-5, 15, -5] }}
+          transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
+        >
+          <Sparkles className="w-5 h-5 text-gold/[0.08]" />
+        </motion.div>
+      </div>
+
       <div className="relative z-10 text-center max-w-4xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -24,7 +63,7 @@ export default function Hero() {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold-faint border border-gold-border mb-8"
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/70 backdrop-blur-sm border border-gold-border mb-8"
           >
             <Sparkles className="w-3.5 h-3.5 text-gold" />
             <span className="text-gold text-xs font-hebrew font-medium">פלטפורמת קיור בשמים מבוססת AI</span>
@@ -50,10 +89,16 @@ export default function Hero() {
           transition={{ duration: 0.8, delay: 0.5 }}
           className="flex flex-col sm:flex-row gap-3 justify-center mb-16"
         >
-          <button className="btn-gold px-8 py-3.5 font-hebrew text-sm tracking-wide rounded-lg">
-            גלה את החתימה שלך
+          <button
+            onClick={() => scrollTo('quiz')}
+            className="btn-gold px-8 py-3.5 font-hebrew text-sm tracking-wide rounded-lg"
+          >
+            גלה את הבושם שלך
           </button>
-          <button className="btn-outline px-8 py-3.5 font-hebrew text-sm tracking-wide rounded-lg">
+          <button
+            onClick={() => scrollTo('collection')}
+            className="btn-outline px-8 py-3.5 font-hebrew text-sm tracking-wide rounded-lg bg-white/60 backdrop-blur-sm"
+          >
             חקור את הקולקציה
           </button>
         </motion.div>
@@ -66,7 +111,7 @@ export default function Hero() {
           className="flex justify-center gap-8 md:gap-16"
         >
           {stats.map((stat, i) => (
-            <div key={i} className="text-center">
+            <div key={i} className="text-center bg-white/50 backdrop-blur-sm rounded-xl px-5 py-3">
               <p className="font-serif text-2xl md:text-3xl text-gold font-semibold">{stat.value}</p>
               <p className="text-ink-muted text-xs font-hebrew font-light mt-1">{stat.label}</p>
             </div>
@@ -75,11 +120,13 @@ export default function Hero() {
       </div>
 
       <motion.div
-        className="absolute bottom-8 left-1/2 -translate-x-1/2"
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10"
         animate={{ y: [0, 8, 0] }}
         transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
       >
-        <ChevronDown className="w-5 h-5 text-ink-faint" />
+        <button onClick={() => scrollTo('collection')} className="text-ink-faint hover:text-gold transition-colors">
+          <ChevronDown className="w-5 h-5" />
+        </button>
       </motion.div>
     </section>
   );

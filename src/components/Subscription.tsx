@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Crown, Check, ArrowLeft, Package, Sparkles, Calendar } from 'lucide-react';
 import { subscriptionTiers } from '@/data/fragrances';
@@ -23,6 +24,14 @@ const hebrewTiers = [
 ];
 
 export default function Subscription() {
+  const [selectedTier, setSelectedTier] = useState<number | null>(null);
+
+  const handleSelectTier = (tierIndex: number) => {
+    setSelectedTier(tierIndex);
+    // Scroll to top of section to show confirmation
+    document.getElementById('subscribe')?.scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
     <section id="subscribe" className="py-20 px-4 section-accent">
       <div className="max-w-6xl mx-auto">
@@ -44,6 +53,31 @@ export default function Subscription() {
           </p>
         </motion.div>
 
+        {/* Selected tier confirmation */}
+        {selectedTier !== null && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="card-gold p-5 mb-8 text-center"
+          >
+            <div className="flex items-center justify-center gap-2 mb-2">
+              <Check className="w-5 h-5 text-gold" />
+              <span className="font-serif text-xl text-ink font-semibold">
+                בחרת בחבילת {hebrewTiers[selectedTier].name}
+              </span>
+            </div>
+            <p className="text-ink-muted text-sm font-hebrew mb-3">
+              ₪{subscriptionTiers[selectedTier].price}/חודש — השארו מעודכנים, נשלח לכם עדכון כשההרשמה תיפתח
+            </p>
+            <button
+              onClick={() => setSelectedTier(null)}
+              className="text-gold text-xs font-hebrew hover:underline"
+            >
+              שנה בחירה
+            </button>
+          </motion.div>
+        )}
+
         <div className="grid md:grid-cols-3 gap-5 mb-16">
           {subscriptionTiers.map((tier, i) => (
             <motion.div
@@ -56,7 +90,7 @@ export default function Subscription() {
                 tier.highlight
                   ? 'card-gold scale-[1.02] md:scale-105'
                   : 'card'
-              }`}
+              } ${selectedTier === i ? 'ring-2 ring-gold' : ''}`}
             >
               {tier.highlight && (
                 <div className="absolute -top-3 left-1/2 -translate-x-1/2 btn-gold text-[10px] font-hebrew font-semibold px-4 py-1 rounded-full">
@@ -90,17 +124,25 @@ export default function Subscription() {
                 ))}
               </ul>
 
-              <button className={`w-full py-3 text-sm font-hebrew font-medium flex items-center justify-center gap-2 rounded-lg transition-all ${
-                tier.highlight ? 'btn-gold' : 'btn-outline'
-              }`}>
-                התחל את המסע
-                <ArrowLeft className="w-3.5 h-3.5" />
+              <button
+                onClick={() => handleSelectTier(i)}
+                className={`w-full py-3 text-sm font-hebrew font-medium flex items-center justify-center gap-2 rounded-lg transition-all ${
+                  selectedTier === i
+                    ? 'bg-gold/10 text-gold border border-gold-border cursor-default'
+                    : tier.highlight ? 'btn-gold' : 'btn-outline'
+                }`}
+              >
+                {selectedTier === i ? (
+                  <><Check className="w-3.5 h-3.5" /> נבחר</>
+                ) : (
+                  <>התחל את המסע <ArrowLeft className="w-3.5 h-3.5" /></>
+                )}
               </button>
             </motion.div>
           ))}
         </div>
 
-        {/* Dashboard */}
+        {/* Dashboard Preview */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -110,8 +152,8 @@ export default function Subscription() {
         >
           <div className="flex items-center gap-2 mb-6">
             <Package className="w-4 h-4 text-gold" />
-            <h3 className="font-serif text-xl text-ink font-semibold">לוח בקרה</h3>
-            <span className="mr-auto tag">חבילת אספן</span>
+            <h3 className="font-serif text-xl text-ink font-semibold">תצוגה מקדימה — לוח בקרה</h3>
+            <span className="mr-auto tag">דוגמא</span>
           </div>
 
           <div className="grid sm:grid-cols-3 gap-4">
@@ -133,7 +175,9 @@ export default function Subscription() {
                 <span className="text-ink-muted text-[11px] font-hebrew font-medium">בחירת AI של החודש</span>
               </div>
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-lg bg-bg-primary flex items-center justify-center text-xl">🥃</div>
+                <div className="w-10 h-10 rounded-lg bg-gold-faint flex items-center justify-center">
+                  <Sparkles className="w-5 h-5 text-gold" />
+                </div>
                 <div>
                   <p className="font-serif text-ink text-sm font-semibold" dir="ltr">Side Effect</p>
                   <p className="text-ink-faint text-[11px] font-sans" dir="ltr">Initio</p>
@@ -149,14 +193,14 @@ export default function Subscription() {
               </div>
               <div className="space-y-2">
                 {[
-                  { emoji: '🥃', name: 'Side Effect', house: 'Initio' },
-                  { emoji: '🌙', name: 'Grand Soir', house: 'MFK' },
-                  { emoji: '🍯', name: 'Naxos', house: 'Xerjoff' },
-                  { emoji: '🕌', name: 'Oud for Greatness', house: 'Initio' },
-                  { emoji: '🌸', name: 'Ani', house: 'Nishane' },
+                  { name: 'Side Effect', house: 'Initio' },
+                  { name: 'Grand Soir', house: 'MFK' },
+                  { name: 'Naxos', house: 'Xerjoff' },
+                  { name: 'Oud for Greatness', house: 'Initio' },
+                  { name: 'Ani', house: 'Nishane' },
                 ].map((item) => (
                   <div key={item.name} className="flex items-center gap-2" dir="ltr">
-                    <span className="text-sm">{item.emoji}</span>
+                    <div className="w-1.5 h-1.5 rounded-full bg-gold" />
                     <span className="text-ink-secondary text-xs font-sans">{item.name}</span>
                     <span className="text-ink-faint text-[10px] font-sans ml-auto">{item.house}</span>
                   </div>
