@@ -57,6 +57,28 @@ const questions = [
   },
   {
     id: 5,
+    title: 'באיזו עונה תשתמש הכי הרבה?',
+    subtitle: 'מזג האוויר משפיע על איך שבושם מתנהג',
+    options: [
+      { value: 'summer', label: 'קיץ', desc: 'חם ולח, רצוי קל ומרענן' },
+      { value: 'winter', label: 'חורף', desc: 'קר ויבש, מעדיף חם ועשיר' },
+      { value: 'transition', label: 'אביב / סתיו', desc: 'טמפרטורות מתונות' },
+      { value: 'all', label: 'כל השנה', desc: 'בושם שעובד תמיד' },
+    ],
+  },
+  {
+    id: 6,
+    title: 'איזה כיוון מגדרי מושך אותך?',
+    subtitle: 'בחר את מה שהכי מדבר אליך',
+    options: [
+      { value: 'masculine', label: 'גברי', desc: 'חזק, עוצמתי, בוטח' },
+      { value: 'feminine', label: 'נשי', desc: 'עדין, רומנטי, פרחוני' },
+      { value: 'unisex', label: 'יוניסקס', desc: 'מודרני, ללא גבולות' },
+      { value: 'any', label: 'לא משנה', desc: 'הריח קודם לכל' },
+    ],
+  },
+  {
+    id: 7,
     title: 'מה התקציב שלך?',
     subtitle: 'עבור בקבוק 100ml',
     options: [
@@ -68,79 +90,161 @@ const questions = [
   },
 ];
 
-function scoreFragrance(fragrance: Fragrance, answers: QuizAnswer[]): number {
+const TOTAL_QUESTIONS = 7;
+const MAX_POSSIBLE_SCORE = 100;
+
+interface ScoredFragrance {
+  fragrance: Fragrance;
+  score: number;
+  matchPercent: number;
+  reason: string;
+}
+
+function scoreFragrance(fragrance: Fragrance, answers: QuizAnswer[]): { score: number; reasons: string[] } {
   let score = 0;
+  const reasons: string[] = [];
 
   const mood = answers.find(a => a.questionId === 1)?.value;
   const occasion = answers.find(a => a.questionId === 2)?.value;
   const scentWorld = answers.find(a => a.questionId === 3)?.value;
   const intensity = answers.find(a => a.questionId === 4)?.value;
-  const budget = answers.find(a => a.questionId === 5)?.value;
+  const season = answers.find(a => a.questionId === 5)?.value;
+  const gender = answers.find(a => a.questionId === 6)?.value;
+  const budget = answers.find(a => a.questionId === 7)?.value;
 
-  // Mood scoring
+  // Mood scoring (max ~15)
   if (mood === 'elegant') {
-    score += fragrance.radarProfile.floral * 2 + fragrance.radarProfile.woody;
-    if (fragrance.sillage <= 6) score += 3;
+    const s = fragrance.radarProfile.floral * 1.2 + fragrance.radarProfile.woody * 0.8;
+    score += s;
+    if (fragrance.sillage <= 6) { score += 3; reasons.push('אלגנטי ומלוטש'); }
+    else if (s >= 8) reasons.push('פרופיל קלאסי');
   } else if (mood === 'bold') {
-    score += fragrance.radarProfile.oriental * 2 + fragrance.radarProfile.animalic * 2;
-    if (fragrance.sillage >= 7) score += 4;
+    score += fragrance.radarProfile.oriental * 1.5 + fragrance.radarProfile.animalic * 1.5;
+    if (fragrance.sillage >= 7) { score += 4; reasons.push('עוצמתי ובולט'); }
   } else if (mood === 'fresh') {
-    score += fragrance.radarProfile.fresh * 3;
-    if (fragrance.longevity <= 6) score += 2;
+    score += fragrance.radarProfile.fresh * 2.5;
+    if (fragrance.radarProfile.fresh >= 6) reasons.push('רענן ואנרגטי');
   } else if (mood === 'mysterious') {
-    score += fragrance.radarProfile.oriental * 2 + fragrance.radarProfile.gourmand + fragrance.radarProfile.animalic;
+    score += fragrance.radarProfile.oriental * 1.3 + fragrance.radarProfile.gourmand + fragrance.radarProfile.animalic;
+    if (fragrance.radarProfile.oriental >= 6 || fragrance.radarProfile.gourmand >= 5) reasons.push('מסתורי ומרתק');
   }
 
-  // Occasion scoring
+  // Occasion scoring (max ~15)
   if (occasion === 'daily') {
-    if (fragrance.sillage <= 6 && fragrance.tags.some(t => t.toLowerCase().includes('versatile') || t.toLowerCase().includes('office'))) score += 5;
+    if (fragrance.sillage <= 6 && fragrance.longevity >= 5) { score += 6; reasons.push('מושלם ליומיום'); }
     if (fragrance.radarProfile.fresh >= 5) score += 3;
   } else if (occasion === 'evening') {
-    if (fragrance.sillage >= 6) score += 3;
+    if (fragrance.sillage >= 6) { score += 4; reasons.push('אידיאלי לערב'); }
     score += fragrance.radarProfile.oriental + fragrance.radarProfile.gourmand;
   } else if (occasion === 'special') {
-    if (fragrance.sillage >= 7 && fragrance.longevity >= 7) score += 5;
-    score += fragrance.radarProfile.oriental;
+    if (fragrance.sillage >= 7 && fragrance.longevity >= 7) { score += 6; reasons.push('מרשים לאירועים'); }
+    score += fragrance.radarProfile.oriental * 0.5;
   } else if (occasion === 'versatile') {
     const balance = Object.values(fragrance.radarProfile).filter(v => v >= 3 && v <= 7).length;
     score += balance * 2;
+    if (balance >= 4) reasons.push('רב-שימושי');
   }
 
-  // Scent world scoring
-  if (scentWorld === 'woody') score += fragrance.radarProfile.woody * 3;
-  else if (scentWorld === 'floral') score += fragrance.radarProfile.floral * 3;
-  else if (scentWorld === 'oriental') score += fragrance.radarProfile.oriental * 3;
-  else if (scentWorld === 'fresh') score += fragrance.radarProfile.fresh * 3;
+  // Scent world scoring (max ~18)
+  if (scentWorld === 'woody') {
+    score += fragrance.radarProfile.woody * 2.5;
+    if (fragrance.radarProfile.woody >= 6) reasons.push('תווי עץ דומיננטיים');
+  } else if (scentWorld === 'floral') {
+    score += fragrance.radarProfile.floral * 2.5;
+    if (fragrance.radarProfile.floral >= 6) reasons.push('לב פרחוני מרשים');
+  } else if (scentWorld === 'oriental') {
+    score += fragrance.radarProfile.oriental * 2.5;
+    if (fragrance.radarProfile.oriental >= 6) reasons.push('עומק מזרחי');
+  } else if (scentWorld === 'fresh') {
+    score += fragrance.radarProfile.fresh * 2.5;
+    if (fragrance.radarProfile.fresh >= 6) reasons.push('פתיחה רעננה');
+  }
 
-  // Intensity scoring
-  if (intensity === 'intimate' && fragrance.sillage <= 4) score += 5;
-  else if (intensity === 'moderate' && fragrance.sillage >= 4 && fragrance.sillage <= 7) score += 5;
-  else if (intensity === 'strong' && fragrance.sillage >= 7) score += 5;
-  else if (intensity === 'beast' && fragrance.sillage >= 8 && fragrance.longevity >= 8) score += 8;
+  // Intensity scoring (max 10)
+  if (intensity === 'intimate' && fragrance.sillage <= 4) { score += 8; reasons.push('הקרנה אינטימית'); }
+  else if (intensity === 'moderate' && fragrance.sillage >= 4 && fragrance.sillage <= 7) { score += 8; reasons.push('הקרנה מאוזנת'); }
+  else if (intensity === 'strong' && fragrance.sillage >= 7) { score += 8; reasons.push('נוכחות חזקה'); }
+  else if (intensity === 'beast' && fragrance.sillage >= 8 && fragrance.longevity >= 8) { score += 12; reasons.push('חיה אמיתית'); }
 
-  // Budget scoring
-  if (budget === 'budget' && fragrance.price <= 300) score += 6;
-  else if (budget === 'mid' && fragrance.price > 300 && fragrance.price <= 700) score += 6;
-  else if (budget === 'premium' && fragrance.price > 700 && fragrance.price <= 1200) score += 6;
-  else if (budget === 'luxury' && fragrance.price > 1200) score += 6;
+  // Season scoring (max 8)
+  if (season === 'summer') {
+    if (fragrance.radarProfile.fresh >= 5) { score += 6; reasons.push('מתאים לקיץ'); }
+    if (fragrance.radarProfile.oriental >= 7) score -= 3;
+  } else if (season === 'winter') {
+    if (fragrance.radarProfile.oriental >= 5 || fragrance.radarProfile.gourmand >= 5 || fragrance.radarProfile.woody >= 6) {
+      score += 6;
+      reasons.push('חם לחורף');
+    }
+    if (fragrance.radarProfile.fresh >= 7 && fragrance.longevity <= 5) score -= 3;
+  } else if (season === 'transition') {
+    const balanced = fragrance.radarProfile.fresh >= 3 && fragrance.radarProfile.woody >= 3;
+    if (balanced) { score += 5; reasons.push('מושלם לעונות מעבר'); }
+  } else if (season === 'all') {
+    if (fragrance.longevity >= 6 && fragrance.sillage >= 5 && fragrance.sillage <= 8) {
+      score += 5;
+      reasons.push('מתאים כל השנה');
+    }
+  }
 
-  // Bonus for high rating
+  // Gender scoring (max 8)
+  const g = fragrance.gender.toLowerCase();
+  if (gender === 'masculine' && (g.includes('masculine') || g === 'men')) { score += 8; }
+  else if (gender === 'feminine' && (g.includes('feminine') || g === 'women')) { score += 8; }
+  else if (gender === 'unisex' && g.includes('unisex')) { score += 8; reasons.push('יוניסקס מודרני'); }
+  else if (gender === 'any') { score += 4; }
+  else if (gender === 'masculine' && g.includes('unisex')) score += 4;
+  else if (gender === 'feminine' && g.includes('unisex')) score += 4;
+
+  // Budget scoring (max 12 — strong signal)
+  if (budget === 'budget' && fragrance.price <= 300) { score += 10; reasons.push('במסגרת התקציב'); }
+  else if (budget === 'mid' && fragrance.price > 300 && fragrance.price <= 700) { score += 10; reasons.push('יחס מחיר-ערך'); }
+  else if (budget === 'premium' && fragrance.price > 700 && fragrance.price <= 1200) { score += 10; reasons.push('בית בישום מוביל'); }
+  else if (budget === 'luxury' && fragrance.price > 1200) { score += 10; reasons.push('יוקרה ללא פשרות'); }
+  else if (budget === 'budget' && fragrance.price > 700) score -= 10;
+  else if (budget === 'mid' && fragrance.price > 1500) score -= 8;
+
+  // Rating bonus (max 10)
   score += fragrance.rating * 2;
+  if (fragrance.rating >= 4.7) reasons.push('דירוג גבוה מאוד');
 
-  return score;
+  return { score, reasons };
 }
 
-function getRecommendations(answers: QuizAnswer[]): Fragrance[] {
-  const scored = fragrances.map(f => ({ fragrance: f, score: scoreFragrance(f, answers) }));
+function getRecommendations(answers: QuizAnswer[]): ScoredFragrance[] {
+  const scored = fragrances.map(f => {
+    const { score, reasons } = scoreFragrance(f, answers);
+    return { fragrance: f, score, reasons };
+  });
   scored.sort((a, b) => b.score - a.score);
-  // Return top 5, ensure variety (different houses)
-  const results: Fragrance[] = [];
+
+  // Normalize to 0-100% based on top score
+  const topScore = scored[0]?.score || 1;
+  const minDisplay = 60; // Never show below 60% to keep it encouraging
+
+  const results: ScoredFragrance[] = [];
   const seenHouses = new Set<string>();
+  const seenFamilies = new Set<string>();
+
   for (const item of scored) {
     if (results.length >= 5) break;
-    if (seenHouses.has(item.fragrance.house) && results.length < 4) continue;
-    results.push(item.fragrance);
+    // Enforce diversity: skip duplicates unless we're running out
+    if (results.length < 4) {
+      if (seenHouses.has(item.fragrance.house)) continue;
+      if (seenFamilies.has(item.fragrance.family) && results.length < 3) continue;
+    }
+
+    const normalized = (item.score / topScore) * 40 + minDisplay;
+    const matchPercent = Math.min(99, Math.round(normalized));
+    const reason = item.reasons.slice(0, 2).join(' · ') || 'התאמה אלגוריתמית לטעם שלך';
+
+    results.push({
+      fragrance: item.fragrance,
+      score: item.score,
+      matchPercent,
+      reason,
+    });
     seenHouses.add(item.fragrance.house);
+    seenFamilies.add(item.fragrance.family);
   }
   return results;
 }
@@ -166,12 +270,12 @@ const familyGradients: Record<string, string> = {
 };
 
 export default function TasteQuiz() {
-  const [step, setStep] = useState(0); // 0 = intro, 1-5 = questions, 6 = results
+  const [step, setStep] = useState(0); // 0 = intro, 1-7 = questions, 8 = results
   const [answers, setAnswers] = useState<QuizAnswer[]>([]);
-  const [results, setResults] = useState<Fragrance[]>([]);
+  const [results, setResults] = useState<ScoredFragrance[]>([]);
   const [isCalculating, setIsCalculating] = useState(false);
 
-  const currentQuestion = step >= 1 && step <= 5 ? questions[step - 1] : null;
+  const currentQuestion = step >= 1 && step <= TOTAL_QUESTIONS ? questions[step - 1] : null;
 
   const selectAnswer = (value: string) => {
     if (!currentQuestion) return;
@@ -181,7 +285,7 @@ export default function TasteQuiz() {
     });
 
     // Auto-advance after selection
-    if (step < 5) {
+    if (step < TOTAL_QUESTIONS) {
       setTimeout(() => setStep(step + 1), 300);
     } else {
       // Last question — calculate results
@@ -191,7 +295,7 @@ export default function TasteQuiz() {
         const recs = getRecommendations(finalAnswers);
         setResults(recs);
         setIsCalculating(false);
-        setStep(6);
+        setStep(TOTAL_QUESTIONS + 1);
       }, 1500);
     }
   };
@@ -223,7 +327,7 @@ export default function TasteQuiz() {
             שאלון טעמים
           </h2>
           <p className="text-ink-muted text-sm font-hebrew max-w-md mx-auto font-light">
-            ענה על 5 שאלות קצרות וגלה אילו בשמים מתאימים בדיוק לך
+            ענה על 7 שאלות קצרות וגלה אילו בשמים מתאימים בדיוק לך
           </p>
         </motion.div>
 
@@ -245,7 +349,7 @@ export default function TasteQuiz() {
                   גלה את הבושם המושלם עבורך
                 </h3>
                 <p className="text-ink-muted text-sm font-hebrew mb-8 max-w-sm font-light leading-relaxed">
-                  האלגוריתם שלנו מנתח את ההעדפות שלך ומתאים לך בשמים מתוך מאגר של מעל 70 יצירות מ-26 בתי בישום מובילים
+                  האלגוריתם שלנו מנתח את ההעדפות שלך ומתאים לך בשמים מתוך מאגר של 100 יצירות מ-35 בתי בישום מובילים
                 </p>
                 <button
                   onClick={() => setStep(1)}
@@ -286,7 +390,7 @@ export default function TasteQuiz() {
                       />
                     ))}
                   </div>
-                  <span className="text-ink-faint text-xs font-sans">{step}/5</span>
+                  <span className="text-ink-faint text-xs font-sans">{step}/{TOTAL_QUESTIONS}</span>
                 </div>
 
                 <div className="mb-6">
@@ -340,13 +444,13 @@ export default function TasteQuiz() {
                 </motion.div>
                 <h3 className="font-serif text-xl text-ink mb-2 font-semibold">מנתח את הטעם שלך...</h3>
                 <p className="text-ink-muted text-xs font-hebrew font-light">
-                  סורק 70 בשמים מ-26 בתי בישום
+                  סורק 100 בשמים מ-35 בתי בישום
                 </p>
               </motion.div>
             )}
 
             {/* Results */}
-            {step === 6 && !isCalculating && (
+            {step === TOTAL_QUESTIONS + 1 && !isCalculating && (
               <motion.div
                 key="results"
                 initial={{ opacity: 0, y: 20 }}
@@ -368,7 +472,8 @@ export default function TasteQuiz() {
                 </div>
 
                 <div className="space-y-3">
-                  {results.map((frag, i) => {
+                  {results.map((item, i) => {
+                    const frag = item.fragrance;
                     const gradient = familyGradients[frag.family] || 'from-stone-100 to-amber-50';
                     return (
                       <motion.div
@@ -376,35 +481,51 @@ export default function TasteQuiz() {
                         initial={{ opacity: 0, y: 15 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: i * 0.1 }}
-                        className="flex items-center gap-4 p-4 rounded-xl border border-black/[0.06] bg-bg-card hover:shadow-md transition-shadow"
+                        className="p-4 rounded-xl border border-black/[0.06] bg-bg-card hover:shadow-md hover:border-gold-border transition-all"
                       >
-                        <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${gradient} flex items-center justify-center flex-shrink-0`}>
-                          <Droplets className="w-6 h-6 text-gold/50" />
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-2 mb-0.5">
+                        <div className="flex items-start gap-4">
+                          <div className={`w-16 h-16 rounded-xl bg-gradient-to-br ${gradient} flex items-center justify-center flex-shrink-0 relative`}>
+                            <Droplets className="w-7 h-7 text-gold/50" />
                             {i === 0 && (
-                              <span className="text-[9px] font-sans bg-gold text-white px-1.5 py-0.5 rounded-full">
+                              <span className="absolute -top-2 -right-2 text-[9px] font-sans bg-gold text-white px-1.5 py-0.5 rounded-full shadow-sm">
                                 #1
                               </span>
                             )}
-                            <p className="font-serif text-base text-ink font-semibold truncate" dir="ltr">
-                              {frag.name}
-                            </p>
                           </div>
-                          <p className="text-ink-muted text-xs font-sans" dir="ltr">
-                            {frag.house} &middot; {frag.family} &middot; ₪{frag.price.toLocaleString()}
-                          </p>
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-start justify-between gap-2 mb-1">
+                              <div className="min-w-0 flex-1">
+                                <p className="font-serif text-base text-ink font-semibold truncate" dir="ltr">
+                                  {frag.name}
+                                </p>
+                                <p className="text-ink-muted text-xs font-sans truncate" dir="ltr">
+                                  {frag.house} &middot; {frag.family} &middot; ₪{frag.price.toLocaleString()}
+                                </p>
+                              </div>
+                              {/* Match percentage */}
+                              <div className="flex-shrink-0 text-center">
+                                <div className="text-gold font-serif text-xl font-bold leading-none">
+                                  {item.matchPercent}%
+                                </div>
+                                <div className="text-[9px] text-ink-faint font-hebrew mt-0.5">התאמה</div>
+                              </div>
+                            </div>
+                            {/* Reason */}
+                            <p className="text-[11px] font-hebrew text-ink-secondary mt-1.5 leading-relaxed">
+                              <Sparkles className="w-3 h-3 text-gold inline ml-1 -mt-0.5" />
+                              {item.reason}
+                            </p>
+                            <a
+                              href={`https://www.google.com/search?tbm=shop&q=${encodeURIComponent(frag.name + ' ' + frag.house + ' perfume')}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center gap-1 text-gold text-xs font-hebrew hover:underline mt-2"
+                            >
+                              קנה ב-Google Shopping
+                              <ExternalLink className="w-3 h-3" />
+                            </a>
+                          </div>
                         </div>
-                        <a
-                          href={`https://www.google.com/search?tbm=shop&q=${encodeURIComponent(frag.name + ' ' + frag.house + ' perfume')}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex-shrink-0 flex items-center gap-1 text-gold text-xs font-hebrew hover:underline"
-                        >
-                          קנה
-                          <ExternalLink className="w-3 h-3" />
-                        </a>
                       </motion.div>
                     );
                   })}
