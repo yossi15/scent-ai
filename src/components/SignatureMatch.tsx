@@ -1,29 +1,23 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Brain, ChevronLeft, Sparkles, Droplets } from 'lucide-react';
+import { Brain, Sparkles, Droplets, AlertCircle } from 'lucide-react';
 import { fragrances, type Fragrance } from '@/data/fragrances';
 
-function getSignatureMatch(collection: Fragrance[]): { match: Fragrance; reasoning: string } | null {
-  if (collection.length === 0) return null;
-
-  const avg = { woody: 0, floral: 0, oriental: 0, fresh: 0, gourmand: 0, animalic: 0 };
-  collection.forEach((f) => {
-    (Object.keys(avg) as (keyof typeof avg)[]).forEach((k) => {
-      avg[k] += f.radarProfile[k];
-    });
-  });
-  (Object.keys(avg) as (keyof typeof avg)[]).forEach((k) => {
-    avg[k] /= collection.length;
-  });
-
+// Pick best candidate algorithmically, then enrich reasoning via Claude API
+function getBestCandidate(collection: Fragrance[]): Fragrance | null {
   const candidates = fragrances.filter((f) => !collection.find((c) => c.id === f.id));
   if (candidates.length === 0) return null;
 
+  const avg = { woody: 0, floral: 0, oriental: 0, fresh: 0, gourmand: 0, animalic: 0 };
+  collection.forEach((f) => {
+    (Object.keys(avg) as (keyof typeof avg)[]).forEach((k) => { avg[k] += f.radarProfile[k]; });
+  });
+  (Object.keys(avg) as (keyof typeof avg)[]).forEach((k) => { avg[k] /= collection.length; });
+
   let best = candidates[0];
   let bestScore = -Infinity;
-
   candidates.forEach((c) => {
     let similarity = 0;
     let novelty = 0;
@@ -33,37 +27,9 @@ function getSignatureMatch(collection: Fragrance[]): { match: Fragrance; reasoni
       if (c.radarProfile[k] > avg[k] + 2) novelty += (c.radarProfile[k] - avg[k]);
     });
     const score = similarity * 2 + novelty * 3 + c.rating * 2;
-    if (score > bestScore) {
-      bestScore = score;
-      best = c;
-    }
+    if (score > bestScore) { bestScore = score; best = c; }
   });
-
-  const dimensionNames: Record<string, string> = {
-    woody: 'עצי', floral: 'פרחוני', oriental: 'מזרחי',
-    fresh: 'רענן', gourmand: 'גורמה', animalic: 'אנימלי',
-  };
-
-  const collectionNotes = new Set(collection.flatMap((f) => f.notes.map((n) => n.name)));
-  const newNotes = best.notes.filter((n) => !collectionNotes.has(n.name));
-
-  const dominantKeys = (Object.keys(avg) as (keyof typeof avg)[])
-    .filter((k) => best.radarProfile[k] > avg[k] + 1)
-    .sort((a, b) => best.radarProfile[b] - best.radarProfile[a]);
-
-  const topTwo = Object.entries(avg).sort((a, b) => b[1] - a[1]).slice(0, 2);
-  const profileDesc = topTwo.map(([k]) => dimensionNames[k]).join(' ו');
-
-  const dimensionWord = dominantKeys.length > 0 ? dimensionNames[dominantKeys[0]] : 'מאוזן';
-
-  const heartNotes = best.notes.filter(n => n.type === 'heart').map(n => n.name).join(', ');
-  const newNotesStr = newNotes.length > 0
-    ? newNotes.slice(0, 3).map(n => n.name).join(', ')
-    : 'אקורדים מוכרים בעומק חדש';
-
-  const reasoning = `בהתבסס על ה-DNA הריחני שלך — שנוטה ל${profileDesc} — ${best.name} של ${best.house} מציג ממד ${dimensionWord} מרתק. תווי הלב של ${heartNotes} יוצרים גשר להעדפות הקיימות שלך, תוך הכנסת ${newNotesStr} לאוצר המילים הריחני שלך.`;
-
-  return { match: best, reasoning };
+  return best;
 }
 
 const quickSelectOptions = [
@@ -81,30 +47,56 @@ const quickSelectOptions = [
   { id: 43, label: "Bal d'Afrique" },
 ];
 
-export default function SignatureMatch() {
+interface Props {
+  onCollectionChange?: (collection: Fragrance[]) => void;
+}
+
+export default function SignatureMatch({ onCollectionChange }: Props) {
   const [myCollection, setMyCollection] = useState<Fragrance[]>([]);
   const [result, setResult] = useState<{ match: Fragrance; reasoning: string } | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    onCollectionChange?.(myCollection);
+  }, [myCollection, onCollectionChange]);
 
   const toggleInCollection = (id: number) => {
     const frag = fragrances.find((f) => f.id === id);
     if (!frag) return;
     setMyCollection((prev) =>
-      prev.find((f) => f.id === id)
-        ? prev.filter((f) => f.id !== id)
-        : [...prev, frag]
+      prev.find((f) => f.id === id) ? prev.filter((f) => f.id !== id) : [...prev, frag]
     );
     setResult(null);
+    setError(null);
   };
 
-  const analyze = () => {
+  const analyze = async () => {
     setIsAnalyzing(true);
     setResult(null);
-    setTimeout(() => {
-      const match = getSignatureMatch(myCollection);
-      setResult(match);
+    setError(null);
+
+    const candidate = getBestCandidate(myCollection);
+    if (!candidate) {
       setIsAnalyzing(false);
-    }, 2000);
+      return;
+    }
+
+    try {
+      const res = await fetch('/api/recommend', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ collection: myCollection, candidate }),
+      });
+
+      if (!res.ok) throw new Error('API error');
+      const data = await res.json();
+      setResult({ match: candidate, reasoning: data.reasoning });
+    } catch {
+      setError('משהו השתבש, נסה שוב');
+    } finally {
+      setIsAnalyzing(false);
+    }
   };
 
   return (
@@ -146,6 +138,7 @@ export default function SignatureMatch() {
                 <button
                   key={opt.id}
                   onClick={() => toggleInCollection(opt.id)}
+                  aria-pressed={!!isSelected}
                   className={`px-4 py-2 text-xs font-sans border rounded-full transition-all duration-200 ${
                     isSelected
                       ? 'bg-gold text-white border-gold shadow-sm'
@@ -162,17 +155,29 @@ export default function SignatureMatch() {
           <button
             onClick={analyze}
             disabled={myCollection.length < 2 || isAnalyzing}
-            className="btn-gold w-full py-3.5 font-hebrew text-sm tracking-wide rounded-lg disabled:opacity-25 disabled:cursor-not-allowed disabled:transform-none disabled:shadow-none flex items-center justify-center gap-2"
+            className="btn-gold w-full py-3.5 font-hebrew text-sm tracking-wide rounded-lg disabled:opacity-40 disabled:cursor-not-allowed disabled:transform-none disabled:shadow-none flex items-center justify-center gap-2.5 relative overflow-hidden"
           >
+            {/* shimmer sweep during loading */}
+            {isAnalyzing && (
+              <motion.span
+                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
+                animate={{ x: ['-100%', '200%'] }}
+                transition={{ duration: 1.4, repeat: Infinity, ease: 'easeInOut' }}
+              />
+            )}
             {isAnalyzing ? (
               <>
-                <motion.div
-                  animate={{ rotate: 360 }}
-                  transition={{ duration: 1.5, repeat: Infinity, ease: 'linear' }}
-                >
-                  <Sparkles className="w-4 h-4" />
-                </motion.div>
-                מנתח DNA ריחני...
+                <span className="flex gap-1 items-center">
+                  {[0, 1, 2].map(i => (
+                    <motion.span
+                      key={i}
+                      className="w-1.5 h-1.5 rounded-full bg-current"
+                      animate={{ opacity: [0.3, 1, 0.3], scale: [0.7, 1, 0.7] }}
+                      transition={{ duration: 1.1, repeat: Infinity, delay: i * 0.18, ease: 'easeInOut' }}
+                    />
+                  ))}
+                </span>
+                ה-AI מנתח את האוסף שלך...
               </>
             ) : (
               <>
@@ -190,18 +195,40 @@ export default function SignatureMatch() {
         </div>
 
         <AnimatePresence>
+          {error && (
+            <motion.div
+              initial={{ opacity: 0, y: -8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.25 }}
+              className="flex items-center gap-2 mb-4 text-red-600 bg-red-50 border border-red-100 rounded-xl px-4 py-3 text-xs font-hebrew"
+            >
+              <AlertCircle className="w-3.5 h-3.5 flex-shrink-0" />
+              <span className="flex-1">{error}</span>
+              <button
+                onClick={() => setError(null)}
+                className="text-red-400 hover:text-red-600 transition-colors ml-1"
+                aria-label="סגור"
+              >
+                ✕
+              </button>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        <AnimatePresence>
           {result && (
             <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
+              initial={{ opacity: 0, y: 24, scale: 0.98 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -16, scale: 0.98 }}
+              transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
               className="card-gold p-6 md:p-8"
             >
               <div className="flex items-center gap-2 mb-6">
                 <Sparkles className="w-4 h-4 text-gold" />
                 <p className="text-gold text-xs font-hebrew font-medium">
-                  יצירת המופת הבאה שלך
+                  יצירת המופת הבאה שלך — ניתוח Claude AI
                 </p>
               </div>
 
@@ -211,7 +238,9 @@ export default function SignatureMatch() {
                   <p className="text-gold text-[10px] tracking-[0.25em] uppercase font-sans font-medium" dir="ltr">
                     {result.match.house}
                   </p>
-                  <h3 className="font-serif text-3xl text-ink mt-1 mb-2 font-semibold" dir="ltr">{result.match.name}</h3>
+                  <h3 className="font-serif text-3xl text-ink mt-1 mb-2 font-semibold" dir="ltr">
+                    {result.match.name}
+                  </h3>
                   <p className="text-ink-faint text-xs font-sans mb-4" dir="ltr">
                     {result.match.family} &middot; {result.match.concentration} &middot; ₪{result.match.price.toLocaleString()}
                   </p>
@@ -219,7 +248,7 @@ export default function SignatureMatch() {
                   <div className="bg-bg-secondary rounded-xl p-4 mb-4">
                     <div className="flex items-center gap-2 mb-2">
                       <Brain className="w-3 h-3 text-gold" />
-                      <span className="text-gold text-[10px] font-hebrew font-medium">ניתוח AI</span>
+                      <span className="text-gold text-[10px] font-hebrew font-medium">ניתוח Claude AI</span>
                     </div>
                     <p className="text-ink-secondary text-sm font-hebrew leading-relaxed font-light">
                       {result.reasoning}
@@ -257,10 +286,7 @@ export default function SignatureMatch() {
                   })}
 
                   <button
-                    onClick={() => {
-                      const el = document.getElementById('collection');
-                      el?.scrollIntoView({ behavior: 'smooth' });
-                    }}
+                    onClick={() => document.getElementById('collection')?.scrollIntoView({ behavior: 'smooth' })}
                     className="btn-gold w-full mt-4 py-2.5 text-xs font-hebrew rounded-lg"
                   >
                     צפה בקולקציה

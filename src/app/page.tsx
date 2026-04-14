@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
 import SocialProof from '@/components/SocialProof';
@@ -13,8 +14,11 @@ import Testimonials from '@/components/Testimonials';
 import Subscription from '@/components/Subscription';
 import FAQ from '@/components/FAQ';
 import Footer from '@/components/Footer';
+import type { Fragrance } from '@/data/fragrances';
 
 export default function Home() {
+  const [matchCollection, setMatchCollection] = useState<Fragrance[]>([]);
+
   return (
     <main className="relative">
       <Navbar />
@@ -36,11 +40,11 @@ export default function Home() {
 
       <div className="gold-line max-w-xs mx-auto" />
 
-      <SignatureMatch />
+      <SignatureMatch onCollectionChange={setMatchCollection} />
 
       <div className="gold-line max-w-xs mx-auto" />
 
-      <ScentRadar />
+      <ScentRadar collection={matchCollection} />
 
       <div className="gold-line max-w-xs mx-auto" />
 

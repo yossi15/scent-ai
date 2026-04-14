@@ -1,547 +1,603 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles, ChevronLeft, ChevronRight, RotateCcw, Droplets, ExternalLink } from 'lucide-react';
+import { Sparkles, X, ChevronRight, RotateCcw, Check, Loader2 } from 'lucide-react';
 import { fragrances, type Fragrance } from '@/data/fragrances';
+import Image from 'next/image';
 
-interface QuizAnswer {
-  questionId: number;
-  value: string;
-}
+// ── Questions ──────────────────────────────────────────────────────────────────
 
-const questions = [
+const QUESTIONS = [
   {
     id: 1,
-    title: 'מה האווירה שמדברת אליך?',
-    subtitle: 'בחר את הסגנון שהכי מתאים לך',
+    key: 'scentType',
+    title: 'איזה ריח תופס אותך?',
+    cols: 3,
     options: [
-      { value: 'elegant', label: 'אלגנטי וקלאסי', desc: 'עדין, מלוטש, נצחי' },
-      { value: 'bold', label: 'נועז ודומיננטי', desc: 'חזק, בולט, משאיר רושם' },
-      { value: 'fresh', label: 'רענן וספורטיבי', desc: 'קל, נקי, אנרגטי' },
-      { value: 'mysterious', label: 'מסתורי ואקזוטי', desc: 'עמוק, מורכב, מרתק' },
+      { value: 'woody',     emoji: '🌲', label: 'יערי/עצי' },
+      { value: 'floral',    emoji: '🌸', label: 'פרחוני' },
+      { value: 'fresh',     emoji: '🍊', label: 'הדרי/טרי' },
+      { value: 'gourmand',  emoji: '🍯', label: 'מתוק/גורמה' },
+      { value: 'oriental',  emoji: '🔥', label: 'מזרחי/עשן' },
     ],
   },
   {
     id: 2,
-    title: 'לאיזה אירוע אתה מחפש בושם?',
-    subtitle: 'אפשר לבחור אחד',
+    key: 'season',
+    title: 'באיזה עונה אתה לובש הכי הרבה?',
+    cols: 2,
     options: [
-      { value: 'daily', label: 'יומיומי', desc: 'עבודה, פגישות, כל יום' },
-      { value: 'evening', label: 'ערב ויציאות', desc: 'דייטים, מסיבות, אירועים' },
-      { value: 'special', label: 'אירועים מיוחדים', desc: 'חתונות, גאלות, טקסים' },
-      { value: 'versatile', label: 'כל מטרה', desc: 'בושם אחד שעובד תמיד' },
+      { value: 'spring', emoji: '🌸', label: 'אביב' },
+      { value: 'summer', emoji: '☀️', label: 'קיץ' },
+      { value: 'fall',   emoji: '🍂', label: 'סתיו' },
+      { value: 'winter', emoji: '❄️', label: 'חורף' },
     ],
   },
   {
     id: 3,
-    title: 'איזה עולם ריחות מושך אותך?',
-    subtitle: 'מה גורם לך להרגיש הכי טוב?',
+    key: 'occasion',
+    title: 'לאיזה אירוע?',
+    cols: 2,
     options: [
-      { value: 'woody', label: 'עצי וחם', desc: 'סנדל, ארז, עוד, ותיבר' },
-      { value: 'floral', label: 'פרחוני ורומנטי', desc: 'ורד, יסמין, אירוס' },
-      { value: 'oriental', label: 'מזרחי ותבליני', desc: 'וניל, קינמון, עמבר' },
-      { value: 'fresh', label: 'ציטרוסי וימי', desc: 'ברגמוט, לימון, מלח ים' },
+      { value: 'business',  emoji: '💼', label: 'עסקי' },
+      { value: 'evening',   emoji: '🌙', label: 'ערב' },
+      { value: 'daily',     emoji: '☕', label: 'יומיומי' },
+      { value: 'romantic',  emoji: '💕', label: 'רומנטי' },
     ],
   },
   {
     id: 4,
-    title: 'כמה חזק אתה רוצה שהבושם יהיה?',
-    subtitle: 'עוצמת ההקרנה שמתאימה לך',
+    key: 'longevity',
+    title: 'כמה זמן אתה רוצה שיחזיק?',
+    cols: 3,
     options: [
-      { value: 'intimate', label: 'אינטימי', desc: 'רק מי שקרוב מריח' },
-      { value: 'moderate', label: 'מתון', desc: 'הקרנה נעימה, לא מוגזם' },
-      { value: 'strong', label: 'חזק', desc: 'נכנס לחדר לפניך' },
-      { value: 'beast', label: 'חיה', desc: 'מורגש ממטרים, מעל 10 שעות' },
+      { value: '3-5h',  emoji: '⏱️', label: '3–5 שעות' },
+      { value: '6-8h',  emoji: '⌚', label: '6–8 שעות' },
+      { value: '10h+',  emoji: '🔋', label: '10+ שעות' },
     ],
   },
   {
     id: 5,
-    title: 'באיזו עונה תשתמש הכי הרבה?',
-    subtitle: 'מזג האוויר משפיע על איך שבושם מתנהג',
+    key: 'style',
+    title: 'מה הסגנון שלך?',
+    cols: 2,
     options: [
-      { value: 'summer', label: 'קיץ', desc: 'חם ולח, רצוי קל ומרענן' },
-      { value: 'winter', label: 'חורף', desc: 'קר ויבש, מעדיף חם ועשיר' },
-      { value: 'transition', label: 'אביב / סתיו', desc: 'טמפרטורות מתונות' },
-      { value: 'all', label: 'כל השנה', desc: 'בושם שעובד תמיד' },
+      { value: 'classic',    emoji: '🕯️', label: 'קלאסי ונצחי' },
+      { value: 'modern',     emoji: '⚡',  label: 'מודרני ובולט' },
+      { value: 'minimal',    emoji: '🌿', label: 'מינימליסטי' },
+      { value: 'eccentric',  emoji: '🎭', label: 'אקסצנטרי/ייחודי' },
     ],
   },
   {
     id: 6,
-    title: 'איזה כיוון מגדרי מושך אותך?',
-    subtitle: 'בחר את מה שהכי מדבר אליך',
+    key: 'budget',
+    title: 'מה התקציב לבקבוק מלא?',
+    cols: 3,
     options: [
-      { value: 'masculine', label: 'גברי', desc: 'חזק, עוצמתי, בוטח' },
-      { value: 'feminine', label: 'נשי', desc: 'עדין, רומנטי, פרחוני' },
-      { value: 'unisex', label: 'יוניסקס', desc: 'מודרני, ללא גבולות' },
-      { value: 'any', label: 'לא משנה', desc: 'הריח קודם לכל' },
-    ],
-  },
-  {
-    id: 7,
-    title: 'מה התקציב שלך?',
-    subtitle: 'עבור בקבוק 100ml',
-    options: [
-      { value: 'budget', label: 'עד 300 ₪', desc: 'ריח מעולה, מחיר נגיש' },
-      { value: 'mid', label: '300-700 ₪', desc: 'איזון בין איכות למחיר' },
-      { value: 'premium', label: '700-1200 ₪', desc: 'בתי בישום מובילים' },
-      { value: 'luxury', label: 'מעל 1200 ₪', desc: 'ניש יוקרתי, ללא פשרות' },
+      { value: 'under500',   emoji: '💵', label: 'עד ₪500' },
+      { value: '500-1000',   emoji: '💳', label: '₪500–1000' },
+      { value: 'above1000',  emoji: '💎', label: 'מעל ₪1000' },
     ],
   },
 ];
 
-const TOTAL_QUESTIONS = 7;
-const MAX_POSSIBLE_SCORE = 100;
+const TOTAL_Q = 7; // 6 choice + 1 text
 
-interface ScoredFragrance {
-  fragrance: Fragrance;
-  score: number;
-  matchPercent: number;
+// ── Candidate pre-scoring (top 15 for Claude) ─────────────────────────────────
+
+type Answers = Record<string, string>;
+
+function getTopCandidates(answers: Answers): Fragrance[] {
+  return fragrances
+    .map(f => {
+      let s = f.rating * 2;
+      const st = answers.scentType;
+      if (st === 'woody')    s += f.radarProfile.woody * 2.5;
+      if (st === 'floral')   s += f.radarProfile.floral * 2.5;
+      if (st === 'fresh')    s += f.radarProfile.fresh * 2.5;
+      if (st === 'gourmand') s += f.radarProfile.gourmand * 2.5;
+      if (st === 'oriental') s += f.radarProfile.oriental * 2.5;
+      const b = answers.budget;
+      if (b === 'under500'  && f.price <= 500)               s += 8;
+      if (b === '500-1000'  && f.price > 500 && f.price <= 1000) s += 8;
+      if (b === 'above1000' && f.price > 1000)               s += 8;
+      if (b === 'under500'  && f.price > 900)                s -= 10;
+      const lg = answers.longevity;
+      if (lg === '3-5h' && f.longevity <= 5)                 s += 4;
+      if (lg === '6-8h' && f.longevity >= 6 && f.longevity <= 7) s += 4;
+      if (lg === '10h+' && f.longevity >= 8)                 s += 5;
+      return { f, s };
+    })
+    .sort((a, b) => b.s - a.s)
+    .slice(0, 15)
+    .map(x => x.f);
+}
+
+// ── Types ─────────────────────────────────────────────────────────────────────
+
+interface AIRec {
+  id: number;
+  name: string;
   reason: string;
 }
 
-function scoreFragrance(fragrance: Fragrance, answers: QuizAnswer[]): { score: number; reasons: string[] } {
-  let score = 0;
-  const reasons: string[] = [];
+const COLLECTION_KEY = 'scent-ai-collection';
 
-  const mood = answers.find(a => a.questionId === 1)?.value;
-  const occasion = answers.find(a => a.questionId === 2)?.value;
-  const scentWorld = answers.find(a => a.questionId === 3)?.value;
-  const intensity = answers.find(a => a.questionId === 4)?.value;
-  const season = answers.find(a => a.questionId === 5)?.value;
-  const gender = answers.find(a => a.questionId === 6)?.value;
-  const budget = answers.find(a => a.questionId === 7)?.value;
+// ── Sub-components ────────────────────────────────────────────────────────────
 
-  // Mood scoring (max ~15)
-  if (mood === 'elegant') {
-    const s = fragrance.radarProfile.floral * 1.2 + fragrance.radarProfile.woody * 0.8;
-    score += s;
-    if (fragrance.sillage <= 6) { score += 3; reasons.push('אלגנטי ומלוטש'); }
-    else if (s >= 8) reasons.push('פרופיל קלאסי');
-  } else if (mood === 'bold') {
-    score += fragrance.radarProfile.oriental * 1.5 + fragrance.radarProfile.animalic * 1.5;
-    if (fragrance.sillage >= 7) { score += 4; reasons.push('עוצמתי ובולט'); }
-  } else if (mood === 'fresh') {
-    score += fragrance.radarProfile.fresh * 2.5;
-    if (fragrance.radarProfile.fresh >= 6) reasons.push('רענן ואנרגטי');
-  } else if (mood === 'mysterious') {
-    score += fragrance.radarProfile.oriental * 1.3 + fragrance.radarProfile.gourmand + fragrance.radarProfile.animalic;
-    if (fragrance.radarProfile.oriental >= 6 || fragrance.radarProfile.gourmand >= 5) reasons.push('מסתורי ומרתק');
-  }
-
-  // Occasion scoring (max ~15)
-  if (occasion === 'daily') {
-    if (fragrance.sillage <= 6 && fragrance.longevity >= 5) { score += 6; reasons.push('מושלם ליומיום'); }
-    if (fragrance.radarProfile.fresh >= 5) score += 3;
-  } else if (occasion === 'evening') {
-    if (fragrance.sillage >= 6) { score += 4; reasons.push('אידיאלי לערב'); }
-    score += fragrance.radarProfile.oriental + fragrance.radarProfile.gourmand;
-  } else if (occasion === 'special') {
-    if (fragrance.sillage >= 7 && fragrance.longevity >= 7) { score += 6; reasons.push('מרשים לאירועים'); }
-    score += fragrance.radarProfile.oriental * 0.5;
-  } else if (occasion === 'versatile') {
-    const balance = Object.values(fragrance.radarProfile).filter(v => v >= 3 && v <= 7).length;
-    score += balance * 2;
-    if (balance >= 4) reasons.push('רב-שימושי');
-  }
-
-  // Scent world scoring (max ~18)
-  if (scentWorld === 'woody') {
-    score += fragrance.radarProfile.woody * 2.5;
-    if (fragrance.radarProfile.woody >= 6) reasons.push('תווי עץ דומיננטיים');
-  } else if (scentWorld === 'floral') {
-    score += fragrance.radarProfile.floral * 2.5;
-    if (fragrance.radarProfile.floral >= 6) reasons.push('לב פרחוני מרשים');
-  } else if (scentWorld === 'oriental') {
-    score += fragrance.radarProfile.oriental * 2.5;
-    if (fragrance.radarProfile.oriental >= 6) reasons.push('עומק מזרחי');
-  } else if (scentWorld === 'fresh') {
-    score += fragrance.radarProfile.fresh * 2.5;
-    if (fragrance.radarProfile.fresh >= 6) reasons.push('פתיחה רעננה');
-  }
-
-  // Intensity scoring (max 10)
-  if (intensity === 'intimate' && fragrance.sillage <= 4) { score += 8; reasons.push('הקרנה אינטימית'); }
-  else if (intensity === 'moderate' && fragrance.sillage >= 4 && fragrance.sillage <= 7) { score += 8; reasons.push('הקרנה מאוזנת'); }
-  else if (intensity === 'strong' && fragrance.sillage >= 7) { score += 8; reasons.push('נוכחות חזקה'); }
-  else if (intensity === 'beast' && fragrance.sillage >= 8 && fragrance.longevity >= 8) { score += 12; reasons.push('חיה אמיתית'); }
-
-  // Season scoring (max 8)
-  if (season === 'summer') {
-    if (fragrance.radarProfile.fresh >= 5) { score += 6; reasons.push('מתאים לקיץ'); }
-    if (fragrance.radarProfile.oriental >= 7) score -= 3;
-  } else if (season === 'winter') {
-    if (fragrance.radarProfile.oriental >= 5 || fragrance.radarProfile.gourmand >= 5 || fragrance.radarProfile.woody >= 6) {
-      score += 6;
-      reasons.push('חם לחורף');
-    }
-    if (fragrance.radarProfile.fresh >= 7 && fragrance.longevity <= 5) score -= 3;
-  } else if (season === 'transition') {
-    const balanced = fragrance.radarProfile.fresh >= 3 && fragrance.radarProfile.woody >= 3;
-    if (balanced) { score += 5; reasons.push('מושלם לעונות מעבר'); }
-  } else if (season === 'all') {
-    if (fragrance.longevity >= 6 && fragrance.sillage >= 5 && fragrance.sillage <= 8) {
-      score += 5;
-      reasons.push('מתאים כל השנה');
-    }
-  }
-
-  // Gender scoring (max 8)
-  const g = fragrance.gender.toLowerCase();
-  if (gender === 'masculine' && (g.includes('masculine') || g === 'men')) { score += 8; }
-  else if (gender === 'feminine' && (g.includes('feminine') || g === 'women')) { score += 8; }
-  else if (gender === 'unisex' && g.includes('unisex')) { score += 8; reasons.push('יוניסקס מודרני'); }
-  else if (gender === 'any') { score += 4; }
-  else if (gender === 'masculine' && g.includes('unisex')) score += 4;
-  else if (gender === 'feminine' && g.includes('unisex')) score += 4;
-
-  // Budget scoring (max 12 — strong signal)
-  if (budget === 'budget' && fragrance.price <= 300) { score += 10; reasons.push('במסגרת התקציב'); }
-  else if (budget === 'mid' && fragrance.price > 300 && fragrance.price <= 700) { score += 10; reasons.push('יחס מחיר-ערך'); }
-  else if (budget === 'premium' && fragrance.price > 700 && fragrance.price <= 1200) { score += 10; reasons.push('בית בישום מוביל'); }
-  else if (budget === 'luxury' && fragrance.price > 1200) { score += 10; reasons.push('יוקרה ללא פשרות'); }
-  else if (budget === 'budget' && fragrance.price > 700) score -= 10;
-  else if (budget === 'mid' && fragrance.price > 1500) score -= 8;
-
-  // Rating bonus (max 10)
-  score += fragrance.rating * 2;
-  if (fragrance.rating >= 4.7) reasons.push('דירוג גבוה מאוד');
-
-  return { score, reasons };
+function OptionTile({
+  emoji, label, selected, onClick,
+}: { emoji: string; label: string; selected: boolean; onClick: () => void }) {
+  return (
+    <motion.button
+      whileTap={{ scale: 0.95 }}
+      onClick={onClick}
+      aria-pressed={selected}
+      className={`relative flex flex-col items-center justify-center gap-2 p-4 rounded-2xl border-2 transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold ${
+        selected
+          ? 'border-gold bg-gradient-to-br from-[#c9a84c]/10 to-[#c9a84c]/5 shadow-md'
+          : 'border-black/[0.08] bg-white/60 hover:border-gold/40 hover:bg-white/80'
+      }`}
+    >
+      {selected && (
+        <span className="absolute top-2 right-2 w-4 h-4 bg-gold rounded-full flex items-center justify-center">
+          <Check className="w-2.5 h-2.5 text-white" />
+        </span>
+      )}
+      <span className="text-2xl">{emoji}</span>
+      <span className={`text-xs font-hebrew font-medium text-center leading-tight ${selected ? 'text-gold' : 'text-ink'}`}>
+        {label}
+      </span>
+    </motion.button>
+  );
 }
 
-function getRecommendations(answers: QuizAnswer[]): ScoredFragrance[] {
-  const scored = fragrances.map(f => {
-    const { score, reasons } = scoreFragrance(f, answers);
-    return { fragrance: f, score, reasons };
-  });
-  scored.sort((a, b) => b.score - a.score);
+function FragranceResultCard({
+  rec, fragrance, added, onAdd,
+}: { rec: AIRec; fragrance?: Fragrance; added: boolean; onAdd: () => void }) {
+  const [imgError, setImgError] = useState(false);
 
-  // Normalize to 0-100% based on top score
-  const topScore = scored[0]?.score || 1;
-  const minDisplay = 60; // Never show below 60% to keep it encouraging
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 16 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="bg-white/80 rounded-2xl border border-black/[0.06] p-4 shadow-sm"
+    >
+      <div className="flex gap-4">
+        {/* Image */}
+        <div className="w-16 h-20 rounded-xl bg-gradient-to-br from-amber-50 to-stone-100 flex items-center justify-center flex-shrink-0 overflow-hidden border border-black/[0.05]">
+          {fragrance?.image && !imgError ? (
+            <Image
+              src={fragrance.image}
+              alt={fragrance.name}
+              width={64}
+              height={80}
+              className="object-contain w-full h-full"
+              onError={() => setImgError(true)}
+            />
+          ) : (
+            <span className="text-2xl">
+              {rec.name.charAt(0)}
+            </span>
+          )}
+        </div>
 
-  const results: ScoredFragrance[] = [];
-  const seenHouses = new Set<string>();
-  const seenFamilies = new Set<string>();
+        {/* Info */}
+        <div className="flex-1 min-w-0">
+          <div className="flex items-start justify-between gap-2 mb-1">
+            <div>
+              <p className="font-serif text-base text-ink font-semibold" dir="ltr">{rec.name}</p>
+              {fragrance && (
+                <p className="text-[11px] text-ink-muted font-sans" dir="ltr">
+                  {fragrance.house} · {fragrance.family} · ₪{fragrance.price.toLocaleString()}
+                </p>
+              )}
+            </div>
+            {fragrance && (
+              <span className="shrink-0 text-xs font-sans text-ink-faint bg-gold/10 text-gold px-2 py-0.5 rounded-full">
+                {fragrance.concentration}
+              </span>
+            )}
+          </div>
 
-  for (const item of scored) {
-    if (results.length >= 5) break;
-    // Enforce diversity: skip duplicates unless we're running out
-    if (results.length < 4) {
-      if (seenHouses.has(item.fragrance.house)) continue;
-      if (seenFamilies.has(item.fragrance.family) && results.length < 3) continue;
-    }
+          <p className="text-[12px] font-hebrew text-ink-secondary leading-relaxed mt-2 mb-3">
+            <Sparkles className="w-3 h-3 text-gold inline ml-1 -mt-0.5" />
+            {rec.reason}
+          </p>
 
-    const normalized = (item.score / topScore) * 40 + minDisplay;
-    const matchPercent = Math.min(99, Math.round(normalized));
-    const reason = item.reasons.slice(0, 2).join(' · ') || 'התאמה אלגוריתמית לטעם שלך';
-
-    results.push({
-      fragrance: item.fragrance,
-      score: item.score,
-      matchPercent,
-      reason,
-    });
-    seenHouses.add(item.fragrance.house);
-    seenFamilies.add(item.fragrance.family);
-  }
-  return results;
+          <button
+            onClick={onAdd}
+            disabled={added}
+            className={`inline-flex items-center gap-1.5 text-xs font-hebrew px-3 py-1.5 rounded-lg border transition-all duration-200 ${
+              added
+                ? 'bg-green-50 border-green-200 text-green-700'
+                : 'bg-gold-faint border-gold/30 text-gold hover:bg-gold hover:text-white'
+            }`}
+          >
+            {added ? (
+              <><Check className="w-3 h-3" /> נוסף לאוסף!</>
+            ) : (
+              <><span className="text-base leading-none">+</span> הוסף לאוסף שלי</>
+            )}
+          </button>
+        </div>
+      </div>
+    </motion.div>
+  );
 }
 
-const familyGradients: Record<string, string> = {
-  'Fruity Chypre': 'from-amber-100 via-yellow-50 to-lime-50',
-  'Oriental Spicy': 'from-red-100 via-orange-50 to-amber-50',
-  'Oriental Woody': 'from-amber-100 via-stone-100 to-orange-50',
-  'Woody Aromatic': 'from-emerald-50 via-stone-100 to-amber-50',
-  'Floral': 'from-pink-50 via-rose-50 to-fuchsia-50',
-  'Floral Oriental': 'from-rose-100 via-pink-50 to-amber-50',
-  'Oriental Floral': 'from-rose-100 via-amber-50 to-orange-50',
-  'Oud': 'from-amber-100 via-yellow-100 to-stone-200',
-  'Woody Spicy': 'from-orange-100 via-amber-50 to-stone-100',
-  'Leather': 'from-stone-200 via-amber-50 to-red-50',
-  'Gourmand': 'from-amber-100 via-orange-50 to-yellow-50',
-  'Citrus Aromatic': 'from-lime-50 via-yellow-50 to-emerald-50',
-  'Fresh Spicy': 'from-teal-50 via-emerald-50 to-amber-50',
-  'Woody': 'from-stone-100 via-amber-50 to-emerald-50',
-  'Aromatic Fougere': 'from-emerald-50 via-teal-50 to-stone-100',
-  'Marine': 'from-blue-50 via-cyan-50 to-teal-50',
-  'Amber Woody': 'from-amber-100 via-orange-50 to-stone-100',
-};
+// ── Main Component ────────────────────────────────────────────────────────────
 
 export default function TasteQuiz() {
-  const [step, setStep] = useState(0); // 0 = intro, 1-7 = questions, 8 = results
-  const [answers, setAnswers] = useState<QuizAnswer[]>([]);
-  const [results, setResults] = useState<ScoredFragrance[]>([]);
-  const [isCalculating, setIsCalculating] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [step, setStep]     = useState(1);
+  const [answers, setAnswers] = useState<Answers>({});
+  const [prevFragrance, setPrevFragrance] = useState('');
+  const [aiRecs, setAiRecs] = useState<AIRec[]>([]);
+  const [addedIds, setAddedIds] = useState<Set<number>>(new Set());
+  const [isLoading, setIsLoading] = useState(false);
 
-  const currentQuestion = step >= 1 && step <= TOTAL_QUESTIONS ? questions[step - 1] : null;
+  // ESC to close + body scroll lock
+  useEffect(() => {
+    if (!isOpen) return;
+    const handler = (e: KeyboardEvent) => { if (e.key === 'Escape') close(); };
+    window.addEventListener('keydown', handler);
+    document.body.style.overflow = 'hidden';
+    return () => { window.removeEventListener('keydown', handler); document.body.style.overflow = ''; };
+  }, [isOpen]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const selectAnswer = (value: string) => {
-    if (!currentQuestion) return;
-    setAnswers(prev => {
-      const filtered = prev.filter(a => a.questionId !== currentQuestion.id);
-      return [...filtered, { questionId: currentQuestion.id, value }];
-    });
+  const selectAnswer = (key: string, value: string) => {
+    const next = { ...answers, [key]: value };
+    setAnswers(next);
+    setTimeout(() => setStep(s => s + 1), 260);
+  };
 
-    // Auto-advance after selection
-    if (step < TOTAL_QUESTIONS) {
-      setTimeout(() => setStep(step + 1), 300);
-    } else {
-      // Last question — calculate results
-      setIsCalculating(true);
-      setTimeout(() => {
-        const finalAnswers = [...answers.filter(a => a.questionId !== currentQuestion.id), { questionId: currentQuestion.id, value }];
-        const recs = getRecommendations(finalAnswers);
-        setResults(recs);
-        setIsCalculating(false);
-        setStep(TOTAL_QUESTIONS + 1);
-      }, 1500);
+  const submitQuiz = async () => {
+    setStep(8); // loading
+    setIsLoading(true);
+    const candidates = getTopCandidates(answers);
+    try {
+      const res = await fetch('/api/quiz', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          answers: { ...answers, previousFragrance: prevFragrance },
+          candidates: candidates.map(f => ({
+            id: f.id, name: f.name, house: f.house, family: f.family,
+            price: f.price, concentration: f.concentration, tags: f.tags,
+            longevity: f.longevity, sillage: f.sillage, radarProfile: f.radarProfile,
+          })),
+        }),
+      });
+      const data = await res.json();
+      setAiRecs(data.recommendations ?? []);
+    } catch {
+      // Fallback to local top 3
+      setAiRecs(candidates.slice(0, 3).map(f => ({
+        id: f.id,
+        name: f.name,
+        reason: `${f.name} של ${f.house} הוא התאמה מושלמת — ${f.family} עם תגיות ${f.tags.slice(0, 2).join(' ו')} שמתאימות בדיוק לפרופיל שלך.`,
+      })));
+    } finally {
+      setIsLoading(false);
+      setStep(9);
     }
   };
 
-  const getSelectedValue = (questionId: number) => {
-    return answers.find(a => a.questionId === questionId)?.value;
+  const addToCollection = (fragranceId: number) => {
+    try {
+      const saved = localStorage.getItem(COLLECTION_KEY);
+      const ids: number[] = saved ? JSON.parse(saved) : [];
+      if (!ids.includes(fragranceId)) {
+        ids.push(fragranceId);
+        localStorage.setItem(COLLECTION_KEY, JSON.stringify(ids));
+        window.dispatchEvent(new CustomEvent('scent:collection-add', { detail: fragranceId }));
+      }
+    } catch {}
+    setAddedIds(prev => new Set([...prev, fragranceId]));
   };
 
   const reset = () => {
-    setStep(0);
-    setAnswers([]);
-    setResults([]);
+    setStep(1);
+    setAnswers({});
+    setPrevFragrance('');
+    setAiRecs([]);
+    setAddedIds(new Set());
+    setIsLoading(false);
   };
 
+  const close = () => { setIsOpen(false); setTimeout(reset, 300); };
+
+  const currentQ = step >= 1 && step <= 6 ? QUESTIONS[step - 1] : null;
+  const progressWidth = step <= TOTAL_Q ? `${(step / TOTAL_Q) * 100}%` : '100%';
+
+  const matchedRecs = aiRecs.map(rec => ({
+    rec,
+    fragrance: fragrances.find(f => f.id === rec.id || f.name.toLowerCase() === rec.name.toLowerCase()),
+  }));
+
   return (
-    <section id="quiz" className="py-20 px-4">
-      <div className="max-w-3xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-10"
-        >
-          <p className="text-gold text-[11px] tracking-[0.2em] uppercase font-sans font-medium mb-2">
-            TASTE QUIZ
-          </p>
-          <h2 className="font-serif text-4xl md:text-5xl gold-text mb-3 font-bold">
-            שאלון טעמים
-          </h2>
-          <p className="text-ink-muted text-sm font-hebrew max-w-md mx-auto font-light">
-            ענה על 7 שאלות קצרות וגלה אילו בשמים מתאימים בדיוק לך
-          </p>
-        </motion.div>
+    <>
+      {/* ── Section ── */}
+      <section id="quiz" className="py-20 px-4">
+        <div className="max-w-3xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="text-center mb-10"
+          >
+            <p className="text-gold text-[11px] tracking-[0.2em] uppercase font-sans font-medium mb-2">
+              TASTE QUIZ
+            </p>
+            <h2 className="font-serif text-4xl md:text-5xl gold-text mb-3 font-bold">
+              שאלון ריחות
+            </h2>
+            <p className="text-ink-muted text-sm font-hebrew max-w-md mx-auto font-light">
+              ענה על 7 שאלות קצרות וגלה אילו בשמים מתאימים בדיוק לך
+            </p>
+          </motion.div>
 
-        <div className="card p-6 md:p-8 min-h-[400px] flex flex-col">
-          <AnimatePresence mode="wait">
-            {/* Intro */}
-            {step === 0 && (
-              <motion.div
-                key="intro"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                className="flex-1 flex flex-col items-center justify-center text-center"
-              >
-                <div className="w-16 h-16 rounded-2xl bg-gold-faint flex items-center justify-center mb-6">
-                  <Sparkles className="w-8 h-8 text-gold" />
-                </div>
-                <h3 className="font-serif text-2xl text-ink mb-3 font-semibold">
-                  גלה את הבושם המושלם עבורך
-                </h3>
-                <p className="text-ink-muted text-sm font-hebrew mb-8 max-w-sm font-light leading-relaxed">
-                  האלגוריתם שלנו מנתח את ההעדפות שלך ומתאים לך בשמים מתוך מאגר של 100 יצירות מ-35 בתי בישום מובילים
-                </p>
-                <button
-                  onClick={() => setStep(1)}
-                  className="btn-gold px-10 py-3.5 font-hebrew text-sm rounded-lg flex items-center gap-2"
-                >
-                  <Sparkles className="w-4 h-4" />
-                  בוא נתחיל
-                </button>
-              </motion.div>
-            )}
-
-            {/* Questions */}
-            {currentQuestion && !isCalculating && (
-              <motion.div
-                key={`q-${currentQuestion.id}`}
-                initial={{ opacity: 0, x: 40 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -40 }}
-                transition={{ duration: 0.3 }}
-                className="flex-1 flex flex-col"
-              >
-                {/* Progress */}
-                <div className="flex items-center justify-between mb-6">
-                  <button
-                    onClick={() => setStep(step - 1)}
-                    className="text-ink-muted hover:text-gold transition-colors flex items-center gap-1 text-xs font-hebrew"
-                  >
-                    <ChevronRight className="w-4 h-4" />
-                    חזור
-                  </button>
-                  <div className="flex gap-1.5">
-                    {questions.map((_, i) => (
-                      <div
-                        key={i}
-                        className={`h-1.5 rounded-full transition-all duration-300 ${
-                          i < step ? 'w-6 bg-gold' : i === step - 1 ? 'w-6 bg-gold' : 'w-3 bg-black/[0.06]'
-                        }`}
-                      />
-                    ))}
-                  </div>
-                  <span className="text-ink-faint text-xs font-sans">{step}/{TOTAL_QUESTIONS}</span>
-                </div>
-
-                <div className="mb-6">
-                  <h3 className="font-serif text-xl text-ink mb-1 font-semibold">
-                    {currentQuestion.title}
-                  </h3>
-                  <p className="text-ink-muted text-xs font-hebrew font-light">
-                    {currentQuestion.subtitle}
-                  </p>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 flex-1">
-                  {currentQuestion.options.map((opt) => {
-                    const isSelected = getSelectedValue(currentQuestion.id) === opt.value;
-                    return (
-                      <button
-                        key={opt.value}
-                        onClick={() => selectAnswer(opt.value)}
-                        className={`p-4 rounded-xl border text-right transition-all duration-200 hover:shadow-md ${
-                          isSelected
-                            ? 'border-gold bg-gold-faint shadow-sm'
-                            : 'border-black/[0.06] bg-bg-card hover:border-gold-border'
-                        }`}
-                      >
-                        <p className={`font-hebrew text-sm font-medium mb-0.5 ${isSelected ? 'text-gold' : 'text-ink'}`}>
-                          {opt.label}
-                        </p>
-                        <p className="text-ink-muted text-xs font-hebrew font-light">{opt.desc}</p>
-                      </button>
-                    );
-                  })}
-                </div>
-              </motion.div>
-            )}
-
-            {/* Calculating */}
-            {isCalculating && (
-              <motion.div
-                key="calc"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                className="flex-1 flex flex-col items-center justify-center text-center"
-              >
-                <motion.div
-                  animate={{ rotate: 360 }}
-                  transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
-                  className="mb-6"
-                >
-                  <Sparkles className="w-10 h-10 text-gold" />
-                </motion.div>
-                <h3 className="font-serif text-xl text-ink mb-2 font-semibold">מנתח את הטעם שלך...</h3>
-                <p className="text-ink-muted text-xs font-hebrew font-light">
-                  סורק 100 בשמים מ-35 בתי בישום
-                </p>
-              </motion.div>
-            )}
-
-            {/* Results */}
-            {step === TOTAL_QUESTIONS + 1 && !isCalculating && (
-              <motion.div
-                key="results"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="flex-1"
-              >
-                <div className="flex items-center justify-between mb-6">
-                  <div className="flex items-center gap-2">
-                    <Sparkles className="w-4 h-4 text-gold" />
-                    <h3 className="font-serif text-xl text-ink font-semibold">הבשמים שמתאימים לך</h3>
-                  </div>
-                  <button
-                    onClick={reset}
-                    className="text-ink-muted hover:text-gold transition-colors flex items-center gap-1 text-xs font-hebrew"
-                  >
-                    <RotateCcw className="w-3.5 h-3.5" />
-                    התחל מחדש
-                  </button>
-                </div>
-
-                <div className="space-y-3">
-                  {results.map((item, i) => {
-                    const frag = item.fragrance;
-                    const gradient = familyGradients[frag.family] || 'from-stone-100 to-amber-50';
-                    return (
-                      <motion.div
-                        key={frag.id}
-                        initial={{ opacity: 0, y: 15 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: i * 0.1 }}
-                        className="p-4 rounded-xl border border-black/[0.06] bg-bg-card hover:shadow-md hover:border-gold-border transition-all"
-                      >
-                        <div className="flex items-start gap-4">
-                          <div className={`w-16 h-16 rounded-xl bg-gradient-to-br ${gradient} flex items-center justify-center flex-shrink-0 relative`}>
-                            <Droplets className="w-7 h-7 text-gold/50" />
-                            {i === 0 && (
-                              <span className="absolute -top-2 -right-2 text-[9px] font-sans bg-gold text-white px-1.5 py-0.5 rounded-full shadow-sm">
-                                #1
-                              </span>
-                            )}
-                          </div>
-                          <div className="flex-1 min-w-0">
-                            <div className="flex items-start justify-between gap-2 mb-1">
-                              <div className="min-w-0 flex-1">
-                                <p className="font-serif text-base text-ink font-semibold truncate" dir="ltr">
-                                  {frag.name}
-                                </p>
-                                <p className="text-ink-muted text-xs font-sans truncate" dir="ltr">
-                                  {frag.house} &middot; {frag.family} &middot; ₪{frag.price.toLocaleString()}
-                                </p>
-                              </div>
-                              {/* Match percentage */}
-                              <div className="flex-shrink-0 text-center">
-                                <div className="text-gold font-serif text-xl font-bold leading-none">
-                                  {item.matchPercent}%
-                                </div>
-                                <div className="text-[9px] text-ink-faint font-hebrew mt-0.5">התאמה</div>
-                              </div>
-                            </div>
-                            {/* Reason */}
-                            <p className="text-[11px] font-hebrew text-ink-secondary mt-1.5 leading-relaxed">
-                              <Sparkles className="w-3 h-3 text-gold inline ml-1 -mt-0.5" />
-                              {item.reason}
-                            </p>
-                            <a
-                              href={`https://www.google.com/search?tbm=shop&q=${encodeURIComponent(frag.name + ' ' + frag.house + ' perfume')}`}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="inline-flex items-center gap-1 text-gold text-xs font-hebrew hover:underline mt-2"
-                            >
-                              קנה ב-Google Shopping
-                              <ExternalLink className="w-3 h-3" />
-                            </a>
-                          </div>
-                        </div>
-                      </motion.div>
-                    );
-                  })}
-                </div>
-
-                <button
-                  onClick={() => document.getElementById('collection')?.scrollIntoView({ behavior: 'smooth' })}
-                  className="btn-gold w-full mt-6 py-3 font-hebrew text-sm rounded-lg"
-                >
-                  צפה בקולקציה המלאה
-                </button>
-              </motion.div>
-            )}
-          </AnimatePresence>
+          <div className="card p-8 flex flex-col items-center text-center gap-6">
+            <div className="w-16 h-16 rounded-2xl bg-gold-faint flex items-center justify-center">
+              <Sparkles className="w-8 h-8 text-gold" />
+            </div>
+            <div>
+              <h3 className="font-serif text-2xl text-ink mb-2 font-semibold">
+                גלה את הבושם המושלם עבורך
+              </h3>
+              <p className="text-ink-muted text-sm font-hebrew max-w-sm mx-auto font-light leading-relaxed">
+                האלגוריתם שלנו בשילוב AI מנתח את ההעדפות שלך ומתאים לך בשמים מתוך מאגר של 100 יצירות מ-35 בתי בישום
+              </p>
+            </div>
+            <div className="flex items-center gap-6 text-xs text-ink-muted font-hebrew">
+              <span>⏱ כ-2 דקות</span>
+              <span>·</span>
+              <span>7 שאלות</span>
+              <span>·</span>
+              <span>3 המלצות AI</span>
+            </div>
+            <button
+              onClick={() => setIsOpen(true)}
+              className="btn-gold px-10 py-3.5 font-hebrew text-sm rounded-lg flex items-center gap-2"
+            >
+              <Sparkles className="w-4 h-4" />
+              בוא נתחיל
+            </button>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+
+      {/* ── Modal ── */}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4"
+          >
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+              onClick={close}
+            />
+
+            {/* Modal card */}
+            <motion.div
+              initial={{ y: 60, opacity: 0, scale: 0.97 }}
+              animate={{ y: 0, opacity: 1, scale: 1 }}
+              exit={{ y: 40, opacity: 0, scale: 0.97 }}
+              transition={{ type: 'spring', damping: 28, stiffness: 320 }}
+              className="relative w-full sm:max-w-lg bg-[#FAF8F4] sm:rounded-2xl rounded-t-2xl shadow-2xl overflow-hidden flex flex-col max-h-[92dvh] sm:max-h-[88vh]"
+              role="dialog"
+              aria-modal="true"
+              aria-label="שאלון ריחות"
+            >
+              {/* Progress bar */}
+              <div className="h-1 bg-black/[0.06] shrink-0">
+                <motion.div
+                  className="h-full bg-gradient-to-r from-[#b8962e] to-[#d4af4f]"
+                  animate={{ width: progressWidth }}
+                  transition={{ duration: 0.4, ease: 'easeOut' }}
+                />
+              </div>
+
+              {/* Header */}
+              <div className="flex items-center justify-between px-5 py-3.5 border-b border-black/[0.06] shrink-0">
+                <div className="flex items-center gap-2">
+                  {step >= 9 ? (
+                    <>
+                      <Sparkles className="w-4 h-4 text-gold" />
+                      <span className="text-sm font-serif text-ink font-semibold">ההמלצות שלנו עבורך</span>
+                    </>
+                  ) : step === 8 ? (
+                    <span className="text-xs text-ink-muted font-hebrew">Claude AI מנתח את הטעמים שלך...</span>
+                  ) : (
+                    <span className="text-xs font-hebrew text-ink-muted">
+                      שאלה <span className="font-semibold text-gold">{step}</span>
+                      <span className="text-ink-faint"> מתוך {TOTAL_Q}</span>
+                    </span>
+                  )}
+                </div>
+                <div className="flex items-center gap-2">
+                  {step >= 2 && step <= 7 && (
+                    <button
+                      onClick={() => setStep(s => s - 1)}
+                      className="text-ink-muted hover:text-gold transition-colors flex items-center gap-1 text-xs font-hebrew"
+                    >
+                      <ChevronRight className="w-3.5 h-3.5" />
+                      חזור
+                    </button>
+                  )}
+                  {step >= 9 && (
+                    <button
+                      onClick={reset}
+                      className="text-ink-muted hover:text-gold transition-colors flex items-center gap-1 text-xs font-hebrew mr-2"
+                    >
+                      <RotateCcw className="w-3.5 h-3.5" />
+                      מחדש
+                    </button>
+                  )}
+                  <button
+                    onClick={close}
+                    aria-label="סגור"
+                    className="w-7 h-7 flex items-center justify-center rounded-full text-ink-muted hover:text-ink hover:bg-black/[0.06] transition-colors"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
+
+              {/* Body */}
+              <div className="flex-1 overflow-y-auto p-5">
+                <AnimatePresence mode="wait">
+
+                  {/* Questions 1–6 */}
+                  {currentQ && step <= 6 && (
+                    <motion.div
+                      key={`q${step}`}
+                      initial={{ opacity: 0, x: 30 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: -30 }}
+                      transition={{ duration: 0.22 }}
+                    >
+                      <h3 className="font-serif text-xl text-ink font-semibold text-center mb-6">
+                        {currentQ.title}
+                      </h3>
+                      <div
+                        className="grid gap-3"
+                        style={{ gridTemplateColumns: `repeat(${currentQ.cols}, 1fr)` }}
+                      >
+                        {currentQ.options.map(opt => (
+                          <OptionTile
+                            key={opt.value}
+                            emoji={opt.emoji}
+                            label={opt.label}
+                            selected={answers[currentQ.key] === opt.value}
+                            onClick={() => selectAnswer(currentQ.key, opt.value)}
+                          />
+                        ))}
+                      </div>
+                    </motion.div>
+                  )}
+
+                  {/* Question 7 — free text */}
+                  {step === 7 && (
+                    <motion.div
+                      key="q7"
+                      initial={{ opacity: 0, x: 30 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: -30 }}
+                      transition={{ duration: 0.22 }}
+                      className="flex flex-col gap-4"
+                    >
+                      <h3 className="font-serif text-xl text-ink font-semibold text-center">
+                        בושם שאהבת בעבר?
+                      </h3>
+                      <p className="text-xs text-ink-muted font-hebrew text-center -mt-2">
+                        אופציונלי — עוזר לנו להבין את הטעם שלך טוב יותר
+                      </p>
+                      <input
+                        type="text"
+                        value={prevFragrance}
+                        onChange={e => setPrevFragrance(e.target.value)}
+                        placeholder="למשל: Sauvage, Bleu de Chanel..."
+                        dir="auto"
+                        className="w-full px-4 py-3 rounded-xl border border-black/[0.1] bg-white/80 text-ink placeholder-ink-faint text-sm focus:outline-none focus:border-gold focus:ring-2 focus:ring-gold/20 transition-all"
+                      />
+                      <button
+                        onClick={submitQuiz}
+                        className="btn-gold py-3.5 rounded-xl font-hebrew text-sm flex items-center justify-center gap-2 mt-2"
+                      >
+                        <Sparkles className="w-4 h-4" />
+                        קבל המלצות AI
+                      </button>
+                      <button
+                        onClick={submitQuiz}
+                        className="text-xs text-ink-muted font-hebrew text-center hover:text-gold transition-colors"
+                      >
+                        דלג ← קדמה ללא תשובה
+                      </button>
+                    </motion.div>
+                  )}
+
+                  {/* Loading */}
+                  {step === 8 && (
+                    <motion.div
+                      key="loading"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      className="flex flex-col items-center justify-center py-16 gap-5"
+                    >
+                      <motion.div
+                        animate={{ rotate: 360 }}
+                        transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
+                      >
+                        <Loader2 className="w-10 h-10 text-gold" />
+                      </motion.div>
+                      <div className="text-center">
+                        <p className="font-serif text-lg text-ink font-semibold mb-1">
+                          Claude AI מנתח את הטעמים שלך
+                        </p>
+                        <p className="text-xs text-ink-muted font-hebrew">
+                          סורק 100 בשמים מ-35 בתי בישום...
+                        </p>
+                      </div>
+                    </motion.div>
+                  )}
+
+                  {/* Results */}
+                  {step === 9 && !isLoading && (
+                    <motion.div
+                      key="results"
+                      initial={{ opacity: 0, y: 16 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.3 }}
+                      className="flex flex-col gap-4"
+                    >
+                      <p className="text-xs text-ink-muted font-hebrew text-center">
+                        בחרנו את 3 הבשמים שמתאימים ביותר לפרופיל שלך
+                      </p>
+                      {matchedRecs.map(({ rec, fragrance }, i) => (
+                        <motion.div
+                          key={rec.id || i}
+                          initial={{ opacity: 0, y: 16 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: i * 0.12 }}
+                        >
+                          <FragranceResultCard
+                            rec={rec}
+                            fragrance={fragrance}
+                            added={addedIds.has(rec.id)}
+                            onAdd={() => addToCollection(rec.id)}
+                          />
+                        </motion.div>
+                      ))}
+                      <button
+                        onClick={() => {
+                          close();
+                          setTimeout(() => document.getElementById('collection')?.scrollIntoView({ behavior: 'smooth' }), 350);
+                        }}
+                        className="w-full mt-2 py-3 rounded-xl border border-black/[0.08] text-sm font-hebrew text-ink-muted hover:text-gold hover:border-gold/30 transition-all"
+                      >
+                        צפה בקולקציה המלאה ←
+                      </button>
+                    </motion.div>
+                  )}
+
+                </AnimatePresence>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   );
 }

@@ -1,6 +1,8 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import Image from 'next/image';
+import { useState } from 'react';
 import { Star, Clock, Wind, Plus, Check } from 'lucide-react';
 import type { Fragrance } from '@/data/fragrances';
 
@@ -10,6 +12,7 @@ interface Props {
   onClick: (f: Fragrance) => void;
   inCollection?: boolean;
   onToggleCollection?: (f: Fragrance) => void;
+  onBuy?: (f: Fragrance) => void;
 }
 
 const familyGradients: Record<string, string> = {
@@ -65,8 +68,10 @@ function BottleSilhouette({ className }: { className?: string }) {
   );
 }
 
-export default function FragranceCard({ fragrance, index, onClick, inCollection, onToggleCollection }: Props) {
+export default function FragranceCard({ fragrance, index, onClick, inCollection, onToggleCollection, onBuy }: Props) {
   const initials = fragrance.house.split(' ').map(w => w[0]).join('').slice(0, 3);
+  const [imgError, setImgError] = useState(false);
+  const showImage = !!fragrance.image && !imgError;
 
   return (
     <motion.div
@@ -79,13 +84,17 @@ export default function FragranceCard({ fragrance, index, onClick, inCollection,
     >
       {/* Card container with shadow */}
       <div className="relative bg-bg-card rounded-2xl overflow-hidden border border-black/[0.04] shadow-[0_2px_8px_rgba(150,121,58,0.04)] group-hover:shadow-[0_20px_40px_-12px_rgba(150,121,58,0.18)] group-hover:border-gold-border transition-all duration-500">
-        {/* Gradient header with bottle silhouette */}
+        {/* Gradient header with bottle image */}
         <div
-          className={`relative h-56 bg-gradient-to-br ${getGradient(fragrance.family)} overflow-hidden`}
+          role="button"
+          tabIndex={0}
+          aria-label={`${fragrance.name} מאת ${fragrance.house} — פתח פרטים`}
+          className={`relative h-56 w-full bg-gradient-to-br ${getGradient(fragrance.family)} overflow-hidden cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2`}
           onClick={() => onClick(fragrance)}
+          onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onClick(fragrance); } }}
         >
           {/* Radial highlight */}
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.6),transparent_70%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.6),transparent_70%)] pointer-events-none" />
 
           {/* Decorative circles */}
           <div className="absolute inset-0 opacity-[0.08] pointer-events-none">
@@ -101,16 +110,30 @@ export default function FragranceCard({ fragrance, index, onClick, inCollection,
             </p>
           </div>
 
-          {/* Bottle silhouette — centered */}
+          {/* Bottle image or silhouette */}
           <div className="relative h-full flex items-center justify-center">
-            <motion.div
-              initial={{ opacity: 0.25 }}
-              whileHover={{ opacity: 0.4, scale: 1.05 }}
-              transition={{ duration: 0.5 }}
-              className="text-ink"
-            >
-              <BottleSilhouette className="w-20 h-28 transition-all duration-500 group-hover:text-gold" />
-            </motion.div>
+            {showImage ? (
+              <div className="relative w-28 h-40">
+                <Image
+                  src={fragrance.image}
+                  alt={`${fragrance.name} by ${fragrance.house}`}
+                  fill
+                  sizes="(max-width: 640px) 50vw, (max-width: 1280px) 25vw, 200px"
+                  className="object-contain drop-shadow-lg group-hover:scale-105 transition-transform duration-500"
+                  onError={() => setImgError(true)}
+                />
+              </div>
+            ) : (
+              <motion.div
+                initial={{ opacity: 0.25 }}
+                whileHover={{ opacity: 0.4, scale: 1.05 }}
+                transition={{ duration: 0.5 }}
+                className="text-ink"
+                aria-hidden="true"
+              >
+                <BottleSilhouette className="w-20 h-28 transition-all duration-500 group-hover:text-gold" />
+              </motion.div>
+            )}
           </div>
 
           {/* Rating badge */}
@@ -124,13 +147,15 @@ export default function FragranceCard({ fragrance, index, onClick, inCollection,
             <motion.button
               whileTap={{ scale: 0.9 }}
               onClick={(e) => { e.stopPropagation(); onToggleCollection(fragrance); }}
-              className={`absolute top-3 right-3 w-9 h-9 rounded-full flex items-center justify-center shadow-md backdrop-blur-md border transition-all duration-300 ${
+              aria-label={inCollection ? `הסר את ${fragrance.name} מהאוסף שלי` : `הוסף את ${fragrance.name} לאוסף שלי`}
+              aria-pressed={inCollection}
+              className={`absolute top-3 right-3 w-9 h-9 rounded-full flex items-center justify-center shadow-md backdrop-blur-md border transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 ${
                 inCollection
                   ? 'bg-gold text-white border-gold'
                   : 'bg-white/90 border-white/60 text-ink-muted hover:bg-gold hover:text-white hover:border-gold'
               }`}
             >
-              {inCollection ? <Check className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
+              {inCollection ? <Check className="w-4 h-4" aria-hidden="true" /> : <Plus className="w-4 h-4" aria-hidden="true" />}
             </motion.button>
           )}
 
@@ -196,15 +221,17 @@ export default function FragranceCard({ fragrance, index, onClick, inCollection,
               <p className="text-[9px] text-ink-faint font-sans uppercase tracking-wider mb-0.5">Price</p>
               <span className="text-gold font-serif text-xl font-bold">₪{fragrance.price.toLocaleString()}</span>
             </div>
-            <a
-              href={`https://www.google.com/search?tbm=shop&q=${encodeURIComponent(fragrance.name + ' ' + fragrance.house + ' perfume')}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={(e) => e.stopPropagation()}
-              className="text-[11px] font-hebrew font-medium text-white bg-gold hover:bg-ink transition-colors no-underline rounded-full px-4 py-2 shadow-sm"
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                if (onBuy) onBuy(fragrance);
+                else window.open(`https://www.google.com/search?tbm=shop&q=${encodeURIComponent(fragrance.name + ' ' + fragrance.house + ' perfume')}`, '_blank');
+              }}
+              aria-label={`השווה מחירים עבור ${fragrance.name}`}
+              className="text-[11px] font-hebrew font-medium text-white bg-gold hover:bg-ink transition-colors rounded-full px-4 py-2 shadow-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2"
             >
-              קנה עכשיו
-            </a>
+              השווה מחירים
+            </button>
           </div>
         </div>
       </div>

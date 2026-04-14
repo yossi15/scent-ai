@@ -1,6 +1,8 @@
 'use client';
 
 import { motion, AnimatePresence } from 'framer-motion';
+import Image from 'next/image';
+import { useEffect, useState } from 'react';
 import { X, Star, Clock, Wind, Droplets, Plus, Check, ShoppingBag } from 'lucide-react';
 import type { Fragrance } from '@/data/fragrances';
 
@@ -9,6 +11,7 @@ interface Props {
   onClose: () => void;
   inCollection?: boolean;
   onToggleCollection?: (f: Fragrance) => void;
+  onBuy?: (f: Fragrance) => void;
 }
 
 const noteStyles = {
@@ -41,7 +44,23 @@ function getGradient(family: string): string {
   return familyGradients[family] || 'from-stone-100 via-amber-50 to-stone-50';
 }
 
-export default function FragranceModal({ fragrance, onClose, inCollection, onToggleCollection }: Props) {
+export default function FragranceModal({ fragrance, onClose, inCollection, onToggleCollection, onBuy }: Props) {
+  const [imgError, setImgError] = useState(false);
+  const showImage = !!fragrance?.image && !imgError;
+
+  useEffect(() => {
+    setImgError(false);
+    if (!fragrance) return;
+    const handler = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
+    window.addEventListener('keydown', handler);
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      window.removeEventListener('keydown', handler);
+      document.body.style.overflow = prevOverflow;
+    };
+  }, [fragrance, onClose]);
+
   if (!fragrance) return null;
 
   const groupedNotes = {
@@ -59,6 +78,9 @@ export default function FragranceModal({ fragrance, onClose, inCollection, onTog
         transition={{ duration: 0.3 }}
         className="fixed inset-0 z-[60] bg-black/20 backdrop-blur-sm flex items-center justify-center p-4"
         onClick={onClose}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="fragrance-modal-title"
       >
         <motion.div
           initial={{ opacity: 0, y: 30, scale: 0.97 }}
@@ -74,17 +96,32 @@ export default function FragranceModal({ fragrance, onClose, inCollection, onTog
               <div className="absolute top-6 right-6 w-32 h-32 rounded-full border border-current" />
               <div className="absolute bottom-4 left-8 w-20 h-20 rounded-full border border-current" />
             </div>
-            <div className="text-center">
-              <Droplets className="w-10 h-10 text-ink/15 mx-auto mb-2" />
-              <p className="font-serif text-4xl text-ink/10 font-bold tracking-widest" dir="ltr">
-                {fragrance.house.split(' ').map(w => w[0]).join('')}
-              </p>
-            </div>
+            {showImage ? (
+              <div className="relative w-36 h-44">
+                <Image
+                  src={fragrance.image}
+                  alt={`${fragrance.name} by ${fragrance.house}`}
+                  fill
+                  sizes="200px"
+                  className="object-contain drop-shadow-xl"
+                  onError={() => setImgError(true)}
+                  priority
+                />
+              </div>
+            ) : (
+              <div className="text-center" aria-hidden="true">
+                <Droplets className="w-10 h-10 text-ink/15 mx-auto mb-2" />
+                <p className="font-serif text-4xl text-ink/10 font-bold tracking-widest" dir="ltr">
+                  {fragrance.house.split(' ').map(w => w[0]).join('')}
+                </p>
+              </div>
+            )}
             <button
               onClick={onClose}
-              className="absolute top-4 left-4 w-8 h-8 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center text-ink-muted hover:text-ink transition-colors"
+              aria-label="סגור חלון"
+              className="absolute top-4 left-4 w-8 h-8 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center text-ink-muted hover:text-ink transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-gold"
             >
-              <X className="w-4 h-4" />
+              <X className="w-4 h-4" aria-hidden="true" />
             </button>
             <div className="absolute bottom-4 right-4 flex items-center gap-1 bg-white/90 backdrop-blur-sm rounded-full px-2.5 py-1 shadow-sm">
               <Star className="w-3.5 h-3.5 text-gold fill-gold" />
@@ -96,7 +133,7 @@ export default function FragranceModal({ fragrance, onClose, inCollection, onTog
             <p className="text-gold text-[10px] tracking-[0.25em] uppercase font-sans font-medium" dir="ltr">
               {fragrance.house} &middot; {fragrance.year}
             </p>
-            <h2 className="font-serif text-3xl text-ink mt-1 font-bold" dir="ltr">{fragrance.name}</h2>
+            <h2 id="fragrance-modal-title" className="font-serif text-3xl text-ink mt-1 font-bold" dir="ltr">{fragrance.name}</h2>
             <p className="text-ink-faint text-xs font-sans mt-1 mb-4" dir="ltr">
               {fragrance.family} &middot; {fragrance.concentration} &middot; {fragrance.gender}
             </p>
@@ -163,15 +200,16 @@ export default function FragranceModal({ fragrance, onClose, inCollection, onTog
                   {inCollection ? <><Check className="w-4 h-4" /> באוסף שלי</> : <><Plus className="w-4 h-4" /> הוסף לאוסף</>}
                 </button>
               )}
-              <a
-                href={`https://www.google.com/search?tbm=shop&q=${encodeURIComponent(fragrance.name + ' ' + fragrance.house + ' perfume')}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-outline flex-1 py-3 rounded-lg text-sm font-hebrew font-medium flex items-center justify-center gap-2 no-underline"
+              <button
+                onClick={() => {
+                  if (onBuy) onBuy(fragrance);
+                  else window.open(`https://www.google.com/search?tbm=shop&q=${encodeURIComponent(fragrance.name + ' ' + fragrance.house + ' perfume')}`, '_blank');
+                }}
+                className="btn-outline flex-1 py-3 rounded-lg text-sm font-hebrew font-medium flex items-center justify-center gap-2"
               >
                 <ShoppingBag className="w-4 h-4" />
-                קנה עכשיו — ₪{fragrance.price.toLocaleString()}
-              </a>
+                השווה מחירים — ₪{fragrance.price.toLocaleString()}
+              </button>
             </div>
           </div>
         </motion.div>
