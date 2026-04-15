@@ -293,7 +293,7 @@ export const fragrances: Fragrance[] = [
     house: "Amouage",
     year: 2007,
     concentration: "EDP",
-    price: 310,
+    price: 1170,
     size: "100ml",
     rating: 4.5,
     family: "Floral Woody",
