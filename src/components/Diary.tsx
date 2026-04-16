@@ -1,13 +1,17 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { BookOpen, Plus, Clock, Wind, Calendar, X, Droplets } from 'lucide-react';
+import { BookOpen, Plus, Clock, Wind, Calendar, X, Droplets, LogIn } from 'lucide-react';
+import { useAuth, SignInButton } from '@clerk/nextjs';
 import { fragrances, type Fragrance } from '@/data/fragrances';
 
+// ── Types ─────────────────────────────────────────────────────────────────────
 interface DiaryEntry {
-  id: number;
-  fragranceId: number;
+  id: string;          // UUID from DB  (or temp string for optimistic)
+  fragranceId: number | null;
+  fragranceName: string;
+  brand: string;
   date: string;
   occasion: string;
   longevityRating: number;
@@ -15,7 +19,6 @@ interface DiaryEntry {
   notes: string;
 }
 
-const DIARY_KEY = 'scent-ai-diary';
 const COLLECTION_KEY = 'scent-ai-collection';
 
 const occasions = [
@@ -25,14 +28,9 @@ const occasions = [
   { value: 'romantic', label: 'רומנטי',  emoji: '❤️' },
 ];
 
-function RatingSlider({
-  value,
-  onChange,
-  label,
-}: {
-  value: number;
-  onChange: (v: number) => void;
-  label: string;
+// ── Rating slider ─────────────────────────────────────────────────────────────
+function RatingSlider({ value, onChange, label }: {
+  value: number; onChange: (v: number) => void; label: string;
 }) {
   return (
     <div>
@@ -41,10 +39,7 @@ function RatingSlider({
         <span className="text-gold text-xs font-sans font-semibold tabular-nums">{value} / 10</span>
       </div>
       <input
-        type="range"
-        min={1}
-        max={10}
-        value={value}
+        type="range" min={1} max={10} value={value}
         onChange={(e) => onChange(Number(e.target.value))}
         className="w-full h-1.5 rounded-full cursor-pointer accent-[#B8965E]"
         style={{ background: `linear-gradient(to right, #B8965E ${(value - 1) / 9 * 100}%, #e5e0d8 ${(value - 1) / 9 * 100}%)` }}
@@ -56,8 +51,11 @@ function RatingSlider({
   );
 }
 
+// ── Main component ────────────────────────────────────────────────────────────
 export default function Diary() {
+  const { isSignedIn, isLoaded } = useAuth();
   const [entries, setEntries] = useState<DiaryEntry[]>([]);
+  const [loading, setLoading] = useState(false);
   const [availableFragrances, setAvailableFragrances] = useState<Fragrance[]>(fragrances);
   const [fromCollection, setFromCollection] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -69,31 +67,76 @@ export default function Diary() {
   const [sillage, setSillage] = useState(6);
   const [notes, setNotes] = useState('');
   const [entryDate, setEntryDate] = useState('');
+  const [saving, setSaving] = useState(false);
 
+  // Map DB row → DiaryEntry
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const rowToEntry = (row: any): DiaryEntry => ({
+    id:              row.id,
+    fragranceId:     row.fragrance_id ?? null,
+    fragranceName:   row.fragrance_name,
+    brand:           row.brand,
+    date:            row.date,
+    occasion:        row.occasion,
+    longevityRating: row.longevity,
+    sillageRating:   row.projection,
+    notes:           row.review ?? '',
+  });
+
+  // Load entries from API (signed in) or localStorage (fallback)
+  const loadEntries = useCallback(async () => {
+    if (!isLoaded) return;
+    if (isSignedIn) {
+      setLoading(true);
+      try {
+        const res = await fetch('/api/diary');
+        const data = await res.json();
+        if (data.entries) setEntries((data.entries as unknown[]).map(rowToEntry));
+      } catch {}
+      setLoading(false);
+    }
+    // not signed in → nothing to show (diary is auth-gated)
+  }, [isLoaded, isSignedIn]);
+
+  // Load collection for fragrance dropdown
   useEffect(() => {
-    // Load diary entries
-    try {
-      const saved = localStorage.getItem(DIARY_KEY);
-      if (saved) setEntries(JSON.parse(saved));
-    } catch {}
+    if (!isLoaded) return;
+    loadEntries();
 
-    // Load collection for fragrance dropdown
-    try {
-      const savedCol = localStorage.getItem(COLLECTION_KEY);
-      if (savedCol) {
-        const ids: number[] = JSON.parse(savedCol);
-        const collFrags = fragrances.filter((f) => ids.includes(f.id));
-        if (collFrags.length > 0) {
-          setAvailableFragrances(collFrags);
-          setSelectedFragId(collFrags[0].id);
-          setFromCollection(true);
-          return;
+    if (isSignedIn) {
+      fetch('/api/collection')
+        .then(r => r.json())
+        .then(data => {
+          if (data.ids?.length) {
+            const collFrags = fragrances.filter(f => (data.ids as number[]).includes(f.id));
+            if (collFrags.length) {
+              setAvailableFragrances(collFrags);
+              setSelectedFragId(collFrags[0].id);
+              setFromCollection(true);
+              return;
+            }
+          }
+          setAvailableFragrances(fragrances);
+        })
+        .catch(() => setAvailableFragrances(fragrances));
+    } else {
+      // fallback: read collection from localStorage
+      try {
+        const saved = localStorage.getItem(COLLECTION_KEY);
+        if (saved) {
+          const ids: number[] = JSON.parse(saved);
+          const collFrags = fragrances.filter(f => ids.includes(f.id));
+          if (collFrags.length) {
+            setAvailableFragrances(collFrags);
+            setSelectedFragId(collFrags[0].id);
+            setFromCollection(true);
+            return;
+          }
         }
-      }
-    } catch {}
-    setAvailableFragrances(fragrances);
-    setSelectedFragId(fragrances[0]?.id ?? 1);
-  }, []);
+      } catch {}
+      setAvailableFragrances(fragrances);
+    }
+  }, [isLoaded, isSignedIn, loadEntries]);
 
   const openModal = () => {
     setEntryDate(new Date().toISOString().split('T')[0]);
@@ -104,30 +147,104 @@ export default function Diary() {
     setShowModal(true);
   };
 
-  const saveEntry = () => {
-    const entry: DiaryEntry = {
-      id: Date.now(),
-      fragranceId: selectedFragId,
-      date: entryDate || new Date().toISOString().split('T')[0],
-      occasion,
-      longevityRating: longevity,
-      sillageRating: sillage,
-      notes: notes.trim(),
-    };
-    const updated = [entry, ...entries].sort(
-      (a, b) => b.date.localeCompare(a.date) || b.id - a.id
-    );
-    setEntries(updated);
-    localStorage.setItem(DIARY_KEY, JSON.stringify(updated));
+  const saveEntry = async () => {
+    const frag = fragrances.find(f => f.id === selectedFragId);
+    if (!frag) return;
+    setSaving(true);
+    try {
+      const res = await fetch('/api/diary', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          fragranceId:   frag.id,
+          fragranceName: frag.name,
+          brand:         frag.house,
+          occasion,
+          longevity,
+          projection:    sillage,
+          review:        notes.trim(),
+          date:          entryDate || new Date().toISOString().split('T')[0],
+        }),
+      });
+      const data = await res.json();
+      if (data.id) {
+        const newEntry: DiaryEntry = {
+          id:              data.id,
+          fragranceId:     frag.id,
+          fragranceName:   frag.name,
+          brand:           frag.house,
+          date:            entryDate || new Date().toISOString().split('T')[0],
+          occasion,
+          longevityRating: longevity,
+          sillageRating:   sillage,
+          notes:           notes.trim(),
+        };
+        setEntries(prev =>
+          [newEntry, ...prev].sort((a, b) => b.date.localeCompare(a.date))
+        );
+      }
+    } catch {}
+    setSaving(false);
     setShowModal(false);
   };
 
-  const deleteEntry = (id: number) => {
-    const updated = entries.filter((e) => e.id !== id);
-    setEntries(updated);
-    localStorage.setItem(DIARY_KEY, JSON.stringify(updated));
+  const deleteEntry = async (id: string) => {
+    setEntries(prev => prev.filter(e => e.id !== id));
+    try {
+      await fetch(`/api/diary?id=${id}`, { method: 'DELETE' });
+    } catch {}
   };
 
+  // ── Auth gate ──────────────────────────────────────────────────────────────
+  if (isLoaded && !isSignedIn) {
+    return (
+      <section id="diary" className="py-20 px-4">
+        <div className="max-w-3xl mx-auto text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="mb-12"
+          >
+            <p className="text-gold text-[11px] tracking-[0.2em] uppercase font-sans font-medium mb-2">
+              PERSONAL ARCHIVE
+            </p>
+            <h2 className="font-serif text-4xl md:text-5xl gold-text mb-3 font-bold">היומן</h2>
+            <p className="text-ink-muted text-sm font-hebrew max-w-md mx-auto font-light">
+              תעד את השימוש היומי, דרג ביצועים ובנה את הזיכרון הריחני שלך
+            </p>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, scale: 0.97 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="card-gold p-10 max-w-md mx-auto"
+          >
+            <div className="w-16 h-16 rounded-2xl bg-gold-faint flex items-center justify-center mx-auto mb-5">
+              <BookOpen className="w-8 h-8 text-gold/60" />
+            </div>
+            <h3 className="font-serif text-2xl text-ink font-semibold mb-2">
+              היומן שלך מחכה
+            </h3>
+            <p className="text-ink-muted text-sm font-hebrew font-light mb-6 leading-relaxed">
+              כנס לחשבון כדי לתעד בשמים, לדרג ביצועים ולשמור את הזיכרונות הריחניים שלך בענן
+            </p>
+            <SignInButton mode="modal">
+              <button className="btn-gold flex items-center gap-2 px-6 py-3 font-hebrew text-sm rounded-lg mx-auto">
+                <LogIn className="w-4 h-4" />
+                כניסה / הרשמה חינם
+              </button>
+            </SignInButton>
+          </motion.div>
+        </div>
+      </section>
+    );
+  }
+
+  // ── Full diary UI (signed in) ──────────────────────────────────────────────
   return (
     <section id="diary" className="py-20 px-4">
       <div className="max-w-3xl mx-auto">
@@ -143,9 +260,7 @@ export default function Diary() {
           <p className="text-gold text-[11px] tracking-[0.2em] uppercase font-sans font-medium mb-2">
             PERSONAL ARCHIVE
           </p>
-          <h2 className="font-serif text-4xl md:text-5xl gold-text mb-3 font-bold">
-            היומן
-          </h2>
+          <h2 className="font-serif text-4xl md:text-5xl gold-text mb-3 font-bold">היומן</h2>
           <p className="text-ink-muted text-sm font-hebrew max-w-md mx-auto font-light">
             תעד את השימוש היומי, דרג ביצועים ובנה את הזיכרון הריחני שלך
           </p>
@@ -162,7 +277,7 @@ export default function Diary() {
           </button>
         </div>
 
-        {/* ───── Modal ───── */}
+        {/* ── Modal ── */}
         <AnimatePresence>
           {showModal && (
             <motion.div
@@ -203,12 +318,10 @@ export default function Diary() {
                 {/* Modal body */}
                 <div className="px-6 py-5 space-y-5 max-h-[72vh] overflow-y-auto">
 
-                  {/* Row 1: Date + Fragrance */}
+                  {/* Date + Fragrance */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label className="text-ink-muted text-[11px] font-hebrew block mb-1.5 font-medium">
-                        תאריך
-                      </label>
+                      <label className="text-ink-muted text-[11px] font-hebrew block mb-1.5 font-medium">תאריך</label>
                       <input
                         type="date"
                         value={entryDate}
@@ -227,9 +340,7 @@ export default function Diary() {
                         className="w-full bg-bg-secondary border border-black/[0.06] text-ink text-sm rounded-lg px-3 py-2.5 focus:outline-none focus:border-gold-border transition-colors"
                       >
                         {availableFragrances.map((f) => (
-                          <option key={f.id} value={f.id}>
-                            {f.name} — {f.house}
-                          </option>
+                          <option key={f.id} value={f.id}>{f.name} — {f.house}</option>
                         ))}
                       </select>
                     </div>
@@ -237,9 +348,7 @@ export default function Diary() {
 
                   {/* Occasion tiles */}
                   <div>
-                    <label className="text-ink-muted text-[11px] font-hebrew block mb-2 font-medium">
-                      אירוע
-                    </label>
+                    <label className="text-ink-muted text-[11px] font-hebrew block mb-2 font-medium">אירוע</label>
                     <div className="grid grid-cols-4 gap-2">
                       {occasions.map((occ) => (
                         <button
@@ -267,9 +376,7 @@ export default function Diary() {
 
                   {/* Notes */}
                   <div>
-                    <label className="text-ink-muted text-[11px] font-hebrew block mb-1.5 font-medium">
-                      הערה חופשית
-                    </label>
+                    <label className="text-ink-muted text-[11px] font-hebrew block mb-1.5 font-medium">הערה חופשית</label>
                     <textarea
                       rows={3}
                       placeholder="איך הוא ביצע היום? קיבלת מחמאות? איפה לבשת?"
@@ -290,9 +397,10 @@ export default function Diary() {
                   </button>
                   <button
                     onClick={saveEntry}
-                    className="flex-1 btn-gold py-2.5 font-hebrew text-sm rounded-lg"
+                    disabled={saving}
+                    className="flex-1 btn-gold py-2.5 font-hebrew text-sm rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    שמור רשומה
+                    {saving ? 'שומר...' : 'שמור רשומה'}
                   </button>
                 </div>
               </motion.div>
@@ -300,9 +408,15 @@ export default function Diary() {
           )}
         </AnimatePresence>
 
-        {/* ───── Entry list ───── */}
+        {/* ── Entry list ── */}
         <AnimatePresence mode="popLayout">
-          {entries.length === 0 ? (
+          {loading ? (
+            <motion.div key="loading" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-3">
+              {[1, 2, 3].map(i => (
+                <div key={i} className="card p-5 h-24 animate-pulse bg-bg-secondary" />
+              ))}
+            </motion.div>
+          ) : entries.length === 0 ? (
             <motion.div
               key="empty-state"
               initial={{ opacity: 0 }}
@@ -320,9 +434,13 @@ export default function Diary() {
           ) : (
             <div className="space-y-3">
               {entries.map((entry, i) => {
-                const frag = fragrances.find((f) => f.id === entry.fragranceId);
-                if (!frag) return null;
-                const occ = occasions.find((o) => o.value === entry.occasion);
+                const frag = entry.fragranceId
+                  ? fragrances.find(f => f.id === entry.fragranceId)
+                  : null;
+                const occ = occasions.find(o => o.value === entry.occasion);
+                const displayName = frag?.name ?? entry.fragranceName;
+                const displayHouse = frag?.house ?? entry.brand;
+                const imgSrc = frag?.image ?? null;
 
                 return (
                   <motion.div
@@ -337,12 +455,8 @@ export default function Diary() {
                     <div className="flex items-start gap-4">
                       {/* Bottle thumbnail */}
                       <div className="w-11 h-14 rounded-xl overflow-hidden bg-gold-faint shrink-0 flex items-center justify-center">
-                        {frag.image ? (
-                          <img
-                            src={frag.image}
-                            alt={frag.name}
-                            className="w-full h-full object-cover object-top"
-                          />
+                        {imgSrc ? (
+                          <img src={imgSrc} alt={displayName} className="w-full h-full object-cover object-top" />
                         ) : (
                           <Droplets className="w-5 h-5 text-gold/30" />
                         )}
@@ -353,11 +467,9 @@ export default function Diary() {
                         <div className="flex items-start justify-between gap-2 mb-1.5">
                           <div>
                             <h4 className="font-serif text-base text-ink font-semibold leading-tight" dir="ltr">
-                              {frag.name}
+                              {displayName}
                             </h4>
-                            <p className="text-ink-faint text-[11px] font-sans" dir="ltr">
-                              {frag.house}
-                            </p>
+                            <p className="text-ink-faint text-[11px] font-sans" dir="ltr">{displayHouse}</p>
                           </div>
                           <div className="flex items-center gap-1.5 shrink-0">
                             <span className="text-ink-faint text-[11px] font-sans flex items-center gap-1 bg-bg-secondary px-2 py-0.5 rounded-full">
@@ -374,7 +486,7 @@ export default function Diary() {
                           </div>
                         </div>
 
-                        {/* Badges row */}
+                        {/* Badges */}
                         <div className="flex flex-wrap gap-2 my-2">
                           {occ && (
                             <span className="stat-badge">
@@ -392,7 +504,6 @@ export default function Diary() {
                           </span>
                         </div>
 
-                        {/* Notes */}
                         {entry.notes && (
                           <p className="text-ink-muted text-sm font-hebrew leading-relaxed font-light">
                             &ldquo;{entry.notes}&rdquo;

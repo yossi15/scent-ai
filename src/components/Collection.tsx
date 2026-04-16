@@ -4,6 +4,7 @@ import { useState, useMemo, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, SlidersHorizontal, X, Heart } from 'lucide-react';
+import { useAuth, SignInButton } from '@clerk/nextjs';
 import { fragrances, type Fragrance } from '@/data/fragrances';
 import FragranceCard from './FragranceCard';
 import BuyOptions from './BuyOptions';
@@ -117,6 +118,7 @@ function FilterRow({ label, options, active, onToggle }: {
 // ── Component ──────────────────────────────────────────────────────────────────
 export default function Collection() {
   const router = useRouter();
+  const { isSignedIn, isLoaded } = useAuth();
   const [search, setSearch] = useState('');
   const [houseFilter, setHouseFilter] = useState('הכל');
   const [filters, setFilters] = useState<FilterGroup>(EMPTY_FILTERS);
@@ -127,38 +129,66 @@ export default function Collection() {
   const [showMyCollection, setShowMyCollection] = useState(false);
   const [buyTarget, setBuyTarget] = useState<Fragrance | null>(null);
 
+  // Load collection from DB (if signed in) or localStorage (fallback)
   useEffect(() => {
-    try {
-      const saved = localStorage.getItem(COLLECTION_KEY);
-      if (saved) setCollection(new Set(JSON.parse(saved)));
-    } catch {}
-  }, []);
+    if (!isLoaded) return;
+    if (isSignedIn) {
+      fetch('/api/collection')
+        .then(r => r.json())
+        .then(data => { if (data.ids) setCollection(new Set(data.ids as number[])); })
+        .catch(() => {});
+    } else {
+      try {
+        const saved = localStorage.getItem(COLLECTION_KEY);
+        if (saved) setCollection(new Set(JSON.parse(saved)));
+      } catch {}
+    }
+  }, [isLoaded, isSignedIn]);
 
   // Listen for fragrances added from TasteQuiz modal
   useEffect(() => {
     const handler = (e: Event) => {
-      const id = (e as CustomEvent<number>).detail;
+      const frag = fragrances.find(f => f.id === (e as CustomEvent<number>).detail);
+      if (!frag) return;
       setCollection(prev => {
-        if (prev.has(id)) return prev;
+        if (prev.has(frag.id)) return prev;
         const next = new Set(prev);
-        next.add(id);
-        localStorage.setItem(COLLECTION_KEY, JSON.stringify([...next]));
+        next.add(frag.id);
+        if (isSignedIn) {
+          fetch('/api/collection', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ fragranceId: frag.id, name: frag.name, house: frag.house }),
+          }).catch(() => {});
+        } else {
+          localStorage.setItem(COLLECTION_KEY, JSON.stringify([...next]));
+        }
         return next;
       });
     };
     window.addEventListener('scent:collection-add', handler);
     return () => window.removeEventListener('scent:collection-add', handler);
-  }, []);
+  }, [isSignedIn]);
 
   const toggleCollection = useCallback((f: Fragrance) => {
+    if (!isSignedIn) return; // handled by FragranceCard sign-in prompt
     setCollection(prev => {
       const next = new Set(prev);
-      if (next.has(f.id)) next.delete(f.id);
-      else next.add(f.id);
-      localStorage.setItem(COLLECTION_KEY, JSON.stringify([...next]));
+      const removing = next.has(f.id);
+      if (removing) {
+        next.delete(f.id);
+        fetch(`/api/collection?fragranceId=${f.id}`, { method: 'DELETE' }).catch(() => {});
+      } else {
+        next.add(f.id);
+        fetch('/api/collection', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ fragranceId: f.id, name: f.name, house: f.house }),
+        }).catch(() => {});
+      }
       return next;
     });
-  }, []);
+  }, [isSignedIn]);
 
   const toggleFilter = useCallback((group: keyof FilterGroup, value: string) => {
     setFilters(prev => {

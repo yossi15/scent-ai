@@ -7,9 +7,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRight, Star, Clock, Wind, Plus, Check, ShoppingBag, Tag } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
+import { useAuth, SignInButton } from '@clerk/nextjs';
 import { fragrances, type Fragrance } from '@/data/fragrances';
-
-const COLLECTION_KEY = 'scent-ai-collection';
 
 // ── Family gradients (mirrors FragranceCard) ──────────────────────────────────
 const familyGradients: Record<string, string> = {
@@ -240,15 +239,19 @@ export default function FragrancePage() {
   const id = Array.isArray(rawId) ? Number(rawId[0]) : Number(rawId);
   const fragrance = fragrances.find(f => f.id === id);
 
+  const { isSignedIn, isLoaded } = useAuth();
   const [inCollection, setInCollection] = useState(false);
   const [imgError, setImgError] = useState(false);
 
   useEffect(() => {
-    try {
-      const saved = localStorage.getItem(COLLECTION_KEY);
-      if (saved) setInCollection((JSON.parse(saved) as number[]).includes(id));
-    } catch {}
-  }, [id]);
+    if (!isLoaded || !isSignedIn) return;
+    fetch('/api/collection')
+      .then(r => r.json())
+      .then(data => {
+        if (data.ids) setInCollection((data.ids as number[]).includes(id));
+      })
+      .catch(() => {});
+  }, [isLoaded, isSignedIn, id]);
 
   if (!fragrance) {
     return (
@@ -261,15 +264,20 @@ export default function FragrancePage() {
     );
   }
 
-  const toggleCollection = () => {
-    try {
-      const saved = localStorage.getItem(COLLECTION_KEY);
-      const ids: number[] = saved ? JSON.parse(saved) : [];
-      const isIn = ids.includes(id);
-      const next = isIn ? ids.filter(i => i !== id) : [...ids, id];
-      localStorage.setItem(COLLECTION_KEY, JSON.stringify(next));
-      setInCollection(!isIn);
-    } catch {}
+  const toggleCollection = async () => {
+    if (!isSignedIn) return;
+    const newState = !inCollection;
+    setInCollection(newState);
+    if (newState) {
+      await fetch('/api/collection', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ fragranceId: id, name: fragrance.name, house: fragrance.house }),
+      }).catch(() => setInCollection(!newState));
+    } else {
+      await fetch(`/api/collection?fragranceId=${id}`, { method: 'DELETE' })
+        .catch(() => setInCollection(!newState));
+    }
   };
 
   const similar   = getSimilar(fragrance);
@@ -405,18 +413,30 @@ export default function FragrancePage() {
 
             {/* Action buttons */}
             <div className="flex flex-col sm:flex-row gap-3">
-              <motion.button
-                whileTap={{ scale: 0.97 }}
-                onClick={toggleCollection}
-                className={`flex-1 flex items-center justify-center gap-2.5 py-3.5 rounded-xl font-hebrew text-sm font-medium transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold ${
-                  inCollection
-                    ? 'bg-gold-faint text-gold border border-gold-border hover:bg-gold/10'
-                    : 'btn-gold'
-                }`}
-              >
-                {inCollection ? <Check className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
-                {inCollection ? 'באוסף שלי ✓' : 'הוסף לאוסף שלי'}
-              </motion.button>
+              {isLoaded && !isSignedIn ? (
+                <SignInButton mode="modal">
+                  <motion.button
+                    whileTap={{ scale: 0.97 }}
+                    className="flex-1 flex items-center justify-center gap-2.5 py-3.5 rounded-xl font-hebrew text-sm font-medium btn-gold"
+                  >
+                    <Plus className="w-4 h-4" />
+                    כנס להוספה לאוסף
+                  </motion.button>
+                </SignInButton>
+              ) : (
+                <motion.button
+                  whileTap={{ scale: 0.97 }}
+                  onClick={toggleCollection}
+                  className={`flex-1 flex items-center justify-center gap-2.5 py-3.5 rounded-xl font-hebrew text-sm font-medium transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold ${
+                    inCollection
+                      ? 'bg-gold-faint text-gold border border-gold-border hover:bg-gold/10'
+                      : 'btn-gold'
+                  }`}
+                >
+                  {inCollection ? <Check className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
+                  {inCollection ? 'באוסף שלי ✓' : 'הוסף לאוסף שלי'}
+                </motion.button>
+              )}
 
               <motion.button
                 whileTap={{ scale: 0.97 }}

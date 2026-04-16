@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { useState } from 'react';
 import { Star, Clock, Wind, Plus, Check } from 'lucide-react';
+import { useAuth, SignInButton } from '@clerk/nextjs';
 import type { Fragrance } from '@/data/fragrances';
 
 interface Props {
@@ -72,6 +73,7 @@ export default function FragranceCard({ fragrance, index, onClick, inCollection,
   const initials = fragrance.house.split(' ').map(w => w[0]).join('').slice(0, 3);
   const [imgError, setImgError] = useState(false);
   const showImage = !!fragrance.image && !imgError;
+  const { isSignedIn } = useAuth();
 
   return (
     <motion.div
@@ -144,19 +146,32 @@ export default function FragranceCard({ fragrance, index, onClick, inCollection,
 
           {/* Add to collection button */}
           {onToggleCollection && (
-            <motion.button
-              whileTap={{ scale: 0.9 }}
-              onClick={(e) => { e.stopPropagation(); onToggleCollection(fragrance); }}
-              aria-label={inCollection ? `הסר את ${fragrance.name} מהאוסף שלי` : `הוסף את ${fragrance.name} לאוסף שלי`}
-              aria-pressed={inCollection}
-              className={`absolute top-3 right-3 w-9 h-9 rounded-full flex items-center justify-center shadow-md backdrop-blur-md border transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 ${
-                inCollection
-                  ? 'bg-gold text-white border-gold'
-                  : 'bg-white/90 border-white/60 text-ink-muted hover:bg-gold hover:text-white hover:border-gold'
-              }`}
-            >
-              {inCollection ? <Check className="w-4 h-4" aria-hidden="true" /> : <Plus className="w-4 h-4" aria-hidden="true" />}
-            </motion.button>
+            isSignedIn ? (
+              <motion.button
+                whileTap={{ scale: 0.9 }}
+                onClick={(e) => { e.stopPropagation(); onToggleCollection(fragrance); }}
+                aria-label={inCollection ? `הסר את ${fragrance.name} מהאוסף שלי` : `הוסף את ${fragrance.name} לאוסף שלי`}
+                aria-pressed={inCollection}
+                className={`absolute top-3 right-3 w-9 h-9 rounded-full flex items-center justify-center shadow-md backdrop-blur-md border transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 ${
+                  inCollection
+                    ? 'bg-gold text-white border-gold'
+                    : 'bg-white/90 border-white/60 text-ink-muted hover:bg-gold hover:text-white hover:border-gold'
+                }`}
+              >
+                {inCollection ? <Check className="w-4 h-4" aria-hidden="true" /> : <Plus className="w-4 h-4" aria-hidden="true" />}
+              </motion.button>
+            ) : (
+              <SignInButton mode="modal">
+                <motion.button
+                  whileTap={{ scale: 0.9 }}
+                  onClick={(e) => e.stopPropagation()}
+                  aria-label="כנס כדי להוסיף לאוסף"
+                  className="absolute top-3 right-3 w-9 h-9 rounded-full flex items-center justify-center shadow-md backdrop-blur-md border bg-white/90 border-white/60 text-ink-muted hover:bg-gold hover:text-white hover:border-gold transition-all duration-300"
+                >
+                  <Plus className="w-4 h-4" aria-hidden="true" />
+                </motion.button>
+              </SignInButton>
+            )
           )}
 
           {/* Family tag */}
