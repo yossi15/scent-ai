@@ -30,6 +30,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       signUpUrl="/sign-up"
       signInFallbackRedirectUrl="/"
       signUpFallbackRedirectUrl="/"
+      afterSignOutUrl="/"
     >
       <html lang="he" dir="rtl" className="h-full antialiased">
         <body className="min-h-full flex flex-col">{children}</body>

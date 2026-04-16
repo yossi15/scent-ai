@@ -8,6 +8,8 @@ const isPublicRoute = createRouteMatcher([
   '/sign-up(.*)',
   '/api/recommend(.*)',
   '/api/quiz(.*)',
+  // dashboard redirects to sign-in itself if not authenticated
+  '/dashboard(.*)',
 ]);
 
 export default clerkMiddleware(async (auth, req) => {

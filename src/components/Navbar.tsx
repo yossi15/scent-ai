@@ -2,8 +2,9 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, LogIn } from 'lucide-react';
+import { Menu, X, LogIn, LayoutDashboard } from 'lucide-react';
 import { SignInButton, SignUpButton, UserButton, useUser } from '@clerk/nextjs';
+import Link from 'next/link';
 import Logo from './Logo';
 
 const navLinks = [
@@ -61,16 +62,16 @@ export default function Navbar() {
                 <div className="w-20 h-8 bg-gold-faint rounded-lg animate-pulse" />
               ) : isSignedIn ? (
                 <>
-                  <a href="#match" className="btn-gold px-5 py-2 text-xs font-hebrew rounded-lg tracking-wide">
-                    התחל עכשיו
-                  </a>
+                  <Link
+                    href="/dashboard"
+                    className="flex items-center gap-1.5 text-ink-muted hover:text-gold text-[13px] font-hebrew font-light transition-colors"
+                  >
+                    <LayoutDashboard className="w-3.5 h-3.5" />
+                    הדשבורד שלי
+                  </Link>
                   <UserButton
-                    appearance={{
-                      elements: {
-                        avatarBox: 'w-9 h-9 ring-2 ring-gold-border',
-                      },
-                    }}
-                  />
+                    appearance={{ elements: { avatarBox: 'w-9 h-9 ring-2 ring-gold-border' } }}
+                                      />
                 </>
               ) : (
                 <>
@@ -126,9 +127,19 @@ export default function Navbar() {
               {/* Mobile auth */}
               <div className="pt-3 flex flex-col gap-2">
                 {isSignedIn ? (
-                  <div className="flex items-center gap-3 py-2">
-                    <UserButton />
-                    <span className="text-sm font-hebrew text-ink-muted">הפרופיל שלי</span>
+                  <div className="flex flex-col gap-2">
+                    <Link
+                      href="/dashboard"
+                      onClick={() => setMobileOpen(false)}
+                      className="flex items-center gap-2 py-2.5 text-base font-hebrew text-ink-secondary hover:text-gold transition-colors"
+                    >
+                      <LayoutDashboard className="w-4 h-4" />
+                      הדשבורד שלי
+                    </Link>
+                    <div className="flex items-center gap-3 py-1">
+                      <UserButton />
+                      <span className="text-sm font-hebrew text-ink-muted">הגדרות חשבון</span>
+                    </div>
                   </div>
                 ) : (
                   <>
