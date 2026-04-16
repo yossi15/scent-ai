@@ -1,11 +1,11 @@
 'use client';
 
 import { useState, useMemo, useEffect, useCallback } from 'react';
+import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, SlidersHorizontal, X, Heart } from 'lucide-react';
 import { fragrances, type Fragrance } from '@/data/fragrances';
 import FragranceCard from './FragranceCard';
-import FragranceModal from './FragranceModal';
 import BuyOptions from './BuyOptions';
 
 const COLLECTION_KEY = 'scent-ai-collection';
@@ -116,10 +116,10 @@ function FilterRow({ label, options, active, onToggle }: {
 
 // ── Component ──────────────────────────────────────────────────────────────────
 export default function Collection() {
+  const router = useRouter();
   const [search, setSearch] = useState('');
   const [houseFilter, setHouseFilter] = useState('הכל');
   const [filters, setFilters] = useState<FilterGroup>(EMPTY_FILTERS);
-  const [selected, setSelected] = useState<Fragrance | null>(null);
   const [showHouseFilters, setShowHouseFilters] = useState(false);
   const [showSmartFilters, setShowSmartFilters] = useState(false);
   const [visibleCount, setVisibleCount] = useState(12);
@@ -363,7 +363,7 @@ export default function Collection() {
           {visible.map((f, i) => (
             <FragranceCard
               key={f.id} fragrance={f} index={i}
-              onClick={setSelected}
+              onClick={(f) => router.push(`/fragrance/${f.id}`)}
               inCollection={collection.has(f.id)}
               onToggleCollection={toggleCollection}
               onBuy={setBuyTarget}
@@ -397,7 +397,6 @@ export default function Collection() {
         )}
       </div>
 
-      <FragranceModal fragrance={selected} onClose={() => setSelected(null)} inCollection={selected ? collection.has(selected.id) : false} onToggleCollection={toggleCollection} onBuy={setBuyTarget} />
       <BuyOptions fragrance={buyTarget} onClose={() => setBuyTarget(null)} />
     </section>
   );
