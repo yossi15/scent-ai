@@ -66,7 +66,7 @@ export default function Hero() {
             className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/70 backdrop-blur-sm border border-gold-border mb-8"
           >
             <Sparkles className="w-3.5 h-3.5 text-gold" />
-            <span className="text-gold text-xs font-hebrew font-medium">פלטפורמת קיור בשמים מבוססת AI</span>
+            <span className="text-gold text-xs font-hebrew font-medium">שירות מנוי לבשמי נישה מבוסס AI</span>
           </motion.div>
 
           {/* Logo */}

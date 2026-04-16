@@ -4,7 +4,7 @@ import './globals.css';
 
 export const metadata: Metadata = {
   title: 'Scent AI — הבושם הבא שלך, מפוענח',
-  description: 'פלטפורמת קיור בשמים חכמה מבוססת בינה מלאכותית. גלה את הזהות הריחנית שלך.',
+  description: 'שירות מנוי לבשמי נישה מבוסס AI. גלה את הזהות הריחנית שלך.',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
