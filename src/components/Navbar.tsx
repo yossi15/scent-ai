@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, LogIn, LayoutDashboard } from 'lucide-react';
+import { Menu, X, LogIn, LayoutDashboard, User } from 'lucide-react';
 import { SignInButton, SignUpButton, UserButton, useUser } from '@clerk/nextjs';
 import Link from 'next/link';
 import Logo from './Logo';
@@ -68,6 +68,13 @@ export default function Navbar() {
                   >
                     <LayoutDashboard className="w-3.5 h-3.5" />
                     הדשבורד שלי
+                  </Link>
+                  <Link
+                    href="/account"
+                    className="flex items-center gap-1.5 text-ink-muted hover:text-gold text-[13px] font-hebrew font-light transition-colors"
+                  >
+                    <User className="w-3.5 h-3.5" />
+                    החשבון שלי
                   </Link>
                   <UserButton
                     appearance={{ elements: { avatarBox: 'w-9 h-9 ring-2 ring-gold-border' } }}
@@ -135,6 +142,14 @@ export default function Navbar() {
                     >
                       <LayoutDashboard className="w-4 h-4" />
                       הדשבורד שלי
+                    </Link>
+                    <Link
+                      href="/account"
+                      onClick={() => setMobileOpen(false)}
+                      className="flex items-center gap-2 py-2.5 text-base font-hebrew text-ink-secondary hover:text-gold transition-colors"
+                    >
+                      <User className="w-4 h-4" />
+                      החשבון שלי
                     </Link>
                     <div className="flex items-center gap-3 py-1">
                       <UserButton />

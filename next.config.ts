@@ -11,6 +11,14 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: 'fimgs.net',
       },
+      {
+        protocol: 'https',
+        hostname: 'amouage.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'us.parfums-de-marly.com',
+      },
     ],
   },
 };
