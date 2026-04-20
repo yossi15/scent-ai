@@ -1,14 +1,18 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Users, Shield, Award } from 'lucide-react';
+import { TrendingUp, Shield, Award, Sparkles, CreditCard, BadgeCheck } from 'lucide-react';
 
-const pressLogos = ['VOGUE', 'GQ', 'ESQUIRE', 'FORBES', 'ELLE', 'BAZAAR'];
+const partners = [
+  { icon: <Sparkles className="w-4 h-4" />,    label: 'Anthropic AI',       sub: 'Claude מנוע ההמלצות' },
+  { icon: <CreditCard className="w-4 h-4" />,  label: 'Stripe',             sub: 'תשלומים מאובטחים' },
+  { icon: <BadgeCheck className="w-4 h-4" />,  label: 'Verified Authentic', sub: 'אימות מקור' },
+];
 
 const stats = [
-  { icon: <Users className="w-5 h-5" />, value: '50,000+', label: 'חובבי בשמים פעילים' },
-  { icon: <Award className="w-5 h-5" />, value: '200+', label: 'בשמי נישה במאגר' },
-  { icon: <Shield className="w-5 h-5" />, value: '100%', label: 'מוצרים אותנטיים' },
+  { icon: <TrendingUp className="w-5 h-5" />, value: 'חדש',  label: 'משתמשים מצטרפים כל יום' },
+  { icon: <Award className="w-5 h-5" />,      value: '100',  label: 'בשמי נישה במאגר' },
+  { icon: <Shield className="w-5 h-5" />,     value: '100%', label: 'מוצרים אותנטיים' },
 ];
 
 export default function SocialProof() {
@@ -41,7 +45,7 @@ export default function SocialProof() {
           ))}
         </motion.div>
 
-        {/* Press */}
+        {/* Powered by */}
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
@@ -49,20 +53,25 @@ export default function SocialProof() {
           transition={{ duration: 0.8 }}
           className="text-center"
         >
-          <p className="text-ink-faint text-[11px] font-hebrew mb-6 font-light">כתבו עלינו ב</p>
-          <div className="flex items-center justify-center gap-8 md:gap-12 flex-wrap">
-            {pressLogos.map((name, i) => (
-              <motion.span
-                key={name}
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
+          <p className="text-ink-faint text-[11px] font-hebrew mb-6 font-light tracking-wider">
+            נתמך על ידי
+          </p>
+          <div className="flex items-center justify-center gap-4 md:gap-8 flex-wrap">
+            {partners.map((p, i) => (
+              <motion.div
+                key={p.label}
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: i * 0.08 }}
-                className="font-serif text-lg md:text-xl text-ink-faint/40 tracking-[0.1em] font-semibold select-none"
-                dir="ltr"
+                transition={{ duration: 0.4, delay: i * 0.1 }}
+                className="flex items-center gap-2 px-4 py-2.5 rounded-lg border border-black/[0.06] bg-bg-primary"
               >
-                {name}
-              </motion.span>
+                <span className="text-gold">{p.icon}</span>
+                <div className="text-right">
+                  <p className="font-serif text-sm text-ink font-semibold leading-tight" dir="ltr">{p.label}</p>
+                  <p className="text-ink-faint text-[10px] font-hebrew font-light">{p.sub}</p>
+                </div>
+              </motion.div>
             ))}
           </div>
         </motion.div>

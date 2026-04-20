@@ -13,6 +13,7 @@ import Diary from '@/components/Diary';
 import Testimonials from '@/components/Testimonials';
 import Subscription from '@/components/Subscription';
 import FAQ from '@/components/FAQ';
+import TrustStrip from '@/components/TrustStrip';
 import Footer from '@/components/Footer';
 import type { Fragrance } from '@/data/fragrances';
 
@@ -61,6 +62,8 @@ export default function Home() {
       <div className="gold-line max-w-xs mx-auto" />
 
       <FAQ />
+
+      <TrustStrip />
 
       <Footer />
     </main>
