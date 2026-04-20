@@ -79,7 +79,7 @@ export default function Hero() {
           </p>
 
           <p className="font-hebrew text-sm md:text-base text-ink-muted max-w-lg mx-auto leading-relaxed mb-10 font-light">
-            פלטפורמה חכמה שמנתחת את העדפות הריח שלך ומגלה את יצירת המופת הבאה — מבתי הבושם הנישתיים ביותר בעולם.
+            שירות מנוי לבשמי נישה מבוסס AI שמנתח את העדפות הריח שלך ומגלה את יצירת המופת הבאה — מבתי הבושם הנישתיים ביותר בעולם.
           </p>
         </motion.div>
 
