@@ -8,6 +8,7 @@ const isPublicRoute = createRouteMatcher([
   '/sign-up(.*)',
   '/api/recommend(.*)',
   '/api/quiz(.*)',
+  '/api/sample-request(.*)',
   // dashboard redirects to sign-in itself if not authenticated
   '/dashboard(.*)',
 ]);
