@@ -204,7 +204,15 @@ export default function Subscription() {
 
                 {/* CTA button — depends on auth + current subscription state */}
                 {!isLoaded ? (
-                  <div className="w-full h-11 bg-gold-faint rounded-lg animate-pulse" />
+                  <button
+                    disabled
+                    className={`w-full py-3 text-sm font-hebrew font-medium flex items-center justify-center gap-2 rounded-lg opacity-60 ${
+                      tier.highlight ? 'btn-gold' : 'btn-outline'
+                    }`}
+                  >
+                    <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                    טוען...
+                  </button>
                 ) : !isSignedIn ? (
                   <SignInButton mode="modal">
                     <button className={`w-full py-3 text-sm font-hebrew font-medium flex items-center justify-center gap-2 rounded-lg transition-all ${
