@@ -2,35 +2,10 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Brain, Sparkles, Droplets, AlertCircle } from 'lucide-react';
+import { Brain, Sparkles, Droplets, AlertCircle, Check, Send } from 'lucide-react';
+import Image from 'next/image';
 import { fragrances, type Fragrance } from '@/data/fragrances';
-
-// Pick best candidate algorithmically, then enrich reasoning via Claude API
-function getBestCandidate(collection: Fragrance[]): Fragrance | null {
-  const candidates = fragrances.filter((f) => !collection.find((c) => c.id === f.id));
-  if (candidates.length === 0) return null;
-
-  const avg = { woody: 0, floral: 0, oriental: 0, fresh: 0, gourmand: 0, animalic: 0 };
-  collection.forEach((f) => {
-    (Object.keys(avg) as (keyof typeof avg)[]).forEach((k) => { avg[k] += f.radarProfile[k]; });
-  });
-  (Object.keys(avg) as (keyof typeof avg)[]).forEach((k) => { avg[k] /= collection.length; });
-
-  let best = candidates[0];
-  let bestScore = -Infinity;
-  candidates.forEach((c) => {
-    let similarity = 0;
-    let novelty = 0;
-    (Object.keys(avg) as (keyof typeof avg)[]).forEach((k) => {
-      const diff = Math.abs(c.radarProfile[k] - avg[k]);
-      if (diff <= 2) similarity += (3 - diff);
-      if (c.radarProfile[k] > avg[k] + 2) novelty += (c.radarProfile[k] - avg[k]);
-    });
-    const score = similarity * 2 + novelty * 3 + c.rating * 2;
-    if (score > bestScore) { bestScore = score; best = c; }
-  });
-  return best;
-}
+import SampleRequestModal from './SampleRequestModal';
 
 const quickSelectOptions = [
   { id: 1, label: 'Aventus' },
@@ -47,15 +22,28 @@ const quickSelectOptions = [
   { id: 43, label: "Bal d'Afrique" },
 ];
 
+interface AIRec {
+  id: number | null;
+  name: string;
+  house: string;
+  family: string;
+  reason: string;
+  inCatalog: boolean;
+}
+
 interface Props {
   onCollectionChange?: (collection: Fragrance[]) => void;
 }
 
+const COLLECTION_KEY = 'scent-ai-collection';
+
 export default function SignatureMatch({ onCollectionChange }: Props) {
   const [myCollection, setMyCollection] = useState<Fragrance[]>([]);
-  const [result, setResult] = useState<{ match: Fragrance; reasoning: string } | null>(null);
+  const [recs, setRecs] = useState<AIRec[]>([]);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [addedIds, setAddedIds] = useState<Set<number>>(new Set());
+  const [sampleModal, setSampleModal] = useState<{ name: string; brand: string } | null>(null);
 
   useEffect(() => {
     onCollectionChange?.(myCollection);
@@ -67,36 +55,50 @@ export default function SignatureMatch({ onCollectionChange }: Props) {
     setMyCollection((prev) =>
       prev.find((f) => f.id === id) ? prev.filter((f) => f.id !== id) : [...prev, frag]
     );
-    setResult(null);
+    setRecs([]);
     setError(null);
   };
 
   const analyze = async () => {
     setIsAnalyzing(true);
-    setResult(null);
+    setRecs([]);
     setError(null);
-
-    const candidate = getBestCandidate(myCollection);
-    if (!candidate) {
-      setIsAnalyzing(false);
-      return;
-    }
 
     try {
       const res = await fetch('/api/recommend', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ collection: myCollection, candidate }),
+        body: JSON.stringify({
+          collection: myCollection.map(f => ({
+            id: f.id, name: f.name, house: f.house, family: f.family, tags: f.tags,
+          })),
+          catalog: fragrances
+            .filter(f => !myCollection.find(c => c.id === f.id))
+            .map(f => ({ id: f.id, name: f.name, house: f.house, family: f.family })),
+        }),
       });
 
       if (!res.ok) throw new Error('API error');
       const data = await res.json();
-      setResult({ match: candidate, reasoning: data.reasoning });
+      setRecs(data.recommendations ?? []);
     } catch {
       setError('משהו השתבש, נסה שוב');
     } finally {
       setIsAnalyzing(false);
     }
+  };
+
+  const addToCollectionStorage = (fragranceId: number) => {
+    try {
+      const saved = localStorage.getItem(COLLECTION_KEY);
+      const ids: number[] = saved ? JSON.parse(saved) : [];
+      if (!ids.includes(fragranceId)) {
+        ids.push(fragranceId);
+        localStorage.setItem(COLLECTION_KEY, JSON.stringify(ids));
+        window.dispatchEvent(new CustomEvent('scent:collection-add', { detail: fragranceId }));
+      }
+    } catch {}
+    setAddedIds(prev => new Set([...prev, fragranceId]));
   };
 
   return (
@@ -116,7 +118,7 @@ export default function SignatureMatch({ onCollectionChange }: Props) {
             התאמת חתימה
           </h2>
           <p className="text-ink-muted text-sm font-hebrew max-w-md mx-auto font-light">
-            בחר את הבשמים שבאוסף שלך ותן ל-AI לגלות את יצירת המופת הבאה
+            בחר את הבשמים שבאוסף שלך ותן ל-AI לגלות 3 יצירות מופת שמתאימות לך
           </p>
         </motion.div>
 
@@ -157,7 +159,6 @@ export default function SignatureMatch({ onCollectionChange }: Props) {
             disabled={myCollection.length < 2 || isAnalyzing}
             className="btn-gold w-full py-3.5 font-hebrew text-sm tracking-wide rounded-lg disabled:opacity-40 disabled:cursor-not-allowed disabled:transform-none disabled:shadow-none flex items-center justify-center gap-2.5 relative overflow-hidden"
           >
-            {/* shimmer sweep during loading */}
             {isAnalyzing && (
               <motion.span
                 className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
@@ -182,7 +183,7 @@ export default function SignatureMatch({ onCollectionChange }: Props) {
             ) : (
               <>
                 <Brain className="w-4 h-4" />
-                מצא את יצירת המופת הבאה שלי
+                מצא 3 יצירות מופת עבורי
               </>
             )}
           </button>
@@ -205,98 +206,122 @@ export default function SignatureMatch({ onCollectionChange }: Props) {
             >
               <AlertCircle className="w-3.5 h-3.5 flex-shrink-0" />
               <span className="flex-1">{error}</span>
-              <button
-                onClick={() => setError(null)}
-                className="text-red-400 hover:text-red-600 transition-colors ml-1"
-                aria-label="סגור"
-              >
-                ✕
-              </button>
+              <button onClick={() => setError(null)} className="text-red-400 hover:text-red-600 transition-colors ml-1" aria-label="סגור">✕</button>
             </motion.div>
           )}
         </AnimatePresence>
 
         <AnimatePresence>
-          {result && (
+          {recs.length > 0 && (
             <motion.div
-              initial={{ opacity: 0, y: 24, scale: 0.98 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: -16, scale: 0.98 }}
-              transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -16 }}
+              transition={{ duration: 0.5 }}
               className="card-gold p-6 md:p-8"
             >
               <div className="flex items-center gap-2 mb-6">
                 <Sparkles className="w-4 h-4 text-gold" />
                 <p className="text-gold text-xs font-hebrew font-medium">
-                  יצירת המופת הבאה שלך — ניתוח Claude AI
+                  3 יצירות מופת עבורך — ניתוח Claude AI
                 </p>
               </div>
 
-              <div className="flex flex-col md:flex-row gap-6">
-                <div className="flex-1">
-                  <Droplets className="w-10 h-10 text-gold/30 mb-3" />
-                  <p className="text-gold text-[10px] tracking-[0.25em] uppercase font-sans font-medium" dir="ltr">
-                    {result.match.house}
-                  </p>
-                  <h3 className="font-serif text-3xl text-ink mt-1 mb-2 font-semibold" dir="ltr">
-                    {result.match.name}
-                  </h3>
-                  <p className="text-ink-faint text-xs font-sans mb-4" dir="ltr">
-                    {result.match.family} &middot; {result.match.concentration} &middot; ₪{result.match.price.toLocaleString()}
-                  </p>
+              <div className="flex flex-col gap-4">
+                {recs.map((rec, i) => {
+                  const fragrance = rec.id != null
+                    ? fragrances.find(f => f.id === rec.id)
+                    : undefined;
+                  const inCatalog = rec.inCatalog && !!fragrance;
+                  return (
+                    <motion.div
+                      key={`${rec.id ?? 'ext'}-${i}`}
+                      initial={{ opacity: 0, y: 16 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: i * 0.12 }}
+                      className="bg-white/80 rounded-2xl border border-black/[0.06] p-4 shadow-sm"
+                    >
+                      <div className="flex gap-4">
+                        <div className="w-16 h-20 rounded-xl bg-gradient-to-br from-amber-50 to-stone-100 flex items-center justify-center flex-shrink-0 overflow-hidden border border-black/[0.05]">
+                          {fragrance?.image ? (
+                            <Image
+                              src={fragrance.image}
+                              alt={fragrance.name}
+                              width={64}
+                              height={80}
+                              className="object-contain w-full h-full"
+                            />
+                          ) : (
+                            <Droplets className="w-7 h-7 text-gold/30" />
+                          )}
+                        </div>
 
-                  <div className="bg-bg-secondary rounded-xl p-4 mb-4">
-                    <div className="flex items-center gap-2 mb-2">
-                      <Brain className="w-3 h-3 text-gold" />
-                      <span className="text-gold text-[10px] font-hebrew font-medium">ניתוח Claude AI</span>
-                    </div>
-                    <p className="text-ink-secondary text-sm font-hebrew leading-relaxed font-light">
-                      {result.reasoning}
-                    </p>
-                  </div>
-                </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-start justify-between gap-2 mb-1">
+                            <div className="min-w-0">
+                              <p className="font-serif text-base text-ink font-semibold" dir="ltr">{rec.name}</p>
+                              <p className="text-[11px] text-ink-muted font-sans truncate" dir="ltr">
+                                {rec.house} · {rec.family}
+                                {fragrance?.price ? ` · ₪${fragrance.price.toLocaleString()}` : ''}
+                              </p>
+                            </div>
+                            {inCatalog ? (
+                              <span className="shrink-0 text-[10px] font-hebrew bg-green-50 text-green-700 border border-green-200 px-2 py-0.5 rounded-full">
+                                זמין לדגימה
+                              </span>
+                            ) : (
+                              <span className="shrink-0 text-[10px] font-hebrew bg-gold-faint text-gold border border-gold/30 px-2 py-0.5 rounded-full">
+                                בקרוב
+                              </span>
+                            )}
+                          </div>
 
-                <div className="md:w-64">
-                  <div className="flex items-center gap-2 mb-3">
-                    <Droplets className="w-4 h-4 text-gold" />
-                    <h4 className="font-serif text-base text-ink font-semibold">פירמידת הריח</h4>
-                  </div>
+                          <p className="text-[12px] font-hebrew text-ink-secondary leading-relaxed mt-2 mb-3">
+                            <Sparkles className="w-3 h-3 text-gold inline ml-1 -mt-0.5" />
+                            {rec.reason}
+                          </p>
 
-                  {(['top', 'heart', 'base'] as const).map((type) => {
-                    const notes = result.match.notes.filter((n) => n.type === type);
-                    if (notes.length === 0) return null;
-                    const labels = { top: '🌿 ראש', heart: '🌸 לב', base: '🪵 בסיס' };
-                    const noteStyles = {
-                      top: 'bg-emerald-50 text-emerald-700 border-emerald-200',
-                      heart: 'bg-rose-50 text-rose-700 border-rose-200',
-                      base: 'bg-amber-50 text-amber-700 border-amber-200',
-                    };
-                    return (
-                      <div key={type} className="mb-3">
-                        <p className="text-[11px] font-hebrew mb-1.5 text-ink-muted">{labels[type]}</p>
-                        <div className="flex flex-wrap gap-1" dir="ltr">
-                          {notes.map((n) => (
-                            <span key={n.name} className={`text-[11px] px-2 py-0.5 border rounded-full font-sans ${noteStyles[type]}`}>
-                              {n.name}
-                            </span>
-                          ))}
+                          {inCatalog && rec.id != null ? (
+                            <button
+                              onClick={() => addToCollectionStorage(rec.id!)}
+                              disabled={addedIds.has(rec.id)}
+                              className={`inline-flex items-center gap-1.5 text-xs font-hebrew px-3 py-1.5 rounded-lg border transition-all duration-200 ${
+                                addedIds.has(rec.id)
+                                  ? 'bg-green-50 border-green-200 text-green-700'
+                                  : 'bg-green-50 border-green-300 text-green-700 hover:bg-green-600 hover:text-white hover:border-green-600'
+                              }`}
+                            >
+                              {addedIds.has(rec.id) ? (
+                                <><Check className="w-3 h-3" /> נוסף לאוסף!</>
+                              ) : (
+                                <><span className="text-base leading-none">+</span> הוסף לאוסף</>
+                              )}
+                            </button>
+                          ) : (
+                            <button
+                              onClick={() => setSampleModal({ name: rec.name, brand: rec.house })}
+                              className="inline-flex items-center gap-1.5 text-xs font-hebrew px-3 py-1.5 rounded-lg border bg-gold-faint border-gold/30 text-gold hover:bg-gold hover:text-white transition-all duration-200"
+                            >
+                              <Send className="w-3 h-3" /> בקש דגימה
+                            </button>
+                          )}
                         </div>
                       </div>
-                    );
-                  })}
-
-                  <button
-                    onClick={() => document.getElementById('collection')?.scrollIntoView({ behavior: 'smooth' })}
-                    className="btn-gold w-full mt-4 py-2.5 text-xs font-hebrew rounded-lg"
-                  >
-                    צפה בקולקציה
-                  </button>
-                </div>
+                    </motion.div>
+                  );
+                })}
               </div>
             </motion.div>
           )}
         </AnimatePresence>
       </div>
+
+      <SampleRequestModal
+        open={!!sampleModal}
+        onClose={() => setSampleModal(null)}
+        fragranceName={sampleModal?.name ?? ''}
+        brand={sampleModal?.brand ?? ''}
+      />
     </section>
   );
 }

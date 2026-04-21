@@ -47,23 +47,20 @@ interface Answers {
   previousFragrance?: string;
 }
 
+const SYSTEM = `אתה מומחה בשמים. תמליץ על 3 בשמים מכל בושם שקיים בעולם, לא רק מהמאגר שלנו.
+לכל המלצה ציין: שם, בית בושם, משפחת ריח, למה מתאים למשתמש.
+אם הבושם קיים במאגר שלנו — ציין "זמין לדגימה".
+אם לא — ציין "ניתן לבקש דגימה".`;
+
 export async function POST(req: NextRequest) {
   try {
     const { answers, candidates } = await req.json() as { answers: Answers; candidates: Candidate[] };
 
-    if (!candidates?.length) {
-      return NextResponse.json({ error: 'Missing candidates' }, { status: 400 });
-    }
-
-    const candidatesList = candidates
-      .map(f =>
-        `ID:${f.id} | ${f.name} (${f.house}) | ${f.family} | ${f.concentration} | ₪${f.price.toLocaleString()} | עמידות:${f.longevity}/10 | הקרנה:${f.sillage}/10 | תגיות:${f.tags.join(', ')}`
-      )
+    const catalogList = (candidates ?? [])
+      .map(f => `ID:${f.id} | ${f.name} | ${f.house} | ${f.family} | ₪${f.price.toLocaleString()}`)
       .join('\n');
 
-    const prompt = `אתה מומחה בשמים מוביל בישראל. המשתמש ענה על שאלון טעמים וחפש בושם חדש.
-
-פרופיל המשתמש:
+    const prompt = `פרופיל המשתמש:
 • סוג ריח מועדף: ${SCENT_MAP[answers.scentType ?? ''] ?? answers.scentType ?? 'לא צוין'}
 • עונה עיקרית: ${SEASON_MAP[answers.season ?? ''] ?? answers.season ?? 'לא צוין'}
 • אירוע: ${OCCASION_MAP[answers.occasion ?? ''] ?? answers.occasion ?? 'לא צוין'}
@@ -72,15 +69,21 @@ export async function POST(req: NextRequest) {
 • תקציב: ${BUDGET_MAP[answers.budget ?? ''] ?? answers.budget ?? 'לא צוין'}
 ${answers.previousFragrance ? `• בושם שאהב בעבר: ${answers.previousFragrance}` : ''}
 
-בחר בדיוק 3 בשמים מהרשימה שהכי מתאימים לפרופיל הזה:
-${candidatesList}
+המאגר שלנו (זמין לדגימה מיידית):
+${catalogList}
+
+בחר 3 בשמים מכל בושם שקיים בעולם שמתאימים הכי טוב לפרופיל הזה. אתה יכול לבחור מהמאגר שלנו או מבשמים אחרים שאינם במאגר.
 
 החזר JSON בלבד, ללא markdown:
-{"recommendations":[{"id":<מספר>,"name":"<שם>","reason":"<2 משפטים בעברית למה זה מתאים לפרופיל>"},{"id":<מספר>,"name":"<שם>","reason":"<הסבר>"},{"id":<מספר>,"name":"<שם>","reason":"<הסבר>"}]}`;
+{"recommendations":[
+  {"id":<מספר אם מהמאגר, אחרת null>,"name":"<שם לועזי>","house":"<בית בושם>","family":"<משפחת ריח>","reason":"<2 משפטים בעברית למה מתאים>","inCatalog":<true/false>},
+  ...
+]}`;
 
     const message = await client.messages.create({
       model: 'claude-sonnet-4-20250514',
-      max_tokens: 600,
+      max_tokens: 900,
+      system: SYSTEM,
       messages: [{ role: 'user', content: prompt }],
     });
 
@@ -88,8 +91,28 @@ ${candidatesList}
     const jsonMatch = text.match(/\{[\s\S]*\}/);
     if (!jsonMatch) throw new Error('No JSON in response');
 
-    const data = JSON.parse(jsonMatch[0]);
-    return NextResponse.json(data);
+    const data = JSON.parse(jsonMatch[0]) as { recommendations: Array<{
+      id: number | null; name: string; house: string; family: string; reason: string; inCatalog: boolean;
+    }> };
+
+    // Server-side verification: match by ID first, then name (case-insensitive)
+    const catalogById = new Map((candidates ?? []).map(c => [c.id, c]));
+    const catalogByName = new Map((candidates ?? []).map(c => [c.name.toLowerCase().trim(), c]));
+
+    const recs = (data.recommendations ?? []).map(rec => {
+      let match = rec.id != null ? catalogById.get(rec.id) : undefined;
+      if (!match) match = catalogByName.get(rec.name.toLowerCase().trim());
+      return {
+        id: match?.id ?? null,
+        name: rec.name,
+        house: match?.house ?? rec.house,
+        family: match?.family ?? rec.family,
+        reason: rec.reason,
+        inCatalog: !!match,
+      };
+    });
+
+    return NextResponse.json({ recommendations: recs });
   } catch (err) {
     console.error('Quiz API error:', err);
     return NextResponse.json({ error: 'Internal error' }, { status: 500 });

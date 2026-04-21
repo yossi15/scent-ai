@@ -8,57 +8,90 @@ interface FragranceInput {
   name: string;
   house: string;
   family: string;
-  concentration: string;
-  price: number;
-  rating: number;
-  longevity: number;
-  sillage: number;
-  tags: string[];
-  notes: { name: string; type: string }[];
-  radarProfile: {
-    woody: number;
-    floral: number;
-    oriental: number;
-    fresh: number;
-    gourmand: number;
-    animalic: number;
-  };
+  concentration?: string;
+  price?: number;
+  tags?: string[];
 }
 
+interface CatalogEntry {
+  id: number;
+  name: string;
+  house: string;
+  family: string;
+}
+
+const SYSTEM = `אתה מומחה בשמים. תמליץ על 3 בשמים מכל בושם שקיים בעולם, לא רק מהמאגר שלנו.
+לכל המלצה ציין: שם, בית בושם, משפחת ריח, למה מתאים למשתמש.
+אם הבושם קיים במאגר שלנו — ציין "זמין לדגימה".
+אם לא — ציין "ניתן לבקש דגימה".`;
+
 export async function POST(req: NextRequest) {
-  const { collection, candidate } = await req.json() as {
-    collection: FragranceInput[];
-    candidate: FragranceInput;
-  };
+  try {
+    const { collection, catalog } = await req.json() as {
+      collection: FragranceInput[];
+      catalog?: CatalogEntry[];
+    };
 
-  if (!collection?.length || !candidate) {
-    return NextResponse.json({ error: 'Missing data' }, { status: 400 });
-  }
+    if (!collection?.length) {
+      return NextResponse.json({ error: 'Missing collection' }, { status: 400 });
+    }
 
-  const collectionDesc = collection
-    .map(f => `- ${f.name} (${f.house}) — ${f.family}, תגיות: ${f.tags.join(', ')}`)
-    .join('\n');
+    const collectionDesc = collection
+      .map(f => `- ${f.name} (${f.house}) — ${f.family}${f.tags?.length ? `, תגיות: ${f.tags.join(', ')}` : ''}`)
+      .join('\n');
 
-  const prompt = `אתה מומחה בשמים עם ידע עמוק בתרבות הניש.
+    const catalogList = (catalog ?? [])
+      .map(c => `ID:${c.id} | ${c.name} | ${c.house} | ${c.family}`)
+      .join('\n');
 
-האוסף הנוכחי של המשתמש:
+    const prompt = `האוסף הנוכחי של המשתמש:
 ${collectionDesc}
 
-הבושם המומלץ לנסות הבא: ${candidate.name} של ${candidate.house} (${candidate.family}, ${candidate.concentration}, ₪${candidate.price.toLocaleString()})
+המאגר שלנו (זמין לדגימה מיידית):
+${catalogList}
 
-כתוב המלצה אישית בעברית — 2-3 משפטים בלבד — שמסבירים:
-1. למה הבושם הזה מתאים ל-DNA הריחני של המשתמש בהתבסס על האוסף שלו
-2. מה חדש וייחודי שהוא יכניס לאוסף
+בחר 3 בשמים מכל בושם שקיים בעולם שיתאימו הכי טוב ל-DNA הריחני של המשתמש בהתבסס על האוסף. אתה יכול לבחור מהמאגר שלנו או מבשמים אחרים שלא במאגר.
 
-כתוב בסגנון מקצועי אך חם, כמו מומחה בושם שמדבר ישירות ללקוח.
-החזר רק את הטקסט, בלי כותרות או נקודות.`;
+החזר JSON בלבד, ללא markdown:
+{"recommendations":[
+  {"id":<מספר אם מהמאגר, אחרת null>,"name":"<שם לועזי>","house":"<בית בושם>","family":"<משפחת ריח>","reason":"<2-3 משפטים בעברית שמסבירים למה מתאים ל-DNA ומה חדש שייכניס לאוסף>","inCatalog":<true/false>},
+  ...
+]}`;
 
-  const message = await client.messages.create({
-    model: 'claude-sonnet-4-20250514',
-    max_tokens: 256,
-    messages: [{ role: 'user', content: prompt }],
-  });
+    const message = await client.messages.create({
+      model: 'claude-sonnet-4-20250514',
+      max_tokens: 900,
+      system: SYSTEM,
+      messages: [{ role: 'user', content: prompt }],
+    });
 
-  const text = message.content[0].type === 'text' ? message.content[0].text : '';
-  return NextResponse.json({ reasoning: text });
+    const text = message.content[0].type === 'text' ? message.content[0].text : '{}';
+    const jsonMatch = text.match(/\{[\s\S]*\}/);
+    if (!jsonMatch) throw new Error('No JSON in response');
+
+    const data = JSON.parse(jsonMatch[0]) as { recommendations: Array<{
+      id: number | null; name: string; house: string; family: string; reason: string; inCatalog: boolean;
+    }> };
+
+    const catalogById = new Map((catalog ?? []).map(c => [c.id, c]));
+    const catalogByName = new Map((catalog ?? []).map(c => [c.name.toLowerCase().trim(), c]));
+
+    const recs = (data.recommendations ?? []).map(rec => {
+      let match = rec.id != null ? catalogById.get(rec.id) : undefined;
+      if (!match) match = catalogByName.get(rec.name.toLowerCase().trim());
+      return {
+        id: match?.id ?? null,
+        name: rec.name,
+        house: match?.house ?? rec.house,
+        family: match?.family ?? rec.family,
+        reason: rec.reason,
+        inCatalog: !!match,
+      };
+    });
+
+    return NextResponse.json({ recommendations: recs });
+  } catch (err) {
+    console.error('Recommend API error:', err);
+    return NextResponse.json({ error: 'Internal error' }, { status: 500 });
+  }
 }

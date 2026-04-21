@@ -28,14 +28,27 @@
  *   created_at   TIMESTAMPTZ DEFAULT NOW()
  * );
  *
+ * CREATE TABLE sample_requests (
+ *   id             UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+ *   email          TEXT NOT NULL,
+ *   name           TEXT,
+ *   fragrance_name TEXT NOT NULL,
+ *   brand          TEXT,
+ *   created_at     TIMESTAMPTZ DEFAULT NOW()
+ * );
+ * CREATE INDEX sample_requests_email_idx ON sample_requests(email);
+ *
  * -- Row Level Security (recommended for production)
  * ALTER TABLE user_collection ENABLE ROW LEVEL SECURITY;
  * ALTER TABLE diary_entries   ENABLE ROW LEVEL SECURITY;
+ * ALTER TABLE sample_requests ENABLE ROW LEVEL SECURITY;
  *
  * CREATE POLICY "own collection" ON user_collection
  *   FOR ALL USING (true) WITH CHECK (true);
  * CREATE POLICY "own diary" ON diary_entries
  *   FOR ALL USING (true) WITH CHECK (true);
+ * CREATE POLICY "insert samples" ON sample_requests
+ *   FOR INSERT WITH CHECK (true);
  * ─────────────────────────────────────────────────────────────
  * (Security is enforced at the API route level via Clerk auth.)
  */

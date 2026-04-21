@@ -2,9 +2,10 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles, X, ChevronRight, RotateCcw, Check, Loader2 } from 'lucide-react';
+import { Sparkles, X, ChevronRight, RotateCcw, Check, Loader2, Droplets, Send } from 'lucide-react';
 import { fragrances, type Fragrance } from '@/data/fragrances';
 import Image from 'next/image';
+import SampleRequestModal from './SampleRequestModal';
 
 // ── Questions ──────────────────────────────────────────────────────────────────
 
@@ -117,9 +118,12 @@ function getTopCandidates(answers: Answers): Fragrance[] {
 // ── Types ─────────────────────────────────────────────────────────────────────
 
 interface AIRec {
-  id: number;
+  id: number | null;
   name: string;
+  house: string;
+  family: string;
   reason: string;
+  inCatalog: boolean;
 }
 
 const COLLECTION_KEY = 'scent-ai-collection';
@@ -154,9 +158,16 @@ function OptionTile({
 }
 
 function FragranceResultCard({
-  rec, fragrance, added, onAdd,
-}: { rec: AIRec; fragrance?: Fragrance; added: boolean; onAdd: () => void }) {
+  rec, fragrance, added, onAdd, onRequestSample,
+}: {
+  rec: AIRec;
+  fragrance?: Fragrance;
+  added: boolean;
+  onAdd: () => void;
+  onRequestSample: () => void;
+}) {
   const [imgError, setImgError] = useState(false);
+  const inCatalog = rec.inCatalog && !!fragrance;
 
   return (
     <motion.div
@@ -177,26 +188,29 @@ function FragranceResultCard({
               onError={() => setImgError(true)}
             />
           ) : (
-            <span className="text-2xl">
-              {rec.name.charAt(0)}
-            </span>
+            <div className="w-full h-full flex items-center justify-center">
+              <Droplets className="w-7 h-7 text-gold/30" />
+            </div>
           )}
         </div>
 
         {/* Info */}
         <div className="flex-1 min-w-0">
           <div className="flex items-start justify-between gap-2 mb-1">
-            <div>
+            <div className="min-w-0">
               <p className="font-serif text-base text-ink font-semibold" dir="ltr">{rec.name}</p>
-              {fragrance && (
-                <p className="text-[11px] text-ink-muted font-sans" dir="ltr">
-                  {fragrance.house} · {fragrance.family} · ₪{fragrance.price.toLocaleString()}
-                </p>
-              )}
+              <p className="text-[11px] text-ink-muted font-sans truncate" dir="ltr">
+                {rec.house} · {rec.family}
+                {fragrance?.price ? ` · ₪${fragrance.price.toLocaleString()}` : ''}
+              </p>
             </div>
-            {fragrance && (
-              <span className="shrink-0 text-xs font-sans text-ink-faint bg-gold/10 text-gold px-2 py-0.5 rounded-full">
-                {fragrance.concentration}
+            {inCatalog ? (
+              <span className="shrink-0 text-[10px] font-hebrew bg-green-50 text-green-700 border border-green-200 px-2 py-0.5 rounded-full">
+                זמין לדגימה
+              </span>
+            ) : (
+              <span className="shrink-0 text-[10px] font-hebrew bg-gold-faint text-gold border border-gold/30 px-2 py-0.5 rounded-full">
+                בקרוב
               </span>
             )}
           </div>
@@ -206,21 +220,30 @@ function FragranceResultCard({
             {rec.reason}
           </p>
 
-          <button
-            onClick={onAdd}
-            disabled={added}
-            className={`inline-flex items-center gap-1.5 text-xs font-hebrew px-3 py-1.5 rounded-lg border transition-all duration-200 ${
-              added
-                ? 'bg-green-50 border-green-200 text-green-700'
-                : 'bg-gold-faint border-gold/30 text-gold hover:bg-gold hover:text-white'
-            }`}
-          >
-            {added ? (
-              <><Check className="w-3 h-3" /> נוסף לאוסף!</>
-            ) : (
-              <><span className="text-base leading-none">+</span> הוסף לאוסף שלי</>
-            )}
-          </button>
+          {inCatalog ? (
+            <button
+              onClick={onAdd}
+              disabled={added}
+              className={`inline-flex items-center gap-1.5 text-xs font-hebrew px-3 py-1.5 rounded-lg border transition-all duration-200 ${
+                added
+                  ? 'bg-green-50 border-green-200 text-green-700'
+                  : 'bg-green-50 border-green-300 text-green-700 hover:bg-green-600 hover:text-white hover:border-green-600'
+              }`}
+            >
+              {added ? (
+                <><Check className="w-3 h-3" /> נוסף לאוסף!</>
+              ) : (
+                <><span className="text-base leading-none">+</span> הוסף לאוסף</>
+              )}
+            </button>
+          ) : (
+            <button
+              onClick={onRequestSample}
+              className="inline-flex items-center gap-1.5 text-xs font-hebrew px-3 py-1.5 rounded-lg border bg-gold-faint border-gold/30 text-gold hover:bg-gold hover:text-white transition-all duration-200"
+            >
+              <Send className="w-3 h-3" /> בקש דגימה
+            </button>
+          )}
         </div>
       </div>
     </motion.div>
@@ -237,6 +260,7 @@ export default function TasteQuiz() {
   const [aiRecs, setAiRecs] = useState<AIRec[]>([]);
   const [addedIds, setAddedIds] = useState<Set<number>>(new Set());
   const [isLoading, setIsLoading] = useState(false);
+  const [sampleModal, setSampleModal] = useState<{ name: string; brand: string } | null>(null);
 
   // ESC to close + body scroll lock
   useEffect(() => {
@@ -277,6 +301,9 @@ export default function TasteQuiz() {
       setAiRecs(candidates.slice(0, 3).map(f => ({
         id: f.id,
         name: f.name,
+        house: f.house,
+        family: f.family,
+        inCatalog: true,
         reason: `${f.name} של ${f.house} הוא התאמה מושלמת — ${f.family} עם תגיות ${f.tags.slice(0, 2).join(' ו')} שמתאימות בדיוק לפרופיל שלך.`,
       })));
     } finally {
@@ -314,7 +341,9 @@ export default function TasteQuiz() {
 
   const matchedRecs = aiRecs.map(rec => ({
     rec,
-    fragrance: fragrances.find(f => f.id === rec.id || f.name.toLowerCase() === rec.name.toLowerCase()),
+    fragrance: rec.id != null
+      ? fragrances.find(f => f.id === rec.id)
+      : fragrances.find(f => f.name.toLowerCase() === rec.name.toLowerCase()),
   }));
 
   return (
@@ -567,7 +596,7 @@ export default function TasteQuiz() {
                       </p>
                       {matchedRecs.map(({ rec, fragrance }, i) => (
                         <motion.div
-                          key={rec.id || i}
+                          key={`${rec.id ?? 'ext'}-${i}`}
                           initial={{ opacity: 0, y: 16 }}
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ delay: i * 0.12 }}
@@ -575,8 +604,9 @@ export default function TasteQuiz() {
                           <FragranceResultCard
                             rec={rec}
                             fragrance={fragrance}
-                            added={addedIds.has(rec.id)}
-                            onAdd={() => addToCollection(rec.id)}
+                            added={rec.id != null && addedIds.has(rec.id)}
+                            onAdd={() => rec.id != null && addToCollection(rec.id)}
+                            onRequestSample={() => setSampleModal({ name: rec.name, brand: rec.house })}
                           />
                         </motion.div>
                       ))}
@@ -598,6 +628,13 @@ export default function TasteQuiz() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      <SampleRequestModal
+        open={!!sampleModal}
+        onClose={() => setSampleModal(null)}
+        fragranceName={sampleModal?.name ?? ''}
+        brand={sampleModal?.brand ?? ''}
+      />
     </>
   );
 }
