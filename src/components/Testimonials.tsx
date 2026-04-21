@@ -6,7 +6,7 @@ import { Star, Quote, User } from 'lucide-react';
 const testimonials = [
   {
     name: 'דניאל כ.',
-    role: 'בודק מוקדם',
+    role: 'Early Tester',
     scent: 'Aventus',
     stars: 5,
     text: 'ה-AI הציע לי את Grand Soir ולא האמנתי כמה הוא דומה לטעם שלי. שירות ברמה אחרת.',
@@ -14,7 +14,7 @@ const testimonials = [
   },
   {
     name: 'מיכל ל.',
-    role: 'בודקת מוקדמת',
+    role: 'Early Tester',
     scent: 'Baccarat Rouge 540',
     stars: 5,
     text: 'הדגימות מגיעות עם כרטיס אישי שמסביר למה ה-AI בחר כל בושם. ההשקעה בפרטים מטורפת.',
@@ -22,7 +22,7 @@ const testimonials = [
   },
   {
     name: 'אורי ש.',
-    role: 'בודק מוקדם',
+    role: 'Early Tester',
     scent: 'Oud Wood',
     stars: 5,
     text: 'הרדאר ריחות פתח לי את העיניים. גיליתי שאני נוטה למזרחי-עצי ומאז כל קנייה מדויקת.',
@@ -84,7 +84,7 @@ export default function Testimonials() {
                   </div>
                   <div>
                     <p className="text-ink font-hebrew text-sm font-medium">{t.name}</p>
-                    <p className="text-ink-faint text-[11px] font-hebrew">{t.role}</p>
+                    <p className="text-ink-faint text-[11px] font-sans" dir="ltr">{t.role}</p>
                   </div>
                 </div>
                 <div className="text-left" dir="ltr">

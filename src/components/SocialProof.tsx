@@ -1,11 +1,11 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { TrendingUp, Shield, Award, Sparkles, CreditCard, BadgeCheck } from 'lucide-react';
+import { TrendingUp, Shield, Award, Lock, CreditCard, BadgeCheck } from 'lucide-react';
 
 const partners = [
-  { icon: <Sparkles className="w-4 h-4" />,    label: 'Anthropic AI',       sub: 'Claude מנוע ההמלצות' },
   { icon: <CreditCard className="w-4 h-4" />,  label: 'Stripe',             sub: 'תשלומים מאובטחים' },
+  { icon: <Lock className="w-4 h-4" />,        label: 'SSL / HTTPS',        sub: 'הצפנה מלאה' },
   { icon: <BadgeCheck className="w-4 h-4" />,  label: 'Verified Authentic', sub: 'אימות מקור' },
 ];
 
@@ -54,7 +54,7 @@ export default function SocialProof() {
           className="text-center"
         >
           <p className="text-ink-faint text-[11px] font-hebrew mb-6 font-light tracking-wider">
-            נתמך על ידי
+            מאובטח על ידי
           </p>
           <div className="flex items-center justify-center gap-4 md:gap-8 flex-wrap">
             {partners.map((p, i) => (
