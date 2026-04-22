@@ -6,6 +6,7 @@ import { Brain, Sparkles, Droplets, AlertCircle, Check, Send } from 'lucide-reac
 import Image from 'next/image';
 import { fragrances, type Fragrance } from '@/data/fragrances';
 import SampleRequestModal from './SampleRequestModal';
+import { SkeletonRecCard } from './Skeleton';
 
 const quickSelectOptions = [
   { id: 1, label: 'Aventus' },
@@ -207,6 +208,29 @@ export default function SignatureMatch({ onCollectionChange }: Props) {
               <AlertCircle className="w-3.5 h-3.5 flex-shrink-0" />
               <span className="flex-1">{error}</span>
               <button onClick={() => setError(null)} className="text-red-400 hover:text-red-600 transition-colors ml-1" aria-label="סגור">✕</button>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        <AnimatePresence>
+          {isAnalyzing && recs.length === 0 && (
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0 }}
+              className="card-gold p-6 md:p-8 mb-6"
+            >
+              <div className="flex items-center gap-2 mb-6">
+                <Sparkles className="w-4 h-4 text-gold" />
+                <p className="text-gold text-xs font-hebrew font-medium">
+                  Claude AI חושב על 3 יצירות מופת עבורך...
+                </p>
+              </div>
+              <div className="flex flex-col gap-4">
+                <SkeletonRecCard delay={0} />
+                <SkeletonRecCard delay={0.1} />
+                <SkeletonRecCard delay={0.2} />
+              </div>
             </motion.div>
           )}
         </AnimatePresence>

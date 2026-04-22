@@ -32,7 +32,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       signUpFallbackRedirectUrl="/"
       afterSignOutUrl="/"
     >
-      <html lang="he" dir="rtl" className="h-full antialiased">
+      <html lang="he" dir="rtl" className="h-full antialiased" suppressHydrationWarning>
+        <head>
+          <script
+            // Avoid FOUC: apply theme class before React mounts
+            dangerouslySetInnerHTML={{
+              __html: `(function(){try{var t=localStorage.getItem('scent-ai-theme');if(!t){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}if(t==='dark'){document.documentElement.classList.add('dark');}}catch(e){}})();`,
+            }}
+          />
+        </head>
         <body className="min-h-full flex flex-col">{children}</body>
       </html>
     </ClerkProvider>

@@ -98,7 +98,7 @@ export default function ScentRadar({ collection = [] }: Props) {
   ];
 
   return (
-    <section id="radar" className="py-20 px-4 section-accent">
+    <section id="radar" className="py-24 px-4 section-accent">
       <div className="max-w-5xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

@@ -1,6 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600&family=Heebo:wght@300;400;500;600;700&display=swap');
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
   --bg-primary: #faf8f5;
   --bg-secondary: #f3efe8;
@@ -19,6 +21,26 @@
   --shadow-md: 0 4px 16px rgba(0,0,0,0.05), 0 2px 4px rgba(0,0,0,0.03);
   --shadow-lg: 0 12px 40px rgba(0,0,0,0.06), 0 4px 12px rgba(0,0,0,0.04);
   --shadow-gold: 0 8px 32px rgba(150, 121, 58, 0.1);
+}
+
+.dark {
+  --bg-primary: #0e0c0a;
+  --bg-secondary: #16130f;
+  --bg-card: #1c1814;
+  --bg-accent: #1f1b16;
+  --ink: #f5f0e8;
+  --ink-secondary: #c9c2b6;
+  --ink-muted: #968d80;
+  --ink-faint: #5c554c;
+  --gold: #c9a85c;
+  --gold-hover: #d4b76c;
+  --gold-light: #e0c47a;
+  --gold-faint: rgba(201, 168, 92, 0.10);
+  --gold-border: rgba(201, 168, 92, 0.28);
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.4), 0 1px 2px rgba(0,0,0,0.3);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.45), 0 2px 4px rgba(0,0,0,0.3);
+  --shadow-lg: 0 12px 40px rgba(0,0,0,0.5), 0 4px 12px rgba(0,0,0,0.35);
+  --shadow-gold: 0 8px 32px rgba(201, 168, 92, 0.18);
 }
 
 @theme inline {
@@ -56,6 +78,20 @@ body {
   direction: rtl;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* ── Typography hierarchy ───────────────────────────────────────── */
+h1, h2 {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  letter-spacing: -0.01em;
+}
+h3, h4, h5, h6 {
+  font-family: 'Heebo', 'Inter', system-ui, sans-serif;
+  letter-spacing: -0.005em;
+}
+p, li, span, label, button, a, input, textarea, select {
+  font-family: inherit;
 }
 
 /* Premium card */
@@ -65,6 +101,10 @@ body {
   border-radius: 16px;
   box-shadow: var(--shadow-sm);
   transition: all 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+.dark .card {
+  border-color: rgba(255,255,255,0.04);
 }
 
 .card:hover {
@@ -83,7 +123,7 @@ body {
 
 /* Gradient text */
 .gold-text {
-  background: linear-gradient(135deg, #96793a 0%, #c9a85c 50%, #96793a 100%);
+  background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 50%, var(--gold) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -91,7 +131,7 @@ body {
 
 /* Gold button */
 .btn-gold {
-  background: linear-gradient(135deg, #96793a, #b08d45);
+  background: linear-gradient(135deg, var(--gold), var(--gold-hover));
   color: white;
   font-weight: 500;
   border: none;
@@ -99,7 +139,7 @@ body {
   box-shadow: 0 2px 8px rgba(150, 121, 58, 0.25);
 }
 .btn-gold:hover {
-  background: linear-gradient(135deg, #b08d45, #c9a85c);
+  background: linear-gradient(135deg, var(--gold-hover), var(--gold-light));
   box-shadow: 0 4px 16px rgba(150, 121, 58, 0.35);
   transform: translateY(-1px);
 }
@@ -127,6 +167,12 @@ body {
   height: 1px;
   background: linear-gradient(to left, transparent 5%, var(--gold-border) 50%, transparent 95%);
   max-width: 200px;
+  margin: 0 auto;
+}
+
+.gold-line {
+  height: 1px;
+  background: linear-gradient(to left, transparent 5%, var(--gold-border) 50%, transparent 95%);
   margin: 0 auto;
 }
 
@@ -176,6 +222,34 @@ input:focus, select:focus, textarea:focus {
 
 /* Selection */
 ::selection {
-  background: rgba(150, 121, 58, 0.15);
+  background: rgba(150, 121, 58, 0.20);
   color: var(--ink);
+}
+
+/* ── Skeleton loader ───────────────────────────────────────────── */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--bg-secondary) 0%,
+    var(--bg-accent) 50%,
+    var(--bg-secondary) 100%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.6s ease-in-out infinite;
+  border-radius: 8px;
+}
+
+.dark .skeleton {
+  background: linear-gradient(
+    90deg,
+    rgba(255,255,255,0.04) 0%,
+    rgba(255,255,255,0.07) 50%,
+    rgba(255,255,255,0.04) 100%
+  );
+  background-size: 200% 100%;
+}
+
+@keyframes skeleton-shimmer {
+  0%   { background-position: 100% 0; }
+  100% { background-position: -100% 0; }
 }

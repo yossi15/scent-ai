@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { ChevronDown, Sparkles, Droplets } from 'lucide-react';
+import Image from 'next/image';
 import Logo from './Logo';
 
 const stats = [
@@ -17,8 +18,21 @@ export default function Hero() {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden px-4">
-      {/* Elegant gradient background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-[#f5f0e8] via-[#faf8f5] to-[#f0ebe0]" />
+      {/* Hero photo background */}
+      <div className="absolute inset-0">
+        <Image
+          src="https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=2400&q=80&auto=format&fit=crop"
+          alt=""
+          aria-hidden
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover opacity-30 dark:opacity-20"
+        />
+      </div>
+
+      {/* Elegant gradient overlay */}
+      <div className="absolute inset-0 bg-gradient-to-br from-[#f5f0e8]/85 via-[#faf8f5]/80 to-[#f0ebe0]/85 dark:from-[#0e0c0a]/90 dark:via-[#16130f]/85 dark:to-[#1c1814]/90" />
 
       {/* Decorative elements */}
       <div className="absolute inset-0 overflow-hidden">

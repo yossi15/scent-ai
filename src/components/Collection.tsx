@@ -269,7 +269,7 @@ export default function Collection() {
   const activeFilterCount = Object.values(filters).flat().length + (houseFilter !== 'הכל' ? 1 : 0);
 
   return (
-    <section id="collection" className="py-20 px-4">
+    <section id="collection" className="py-28 px-4">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <motion.div

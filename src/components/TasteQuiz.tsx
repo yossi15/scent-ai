@@ -2,10 +2,11 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles, X, ChevronRight, RotateCcw, Check, Loader2, Droplets, Send } from 'lucide-react';
+import { Sparkles, X, ChevronRight, RotateCcw, Check, Droplets, Send } from 'lucide-react';
 import { fragrances, type Fragrance } from '@/data/fragrances';
 import Image from 'next/image';
 import SampleRequestModal from './SampleRequestModal';
+import { SkeletonRecCard } from './Skeleton';
 
 // ── Questions ──────────────────────────────────────────────────────────────────
 
@@ -556,29 +557,33 @@ export default function TasteQuiz() {
                     </motion.div>
                   )}
 
-                  {/* Loading */}
+                  {/* Loading — skeleton cards */}
                   {step === 8 && (
                     <motion.div
                       key="loading"
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}
-                      className="flex flex-col items-center justify-center py-16 gap-5"
+                      className="flex flex-col gap-4"
                     >
-                      <motion.div
-                        animate={{ rotate: 360 }}
-                        transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
-                      >
-                        <Loader2 className="w-10 h-10 text-gold" />
-                      </motion.div>
-                      <div className="text-center">
-                        <p className="font-serif text-lg text-ink font-semibold mb-1">
-                          Claude AI מנתח את הטעמים שלך
-                        </p>
+                      <div className="flex items-center justify-center gap-2 mb-2">
+                        <div className="flex gap-1">
+                          {[0, 1, 2].map(i => (
+                            <motion.span
+                              key={i}
+                              className="w-1.5 h-1.5 rounded-full bg-gold"
+                              animate={{ opacity: [0.3, 1, 0.3], scale: [0.7, 1, 0.7] }}
+                              transition={{ duration: 1.1, repeat: Infinity, delay: i * 0.18, ease: 'easeInOut' }}
+                            />
+                          ))}
+                        </div>
                         <p className="text-xs text-ink-muted font-hebrew">
-                          סורק 100 בשמים מ-35 בתי בישום...
+                          Claude AI מנתח את הטעמים שלך...
                         </p>
                       </div>
+                      <SkeletonRecCard delay={0} />
+                      <SkeletonRecCard delay={0.1} />
+                      <SkeletonRecCard delay={0.2} />
                     </motion.div>
                   )}
 
