@@ -39,7 +39,7 @@ export default function Navbar() {
           <div className="flex items-center justify-between h-16 md:h-20">
 
             {/* Logo */}
-            <a href="#" aria-label="Scent AI — דף הבית">
+            <a href="#" aria-label="SCENTORY — דף הבית">
               <Logo size="sm" />
             </a>
 

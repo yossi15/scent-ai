@@ -4,43 +4,50 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
-  --bg-primary: #faf8f5;
-  --bg-secondary: #f3efe8;
-  --bg-card: #ffffff;
-  --bg-accent: #f8f5ef;
-  --ink: #1a1714;
-  --ink-secondary: #4a4540;
-  --ink-muted: #6f675d;
-  --ink-faint: #8f877c;
-  --gold: #96793a;
-  --gold-hover: #b08d45;
-  --gold-light: #c9a85c;
-  --gold-faint: rgba(150, 121, 58, 0.08);
-  --gold-border: rgba(150, 121, 58, 0.15);
-  --shadow-sm: 0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.02);
-  --shadow-md: 0 4px 16px rgba(0,0,0,0.05), 0 2px 4px rgba(0,0,0,0.03);
-  --shadow-lg: 0 12px 40px rgba(0,0,0,0.06), 0 4px 12px rgba(0,0,0,0.04);
-  --shadow-gold: 0 8px 32px rgba(150, 121, 58, 0.1);
+  /* SCENTORY palette */
+  --bg-primary: #F5F3EE;
+  --bg-secondary: #ECEAE4;
+  --bg-card: #ECEAE4;
+  --bg-accent: #EFEDE7;
+  --ink: #0D0D0D;
+  --ink-secondary: #4A4A4A;
+  --ink-muted: #6B6B6B;
+  --ink-faint: #9A9A9A;
+  --gold: #C4A882;
+  --gold-hover: #B08F66;
+  --gold-light: #D6BE9C;
+  --gold-dark: #8B7355;
+  --gold-faint: rgba(196, 168, 130, 0.10);
+  --gold-border: rgba(139, 115, 85, 0.22);
+  --accent: #2C1810;
+  --border: #D4D0C8;
+  --shadow-sm: 0 1px 3px rgba(13,13,13,0.05), 0 1px 2px rgba(13,13,13,0.03);
+  --shadow-md: 0 4px 16px rgba(13,13,13,0.06), 0 2px 4px rgba(13,13,13,0.04);
+  --shadow-lg: 0 12px 40px rgba(13,13,13,0.08), 0 4px 12px rgba(13,13,13,0.05);
+  --shadow-gold: 0 8px 32px rgba(196, 168, 130, 0.18);
 }
 
 .dark {
-  --bg-primary: #0e0c0a;
-  --bg-secondary: #16130f;
-  --bg-card: #1c1814;
-  --bg-accent: #1f1b16;
-  --ink: #f5f0e8;
-  --ink-secondary: #c9c2b6;
-  --ink-muted: #b4ac9e;
-  --ink-faint: #8a8278;
-  --gold: #c9a85c;
-  --gold-hover: #d4b76c;
-  --gold-light: #e0c47a;
-  --gold-faint: rgba(201, 168, 92, 0.10);
-  --gold-border: rgba(201, 168, 92, 0.28);
+  --bg-primary: #0D0D0D;
+  --bg-secondary: #161412;
+  --bg-card: #1C1916;
+  --bg-accent: #1F1C18;
+  --ink: #F5F3EE;
+  --ink-secondary: #C9C2B6;
+  --ink-muted: #B4ACA0;
+  --ink-faint: #8A8278;
+  --gold: #D6BE9C;
+  --gold-hover: #E0CCAB;
+  --gold-light: #EAD9BB;
+  --gold-dark: #C4A882;
+  --gold-faint: rgba(214, 190, 156, 0.10);
+  --gold-border: rgba(214, 190, 156, 0.28);
+  --accent: #4A2C1A;
+  --border: #2A2622;
   --shadow-sm: 0 1px 3px rgba(0,0,0,0.4), 0 1px 2px rgba(0,0,0,0.3);
   --shadow-md: 0 4px 16px rgba(0,0,0,0.45), 0 2px 4px rgba(0,0,0,0.3);
   --shadow-lg: 0 12px 40px rgba(0,0,0,0.5), 0 4px 12px rgba(0,0,0,0.35);
-  --shadow-gold: 0 8px 32px rgba(201, 168, 92, 0.18);
+  --shadow-gold: 0 8px 32px rgba(214, 190, 156, 0.18);
 }
 
 @theme inline {
@@ -57,6 +64,9 @@
   --color-gold-light: var(--gold-light);
   --color-gold-faint: var(--gold-faint);
   --color-gold-border: var(--gold-border);
+  --color-gold-dark: var(--gold-dark);
+  --color-accent: var(--accent);
+  --color-border: var(--border);
   --font-serif: 'Cormorant Garamond', Georgia, serif;
   --font-sans: 'Inter', system-ui, sans-serif;
   --font-hebrew: 'Heebo', 'Inter', system-ui, sans-serif;
@@ -97,14 +107,14 @@ p, li, span, label, button, a, input, textarea, select {
 /* Premium card */
 .card {
   background: var(--bg-card);
-  border: 1px solid rgba(0,0,0,0.04);
+  border: 1px solid var(--border);
   border-radius: 16px;
   box-shadow: var(--shadow-sm);
   transition: all 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
 }
 
 .dark .card {
-  border-color: rgba(255,255,255,0.04);
+  border-color: var(--border);
 }
 
 .card:hover {
@@ -131,17 +141,20 @@ p, li, span, label, button, a, input, textarea, select {
 
 /* Gold button */
 .btn-gold {
-  background: linear-gradient(135deg, var(--gold), var(--gold-hover));
-  color: white;
-  font-weight: 500;
+  background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+  color: #0D0D0D;
+  font-weight: 600;
   border: none;
   transition: all 0.3s ease;
-  box-shadow: 0 2px 8px rgba(150, 121, 58, 0.25);
+  box-shadow: 0 2px 8px rgba(139, 115, 85, 0.25);
 }
 .btn-gold:hover {
-  background: linear-gradient(135deg, var(--gold-hover), var(--gold-light));
-  box-shadow: 0 4px 16px rgba(150, 121, 58, 0.35);
+  background: linear-gradient(135deg, var(--gold), var(--gold-light));
+  box-shadow: 0 4px 16px rgba(139, 115, 85, 0.35);
   transform: translateY(-1px);
+}
+.dark .btn-gold {
+  color: #0D0D0D;
 }
 
 /* Outline button */

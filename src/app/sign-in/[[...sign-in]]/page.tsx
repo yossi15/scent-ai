@@ -6,7 +6,7 @@ export default function SignInPage() {
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <p className="text-gold text-[11px] tracking-[0.2em] uppercase font-sans font-medium mb-2">
-            SCENT AI
+            SCENTORY
           </p>
           <h1 className="font-serif text-3xl text-ink font-bold">ברוך הבא חזרה</h1>
           <p className="text-ink-muted text-sm font-hebrew mt-1">

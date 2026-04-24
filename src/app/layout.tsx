@@ -3,8 +3,20 @@ import { ClerkProvider } from '@clerk/nextjs';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'Scent AI — הבושם הבא שלך, מפוענח',
-  description: 'שירות מנוי לבשמי נישה מבוסס AI. גלה את הזהות הריחנית שלך.',
+  title: 'SCENTORY | Know your scent.',
+  description: 'SCENTORY — שירות מנוי לבשמי נישה מבוסס AI. גלה את הזהות הריחנית שלך.',
+  openGraph: {
+    title: 'SCENTORY | Know your scent.',
+    description: 'SCENTORY — שירות מנוי לבשמי נישה מבוסס AI. גלה את הזהות הריחנית שלך.',
+    siteName: 'SCENTORY',
+    type: 'website',
+    locale: 'he_IL',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'SCENTORY | Know your scent.',
+    description: 'SCENTORY — שירות מנוי לבשמי נישה מבוסס AI.',
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

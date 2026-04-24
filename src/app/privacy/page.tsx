@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 
-export const metadata = { title: 'מדיניות פרטיות | ScentAI' };
+export const metadata = { title: 'מדיניות פרטיות | SCENTORY' };
 
 export default function PrivacyPage() {
   return (
@@ -36,7 +36,7 @@ export default function PrivacyPage() {
 
           <section>
             <h2 className="font-serif text-lg text-ink font-semibold mb-2">5. הזכויות שלך</h2>
-            <p>זכות עיון, תיקון ומחיקה של המידע שלך. למימוש זכויות יש לפנות ל-<a href="mailto:contact@scentai.co.il" className="text-gold hover:underline" dir="ltr">contact@scentai.co.il</a>.</p>
+            <p>זכות עיון, תיקון ומחיקה של המידע שלך. למימוש זכויות יש לפנות ל-<a href="mailto:contact@scentory.co.il" className="text-gold hover:underline" dir="ltr">contact@scentory.co.il</a>.</p>
           </section>
 
           <section>

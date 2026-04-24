@@ -25,12 +25,12 @@ export default function Footer() {
           <div>
             <Logo size="sm" />
             <a
-              href="mailto:contact@scentai.co.il"
+              href="mailto:contact@scentory.co.il"
               className="mt-4 inline-flex items-center gap-2 text-ink-muted hover:text-gold text-xs font-sans transition-colors"
               dir="ltr"
             >
               <Mail className="w-3.5 h-3.5" />
-              contact@scentai.co.il
+              contact@scentory.co.il
             </a>
           </div>
 
@@ -74,7 +74,7 @@ export default function Footer() {
             כל הבשמים הם סימנים מסחריים של בעליהם.
           </p>
           <p className="text-ink-faint/60 text-[11px] font-sans font-light" dir="ltr">
-            &copy; 2026 ScentAI Ltd. All rights reserved.
+            &copy; 2026 SCENTORY. All rights reserved.
           </p>
         </div>
       </div>
