@@ -10,8 +10,8 @@
   --bg-accent: #f8f5ef;
   --ink: #1a1714;
   --ink-secondary: #4a4540;
-  --ink-muted: #8a8279;
-  --ink-faint: #b8b0a5;
+  --ink-muted: #6f675d;
+  --ink-faint: #8f877c;
   --gold: #96793a;
   --gold-hover: #b08d45;
   --gold-light: #c9a85c;
@@ -30,8 +30,8 @@
   --bg-accent: #1f1b16;
   --ink: #f5f0e8;
   --ink-secondary: #c9c2b6;
-  --ink-muted: #968d80;
-  --ink-faint: #5c554c;
+  --ink-muted: #b4ac9e;
+  --ink-faint: #8a8278;
   --gold: #c9a85c;
   --gold-hover: #d4b76c;
   --gold-light: #e0c47a;
@@ -213,11 +213,55 @@ p, li, span, label, button, a, input, textarea, select {
                      radial-gradient(circle at 75% 75%, rgba(150,121,58,0.03) 0%, transparent 50%);
 }
 
-/* Focus ring */
+/* Focus ring — inputs */
 input:focus, select:focus, textarea:focus {
   outline: none;
   border-color: var(--gold) !important;
   box-shadow: 0 0 0 3px var(--gold-faint);
+}
+
+/* Focus ring — keyboard navigation (all interactive elements) */
+a:focus-visible,
+button:focus-visible,
+[role="button"]:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* Hide focus ring on mouse-click, keep for keyboard */
+a:focus:not(:focus-visible),
+button:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Skip-to-content link */
+.skip-to-content {
+  position: absolute;
+  top: -100px;
+  right: 16px;
+  z-index: 100;
+  padding: 10px 16px;
+  background: var(--gold);
+  color: white;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  transition: top 0.2s ease;
+}
+.skip-to-content:focus {
+  top: 16px;
+}
+
+/* Respect reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 /* Selection */

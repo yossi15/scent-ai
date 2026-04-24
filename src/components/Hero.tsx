@@ -138,8 +138,12 @@ export default function Hero() {
         animate={{ y: [0, 8, 0] }}
         transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
       >
-        <button onClick={() => scrollTo('collection')} className="text-ink-faint hover:text-gold transition-colors">
-          <ChevronDown className="w-5 h-5" />
+        <button
+          onClick={() => scrollTo('collection')}
+          aria-label="גלול לקולקציה"
+          className="text-ink-faint hover:text-gold transition-colors"
+        >
+          <ChevronDown className="w-5 h-5" aria-hidden />
         </button>
       </motion.div>
     </section>

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Mail, Check, Loader2, Droplets } from 'lucide-react';
 
@@ -16,13 +16,49 @@ export default function SampleRequestModal({ open, onClose, fragranceName, brand
   const [name, setName] = useState('');
   const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
   const [errorMsg, setErrorMsg] = useState('');
+  const dialogRef = useRef<HTMLDivElement | null>(null);
+  const previouslyFocusedRef = useRef<HTMLElement | null>(null);
+  const firstFieldRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
     if (!open) return;
-    const handler = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
+
+    // Remember the element that opened the modal so we can restore focus on close
+    previouslyFocusedRef.current = document.activeElement as HTMLElement | null;
+
+    // Auto-focus first input
+    setTimeout(() => firstFieldRef.current?.focus(), 50);
+
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose();
+        return;
+      }
+      // Focus trap on Tab
+      if (e.key === 'Tab' && dialogRef.current) {
+        const focusable = dialogRef.current.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])'
+        );
+        if (focusable.length === 0) return;
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
+    };
     window.addEventListener('keydown', handler);
     document.body.style.overflow = 'hidden';
-    return () => { window.removeEventListener('keydown', handler); document.body.style.overflow = ''; };
+    return () => {
+      window.removeEventListener('keydown', handler);
+      document.body.style.overflow = '';
+      // Restore focus to the element that opened the modal
+      previouslyFocusedRef.current?.focus?.();
+    };
   }, [open, onClose]);
 
   const submit = async (e: React.FormEvent) => {
@@ -72,14 +108,16 @@ export default function SampleRequestModal({ open, onClose, fragranceName, brand
             animate={{ y: 0, opacity: 1, scale: 1 }}
             exit={{ y: 40, opacity: 0, scale: 0.97 }}
             transition={{ type: 'spring', damping: 28, stiffness: 320 }}
-            className="relative w-full sm:max-w-md bg-[#FAF8F4] sm:rounded-2xl rounded-t-2xl shadow-2xl overflow-hidden"
+            ref={dialogRef}
+            className="relative w-full sm:max-w-md bg-[#FAF8F4] dark:bg-bg-card sm:rounded-2xl rounded-t-2xl shadow-2xl overflow-hidden"
             role="dialog"
             aria-modal="true"
+            aria-labelledby="sample-request-title"
           >
             <div className="flex items-center justify-between px-5 py-3.5 border-b border-black/[0.06]">
               <div className="flex items-center gap-2">
                 <Droplets className="w-4 h-4 text-gold" />
-                <span className="font-serif text-sm text-ink font-semibold">בקשת דגימה</span>
+                <span id="sample-request-title" className="font-serif text-sm text-ink font-semibold">בקשת דגימה</span>
               </div>
               <button
                 onClick={onClose}
@@ -108,25 +146,30 @@ export default function SampleRequestModal({ open, onClose, fragranceName, brand
                   </div>
 
                   <div>
-                    <label className="block text-xs font-hebrew text-ink-muted mb-1.5">שם מלא</label>
+                    <label htmlFor="sample-name" className="block text-xs font-hebrew text-ink-muted mb-1.5">שם מלא</label>
                     <input
+                      id="sample-name"
+                      ref={firstFieldRef}
                       type="text"
                       value={name}
                       onChange={e => setName(e.target.value)}
                       required
+                      autoComplete="name"
                       className="w-full px-3 py-2.5 rounded-lg border border-black/[0.1] bg-white/80 text-sm focus:outline-none focus:border-gold focus:ring-2 focus:ring-gold/20 transition-all"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-xs font-hebrew text-ink-muted mb-1.5">אימייל</label>
+                    <label htmlFor="sample-email" className="block text-xs font-hebrew text-ink-muted mb-1.5">אימייל</label>
                     <div className="relative">
-                      <Mail className="w-4 h-4 absolute right-3 top-1/2 -translate-y-1/2 text-ink-faint" />
+                      <Mail className="w-4 h-4 absolute right-3 top-1/2 -translate-y-1/2 text-ink-faint" aria-hidden />
                       <input
+                        id="sample-email"
                         type="email"
                         value={email}
                         onChange={e => setEmail(e.target.value)}
                         required
+                        autoComplete="email"
                         dir="ltr"
                         placeholder="you@example.com"
                         className="w-full pl-3 pr-10 py-2.5 rounded-lg border border-black/[0.1] bg-white/80 text-sm focus:outline-none focus:border-gold focus:ring-2 focus:ring-gold/20 transition-all"

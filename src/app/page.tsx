@@ -21,7 +21,7 @@ export default function Home() {
   const [matchCollection, setMatchCollection] = useState<Fragrance[]>([]);
 
   return (
-    <main className="relative">
+    <main id="main-content" className="relative">
       <Navbar />
       <Hero />
 

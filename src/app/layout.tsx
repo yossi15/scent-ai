@@ -41,7 +41,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             }}
           />
         </head>
-        <body className="min-h-full flex flex-col">{children}</body>
+        <body className="min-h-full flex flex-col">
+          <a href="#main-content" className="skip-to-content">דלג לתוכן הראשי</a>
+          {children}
+        </body>
       </html>
     </ClerkProvider>
   );
