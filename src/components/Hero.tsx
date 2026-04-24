@@ -2,7 +2,6 @@
 
 import { motion } from 'framer-motion';
 import { ChevronDown, Sparkles, Droplets } from 'lucide-react';
-import Image from 'next/image';
 import Logo from './Logo';
 
 const stats = [
@@ -17,30 +16,17 @@ export default function Hero() {
   };
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden px-4">
-      {/* Hero photo background */}
-      <div className="absolute inset-0">
-        <Image
-          src="https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=2400&q=80&auto=format&fit=crop"
-          alt=""
-          aria-hidden
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover opacity-30 dark:opacity-20"
-        />
-      </div>
-
-      {/* Elegant gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-br from-[#f5f0e8]/85 via-[#faf8f5]/80 to-[#f0ebe0]/85 dark:from-[#0e0c0a]/90 dark:via-[#16130f]/85 dark:to-[#1c1814]/90" />
-
+    <section
+      className="relative min-h-screen flex items-center justify-center overflow-hidden px-4"
+      style={{ background: 'linear-gradient(135deg, #0D0D0D 0%, #1A1A1A 100%)' }}
+    >
       {/* Decorative elements */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-[10%] right-[10%] w-[500px] h-[500px] rounded-full bg-gradient-to-br from-[#96793a]/[0.04] to-transparent blur-3xl" />
-        <div className="absolute bottom-[15%] left-[5%] w-[400px] h-[400px] rounded-full bg-gradient-to-tr from-[#96793a]/[0.06] to-transparent blur-3xl" />
-        <div className="absolute top-[40%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] rounded-full border border-[#96793a]/[0.06]" />
-        <div className="absolute top-[40%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full border border-[#96793a]/[0.04]" />
-        <div className="absolute top-[40%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full border border-[#96793a]/[0.02]" />
+        <div className="absolute top-[10%] right-[10%] w-[500px] h-[500px] rounded-full bg-gradient-to-br from-[#C4A882]/[0.10] to-transparent blur-3xl" />
+        <div className="absolute bottom-[15%] left-[5%] w-[400px] h-[400px] rounded-full bg-gradient-to-tr from-[#C4A882]/[0.08] to-transparent blur-3xl" />
+        <div className="absolute top-[40%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] rounded-full border border-[#C4A882]/[0.10]" />
+        <div className="absolute top-[40%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full border border-[#C4A882]/[0.06]" />
+        <div className="absolute top-[40%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full border border-[#C4A882]/[0.04]" />
 
         {/* Floating scent drops */}
         <motion.div
@@ -48,21 +34,21 @@ export default function Hero() {
           animate={{ y: [-10, 10, -10], rotate: [0, 5, 0] }}
           transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
         >
-          <Droplets className="w-6 h-6 text-gold/10" />
+          <Droplets className="w-6 h-6 text-[#C4A882]/20" />
         </motion.div>
         <motion.div
           className="absolute bottom-[30%] left-[15%]"
           animate={{ y: [10, -10, 10], rotate: [0, -5, 0] }}
           transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
         >
-          <Droplets className="w-8 h-8 text-gold/[0.07]" />
+          <Droplets className="w-8 h-8 text-[#C4A882]/15" />
         </motion.div>
         <motion.div
           className="absolute top-[60%] right-[12%]"
           animate={{ y: [-5, 15, -5] }}
           transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
         >
-          <Sparkles className="w-5 h-5 text-gold/[0.08]" />
+          <Sparkles className="w-5 h-5 text-[#C4A882]/20" />
         </motion.div>
       </div>
 
@@ -77,22 +63,22 @@ export default function Hero() {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/70 backdrop-blur-sm border border-gold-border mb-8"
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#C4A882]/10 backdrop-blur-sm border border-[#C4A882]/30 mb-8"
           >
-            <Sparkles className="w-3.5 h-3.5 text-gold" />
-            <span className="text-gold text-xs font-hebrew font-medium">שירות מנוי לבשמי נישה מבוסס AI</span>
+            <Sparkles className="w-3.5 h-3.5 text-[#C4A882]" />
+            <span className="text-[#C4A882] text-xs font-hebrew font-medium">שירות מנוי לבשמי נישה מבוסס AI</span>
           </motion.div>
 
           {/* Logo */}
-          <div className="flex justify-center mb-6">
+          <div className="flex justify-center mb-6 [&_*]:!text-[#F5F3EE]">
             <Logo size="xl" />
           </div>
 
-          <p className="font-serif text-2xl md:text-3xl text-ink-secondary italic mb-4 font-light">
+          <p className="font-serif text-2xl md:text-3xl italic mb-4 font-light" style={{ color: '#F5F3EE' }}>
             הבושם הבא שלך, מפוענח.
           </p>
 
-          <p className="font-hebrew text-sm md:text-base text-ink-muted max-w-lg mx-auto leading-relaxed mb-10 font-light">
+          <p className="font-hebrew text-sm md:text-base max-w-lg mx-auto leading-relaxed mb-10 font-light" style={{ color: '#9A9A9A' }}>
             שירות מנוי לבשמי נישה מבוסס AI שמנתח את העדפות הריח שלך ומגלה את יצירת המופת הבאה — מבתי הבושם הנישתיים ביותר בעולם.
           </p>
         </motion.div>
@@ -105,13 +91,15 @@ export default function Hero() {
         >
           <button
             onClick={() => scrollTo('quiz')}
-            className="btn-gold px-8 py-3.5 font-hebrew text-sm tracking-wide rounded-lg"
+            className="px-8 py-3.5 font-hebrew text-sm tracking-wide rounded-lg font-semibold transition-all duration-300 hover:-translate-y-0.5"
+            style={{ background: 'linear-gradient(135deg, #C4A882, #D6BE9C)', color: '#0D0D0D', boxShadow: '0 4px 16px rgba(196,168,130,0.3)' }}
           >
             גלה את הבושם שלך
           </button>
           <button
             onClick={() => scrollTo('collection')}
-            className="btn-outline px-8 py-3.5 font-hebrew text-sm tracking-wide rounded-lg bg-white/60 backdrop-blur-sm"
+            className="px-8 py-3.5 font-hebrew text-sm tracking-wide rounded-lg border-2 transition-all duration-300 hover:bg-[#C4A882]/10"
+            style={{ borderColor: '#C4A882', color: '#C4A882' }}
           >
             חקור את הקולקציה
           </button>
@@ -125,9 +113,9 @@ export default function Hero() {
           className="flex justify-center gap-8 md:gap-16"
         >
           {stats.map((stat, i) => (
-            <div key={i} className="text-center bg-white/50 backdrop-blur-sm rounded-xl px-5 py-3">
-              <p className="font-serif text-2xl md:text-3xl text-gold font-semibold">{stat.value}</p>
-              <p className="text-ink-muted text-xs font-hebrew font-light mt-1">{stat.label}</p>
+            <div key={i} className="text-center bg-[#F5F3EE]/[0.04] backdrop-blur-sm rounded-xl px-5 py-3 border border-[#C4A882]/20">
+              <p className="font-serif text-2xl md:text-3xl font-semibold" style={{ color: '#C4A882' }}>{stat.value}</p>
+              <p className="text-xs font-hebrew font-light mt-1" style={{ color: '#9A9A9A' }}>{stat.label}</p>
             </div>
           ))}
         </motion.div>
@@ -141,7 +129,8 @@ export default function Hero() {
         <button
           onClick={() => scrollTo('collection')}
           aria-label="גלול לקולקציה"
-          className="text-ink-faint hover:text-gold transition-colors"
+          className="hover:text-[#C4A882] transition-colors"
+          style={{ color: '#C4A882', opacity: 0.6 }}
         >
           <ChevronDown className="w-5 h-5" aria-hidden />
         </button>

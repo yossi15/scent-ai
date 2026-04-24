@@ -16,36 +16,6 @@ interface Props {
   onBuy?: (f: Fragrance) => void;
 }
 
-const familyGradients: Record<string, string> = {
-  'Fruity Chypre': 'from-amber-200/80 via-yellow-100/60 to-lime-100/50',
-  'Oriental Spicy': 'from-red-200/70 via-orange-100/60 to-amber-100/50',
-  'Oriental Gourmand': 'from-amber-200/80 via-orange-100/60 to-yellow-100/50',
-  'Aromatic Citrus': 'from-teal-200/60 via-cyan-100/50 to-blue-100/40',
-  'Oriental Floral': 'from-purple-200/60 via-pink-100/50 to-rose-100/50',
-  'Woody Aromatic': 'from-emerald-200/60 via-green-100/50 to-lime-100/50',
-  'Woody Oriental': 'from-stone-300/60 via-amber-100/50 to-orange-100/50',
-  'Floral Woody': 'from-rose-200/60 via-pink-100/50 to-amber-100/50',
-  'Citrus Aromatic': 'from-yellow-200/70 via-lime-100/60 to-green-100/50',
-  'Aromatic Fougère': 'from-green-200/60 via-emerald-100/50 to-teal-100/50',
-  'Oriental Woody': 'from-amber-300/60 via-stone-100/50 to-orange-100/50',
-  'Woody Spicy': 'from-stone-300/60 via-red-100/50 to-amber-100/50',
-  'Green Aromatic': 'from-green-200/60 via-emerald-100/50 to-lime-100/50',
-  'Musky Woody': 'from-stone-300/60 via-neutral-100/50 to-stone-100/50',
-  'Leather': 'from-stone-400/60 via-amber-200/50 to-stone-100/50',
-  'Smoky Woody': 'from-gray-300/60 via-stone-100/50 to-amber-100/50',
-  'Amber Woody': 'from-amber-300/60 via-yellow-100/50 to-orange-100/50',
-  'Floral': 'from-pink-200/60 via-rose-100/50 to-fuchsia-100/50',
-  'Oud': 'from-amber-300/70 via-yellow-200/50 to-stone-200/50',
-  'Gourmand': 'from-amber-200/70 via-orange-100/50 to-yellow-100/50',
-  'Fresh Spicy': 'from-teal-100/60 via-emerald-100/50 to-amber-100/40',
-  'Woody': 'from-stone-200/60 via-amber-100/40 to-emerald-100/40',
-  'Marine': 'from-blue-200/60 via-cyan-100/50 to-teal-100/50',
-};
-
-function getGradient(family: string): string {
-  return familyGradients[family] || 'from-stone-200/60 via-amber-100/50 to-stone-100/50';
-}
-
 // Elegant perfume bottle silhouette
 function BottleSilhouette({ className }: { className?: string }) {
   return (
@@ -84,67 +54,61 @@ export default function FragranceCard({ fragrance, index, onClick, inCollection,
       whileHover={{ y: -4 }}
       className="relative group cursor-pointer"
     >
-      {/* Card container with shadow */}
-      <div className="relative bg-bg-card rounded-2xl overflow-hidden border border-black/[0.04] shadow-[0_2px_8px_rgba(150,121,58,0.04)] group-hover:shadow-[0_20px_40px_-12px_rgba(150,121,58,0.18)] group-hover:border-gold-border transition-all duration-500">
-        {/* Gradient header with bottle image */}
+      {/* Dark luxury card — duty-free / parfumerie style */}
+      <div className="relative bg-[#0D0D0D] rounded-2xl overflow-hidden border border-[#1A1A1A] shadow-[0_4px_16px_rgba(0,0,0,0.25)] group-hover:shadow-[0_24px_48px_-16px_rgba(196,168,130,0.35)] group-hover:border-gold/40 transition-all duration-500">
+        {/* Bottle showcase area — dark, padded, contained */}
         <div
           role="button"
           tabIndex={0}
           aria-label={`${fragrance.name} מאת ${fragrance.house} — פתח פרטים`}
-          className={`relative h-56 w-full bg-gradient-to-br ${getGradient(fragrance.family)} overflow-hidden cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2`}
+          className="relative h-64 w-full bg-gradient-to-b from-[#0D0D0D] via-[#141414] to-[#0D0D0D] overflow-hidden cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-[#0D0D0D]"
           onClick={() => onClick(fragrance)}
           onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onClick(fragrance); } }}
         >
-          {/* Radial highlight */}
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.6),transparent_70%)] pointer-events-none" />
-
-          {/* Decorative circles */}
-          <div className="absolute inset-0 opacity-[0.08] pointer-events-none">
-            <div className="absolute top-4 right-4 w-28 h-28 rounded-full border border-current" />
-            <div className="absolute top-8 right-8 w-20 h-20 rounded-full border border-current" />
-            <div className="absolute bottom-6 left-6 w-14 h-14 rounded-full border border-current" />
-          </div>
+          {/* Subtle radial spotlight */}
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(196,168,130,0.10),transparent_65%)] pointer-events-none" />
 
           {/* House name watermark */}
-          <div className="absolute bottom-2 right-0 left-0 text-center opacity-[0.06] pointer-events-none">
-            <p className="font-serif text-5xl font-bold tracking-tighter text-ink" dir="ltr">
+          <div className="absolute bottom-3 right-0 left-0 text-center opacity-[0.05] pointer-events-none">
+            <p className="font-serif text-5xl font-bold tracking-tighter text-[#F5F3EE]" dir="ltr">
               {initials}
             </p>
           </div>
 
-          {/* Bottle image or silhouette */}
-          <div className="relative h-full flex items-center justify-center">
+          {/* Bottle image — contain + padding, drop-shadow for lift */}
+          <div className="relative h-full flex items-center justify-center" style={{ padding: '20px' }}>
             {showImage ? (
-              <div className="relative w-28 h-40">
+              <div className="relative w-full h-full">
                 <Image
                   src={fragrance.image}
                   alt={`${fragrance.name} by ${fragrance.house}`}
                   fill
-                  sizes="(max-width: 640px) 50vw, (max-width: 1280px) 25vw, 200px"
-                  className="object-contain drop-shadow-lg group-hover:scale-105 transition-transform duration-500"
+                  sizes="(max-width: 640px) 50vw, (max-width: 1280px) 25vw, 240px"
+                  className="object-contain drop-shadow-[0_12px_24px_rgba(0,0,0,0.6)] group-hover:scale-105 transition-transform duration-500"
                   onError={() => setImgError(true)}
+                  style={{ objectFit: 'contain' }}
                 />
               </div>
             ) : (
               <motion.div
-                initial={{ opacity: 0.25 }}
-                whileHover={{ opacity: 0.4, scale: 1.05 }}
+                initial={{ opacity: 0.4 }}
+                whileHover={{ opacity: 0.7, scale: 1.05 }}
                 transition={{ duration: 0.5 }}
-                className="text-ink"
+                className="text-[#C4A882]"
                 aria-hidden="true"
               >
-                <BottleSilhouette className="w-20 h-28 transition-all duration-500 group-hover:text-gold" />
+                <BottleSilhouette className="w-20 h-28 transition-all duration-500" />
               </motion.div>
             )}
           </div>
 
           {/* Rating badge */}
-          <div className="absolute top-3 left-3 flex items-center gap-1 bg-white/90 backdrop-blur-md rounded-full px-2.5 py-1 shadow-sm border border-white/60">
+          <div className="absolute top-3 left-3 flex items-center gap-1 bg-[#0D0D0D]/80 backdrop-blur-md rounded-full px-2.5 py-1 shadow-sm border border-gold/30">
             <Star className="w-3 h-3 text-gold fill-gold" />
-            <span className="text-ink text-[11px] font-sans font-semibold">{fragrance.rating}</span>
+            <span className="text-[#F5F3EE] text-[11px] font-sans font-semibold">{fragrance.rating}</span>
           </div>
 
-          {/* Add to collection button */}
+          {/* Add to collection */}
           {onToggleCollection && (
             isSignedIn ? (
               <motion.button
@@ -152,10 +116,10 @@ export default function FragranceCard({ fragrance, index, onClick, inCollection,
                 onClick={(e) => { e.stopPropagation(); onToggleCollection(fragrance); }}
                 aria-label={inCollection ? `הסר את ${fragrance.name} מהאוסף שלי` : `הוסף את ${fragrance.name} לאוסף שלי`}
                 aria-pressed={inCollection}
-                className={`absolute top-3 right-3 w-9 h-9 rounded-full flex items-center justify-center shadow-md backdrop-blur-md border transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 ${
+                className={`absolute top-3 right-3 w-9 h-9 rounded-full flex items-center justify-center shadow-md backdrop-blur-md border transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-[#0D0D0D] ${
                   inCollection
-                    ? 'bg-gold text-white border-gold'
-                    : 'bg-white/90 border-white/60 text-ink-muted hover:bg-gold hover:text-white hover:border-gold'
+                    ? 'bg-gold text-[#0D0D0D] border-gold'
+                    : 'bg-[#0D0D0D]/80 border-gold/30 text-[#F5F3EE] hover:bg-gold hover:text-[#0D0D0D] hover:border-gold'
                 }`}
               >
                 {inCollection ? <Check className="w-4 h-4" aria-hidden="true" /> : <Plus className="w-4 h-4" aria-hidden="true" />}
@@ -166,7 +130,7 @@ export default function FragranceCard({ fragrance, index, onClick, inCollection,
                   whileTap={{ scale: 0.9 }}
                   onClick={(e) => e.stopPropagation()}
                   aria-label="כנס כדי להוסיף לאוסף"
-                  className="absolute top-3 right-3 w-9 h-9 rounded-full flex items-center justify-center shadow-md backdrop-blur-md border bg-white/90 border-white/60 text-ink-muted hover:bg-gold hover:text-white hover:border-gold transition-all duration-300"
+                  className="absolute top-3 right-3 w-9 h-9 rounded-full flex items-center justify-center shadow-md backdrop-blur-md border bg-[#0D0D0D]/80 border-gold/30 text-[#F5F3EE] hover:bg-gold hover:text-[#0D0D0D] hover:border-gold transition-all duration-300"
                 >
                   <Plus className="w-4 h-4" aria-hidden="true" />
                 </motion.button>
@@ -176,47 +140,47 @@ export default function FragranceCard({ fragrance, index, onClick, inCollection,
 
           {/* Family tag */}
           <div className="absolute bottom-3 left-3">
-            <span className="text-[10px] font-sans bg-white/90 backdrop-blur-md text-ink-muted px-2.5 py-1 rounded-full shadow-sm border border-white/60" dir="ltr">
+            <span className="text-[10px] font-sans bg-[#0D0D0D]/80 backdrop-blur-md text-[#F5F3EE]/80 px-2.5 py-1 rounded-full shadow-sm border border-gold/20" dir="ltr">
               {fragrance.family}
             </span>
           </div>
 
           {/* Concentration badge */}
           <div className="absolute bottom-3 right-3">
-            <span className="text-[10px] font-sans bg-ink/80 backdrop-blur-md text-white px-2.5 py-1 rounded-full shadow-sm" dir="ltr">
+            <span className="text-[10px] font-sans bg-gold/90 text-[#0D0D0D] px-2.5 py-1 rounded-full shadow-sm font-semibold" dir="ltr">
               {fragrance.concentration}
             </span>
           </div>
         </div>
 
-        {/* Content */}
-        <div className="p-5" onClick={() => onClick(fragrance)}>
+        {/* Content — also dark for cohesive luxury feel */}
+        <div className="p-5 bg-[#0D0D0D] border-t border-[#1F1C18]" onClick={() => onClick(fragrance)}>
           <p className="text-gold text-[10px] tracking-[0.18em] uppercase font-sans font-semibold mb-1" dir="ltr">
             {fragrance.house}
           </p>
 
-          <h3 className="font-serif text-xl text-ink group-hover:text-gold transition-colors duration-300 font-semibold leading-tight mb-1" dir="ltr">
+          <h3 className="font-serif text-xl text-[#F5F3EE] group-hover:text-gold transition-colors duration-300 font-semibold leading-tight mb-1" dir="ltr">
             {fragrance.name}
           </h3>
 
-          <p className="text-ink-faint text-[11px] font-sans mb-3" dir="ltr">
+          <p className="text-[#9A9A9A] text-[11px] font-sans mb-3" dir="ltr">
             {fragrance.year} &middot; {fragrance.gender} &middot; {fragrance.size}
           </p>
 
           {/* Stats */}
           <div className="grid grid-cols-2 gap-2 mb-3">
-            <div className="flex items-center gap-1.5 bg-bg-secondary rounded-lg px-2.5 py-1.5">
-              <Clock className="w-3 h-3 text-gold/70 flex-shrink-0" />
+            <div className="flex items-center gap-1.5 bg-[#1A1814] rounded-lg px-2.5 py-1.5 border border-[#2A2622]">
+              <Clock className="w-3 h-3 text-gold/80 flex-shrink-0" />
               <div className="flex items-center gap-1 min-w-0">
-                <span className="text-[10px] text-ink-faint font-hebrew">עמידות</span>
-                <span className="text-[11px] font-sans font-semibold text-ink">{fragrance.longevity}/10</span>
+                <span className="text-[10px] text-[#9A9A9A] font-hebrew">עמידות</span>
+                <span className="text-[11px] font-sans font-semibold text-[#F5F3EE]">{fragrance.longevity}/10</span>
               </div>
             </div>
-            <div className="flex items-center gap-1.5 bg-bg-secondary rounded-lg px-2.5 py-1.5">
-              <Wind className="w-3 h-3 text-gold/70 flex-shrink-0" />
+            <div className="flex items-center gap-1.5 bg-[#1A1814] rounded-lg px-2.5 py-1.5 border border-[#2A2622]">
+              <Wind className="w-3 h-3 text-gold/80 flex-shrink-0" />
               <div className="flex items-center gap-1 min-w-0">
-                <span className="text-[10px] text-ink-faint font-hebrew">הקרנה</span>
-                <span className="text-[11px] font-sans font-semibold text-ink">{fragrance.sillage}/10</span>
+                <span className="text-[10px] text-[#9A9A9A] font-hebrew">הקרנה</span>
+                <span className="text-[11px] font-sans font-semibold text-[#F5F3EE]">{fragrance.sillage}/10</span>
               </div>
             </div>
           </div>
@@ -224,16 +188,16 @@ export default function FragranceCard({ fragrance, index, onClick, inCollection,
           {/* Tags */}
           <div className="flex flex-wrap gap-1.5 mb-4" dir="ltr">
             {fragrance.tags.slice(0, 2).map((tag) => (
-              <span key={tag} className="text-[10px] font-sans bg-gold-faint text-gold px-2 py-0.5 rounded-full border border-gold-border/50">
+              <span key={tag} className="text-[10px] font-sans bg-gold/15 text-gold px-2 py-0.5 rounded-full border border-gold/30">
                 {tag}
               </span>
             ))}
           </div>
 
           {/* Footer */}
-          <div className="pt-3 border-t border-black/[0.06] flex items-center justify-between" dir="ltr">
+          <div className="pt-3 border-t border-[#2A2622] flex items-center justify-between" dir="ltr">
             <div>
-              <p className="text-[9px] text-ink-faint font-sans uppercase tracking-wider mb-0.5">Price</p>
+              <p className="text-[9px] text-[#9A9A9A] font-sans uppercase tracking-wider mb-0.5">Price</p>
               <span className="text-gold font-serif text-xl font-bold">₪{fragrance.price.toLocaleString()}</span>
             </div>
             <button
@@ -243,7 +207,7 @@ export default function FragranceCard({ fragrance, index, onClick, inCollection,
                 else window.open(`https://www.google.com/search?tbm=shop&q=${encodeURIComponent(fragrance.name + ' ' + fragrance.house + ' perfume')}`, '_blank');
               }}
               aria-label={`השווה מחירים עבור ${fragrance.name}`}
-              className="text-[11px] font-hebrew font-medium text-white bg-gold hover:bg-ink transition-colors rounded-full px-4 py-2 shadow-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2"
+              className="text-[11px] font-hebrew font-semibold text-[#0D0D0D] bg-gold hover:bg-[#D6BE9C] transition-colors rounded-full px-4 py-2 shadow-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-[#0D0D0D]"
             >
               השווה מחירים
             </button>
