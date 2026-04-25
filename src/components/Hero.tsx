@@ -71,15 +71,15 @@ export default function Hero() {
           </motion.div>
 
           {/* Logo */}
-          <div className="flex justify-center mb-6 [&_*]:!text-[#0D0D0D]">
+          <div className="flex justify-center mb-6">
             <Logo size="xl" />
           </div>
 
-          <p className="font-serif text-2xl md:text-3xl italic mb-4 font-light" style={{ color: '#0D0D0D' }}>
+          <p className="font-serif text-2xl md:text-3xl italic mb-4 font-light text-ink">
             הבושם הבא שלך, מפוענח.
           </p>
 
-          <p className="font-hebrew text-sm md:text-base max-w-lg mx-auto leading-relaxed mb-10 font-light" style={{ color: '#4A4A4A' }}>
+          <p className="font-hebrew text-sm md:text-base max-w-lg mx-auto leading-relaxed mb-10 font-light text-ink-secondary">
             שירות מנוי לבשמי נישה מבוסס AI שמנתח את העדפות הריח שלך ומגלה את יצירת המופת הבאה — מבתי הבושם הנישתיים ביותר בעולם.
           </p>
         </motion.div>
@@ -115,9 +115,9 @@ export default function Hero() {
           className="flex justify-center gap-8 md:gap-16"
         >
           {stats.map((stat, i) => (
-            <div key={i} className="text-center bg-white/70 backdrop-blur-sm rounded-xl px-5 py-3 border border-[#E8E4DC]">
-              <p className="font-serif text-2xl md:text-3xl font-semibold" style={{ color: '#8B7355' }}>{stat.value}</p>
-              <p className="text-xs font-hebrew font-light mt-1" style={{ color: '#4A4A4A' }}>{stat.label}</p>
+            <div key={i} className="text-center bg-bg-card/70 backdrop-blur-sm rounded-xl px-5 py-3 border border-border">
+              <p className="font-serif text-2xl md:text-3xl font-semibold text-gold">{stat.value}</p>
+              <p className="text-xs font-hebrew font-light mt-1 text-ink-secondary">{stat.label}</p>
             </div>
           ))}
         </motion.div>
