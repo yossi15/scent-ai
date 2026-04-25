@@ -17,6 +17,7 @@ export default function Hero() {
 
   return (
     <section
+      data-hero-bg
       className="relative min-h-screen flex items-center justify-center overflow-hidden px-4"
       style={{ background: 'linear-gradient(135deg, #F5F3EE 0%, #ECEAE4 100%)' }}
     >
@@ -90,6 +91,7 @@ export default function Hero() {
           className="flex flex-col sm:flex-row gap-3 justify-center mb-16"
         >
           <button
+            data-hero-cta
             onClick={() => scrollTo('quiz')}
             className="px-8 py-3.5 font-hebrew text-sm tracking-wide rounded-lg font-semibold transition-all duration-300 hover:-translate-y-0.5"
             style={{ background: '#0D0D0D', color: '#FFFFFF', boxShadow: '0 4px 16px rgba(13,13,13,0.18)' }}

@@ -6,6 +6,7 @@ import { Menu, X, LogIn, LayoutDashboard, User } from 'lucide-react';
 import { SignInButton, SignUpButton, UserButton, useUser } from '@clerk/nextjs';
 import Link from 'next/link';
 import Logo from './Logo';
+import ThemeToggle from './ThemeToggle';
 
 const navLinks = [
   { label: 'שאלון טעמים',   href: '#quiz' },
@@ -58,6 +59,7 @@ export default function Navbar() {
 
             {/* Auth area — desktop */}
             <div className="hidden md:flex items-center gap-3">
+              <ThemeToggle />
               {!isLoaded ? (
                 <div className="w-20 h-8 bg-gold-faint rounded-lg animate-pulse" />
               ) : isSignedIn ? (
@@ -97,8 +99,9 @@ export default function Navbar() {
               )}
             </div>
 
-            {/* Mobile: hamburger */}
+            {/* Mobile: theme toggle + hamburger */}
             <div className="md:hidden flex items-center gap-1">
+              <ThemeToggle />
               <button
                 className="text-ink-muted p-2"
                 onClick={() => setMobileOpen(!mobileOpen)}

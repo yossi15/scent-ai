@@ -29,25 +29,25 @@
 
 .dark {
   --bg-primary: #0D0D0D;
-  --bg-secondary: #161412;
-  --bg-card: #1C1916;
-  --bg-accent: #1F1C18;
+  --bg-secondary: #141414;
+  --bg-card: #1A1A1A;
+  --bg-accent: #1F1F1F;
   --ink: #F5F3EE;
-  --ink-secondary: #C9C2B6;
-  --ink-muted: #B4ACA0;
-  --ink-faint: #8A8278;
-  --gold: #D6BE9C;
-  --gold-hover: #E0CCAB;
+  --ink-secondary: #D4D0C8;
+  --ink-muted: #A8A29A;
+  --ink-faint: #7A7670;
+  --gold: #C4A882;
+  --gold-hover: #D6BE9C;
   --gold-light: #EAD9BB;
-  --gold-dark: #C4A882;
-  --gold-faint: rgba(214, 190, 156, 0.10);
-  --gold-border: rgba(214, 190, 156, 0.28);
+  --gold-dark: #B08F66;
+  --gold-faint: rgba(196, 168, 130, 0.12);
+  --gold-border: rgba(196, 168, 130, 0.30);
   --accent: #4A2C1A;
-  --border: #2A2622;
-  --shadow-sm: 0 1px 3px rgba(0,0,0,0.4), 0 1px 2px rgba(0,0,0,0.3);
-  --shadow-md: 0 4px 16px rgba(0,0,0,0.45), 0 2px 4px rgba(0,0,0,0.3);
-  --shadow-lg: 0 12px 40px rgba(0,0,0,0.5), 0 4px 12px rgba(0,0,0,0.35);
-  --shadow-gold: 0 8px 32px rgba(214, 190, 156, 0.18);
+  --border: #2C2C2C;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.5), 0 1px 2px rgba(0,0,0,0.4);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.55), 0 2px 4px rgba(0,0,0,0.4);
+  --shadow-lg: 0 12px 40px rgba(0,0,0,0.6), 0 4px 12px rgba(0,0,0,0.45);
+  --shadow-gold: 0 8px 32px rgba(196, 168, 130, 0.20);
 }
 
 @theme inline {
@@ -89,6 +89,39 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Smooth theme switching for all themed elements */
+*, *::before, *::after {
+  transition-property: background-color, border-color, color, fill, stroke, box-shadow;
+  transition-duration: 0.3s;
+  transition-timing-function: ease;
+}
+
+/* ── Dark mode overrides for hardcoded hex colors ───────────────── */
+.dark .bg-white { background-color: #1A1A1A !important; }
+.dark .bg-\[\#FFFFFF\] { background-color: #1A1A1A !important; }
+.dark .bg-\[\#F5F3EE\] { background-color: #141414 !important; }
+.dark .bg-\[\#ECEAE4\] { background-color: #1F1F1F !important; }
+.dark .bg-\[\#EFEDE7\] { background-color: #1F1F1F !important; }
+
+.dark .text-\[\#0D0D0D\] { color: #F5F3EE !important; }
+.dark .text-\[\#4A4A4A\] { color: #D4D0C8 !important; }
+.dark .text-\[\#9A9A9A\] { color: #7A7670 !important; }
+
+.dark .border-\[\#E8E4DC\] { border-color: #2C2C2C !important; }
+.dark .border-\[\#D4D0C8\] { border-color: #2C2C2C !important; }
+
+.dark .bg-\[\#ECEAE4\].text-\[\#4A4A4A\],
+.dark .bg-\[\#ECEAE4\].text-\[\#0D0D0D\] { background-color: #1F1F1F !important; }
+
+/* Hero gradient swap */
+.dark [data-hero-bg] {
+  background: linear-gradient(135deg, #0D0D0D 0%, #1A1A1A 100%) !important;
+}
+.dark [data-hero-cta] {
+  background: linear-gradient(135deg, #C4A882, #D6BE9C) !important;
+  color: #0D0D0D !important;
 }
 
 /* ── Typography hierarchy ───────────────────────────────────────── */

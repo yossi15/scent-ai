@@ -47,9 +47,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <html lang="he" dir="rtl" className="h-full antialiased" suppressHydrationWarning>
         <head>
           <script
-            // Force light theme — clear any stored dark preference
+            // Avoid FOUC: apply stored theme before React mounts (default = light)
             dangerouslySetInnerHTML={{
-              __html: `(function(){try{document.documentElement.classList.remove('dark');localStorage.setItem('scent-ai-theme','light');}catch(e){}})();`,
+              __html: `(function(){try{var t=localStorage.getItem('scent-ai-theme')||'light';if(t==='dark'){document.documentElement.classList.add('dark');}}catch(e){}})();`,
             }}
           />
         </head>
