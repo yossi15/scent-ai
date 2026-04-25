@@ -406,9 +406,10 @@ export default function Collection() {
           <div className="text-center mt-10">
             <button
               onClick={() => setVisibleCount(v => v + 12)}
-              className="btn-outline px-8 py-3 font-hebrew text-sm rounded-lg"
+              className="px-8 py-3 font-hebrew text-sm font-semibold rounded-lg transition-all duration-300 hover:-translate-y-0.5"
+              style={{ background: '#0D0D0D', color: '#FFFFFF', boxShadow: '0 4px 16px rgba(13,13,13,0.18)' }}
             >
-              הצג עוד ({filtered.length - visibleCount} נוספים)
+              טען עוד 12 ({filtered.length - visibleCount} נוספים)
             </button>
           </div>
         )}

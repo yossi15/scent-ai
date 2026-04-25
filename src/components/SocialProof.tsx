@@ -11,7 +11,7 @@ const partners = [
 
 const stats = [
   { icon: <TrendingUp className="w-5 h-5" />, value: 'חדש',  label: 'משתמשים מצטרפים כל יום' },
-  { icon: <Award className="w-5 h-5" />,      value: '100',  label: 'בשמי נישה במאגר' },
+  { icon: <Award className="w-5 h-5" />,      value: '151',  label: 'בשמי נישה במאגר' },
   { icon: <Shield className="w-5 h-5" />,     value: '100%', label: 'מוצרים אותנטיים' },
 ];
 
