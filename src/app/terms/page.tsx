@@ -1,7 +1,11 @@
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 
-export const metadata = { title: 'תקנון שימוש | SCENTORY' };
+export const metadata = {
+  title: 'תקנון שימוש | SCENTORY',
+  description: 'תנאי השימוש של SCENTORY — שירות מנוי לבשמי נישה מבוסס AI.',
+  alternates: { canonical: '/terms' },
+};
 
 export default function TermsPage() {
   return (
@@ -14,35 +18,77 @@ export default function TermsPage() {
         <p className="text-ink-faint text-xs font-sans mb-8" dir="ltr">Last updated: April 2026</p>
 
         <div className="space-y-6 text-ink-secondary text-sm font-hebrew leading-relaxed">
+
           <section>
             <h2 className="font-serif text-lg text-ink font-semibold mb-2">1. כללי</h2>
-            <p>השימוש באתר SCENTORY כפוף לתנאי השימוש המפורטים להלן. גלישה ושימוש באתר מהווים הסכמה לתנאים אלה.</p>
+            <p>השימוש באתר SCENTORY (&ldquo;האתר&rdquo;, &ldquo;השירות&rdquo;) כפוף לתנאי השימוש המפורטים להלן. גלישה ושימוש מהווים הסכמה לתנאים אלה. אם אינך מסכים — אנא הימנע מלהשתמש בשירות.</p>
           </section>
 
           <section>
             <h2 className="font-serif text-lg text-ink font-semibold mb-2">2. השירות</h2>
-            <p>SCENTORY הוא שירות מנוי לבשמי נישה מבוסס AI. השירות כולל המלצות אישיות, דגימות חודשיות, גישה לקטלוג בשמים וכלים נלווים.</p>
+            <p>SCENTORY הוא שירות מנוי לבשמי נישה מבוסס AI. השירות כולל המלצות אישיות, דגימות תקופתיות, גישה לקטלוג בשמים, וכלים נלווים (שאלון טעמים, רדאר ריחות, יומן). שמורה לנו הזכות לשנות, להוסיף או להסיר תכונות בכל עת.</p>
           </section>
 
           <section>
-            <h2 className="font-serif text-lg text-ink font-semibold mb-2">3. מנוי וחיוב</h2>
-            <p>החיוב חודשי. ניתן לבטל את המנוי בכל עת דרך עמוד &ldquo;החשבון שלי&rdquo;. ביטול ייכנס לתוקף בסוף תקופת החיוב הנוכחית.</p>
+            <h2 className="font-serif text-lg text-ink font-semibold mb-2">3. גיל מינימום</h2>
+            <p>השימוש מותר לבני 18 ומעלה בלבד. בהרשמה אתה מאשר שאתה בגיל מתאים.</p>
           </section>
 
           <section>
-            <h2 className="font-serif text-lg text-ink font-semibold mb-2">4. החזרים</h2>
-            <p>ניתן לבקש החזר תוך 30 יום מתאריך החיוב הראשון. בקשות החזר יש להפנות לכתובת contact@scentory.co.il.</p>
+            <h2 className="font-serif text-lg text-ink font-semibold mb-2">4. חשבון משתמש</h2>
+            <p>אתה אחראי לשמור על סודיות פרטי הגישה שלך ועל כל פעילות בחשבונך. עדכן אותנו מיד על שימוש לא מורשה.</p>
           </section>
 
           <section>
-            <h2 className="font-serif text-lg text-ink font-semibold mb-2">5. קניין רוחני</h2>
-            <p>כל הבשמים המוצגים באתר הם סימנים מסחריים של בעליהם. השימוש בשמות ובתמונות הוא לצרכי תיאור והמלצה בלבד.</p>
+            <h2 className="font-serif text-lg text-ink font-semibold mb-2">5. מנוי וחיוב</h2>
+            <p>החיוב הוא חודשי ומתבצע אוטומטית באמצעות Stripe. ניתן לבטל את המנוי בכל עת דרך עמוד &ldquo;החשבון שלי&rdquo;. ביטול ייכנס לתוקף בסוף תקופת החיוב הנוכחית — לא יבוצע חיוב נוסף.</p>
           </section>
 
           <section>
-            <h2 className="font-serif text-lg text-ink font-semibold mb-2">6. יצירת קשר</h2>
-            <p>שאלות ופניות: <a href="mailto:contact@scentory.co.il" className="text-gold hover:underline" dir="ltr">contact@scentory.co.il</a></p>
+            <h2 className="font-serif text-lg text-ink font-semibold mb-2">6. החזרים וביטולים (חוק הגנת הצרכן)</h2>
+            <p>בהתאם לחוק הגנת הצרכן הישראלי — ניתן לבטל עסקת מנוי תוך 14 יום מיום הרכישה ולקבל החזר מלא, ובלבד שלא נעשה שימוש בדגימה. ביטול לאחר מכן יזכה בהחזר יחסי לפי תקופת החיוב הנותרת. בקשות החזר: <a href="mailto:contact@scentory.co.il" className="text-gold hover:underline" dir="ltr">contact@scentory.co.il</a></p>
           </section>
+
+          <section>
+            <h2 className="font-serif text-lg text-ink font-semibold mb-2">7. משלוחים</h2>
+            <p>זמני משלוח: עד 14 ימי עסקים בתוך ישראל. עיכובים בשליטת חברות השליחות אינם באחריותנו. דמי משלוח כלולים במנוי, אלא אם צוין אחרת.</p>
+          </section>
+
+          <section>
+            <h2 className="font-serif text-lg text-ink font-semibold mb-2">8. שימוש מותר</h2>
+            <p>אסור: ניסיון לפרוץ לאתר, scraping, שימוש בתוכן לצרכים מסחריים ללא רשות, התחזות, פרסום תוכן פוגעני, או הפרעה לפעילות תקינה של השירות.</p>
+          </section>
+
+          <section>
+            <h2 className="font-serif text-lg text-ink font-semibold mb-2">9. קניין רוחני</h2>
+            <p>כל הבשמים המוצגים באתר הם סימנים מסחריים של בעליהם. השימוש בשמות, סמלים ותמונות הוא לצרכי תיאור, השוואה והמלצה בלבד — תחת דיני שימוש הוגן (fair use). תוכן מקורי באתר (טקסטים, עיצוב, קוד, המלצות AI) שייך ל-SCENTORY.</p>
+          </section>
+
+          <section>
+            <h2 className="font-serif text-lg text-ink font-semibold mb-2">10. הגבלת אחריות</h2>
+            <p>השירות מסופק &ldquo;כמות שהוא&rdquo; (AS-IS). המלצות ה-AI הן הצעות בלבד ואינן מתיימרות להיות מקצועיות. איננו אחראים לתגובות אלרגיות, רגישויות או תופעות אחרות שנגרמו משימוש בבשמים. בדוק תמיד רכיבים לפני שימוש.</p>
+          </section>
+
+          <section>
+            <h2 className="font-serif text-lg text-ink font-semibold mb-2">11. פרטיות</h2>
+            <p>השימוש שלך כפוף ל-<Link href="/privacy" className="text-gold hover:underline">מדיניות הפרטיות</Link> שלנו, המהווה חלק בלתי נפרד מתקנון זה.</p>
+          </section>
+
+          <section>
+            <h2 className="font-serif text-lg text-ink font-semibold mb-2">12. שינויים בתקנון</h2>
+            <p>אנחנו רשאים לעדכן את התקנון מעת לעת. שינויים מהותיים יישלחו באימייל לפחות 30 יום מראש. המשך השימוש לאחר שינוי מהווה הסכמה לתנאים החדשים.</p>
+          </section>
+
+          <section>
+            <h2 className="font-serif text-lg text-ink font-semibold mb-2">13. דין וסמכות שיפוט</h2>
+            <p>על תקנון זה יחולו דיני מדינת ישראל. סמכות השיפוט הבלעדית בכל מחלוקת — בבתי המשפט המוסמכים בתל אביב-יפו.</p>
+          </section>
+
+          <section>
+            <h2 className="font-serif text-lg text-ink font-semibold mb-2">14. יצירת קשר</h2>
+            <p>שאלות, פניות ותלונות: <a href="mailto:contact@scentory.co.il" className="text-gold hover:underline" dir="ltr">contact@scentory.co.il</a></p>
+          </section>
+
         </div>
       </article>
     </main>

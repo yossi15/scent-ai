@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getSupabase } from '@/lib/supabase';
+import { sendSampleConfirmation } from '@/lib/email';
 
 export async function POST(req: NextRequest) {
   try {
@@ -26,6 +27,14 @@ export async function POST(req: NextRequest) {
       console.error('Sample request insert error:', error);
       return NextResponse.json({ error: 'Database error' }, { status: 500 });
     }
+
+    // Fire-and-forget email confirmation (don't fail the request if email fails)
+    void sendSampleConfirmation({
+      to: email,
+      name: name ?? null,
+      fragranceName: fragrance_name,
+      brand: brand ?? null,
+    });
 
     return NextResponse.json({ ok: true });
   } catch (err) {

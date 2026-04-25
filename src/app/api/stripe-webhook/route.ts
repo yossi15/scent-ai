@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import type Stripe from 'stripe';
 import { getStripe, priceIdToTier } from '@/lib/stripe';
 import { getSupabase } from '@/lib/supabase';
+import { sendSubscriptionConfirmation } from '@/lib/email';
 
 export const runtime = 'nodejs';
 // Stripe needs the raw body for signature verification — disable Next's body parsing
@@ -37,6 +38,17 @@ export async function POST(req: NextRequest) {
             : session.subscription.id;
           const sub = await stripe.subscriptions.retrieve(subId);
           await upsertSubscription(sub);
+
+          // Send Hebrew confirmation email
+          const email = session.customer_details?.email ?? session.customer_email;
+          if (email) {
+            const tier = priceIdToTier(sub.items.data[0]?.price?.id ?? '');
+            void sendSubscriptionConfirmation({
+              to: email,
+              name: session.customer_details?.name ?? null,
+              tier: tier ?? 'מנוי SCENTORY',
+            });
+          }
         }
         break;
       }

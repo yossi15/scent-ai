@@ -3,14 +3,17 @@ import { ClerkProvider } from '@clerk/nextjs';
 import './globals.css';
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://scentory.co.il'),
   title: 'SCENTORY | Know your scent.',
   description: 'SCENTORY — שירות מנוי לבשמי נישה מבוסס AI. גלה את הזהות הריחנית שלך.',
+  alternates: { canonical: '/' },
   openGraph: {
     title: 'SCENTORY | Know your scent.',
     description: 'SCENTORY — שירות מנוי לבשמי נישה מבוסס AI. גלה את הזהות הריחנית שלך.',
     siteName: 'SCENTORY',
     type: 'website',
     locale: 'he_IL',
+    url: '/',
   },
   twitter: {
     card: 'summary_large_image',
