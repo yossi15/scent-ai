@@ -18,15 +18,15 @@ export default function Hero() {
   return (
     <section
       className="relative min-h-screen flex items-center justify-center overflow-hidden px-4"
-      style={{ background: 'linear-gradient(135deg, #0D0D0D 0%, #1A1A1A 100%)' }}
+      style={{ background: 'linear-gradient(135deg, #F5F3EE 0%, #ECEAE4 100%)' }}
     >
       {/* Decorative elements */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-[10%] right-[10%] w-[500px] h-[500px] rounded-full bg-gradient-to-br from-[#C4A882]/[0.10] to-transparent blur-3xl" />
-        <div className="absolute bottom-[15%] left-[5%] w-[400px] h-[400px] rounded-full bg-gradient-to-tr from-[#C4A882]/[0.08] to-transparent blur-3xl" />
-        <div className="absolute top-[40%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] rounded-full border border-[#C4A882]/[0.10]" />
-        <div className="absolute top-[40%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full border border-[#C4A882]/[0.06]" />
-        <div className="absolute top-[40%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full border border-[#C4A882]/[0.04]" />
+        <div className="absolute top-[10%] right-[10%] w-[500px] h-[500px] rounded-full bg-gradient-to-br from-[#C4A882]/[0.18] to-transparent blur-3xl" />
+        <div className="absolute bottom-[15%] left-[5%] w-[400px] h-[400px] rounded-full bg-gradient-to-tr from-[#C4A882]/[0.14] to-transparent blur-3xl" />
+        <div className="absolute top-[40%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] rounded-full border border-[#C4A882]/[0.20]" />
+        <div className="absolute top-[40%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full border border-[#C4A882]/[0.14]" />
+        <div className="absolute top-[40%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full border border-[#C4A882]/[0.08]" />
 
         {/* Floating scent drops */}
         <motion.div
@@ -34,21 +34,21 @@ export default function Hero() {
           animate={{ y: [-10, 10, -10], rotate: [0, 5, 0] }}
           transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
         >
-          <Droplets className="w-6 h-6 text-[#C4A882]/20" />
+          <Droplets className="w-6 h-6 text-[#C4A882]/40" />
         </motion.div>
         <motion.div
           className="absolute bottom-[30%] left-[15%]"
           animate={{ y: [10, -10, 10], rotate: [0, -5, 0] }}
           transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
         >
-          <Droplets className="w-8 h-8 text-[#C4A882]/15" />
+          <Droplets className="w-8 h-8 text-[#C4A882]/35" />
         </motion.div>
         <motion.div
           className="absolute top-[60%] right-[12%]"
           animate={{ y: [-5, 15, -5] }}
           transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
         >
-          <Sparkles className="w-5 h-5 text-[#C4A882]/20" />
+          <Sparkles className="w-5 h-5 text-[#C4A882]/40" />
         </motion.div>
       </div>
 
@@ -70,15 +70,15 @@ export default function Hero() {
           </motion.div>
 
           {/* Logo */}
-          <div className="flex justify-center mb-6 [&_*]:!text-[#F5F3EE]">
+          <div className="flex justify-center mb-6 [&_*]:!text-[#0D0D0D]">
             <Logo size="xl" />
           </div>
 
-          <p className="font-serif text-2xl md:text-3xl italic mb-4 font-light" style={{ color: '#F5F3EE' }}>
+          <p className="font-serif text-2xl md:text-3xl italic mb-4 font-light" style={{ color: '#0D0D0D' }}>
             הבושם הבא שלך, מפוענח.
           </p>
 
-          <p className="font-hebrew text-sm md:text-base max-w-lg mx-auto leading-relaxed mb-10 font-light" style={{ color: '#9A9A9A' }}>
+          <p className="font-hebrew text-sm md:text-base max-w-lg mx-auto leading-relaxed mb-10 font-light" style={{ color: '#4A4A4A' }}>
             שירות מנוי לבשמי נישה מבוסס AI שמנתח את העדפות הריח שלך ומגלה את יצירת המופת הבאה — מבתי הבושם הנישתיים ביותר בעולם.
           </p>
         </motion.div>
@@ -92,14 +92,14 @@ export default function Hero() {
           <button
             onClick={() => scrollTo('quiz')}
             className="px-8 py-3.5 font-hebrew text-sm tracking-wide rounded-lg font-semibold transition-all duration-300 hover:-translate-y-0.5"
-            style={{ background: 'linear-gradient(135deg, #C4A882, #D6BE9C)', color: '#0D0D0D', boxShadow: '0 4px 16px rgba(196,168,130,0.3)' }}
+            style={{ background: '#0D0D0D', color: '#FFFFFF', boxShadow: '0 4px 16px rgba(13,13,13,0.18)' }}
           >
             גלה את הבושם שלך
           </button>
           <button
             onClick={() => scrollTo('collection')}
-            className="px-8 py-3.5 font-hebrew text-sm tracking-wide rounded-lg border-2 transition-all duration-300 hover:bg-[#C4A882]/10"
-            style={{ borderColor: '#C4A882', color: '#C4A882' }}
+            className="px-8 py-3.5 font-hebrew text-sm tracking-wide rounded-lg border-2 transition-all duration-300 hover:bg-[#8B7355]/10"
+            style={{ borderColor: '#8B7355', color: '#8B7355' }}
           >
             חקור את הקולקציה
           </button>
@@ -113,9 +113,9 @@ export default function Hero() {
           className="flex justify-center gap-8 md:gap-16"
         >
           {stats.map((stat, i) => (
-            <div key={i} className="text-center bg-[#F5F3EE]/[0.04] backdrop-blur-sm rounded-xl px-5 py-3 border border-[#C4A882]/20">
-              <p className="font-serif text-2xl md:text-3xl font-semibold" style={{ color: '#C4A882' }}>{stat.value}</p>
-              <p className="text-xs font-hebrew font-light mt-1" style={{ color: '#9A9A9A' }}>{stat.label}</p>
+            <div key={i} className="text-center bg-white/70 backdrop-blur-sm rounded-xl px-5 py-3 border border-[#E8E4DC]">
+              <p className="font-serif text-2xl md:text-3xl font-semibold" style={{ color: '#8B7355' }}>{stat.value}</p>
+              <p className="text-xs font-hebrew font-light mt-1" style={{ color: '#4A4A4A' }}>{stat.label}</p>
             </div>
           ))}
         </motion.div>
@@ -129,8 +129,8 @@ export default function Hero() {
         <button
           onClick={() => scrollTo('collection')}
           aria-label="גלול לקולקציה"
-          className="hover:text-[#C4A882] transition-colors"
-          style={{ color: '#C4A882', opacity: 0.6 }}
+          className="hover:text-[#0D0D0D] transition-colors"
+          style={{ color: '#8B7355', opacity: 0.7 }}
         >
           <ChevronDown className="w-5 h-5" aria-hidden />
         </button>
