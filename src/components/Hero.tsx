@@ -76,7 +76,7 @@ export default function Hero() {
           </div>
 
           <p className="font-hebrew text-2xl md:text-3xl mb-4 font-light text-ink tracking-tight">
-            הבושם הבא שלך, מפוענח.
+            גלה את חתימת הריח שלך
           </p>
 
           <p className="font-hebrew text-sm md:text-base max-w-lg mx-auto leading-relaxed mb-10 font-light text-ink-secondary">
