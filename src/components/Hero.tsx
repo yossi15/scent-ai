@@ -75,7 +75,7 @@ export default function Hero() {
             <Logo size="xl" />
           </div>
 
-          <p className="font-serif text-2xl md:text-3xl italic mb-4 font-light text-ink">
+          <p className="font-hebrew text-2xl md:text-3xl mb-4 font-light text-ink tracking-tight">
             הבושם הבא שלך, מפוענח.
           </p>
 
