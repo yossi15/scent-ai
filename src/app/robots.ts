@@ -5,7 +5,7 @@ const SITE = 'https://scentory.co.il';
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: [
-      { userAgent: '*', allow: '/', disallow: ['/api/', '/dashboard', '/account', '/sign-in', '/sign-up'] },
+      { userAgent: '*', allow: '/', disallow: ['/api/', '/dashboard', '/account', '/sign-in', '/sign-up', '/admin'] },
     ],
     sitemap: `${SITE}/sitemap.xml`,
     host: SITE,
