@@ -1716,7 +1716,7 @@ export const fragrances: Fragrance[] = [
   {
     id: 62,
     name: "La Nuit de L'Homme",
-    house: "Yves Saint Laurent",
+    house: "YSL",
     year: 2009,
     concentration: "EDT",
     price: 420,
@@ -2119,7 +2119,7 @@ export const fragrances: Fragrance[] = [
   {
     id: 77,
     name: "Legend",
-    house: "Montblanc",
+    house: "Mont Blanc",
     year: 2011,
     concentration: "EDT",
     price: 280,
@@ -2544,7 +2544,7 @@ export const fragrances: Fragrance[] = [
   {
     id: 93,
     name: "Black Opium",
-    house: "Yves Saint Laurent",
+    house: "YSL",
     year: 2014,
     concentration: "EDP",
     price: 490,
@@ -2655,7 +2655,7 @@ export const fragrances: Fragrance[] = [
   {
     id: 97,
     name: "Si",
-    house: "Giorgio Armani",
+    house: "Armani",
     year: 2013,
     concentration: "EDP",
     price: 520,
@@ -3220,7 +3220,7 @@ export const fragrances: Fragrance[] = [
   {
     id: 165,
     name: "Magnetic Blend 1",
-    house: "Initio Parfums Privés",
+    house: "Initio",
     year: 2019,
     concentration: "EDP",
     price: 1700,
@@ -3248,7 +3248,7 @@ export const fragrances: Fragrance[] = [
   {
     id: 166,
     name: "Paragon",
-    house: "Initio Parfums Privés",
+    house: "Initio",
     year: 2019,
     concentration: "EDP",
     price: 1700,
@@ -3276,7 +3276,7 @@ export const fragrances: Fragrance[] = [
   {
     id: 167,
     name: "Atomic Rose",
-    house: "Initio Parfums Privés",
+    house: "Initio",
     year: 2022,
     concentration: "EDP",
     price: 1700,
@@ -3304,7 +3304,7 @@ export const fragrances: Fragrance[] = [
   {
     id: 168,
     name: "High Frequency",
-    house: "Initio Parfums Privés",
+    house: "Initio",
     year: 2017,
     concentration: "EDP",
     price: 1700,
@@ -4240,7 +4240,7 @@ export const fragrances: Fragrance[] = [
   {
     id: 201,
     name: "Wood Sage & Sea Salt",
-    house: "Jo Malone London",
+    house: "Jo Malone",
     year: 2014,
     concentration: "Cologne",
     price: 750,
@@ -4266,7 +4266,7 @@ export const fragrances: Fragrance[] = [
   {
     id: 202,
     name: "Velvet Rose & Oud",
-    house: "Jo Malone London",
+    house: "Jo Malone",
     year: 2014,
     concentration: "Cologne",
     price: 1100,
@@ -4290,7 +4290,7 @@ export const fragrances: Fragrance[] = [
   {
     id: 203,
     name: "English Pear & Freesia",
-    house: "Jo Malone London",
+    house: "Jo Malone",
     year: 2010,
     concentration: "Cologne",
     price: 750,
@@ -4318,7 +4318,7 @@ export const fragrances: Fragrance[] = [
   {
     id: 204,
     name: "Lime Basil & Mandarin",
-    house: "Jo Malone London",
+    house: "Jo Malone",
     year: 1999,
     concentration: "Cologne",
     price: 750,
@@ -4883,7 +4883,7 @@ export const fragrances: Fragrance[] = [
   {
     id: 223,
     name: "MyShi",
-    house: "Yves Saint Laurent",
+    house: "YSL",
     year: 2024,
     concentration: "EDP",
     price: 700,
@@ -4910,7 +4910,7 @@ export const fragrances: Fragrance[] = [
   {
     id: 224,
     name: "L'Homme",
-    house: "Yves Saint Laurent",
+    house: "YSL",
     year: 2006,
     concentration: "EDT",
     price: 600,
@@ -7128,7 +7128,7 @@ export const fragrances: Fragrance[] = [
   {
     id: 299,
     name: "Side Effect",
-    house: "Initio Parfums Privés",
+    house: "Initio",
     year: 2017,
     concentration: "EDP",
     price: 1700,
@@ -7155,7 +7155,7 @@ export const fragrances: Fragrance[] = [
   {
     id: 300,
     name: "Oud for Greatness",
-    house: "Initio Parfums Privés",
+    house: "Initio",
     year: 2018,
     concentration: "EDP",
     price: 1700,
@@ -7183,7 +7183,7 @@ export const fragrances: Fragrance[] = [
   {
     id: 301,
     name: "Musk Therapy",
-    house: "Initio Parfums Privés",
+    house: "Initio",
     year: 2020,
     concentration: "EDP",
     price: 1700,
@@ -7211,7 +7211,7 @@ export const fragrances: Fragrance[] = [
   {
     id: 302,
     name: "Rehab",
-    house: "Initio Parfums Privés",
+    house: "Initio",
     year: 2018,
     concentration: "EDP",
     price: 1700,
@@ -7302,7 +7302,7 @@ export const fragrances: Fragrance[] = [
   {
     id: 305,
     name: "Code Absolu",
-    house: "Giorgio Armani",
+    house: "Armani",
     year: 2019,
     concentration: "EDP Intense",
     price: 500,
@@ -7330,7 +7330,7 @@ export const fragrances: Fragrance[] = [
   {
     id: 306,
     name: "Acqua di Giò Profumo",
-    house: "Giorgio Armani",
+    house: "Armani",
     year: 2015,
     concentration: "Parfum",
     price: 600,
