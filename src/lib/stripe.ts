@@ -6,16 +6,16 @@
  *   STRIPE_SECRET_KEY                 sk_test_... (or sk_live_...)
  *   STRIPE_WEBHOOK_SECRET             whsec_... (from Stripe CLI or dashboard)
  *   NEXT_PUBLIC_APP_URL               https://your-domain.vercel.app
- *   NEXT_PUBLIC_STRIPE_PRICE_DISCOVERY  price_... (₪179/mo)
- *   NEXT_PUBLIC_STRIPE_PRICE_COLLECTOR  price_... (₪549/mo)
- *   NEXT_PUBLIC_STRIPE_PRICE_VAULT      price_... (₪1459/mo)
+ *   NEXT_PUBLIC_STRIPE_PRICE_DISCOVERY  price_... (₪49/mo)
+ *   NEXT_PUBLIC_STRIPE_PRICE_COLLECTOR  price_... (₪99/mo)
+ *   NEXT_PUBLIC_STRIPE_PRICE_EXPERT     price_... (₪199/mo)
  *
  * ─── Required Supabase SQL ──────────────────────────────────────────────
  *   create table public.user_subscriptions (
  *     user_id              text primary key,
  *     stripe_customer_id   text unique,
  *     stripe_subscription_id text unique,
- *     tier                 text,                    -- 'discovery' | 'collector' | 'vault'
+ *     tier                 text,                    -- 'discovery' | 'collector' | 'expert'
  *     status               text,                    -- 'active' | 'trialing' | 'past_due' | 'canceled' | 'incomplete'
  *     current_period_end   timestamptz,
  *     cancel_at_period_end boolean default false,
@@ -26,9 +26,9 @@
  *
  * ─── Stripe Dashboard setup ─────────────────────────────────────────────
  *   1. Create 3 Products + recurring monthly Prices in ILS:
- *        Discovery  → ₪179
- *        Collector  → ₪549
- *        Vault      → ₪1459
+ *        Discovery  → ₪49
+ *        Collector  → ₪99
+ *        Expert     → ₪199
  *   2. Copy each price_id into the env vars above.
  *   3. Add a webhook endpoint pointing to:
  *        https://YOUR-DOMAIN/api/stripe-webhook
@@ -43,7 +43,7 @@
 
 import Stripe from 'stripe';
 
-export type Tier = 'discovery' | 'collector' | 'vault';
+export type Tier = 'discovery' | 'collector' | 'expert';
 
 export function getStripe(): Stripe {
   const key = process.env.STRIPE_SECRET_KEY;
@@ -55,7 +55,7 @@ export function tierToPriceId(tier: Tier): string {
   const map: Record<Tier, string | undefined> = {
     discovery: process.env.NEXT_PUBLIC_STRIPE_PRICE_DISCOVERY,
     collector: process.env.NEXT_PUBLIC_STRIPE_PRICE_COLLECTOR,
-    vault:     process.env.NEXT_PUBLIC_STRIPE_PRICE_VAULT,
+    expert:    process.env.NEXT_PUBLIC_STRIPE_PRICE_EXPERT,
   };
   const id = map[tier];
   if (!id) throw new Error(`Missing price id for tier: ${tier}`);
@@ -65,7 +65,7 @@ export function tierToPriceId(tier: Tier): string {
 export function priceIdToTier(priceId: string): Tier | null {
   if (priceId === process.env.NEXT_PUBLIC_STRIPE_PRICE_DISCOVERY) return 'discovery';
   if (priceId === process.env.NEXT_PUBLIC_STRIPE_PRICE_COLLECTOR) return 'collector';
-  if (priceId === process.env.NEXT_PUBLIC_STRIPE_PRICE_VAULT)     return 'vault';
+  if (priceId === process.env.NEXT_PUBLIC_STRIPE_PRICE_EXPERT)    return 'expert';
   return null;
 }
 

@@ -2,27 +2,17 @@
 
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { Crown, Check, ArrowLeft, Package, Sparkles, Calendar, Loader2, Settings } from 'lucide-react';
+import { Crown, Check, ArrowLeft, Package, Sparkles, Calendar, Loader2, Settings, Tag, X } from 'lucide-react';
 import { useUser, SignInButton } from '@clerk/nextjs';
 import { subscriptionTiers } from '@/data/fragrances';
 
-const hebrewTiers = [
-  {
-    name: 'גילוי',
-    tagline: 'התחל את המסע',
-    features: ['3 דגימות 8מ"ל בקיור AI חודשי', 'פרופיל ריח מותאם אישית', 'אנליטיקת רדאר ריחות', 'גישה ליומן', 'תווי טעימה קהילתיים'],
-  },
-  {
-    name: 'אספן',
-    tagline: 'העלה את האוסף שלך',
-    features: ['5 דגימות 8מ"ל בקיור AI חודשי', 'עדיפות לגישה לבקבוקים מלאים', 'גישה לכספת הדגימות הנדירות', 'התאמת חתימה AI בלעדית', 'מאסטרקלאס וידאו חודשי', 'קונסיירז\' אישי'],
-  },
-  {
-    name: 'הכספת',
-    tagline: 'פסגת הבלעדיות',
-    features: ['הכל בחבילת אספן', 'מהדורות מוגבלות וסדרות שהופסקו', 'גישה ראשונה להשקות חדשות', 'ייעוץ ריחני אישי', 'סשן בלנדינג בהתאמה אישית (רבעוני)', 'אריזת יוקרה מפוארת', 'הזמנה לאירועים בלעדיים'],
-  },
-];
+// Known promotion codes (must match Stripe). These are validated server-side
+// at checkout — the table here is for instant UX feedback only.
+const COUPONS: Record<string, { percent: number; label: string }> = {
+  WELCOME20: { percent: 20, label: '20% הנחה לחודש ראשון' },
+  SCENT50:   { percent: 50, label: '50% הנחה לחודש ראשון' },
+  VIP30:     { percent: 30, label: '30% הנחה לכל החיים' },
+};
 
 type SubInfo = {
   tier: string | null;
@@ -38,7 +28,12 @@ export default function Subscription() {
   const [error, setError] = useState<string | null>(null);
   const [sub, setSub] = useState<SubInfo | null>(null);
 
-  // Fetch current subscription status
+  // Coupon UX
+  const [showCouponInput, setShowCouponInput] = useState(false);
+  const [couponInput, setCouponInput] = useState('');
+  const [appliedCoupon, setAppliedCoupon] = useState<string | null>(null);
+  const [couponError, setCouponError] = useState<string | null>(null);
+
   useEffect(() => {
     if (!isSignedIn) { setSub(null); return; }
     fetch('/api/subscription')
@@ -50,6 +45,24 @@ export default function Subscription() {
   const isActive = sub?.status === 'active' || sub?.status === 'trialing';
   const activeTierId = isActive ? sub?.tier : null;
 
+  const applyCoupon = () => {
+    const code = couponInput.trim().toUpperCase();
+    setCouponError(null);
+    if (!code) return;
+    if (COUPONS[code]) {
+      setAppliedCoupon(code);
+    } else {
+      setAppliedCoupon(null);
+      setCouponError('קוד קופון לא תקין');
+    }
+  };
+
+  const clearCoupon = () => {
+    setAppliedCoupon(null);
+    setCouponInput('');
+    setCouponError(null);
+  };
+
   const startCheckout = async (tierId: string) => {
     setError(null);
     setLoadingTier(tierId);
@@ -57,7 +70,7 @@ export default function Subscription() {
       const res = await fetch('/api/checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ tier: tierId }),
+        body: JSON.stringify({ tier: tierId, couponCode: appliedCoupon ?? undefined }),
       });
       const data = await res.json();
       if (!res.ok || !data.url) throw new Error(data.error ?? 'Checkout failed');
@@ -80,6 +93,13 @@ export default function Subscription() {
       setError(e instanceof Error ? e.message : 'משהו השתבש');
       setPortalLoading(false);
     }
+  };
+
+  const couponInfo = appliedCoupon ? COUPONS[appliedCoupon] : null;
+
+  const priceWithDiscount = (price: number) => {
+    if (!couponInfo) return null;
+    return Math.round(price * (1 - couponInfo.percent / 100));
   };
 
   return (
@@ -115,8 +135,8 @@ export default function Subscription() {
               <span className="font-serif text-xl text-ink font-semibold">
                 המנוי שלך פעיל
                 {(() => {
-                  const idx = subscriptionTiers.findIndex(t => t.id === activeTierId);
-                  return idx >= 0 ? ` — ${hebrewTiers[idx].name}` : '';
+                  const t = subscriptionTiers.find(t => t.id === activeTierId);
+                  return t ? ` — ${t.name}` : '';
                 })()}
               </span>
             </div>
@@ -147,10 +167,12 @@ export default function Subscription() {
           </motion.div>
         )}
 
-        <div className="grid md:grid-cols-3 gap-5 mb-16">
+        {/* Tier cards */}
+        <div className="grid md:grid-cols-3 gap-5 md:gap-6 mb-10 items-stretch">
           {subscriptionTiers.map((tier, i) => {
             const isCurrent = activeTierId === tier.id;
             const isLoading = loadingTier === tier.id;
+            const discounted = tier.highlight ? priceWithDiscount(tier.price) : priceWithDiscount(tier.price);
 
             return (
               <motion.div
@@ -159,15 +181,15 @@ export default function Subscription() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: i * 0.12 }}
-                className={`rounded-2xl p-6 md:p-8 relative transition-all duration-400 ${
+                className={`rounded-2xl p-6 md:p-8 relative transition-all duration-400 flex flex-col ${
                   tier.highlight
-                    ? 'card-gold scale-[1.02] md:scale-105'
+                    ? 'bg-bg-card border-2 border-[#C4A882] md:scale-110 shadow-[0_24px_60px_-20px_rgba(196,168,130,0.55)] z-10'
                     : 'card'
                 } ${isCurrent ? 'ring-2 ring-gold' : ''}`}
               >
                 {tier.highlight && !isCurrent && (
-                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 btn-gold text-[10px] font-hebrew font-semibold px-4 py-1 rounded-full">
-                    הכי פופולרי
+                  <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-[#C4A882] text-[#0D0D0D] text-[11px] font-hebrew font-bold px-4 py-1.5 rounded-full shadow-md whitespace-nowrap">
+                    ⭐ הכי פופולרי
                   </div>
                 )}
                 {isCurrent && (
@@ -176,47 +198,59 @@ export default function Subscription() {
                   </div>
                 )}
 
-                <div className="text-center mb-6">
+                <div className="text-center mb-5">
                   <div className={`w-12 h-12 rounded-xl mx-auto mb-3 flex items-center justify-center ${
-                    tier.highlight ? 'bg-gold-faint' : 'bg-bg-secondary'
+                    tier.highlight ? 'bg-[#C4A882]/20' : 'bg-bg-secondary'
                   }`}>
-                    <Crown className={`w-5 h-5 ${tier.highlight ? 'text-gold' : 'text-ink-faint'}`} />
+                    <Crown className={`w-5 h-5 ${tier.highlight ? 'text-[#C4A882]' : 'text-ink-faint'}`} />
                   </div>
-                  <h3 className="font-serif text-2xl text-ink mb-0.5 font-semibold">{hebrewTiers[i].name}</h3>
-                  <p className="text-ink-faint text-xs font-hebrew font-light">{hebrewTiers[i].tagline}</p>
+                  <h3 className="font-serif text-2xl text-ink mb-0.5 font-semibold">{tier.name}</h3>
+                  <p className="text-ink-faint text-xs font-hebrew font-light">{tier.tagline}</p>
                 </div>
 
                 <div className="text-center mb-6" dir="ltr">
-                  <span className="text-gold font-serif text-4xl font-bold">₪{tier.price}</span>
+                  {discounted !== null ? (
+                    <>
+                      <span className="text-ink-faint text-base font-sans line-through ml-1">₪{tier.price}</span>
+                      <span className={`font-serif text-4xl font-bold ${tier.highlight ? 'text-[#C4A882]' : 'text-gold'}`}>
+                        ₪{discounted}
+                      </span>
+                    </>
+                  ) : (
+                    <span className={`font-serif text-4xl font-bold ${tier.highlight ? 'text-[#C4A882]' : 'text-gold'}`}>
+                      ₪{tier.price}
+                    </span>
+                  )}
                   <span className="text-ink-faint text-sm font-sans">/חודש</span>
+                  {couponInfo && (
+                    <p className="text-[10px] font-hebrew text-[#8B7355] mt-1">{couponInfo.label}</p>
+                  )}
                 </div>
 
-                <ul className="space-y-2.5 mb-8">
-                  {hebrewTiers[i].features.map((feature) => (
+                <ul className="space-y-2.5 mb-8 flex-1">
+                  {tier.features.map((feature) => (
                     <li key={feature} className="flex items-start gap-2.5">
-                      <div className="w-4 h-4 rounded-full bg-gold-faint flex items-center justify-center mt-0.5 shrink-0">
-                        <Check className="w-2.5 h-2.5 text-gold" />
+                      <div className={`w-4 h-4 rounded-full flex items-center justify-center mt-0.5 shrink-0 ${
+                        tier.highlight ? 'bg-[#C4A882]/25' : 'bg-gold-faint'
+                      }`}>
+                        <Check className={`w-2.5 h-2.5 ${tier.highlight ? 'text-[#8B7355]' : 'text-gold'}`} />
                       </div>
                       <span className="text-ink-secondary text-sm font-hebrew font-light">{feature}</span>
                     </li>
                   ))}
                 </ul>
 
-                {/* CTA button — depends on auth + current subscription state */}
+                {/* CTA */}
                 {!isLoaded ? (
-                  <button
-                    disabled
-                    className={`w-full py-3 text-sm font-hebrew font-medium flex items-center justify-center gap-2 rounded-lg opacity-60 ${
-                      tier.highlight ? 'btn-gold' : 'btn-outline'
-                    }`}
-                  >
-                    <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                    טוען...
+                  <button disabled className="w-full py-3 text-sm font-hebrew font-medium flex items-center justify-center gap-2 rounded-lg opacity-60 bg-bg-secondary text-ink-muted">
+                    <Loader2 className="w-3.5 h-3.5 animate-spin" /> טוען...
                   </button>
                 ) : !isSignedIn ? (
                   <SignInButton mode="modal">
-                    <button className={`w-full py-3 text-sm font-hebrew font-medium flex items-center justify-center gap-2 rounded-lg transition-all ${
-                      tier.highlight ? 'btn-gold' : 'btn-outline'
+                    <button className={`w-full py-3 text-sm font-hebrew font-semibold flex items-center justify-center gap-2 rounded-lg transition-all ${
+                      tier.highlight
+                        ? 'bg-[#0D0D0D] text-white hover:bg-[#1a1a1a] shadow-md'
+                        : 'btn-outline'
                     }`}>
                       התחבר להמשך <ArrowLeft className="w-3.5 h-3.5" />
                     </button>
@@ -234,8 +268,10 @@ export default function Subscription() {
                   <button
                     onClick={() => startCheckout(tier.id)}
                     disabled={isLoading || loadingTier !== null}
-                    className={`w-full py-3 text-sm font-hebrew font-medium flex items-center justify-center gap-2 rounded-lg transition-all disabled:opacity-60 ${
-                      tier.highlight ? 'btn-gold' : 'btn-outline'
+                    className={`w-full py-3 text-sm font-hebrew font-semibold flex items-center justify-center gap-2 rounded-lg transition-all disabled:opacity-60 ${
+                      tier.highlight
+                        ? 'bg-[#0D0D0D] text-white hover:bg-[#1a1a1a] shadow-md'
+                        : 'btn-outline'
                     }`}
                   >
                     {isLoading ? (
@@ -250,6 +286,66 @@ export default function Subscription() {
               </motion.div>
             );
           })}
+        </div>
+
+        {/* Coupon code section */}
+        <div className="max-w-md mx-auto mb-16">
+          {!showCouponInput && !appliedCoupon && (
+            <button
+              onClick={() => setShowCouponInput(true)}
+              className="mx-auto flex items-center gap-1.5 text-ink-muted hover:text-gold text-xs font-hebrew transition-colors"
+            >
+              <Tag className="w-3.5 h-3.5" />
+              יש לך קוד קופון?
+            </button>
+          )}
+
+          {showCouponInput && !appliedCoupon && (
+            <motion.div
+              initial={{ opacity: 0, y: -6 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="card !p-3 flex items-center gap-2"
+            >
+              <Tag className="w-4 h-4 text-gold shrink-0" />
+              <input
+                type="text"
+                value={couponInput}
+                onChange={(e) => setCouponInput(e.target.value.toUpperCase())}
+                onKeyDown={(e) => e.key === 'Enter' && applyCoupon()}
+                placeholder="הכנס קוד קופון..."
+                className="flex-1 bg-transparent text-ink text-sm font-hebrew placeholder:text-ink-faint/60 focus:outline-none uppercase tracking-wider"
+                dir="ltr"
+              />
+              <button
+                onClick={applyCoupon}
+                className="bg-[#0D0D0D] text-white text-xs font-hebrew font-semibold px-4 py-2 rounded-lg hover:bg-[#1a1a1a] transition-colors"
+              >
+                החל
+              </button>
+            </motion.div>
+          )}
+
+          {couponError && (
+            <p className="text-red-500 text-xs font-hebrew mt-2 text-center">{couponError}</p>
+          )}
+
+          {appliedCoupon && couponInfo && (
+            <motion.div
+              initial={{ opacity: 0, y: -6 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="flex items-center justify-between gap-2 bg-[#C4A882]/10 border border-[#C4A882]/40 rounded-lg px-4 py-2.5"
+            >
+              <div className="flex items-center gap-2">
+                <Check className="w-4 h-4 text-[#8B7355]" />
+                <span className="text-[#8B7355] text-sm font-hebrew font-semibold">
+                  {appliedCoupon} פעיל — {couponInfo.label}
+                </span>
+              </div>
+              <button onClick={clearCoupon} aria-label="הסר קופון" className="text-[#8B7355] hover:text-ink p-1">
+                <X className="w-3.5 h-3.5" />
+              </button>
+            </motion.div>
+          )}
         </div>
 
         {/* Dashboard Preview */}

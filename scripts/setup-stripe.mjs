@@ -1,5 +1,5 @@
-// Provision Stripe products + prices + webhook for Scent AI subscription tiers.
-// Idempotent — safe to re-run; reuses existing items by metadata.scent_tier_id / endpoint URL.
+// Provision Stripe products + prices + coupons + webhook for SCENTORY tiers.
+// Idempotent — safe to re-run; reuses existing items by metadata.scent_tier_id / endpoint URL / coupon code.
 //
 // Run with:   node scripts/setup-stripe.mjs
 // Reads:      STRIPE_SECRET_KEY, NEXT_PUBLIC_APP_URL  from .env.local
@@ -29,9 +29,15 @@ if (!APP_URL)           throw new Error('Missing NEXT_PUBLIC_APP_URL in .env.loc
 const stripe = new Stripe(STRIPE_SECRET_KEY);
 
 const TIERS = [
-  { id: 'discovery', name: 'Scent AI — Discovery', price: 17900 },  // ₪179.00 in agorot
-  { id: 'collector', name: 'Scent AI — Collector', price: 54900 },  // ₪549.00
-  { id: 'vault',     name: 'Scent AI — The Vault', price: 145900 }, // ₪1459.00
+  { id: 'discovery', name: 'SCENTORY — Discovery', price: 4900 },   // ₪49.00 in agorot
+  { id: 'collector', name: 'SCENTORY — Collector', price: 9900 },   // ₪99.00
+  { id: 'expert',    name: 'SCENTORY — Expert',    price: 19900 },  // ₪199.00
+];
+
+const COUPONS = [
+  { code: 'WELCOME20', percent_off: 20, duration: 'once',     name: 'Welcome 20% — first month' },
+  { code: 'SCENT50',   percent_off: 50, duration: 'once',     name: 'Scent 50% — first month' },
+  { code: 'VIP30',     percent_off: 30, duration: 'forever',  name: 'VIP 30% — lifetime' },
 ];
 
 // ── Create / reuse a Product per tier ────────────────────────────────────────
@@ -97,10 +103,43 @@ async function ensureWebhook() {
   const created = await stripe.webhookEndpoints.create({
     url,
     enabled_events: events,
-    description: 'Scent AI subscription events',
+    description: 'SCENTORY subscription events',
   });
   console.log(`\nCreated webhook:       ${created.id}`);
   return { endpoint: created, secret: created.secret };
+}
+
+// ── Create / reuse a Coupon + Promotion Code per spec ────────────────────────
+async function ensureCoupon(spec) {
+  // Find by metadata.scent_coupon_code (we tag both the coupon & promo code)
+  const couponList = await stripe.coupons.list({ limit: 100 });
+  let coupon = couponList.data.find(c => c.metadata?.scent_coupon_code === spec.code);
+  if (coupon) {
+    console.log(`  · coupon exists:   ${coupon.id}`);
+  } else {
+    coupon = await stripe.coupons.create({
+      percent_off: spec.percent_off,
+      duration: spec.duration,
+      name: spec.name,
+      metadata: { scent_coupon_code: spec.code },
+    });
+    console.log(`  · created coupon:  ${coupon.id}`);
+  }
+
+  // Promo code (the user-facing string)
+  const promoList = await stripe.promotionCodes.list({ code: spec.code, limit: 1 });
+  let promo = promoList.data[0];
+  if (promo) {
+    console.log(`  · promo exists:    ${promo.id} (code=${promo.code})`);
+  } else {
+    promo = await stripe.promotionCodes.create({
+      coupon: coupon.id,
+      code: spec.code,
+      metadata: { scent_coupon_code: spec.code },
+    });
+    console.log(`  · created promo:   ${promo.id} (code=${promo.code})`);
+  }
+  return { coupon, promo };
 }
 
 // ── Main ─────────────────────────────────────────────────────────────────────
@@ -112,6 +151,13 @@ for (const tier of TIERS) {
   const product = await ensureProduct(tier);
   const price   = await ensurePrice(product, tier);
   priceIds[tier.id] = price.id;
+  console.log('');
+}
+
+console.log('\nSetting up promotion codes...\n');
+for (const spec of COUPONS) {
+  console.log(`[${spec.code}]  ${spec.percent_off}% off  (${spec.duration})`);
+  await ensureCoupon(spec);
   console.log('');
 }
 
@@ -134,15 +180,16 @@ function upsertEnv(key, value) {
 
 upsertEnv('NEXT_PUBLIC_STRIPE_PRICE_DISCOVERY', priceIds.discovery);
 upsertEnv('NEXT_PUBLIC_STRIPE_PRICE_COLLECTOR', priceIds.collector);
-upsertEnv('NEXT_PUBLIC_STRIPE_PRICE_VAULT',     priceIds.vault);
+upsertEnv('NEXT_PUBLIC_STRIPE_PRICE_EXPERT',    priceIds.expert);
 if (webhookSecret) upsertEnv('STRIPE_WEBHOOK_SECRET', webhookSecret);
 
 console.log('\n──────────────────────────────────────────────────────');
 console.log('✓  .env.local updated:');
 console.log(`   NEXT_PUBLIC_STRIPE_PRICE_DISCOVERY=${priceIds.discovery}`);
 console.log(`   NEXT_PUBLIC_STRIPE_PRICE_COLLECTOR=${priceIds.collector}`);
-console.log(`   NEXT_PUBLIC_STRIPE_PRICE_VAULT=${priceIds.vault}`);
+console.log(`   NEXT_PUBLIC_STRIPE_PRICE_EXPERT=${priceIds.expert}`);
 if (webhookSecret) console.log(`   STRIPE_WEBHOOK_SECRET=${webhookSecret}`);
 else               console.log('   STRIPE_WEBHOOK_SECRET=(unchanged — webhook already existed)');
 console.log('──────────────────────────────────────────────────────');
+console.log('Promotion codes provisioned: WELCOME20 / SCENT50 / VIP30');
 console.log('Done.  Add these same vars to Vercel project env settings.');

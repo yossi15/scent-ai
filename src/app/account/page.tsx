@@ -21,7 +21,7 @@ type SubInfo = {
 const tierHebrewName: Record<string, string> = {
   discovery: 'גילוי',
   collector: 'אספן',
-  vault:     'הכספת',
+  expert:    'מומחה',
 };
 
 function formatDate(iso: string | null): string {
