@@ -3,7 +3,7 @@ import { ArrowLeft } from 'lucide-react';
 
 export const metadata = {
   title: 'תקנון שימוש | SCENTORY',
-  description: 'תנאי השימוש של SCENTORY — שירות מנוי לבשמי נישה מבוסס AI.',
+  description: 'תנאי השימוש של SCENTORY — פלטפורמת AI לגילוי בשמים.',
   alternates: { canonical: '/terms' },
 };
 
@@ -26,7 +26,7 @@ export default function TermsPage() {
 
           <section>
             <h2 className="font-serif text-lg text-ink font-semibold mb-2">2. השירות</h2>
-            <p>SCENTORY הוא שירות מנוי לבשמי נישה מבוסס AI. השירות כולל המלצות אישיות, דגימות תקופתיות, גישה לקטלוג בשמים, וכלים נלווים (שאלון טעמים, רדאר ריחות, יומן). שמורה לנו הזכות לשנות, להוסיף או להסיר תכונות בכל עת.</p>
+            <p>SCENTORY הוא פלטפורמת AI לגילוי בשמים. השירות מאפשר שמירת אוסף אישי, קבלת המלצות חכמות מבוססות-AI, רכישה דרך האתר וכלים נלווים (שאלון טעמים, רדאר ריחות, יומן). שמורה לנו הזכות לשנות, להוסיף או להסיר תכונות בכל עת.</p>
           </section>
 
           <section>

@@ -380,7 +380,7 @@ export default function TasteQuiz() {
                 גלה את הבושם המושלם עבורך
               </h3>
               <p className="text-ink-muted text-sm font-hebrew max-w-sm mx-auto font-light leading-relaxed">
-                האלגוריתם שלנו בשילוב AI מנתח את ההעדפות שלך ומתאים לך בשמים מתוך מאגר של 100 יצירות מ-35 בתי בישום
+                האלגוריתם שלנו בשילוב AI מנתח את ההעדפות שלך ומתאים לך בשמים מתוך מאגר של 342 יצירות מ-70 בתי בושם
               </p>
             </div>
             <div className="flex items-center gap-6 text-xs text-ink-muted font-hebrew">

@@ -67,7 +67,7 @@ export default function Hero() {
             className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#C4A882]/10 backdrop-blur-sm border border-[#C4A882]/30 mb-8"
           >
             <Sparkles className="w-3.5 h-3.5 text-[#C4A882]" />
-            <span className="text-[#C4A882] text-xs font-hebrew font-medium">שירות מנוי לבשמי נישה מבוסס AI</span>
+            <span className="text-[#C4A882] text-xs font-hebrew font-medium">פלטפורמת AI לגילוי בשמים</span>
           </motion.div>
 
           {/* Logo */}
@@ -80,7 +80,7 @@ export default function Hero() {
           </p>
 
           <p className="font-hebrew text-[13px] sm:text-sm md:text-base max-w-lg mx-auto leading-relaxed mb-10 font-light text-ink-secondary px-3">
-            שירות מנוי לבשמי נישה מבוסס AI שמנתח את העדפות הריח שלך ומגלה את יצירת המופת הבאה — מבתי הבושם הנישתיים ביותר בעולם.
+            פלטפורמת AI לגילוי בשמים — שמור את האוסף שלך, קבל המלצות חכמות, וקנה דרכנו.
           </p>
         </motion.div>
 
