@@ -28,14 +28,15 @@
 }
 
 .dark {
-  --bg-primary: #0D0D0D;
-  --bg-secondary: #141414;
-  --bg-card: #1A1A1A;
-  --bg-accent: #1F1F1F;
-  --ink: #F5F3EE;
-  --ink-secondary: #D4D0C8;
-  --ink-muted: #A8A29A;
-  --ink-faint: #7A7670;
+  /* Warm soft dark — less eye-strain than pure black on long scroll */
+  --bg-primary: #1A1714;
+  --bg-secondary: #221F1B;
+  --bg-card: #2A2622;
+  --bg-accent: #2F2B26;
+  --ink: #EDE8DF;
+  --ink-secondary: #D4CEC2;
+  --ink-muted: #B8B1A6;
+  --ink-faint: #948D82;
   --gold: #C4A882;
   --gold-hover: #D6BE9C;
   --gold-light: #EAD9BB;
@@ -43,7 +44,7 @@
   --gold-faint: rgba(196, 168, 130, 0.12);
   --gold-border: rgba(196, 168, 130, 0.30);
   --accent: #4A2C1A;
-  --border: #2C2C2C;
+  --border: #38332D;
   --shadow-sm: 0 1px 3px rgba(0,0,0,0.5), 0 1px 2px rgba(0,0,0,0.4);
   --shadow-md: 0 4px 16px rgba(0,0,0,0.55), 0 2px 4px rgba(0,0,0,0.4);
   --shadow-lg: 0 12px 40px rgba(0,0,0,0.6), 0 4px 12px rgba(0,0,0,0.45);
@@ -99,29 +100,34 @@ body {
 }
 
 /* ── Dark mode overrides for hardcoded hex colors ───────────────── */
-.dark .bg-white { background-color: #1A1A1A !important; }
-.dark .bg-\[\#FFFFFF\] { background-color: #1A1A1A !important; }
-.dark .bg-\[\#F5F3EE\] { background-color: #141414 !important; }
-.dark .bg-\[\#ECEAE4\] { background-color: #1F1F1F !important; }
-.dark .bg-\[\#EFEDE7\] { background-color: #1F1F1F !important; }
+.dark .bg-white { background-color: #2A2622 !important; }
+.dark .bg-\[\#FFFFFF\] { background-color: #2A2622 !important; }
+.dark .bg-\[\#F5F3EE\] { background-color: #221F1B !important; }
+.dark .bg-\[\#ECEAE4\] { background-color: #2F2B26 !important; }
+.dark .bg-\[\#EFEDE7\] { background-color: #2F2B26 !important; }
 
-.dark .text-\[\#0D0D0D\] { color: #F5F3EE !important; }
-.dark .text-\[\#4A4A4A\] { color: #D4D0C8 !important; }
-.dark .text-\[\#9A9A9A\] { color: #7A7670 !important; }
+.dark .text-\[\#0D0D0D\] { color: #EDE8DF !important; }
+.dark .text-\[\#4A4A4A\] { color: #C9C2B6 !important; }
+.dark .text-\[\#9A9A9A\] { color: #948D82 !important; }
 
-.dark .border-\[\#E8E4DC\] { border-color: #2C2C2C !important; }
-.dark .border-\[\#D4D0C8\] { border-color: #2C2C2C !important; }
+.dark .border-\[\#E8E4DC\] { border-color: #38332D !important; }
+.dark .border-\[\#D4D0C8\] { border-color: #38332D !important; }
 
 .dark .bg-\[\#ECEAE4\].text-\[\#4A4A4A\],
-.dark .bg-\[\#ECEAE4\].text-\[\#0D0D0D\] { background-color: #1F1F1F !important; }
+.dark .bg-\[\#ECEAE4\].text-\[\#0D0D0D\] { background-color: #2F2B26 !important; }
 
-/* Hero gradient swap */
+/* Hero gradient — warm soft dark instead of black */
 .dark [data-hero-bg] {
-  background: linear-gradient(135deg, #0D0D0D 0%, #1A1A1A 100%) !important;
+  background: linear-gradient(135deg, #1A1714 0%, #2A2622 100%) !important;
 }
 .dark [data-hero-cta] {
   background: linear-gradient(135deg, #C4A882, #D6BE9C) !important;
-  color: #0D0D0D !important;
+  color: #1A1714 !important;
+}
+
+/* Subtle vignette to break monotony on long scroll in dark mode */
+.dark body {
+  background: radial-gradient(ellipse at top, #221F1B 0%, var(--bg-primary) 60%) fixed;
 }
 
 /* ── Typography hierarchy ───────────────────────────────────────── */

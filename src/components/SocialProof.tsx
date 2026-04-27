@@ -53,7 +53,7 @@ export default function SocialProof() {
           transition={{ duration: 0.8 }}
           className="text-center"
         >
-          <p className="text-ink-faint text-[11px] font-hebrew mb-6 font-light tracking-wider">
+          <p className="text-ink-muted text-[11px] font-hebrew mb-6 font-light tracking-wider">
             מאובטח על ידי
           </p>
           <div className="flex items-center justify-center gap-4 md:gap-8 flex-wrap">
@@ -64,12 +64,12 @@ export default function SocialProof() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: i * 0.1 }}
-                className="flex items-center gap-2 px-4 py-2.5 rounded-lg border border-black/[0.06] bg-bg-primary"
+                className="flex items-center gap-2 px-4 py-2.5 rounded-lg border border-border bg-bg-card shadow-sm"
               >
                 <span className="text-gold">{p.icon}</span>
                 <div className="text-right">
                   <p className="font-serif text-sm text-ink font-semibold leading-tight" dir="ltr">{p.label}</p>
-                  <p className="text-ink-faint text-[10px] font-hebrew font-light">{p.sub}</p>
+                  <p className="text-ink-secondary text-[10px] font-hebrew font-light">{p.sub}</p>
                 </div>
               </motion.div>
             ))}
