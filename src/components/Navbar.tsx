@@ -103,7 +103,7 @@ export default function Navbar() {
             <div className="md:hidden flex items-center gap-1">
               <ThemeToggle />
               <button
-                className="text-ink-muted p-2"
+                className="text-ink-muted p-3 -m-1"
                 onClick={() => setMobileOpen(!mobileOpen)}
                 aria-label={mobileOpen ? 'סגור תפריט' : 'פתח תפריט'}
                 aria-expanded={mobileOpen}

@@ -72,10 +72,17 @@ export default function SignatureMatch({ onCollectionChange }: Props) {
         body: JSON.stringify({
           collection: myCollection.map(f => ({
             id: f.id, name: f.name, house: f.house, family: f.family, tags: f.tags,
+            notes: f.notes, year: f.year, gender: f.gender,
+            longevity: f.longevity, sillage: f.sillage,
           })),
           catalog: fragrances
             .filter(f => !myCollection.find(c => c.id === f.id))
-            .map(f => ({ id: f.id, name: f.name, house: f.house, family: f.family })),
+            .slice(0, 60)
+            .map(f => ({
+              id: f.id, name: f.name, house: f.house, family: f.family,
+              notes: f.notes, year: f.year, gender: f.gender,
+              longevity: f.longevity, sillage: f.sillage,
+            })),
         }),
       });
 

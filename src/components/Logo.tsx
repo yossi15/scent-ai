@@ -9,7 +9,7 @@ const sizes = {
   sm: { title: 'text-base', sub: 'text-[8px]', line: 'h-px', gap: 'gap-1' },
   md: { title: 'text-xl',  sub: 'text-[10px]', line: 'h-px', gap: 'gap-1.5' },
   lg: { title: 'text-3xl', sub: 'text-xs',     line: 'h-[1.5px]', gap: 'gap-2' },
-  xl: { title: 'text-5xl md:text-6xl', sub: 'text-sm', line: 'h-[1.5px]', gap: 'gap-3' },
+  xl: { title: 'text-3xl sm:text-5xl md:text-6xl', sub: 'text-[11px] sm:text-sm', line: 'h-[1.5px]', gap: 'gap-2 sm:gap-3' },
 };
 
 export default function Logo({ size = 'md', showText = true }: Props) {

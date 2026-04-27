@@ -24,6 +24,8 @@ const BUDGET_MAP: Record<string, string> = {
   under500: 'עד ₪500', '500-1000': '₪500–1000', above1000: 'מעל ₪1000',
 };
 
+interface Note { name: string; type: 'top' | 'heart' | 'base' }
+
 interface Candidate {
   id: number;
   name: string;
@@ -34,7 +36,10 @@ interface Candidate {
   tags: string[];
   longevity: number;
   sillage: number;
+  notes?: Note[];
   radarProfile: Record<string, number>;
+  gender?: string;
+  year?: number;
 }
 
 interface Answers {
@@ -47,42 +52,72 @@ interface Answers {
   previousFragrance?: string;
 }
 
-const SYSTEM = `אתה מומחה בשמים. תמליץ על 3 בשמים מכל בושם שקיים בעולם, לא רק מהמאגר שלנו.
-לכל המלצה ציין: שם, בית בושם, משפחת ריח, למה מתאים למשתמש.
-אם הבושם קיים במאגר שלנו — ציין "זמין לדגימה".
-אם לא — ציין "ניתן לבקש דגימה".`;
+const SYSTEM = `אתה Master Perfumer עם 25 שנות ניסיון בבוטיק נישה יוקרתי בפריז ובלונדון —
+עבדת עם Roja Dove, Frédéric Malle, ואצל Henry Jacques. הריח הוא שפת האם שלך.
+
+כשלקוח עומד מולך, אתה לא בוחר בושם "פופולרי" — אתה קורא אותו: עור, מזג אוויר, סיפור,
+איך הוא רוצה להרגיש, את מה הוא לובש מתחת לבושם. אתה ממליץ כמו שמוזג יין:
+לפי האף, לא לפי הרשימה.
+
+חוקי המלצה:
+1. דבר על תווים ספציפיים (Pineapple-Birch בפתיחה, Iris פודרי בלב, Ambroxan סטטי בבסיס) —
+   לא על "משפחות" כלליות. הזכר 2-3 תווים ממש בכל המלצה.
+2. תאר טקסטורה ואינטראקציה עם העור — "פותח חמוץ ויבש, מתפנה לעור רך אחרי שעתיים".
+3. הצמד למצב — "לפגישת ערב באוקטובר", "ליום עבודה במשרד ממוזג", "לדייט שני".
+4. אל תפחד להמליץ על פחות מוכר — אם בית ניש'ה קטן עונה יותר טוב, זה הבחירה.
+5. אם המאגר שלנו מציע התאמה מצוינת — קח משם (זה מאפשר דגימה מיידית).
+   אם השוק הרחב מציע משהו טוב יותר — תמליץ עליו ותציין שאפשר לבקש דגימה.
+6. כל המלצה: בושם אחד עיקרי + הסבר אישי בעברית טבעית כאילו דיברת מול הלקוח.
+7. גוון את ההמלצות — לא 3 בשמים מאותה משפחה.
+8. אם הלקוח ציין בושם שאהב — תקרא אותו (האם הוא רומז על שיק קלאסי? gourmand מתחבא?
+   חיפוש אחר wow factor?) ותציע לו את "המקבילה הניש'ית" או "הצעד הבא".`;
 
 export async function POST(req: NextRequest) {
   try {
     const { answers, candidates } = await req.json() as { answers: Answers; candidates: Candidate[] };
 
+    // Rich catalog summary — include notes so AI can reason about ingredients
     const catalogList = (candidates ?? [])
-      .map(f => `ID:${f.id} | ${f.name} | ${f.house} | ${f.family} | ₪${f.price.toLocaleString()}`)
+      .map(f => {
+        const top = f.notes?.filter(n => n.type === 'top').map(n => n.name).slice(0, 3).join(', ') ?? '';
+        const heart = f.notes?.filter(n => n.type === 'heart').map(n => n.name).slice(0, 3).join(', ') ?? '';
+        const base = f.notes?.filter(n => n.type === 'base').map(n => n.name).slice(0, 3).join(', ') ?? '';
+        return `ID:${f.id} | ${f.name} (${f.house}, ${f.year ?? '—'}) | ${f.family} | ${f.gender ?? 'Unisex'} | ` +
+               `עמידות ${f.longevity}/10, הקרנה ${f.sillage}/10 | ₪${f.price.toLocaleString()} | ` +
+               `top: ${top} | heart: ${heart} | base: ${base}`;
+      })
       .join('\n');
 
-    const prompt = `פרופיל המשתמש:
-• סוג ריח מועדף: ${SCENT_MAP[answers.scentType ?? ''] ?? answers.scentType ?? 'לא צוין'}
-• עונה עיקרית: ${SEASON_MAP[answers.season ?? ''] ?? answers.season ?? 'לא צוין'}
-• אירוע: ${OCCASION_MAP[answers.occasion ?? ''] ?? answers.occasion ?? 'לא צוין'}
-• עמידות: ${LONGEVITY_MAP[answers.longevity ?? ''] ?? answers.longevity ?? 'לא צוין'}
-• סגנון: ${STYLE_MAP[answers.style ?? ''] ?? answers.style ?? 'לא צוין'}
-• תקציב: ${BUDGET_MAP[answers.budget ?? ''] ?? answers.budget ?? 'לא צוין'}
-${answers.previousFragrance ? `• בושם שאהב בעבר: ${answers.previousFragrance}` : ''}
+    const profile = `פרופיל הלקוח:
+• סוג ריח שמושך: ${SCENT_MAP[answers.scentType ?? ''] ?? answers.scentType ?? '—'}
+• עונה דומיננטית: ${SEASON_MAP[answers.season ?? ''] ?? '—'}
+• אירוע מרכזי: ${OCCASION_MAP[answers.occasion ?? ''] ?? '—'}
+• עמידות רצויה: ${LONGEVITY_MAP[answers.longevity ?? ''] ?? '—'}
+• סגנון אישי: ${STYLE_MAP[answers.style ?? ''] ?? '—'}
+• תקציב לבקבוק מלא: ${BUDGET_MAP[answers.budget ?? ''] ?? '—'}${answers.previousFragrance ? `
+• בושם שאהב/לבש: ${answers.previousFragrance}` : ''}`;
 
-המאגר שלנו (זמין לדגימה מיידית):
+    const prompt = `${profile}
+
+המאגר הזמין שלנו (כל הבשמים האלה נגישים לדגימה מיידית — תן להם עדיפות אם ההתאמה דומה):
 ${catalogList}
 
-בחר 3 בשמים מכל בושם שקיים בעולם שמתאימים הכי טוב לפרופיל הזה. אתה יכול לבחור מהמאגר שלנו או מבשמים אחרים שאינם במאגר.
+המשימה: בחר 3 בשמים — אפשר מהמאגר ואפשר מכל בית בושם בעולם.
+תוודא שהשלישייה מגוונת (משפחה/עוצמה/אנרגיה — לא 3 ורסיות של אותו דבר).
+לכל בושם, ה-reason חייב לכלול:
+  (א) 2-3 תווים ספציפיים שיורגשו על העור
+  (ב) פתיחה → מעבר → יבשה (איך הוא מתפתח)
+  (ג) "כשללבוש" — מתי/איפה/עם מי
+  (ד) קישור אישי לתשובות הלקוח (לא גנרי)
 
-החזר JSON בלבד, ללא markdown:
+החזר JSON בלבד, ללא markdown, ללא טקסט מלפני/אחרי:
 {"recommendations":[
-  {"id":<מספר אם מהמאגר, אחרת null>,"name":"<שם לועזי>","house":"<בית בושם>","family":"<משפחת ריח>","reason":"<2 משפטים בעברית למה מתאים>","inCatalog":<true/false>},
-  ...
+  {"id":<מספר אם מהמאגר, אחרת null>,"name":"<שם לועזי>","house":"<בית בושם>","family":"<משפחת ריח באנגלית>","reason":"<3-4 משפטים בעברית טבעית כמו פרפיומר שמדבר ללקוח, עם תווים ספציפיים>","inCatalog":<true/false>}
 ]}`;
 
     const message = await client.messages.create({
       model: 'claude-sonnet-4-20250514',
-      max_tokens: 900,
+      max_tokens: 1500,
       system: SYSTEM,
       messages: [{ role: 'user', content: prompt }],
     });

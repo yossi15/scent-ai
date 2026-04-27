@@ -116,7 +116,7 @@ export default function FragranceCard({ fragrance, index, onClick, inCollection,
                 onClick={(e) => { e.stopPropagation(); onToggleCollection(fragrance); }}
                 aria-label={inCollection ? `הסר את ${fragrance.name} מהאוסף שלי` : `הוסף את ${fragrance.name} לאוסף שלי`}
                 aria-pressed={inCollection}
-                className={`absolute top-3 right-3 w-9 h-9 rounded-full flex items-center justify-center shadow-md backdrop-blur-md border transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C4A882] focus-visible:ring-offset-2 ${
+                className={`absolute top-3 right-3 w-11 h-11 rounded-full flex items-center justify-center shadow-md backdrop-blur-md border transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C4A882] focus-visible:ring-offset-2 ${
                   inCollection
                     ? 'bg-[#8B7355] text-white border-[#8B7355]'
                     : 'bg-white/95 border-[#E8E4DC] text-[#4A4A4A] hover:bg-[#8B7355] hover:text-white hover:border-[#8B7355]'
@@ -130,7 +130,7 @@ export default function FragranceCard({ fragrance, index, onClick, inCollection,
                   whileTap={{ scale: 0.9 }}
                   onClick={(e) => e.stopPropagation()}
                   aria-label="כנס כדי להוסיף לאוסף"
-                  className="absolute top-3 right-3 w-9 h-9 rounded-full flex items-center justify-center shadow-md backdrop-blur-md border bg-white/95 border-[#E8E4DC] text-[#4A4A4A] hover:bg-[#8B7355] hover:text-white hover:border-[#8B7355] transition-all duration-300"
+                  className="absolute top-3 right-3 w-11 h-11 rounded-full flex items-center justify-center shadow-md backdrop-blur-md border bg-white/95 border-[#E8E4DC] text-[#4A4A4A] hover:bg-[#8B7355] hover:text-white hover:border-[#8B7355] transition-all duration-300"
                 >
                   <Plus className="w-4 h-4" aria-hidden="true" />
                 </motion.button>

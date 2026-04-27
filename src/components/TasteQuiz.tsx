@@ -292,6 +292,7 @@ export default function TasteQuiz() {
             id: f.id, name: f.name, house: f.house, family: f.family,
             price: f.price, concentration: f.concentration, tags: f.tags,
             longevity: f.longevity, sillage: f.sillage, radarProfile: f.radarProfile,
+            notes: f.notes, gender: f.gender, year: f.year,
           })),
         }),
       });

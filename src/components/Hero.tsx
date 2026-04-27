@@ -71,15 +71,15 @@ export default function Hero() {
           </motion.div>
 
           {/* Logo */}
-          <div className="flex justify-center mb-6">
+          <div className="flex justify-center mb-6 max-w-full overflow-hidden">
             <Logo size="xl" />
           </div>
 
-          <p className="font-hebrew text-2xl md:text-3xl mb-4 font-light text-ink tracking-tight">
+          <p className="font-hebrew text-xl sm:text-2xl md:text-3xl mb-4 font-light text-ink tracking-tight px-2">
             גלה את חתימת הריח שלך
           </p>
 
-          <p className="font-hebrew text-sm md:text-base max-w-lg mx-auto leading-relaxed mb-10 font-light text-ink-secondary">
+          <p className="font-hebrew text-[13px] sm:text-sm md:text-base max-w-lg mx-auto leading-relaxed mb-10 font-light text-ink-secondary px-3">
             שירות מנוי לבשמי נישה מבוסס AI שמנתח את העדפות הריח שלך ומגלה את יצירת המופת הבאה — מבתי הבושם הנישתיים ביותר בעולם.
           </p>
         </motion.div>
@@ -93,14 +93,14 @@ export default function Hero() {
           <button
             data-hero-cta
             onClick={() => scrollTo('quiz')}
-            className="px-8 py-3.5 font-hebrew text-sm tracking-wide rounded-lg font-semibold transition-all duration-300 hover:-translate-y-0.5"
+            className="w-full sm:w-auto px-8 py-4 font-hebrew text-sm tracking-wide rounded-lg font-semibold transition-all duration-300 hover:-translate-y-0.5 min-h-[48px]"
             style={{ background: '#0D0D0D', color: '#FFFFFF', boxShadow: '0 4px 16px rgba(13,13,13,0.18)' }}
           >
             גלה את הבושם שלך
           </button>
           <button
             onClick={() => scrollTo('collection')}
-            className="px-8 py-3.5 font-hebrew text-sm tracking-wide rounded-lg border-2 transition-all duration-300 hover:bg-[#8B7355]/10"
+            className="w-full sm:w-auto px-8 py-4 font-hebrew text-sm tracking-wide rounded-lg border-2 transition-all duration-300 hover:bg-[#8B7355]/10 min-h-[48px]"
             style={{ borderColor: '#8B7355', color: '#8B7355' }}
           >
             חקור את הקולקציה
@@ -112,12 +112,12 @@ export default function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.7 }}
-          className="flex justify-center gap-8 md:gap-16"
+          className="flex justify-center gap-3 sm:gap-8 md:gap-16"
         >
           {stats.map((stat, i) => (
-            <div key={i} className="text-center bg-bg-card/70 backdrop-blur-sm rounded-xl px-5 py-3 border border-border">
-              <p className="font-serif text-2xl md:text-3xl font-semibold text-gold">{stat.value}</p>
-              <p className="text-xs font-hebrew font-light mt-1 text-ink-secondary">{stat.label}</p>
+            <div key={i} className="text-center bg-bg-card/70 backdrop-blur-sm rounded-xl px-3 sm:px-5 py-3 border border-border min-w-[80px]">
+              <p className="font-serif text-xl sm:text-2xl md:text-3xl font-semibold text-gold">{stat.value}</p>
+              <p className="text-[11px] sm:text-xs font-hebrew font-light mt-1 text-ink-secondary">{stat.label}</p>
             </div>
           ))}
         </motion.div>
