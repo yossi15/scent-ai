@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { TrendingUp, Shield, Award, Lock, CreditCard, BadgeCheck } from 'lucide-react';
+import { Lock, CreditCard, BadgeCheck } from 'lucide-react';
 
 const partners = [
   { icon: <CreditCard className="w-4 h-4" />,  label: 'Stripe',             sub: 'תשלומים מאובטחים' },
@@ -9,42 +9,10 @@ const partners = [
   { icon: <BadgeCheck className="w-4 h-4" />,  label: 'Verified Authentic', sub: 'אימות מקור' },
 ];
 
-const stats = [
-  { icon: <TrendingUp className="w-5 h-5" />, value: 'חדש',  label: 'משתמשים מצטרפים כל יום' },
-  { icon: <Award className="w-5 h-5" />,      value: '342',  label: 'בשמים מובחרים במאגר' },
-  { icon: <Shield className="w-5 h-5" />,     value: '100%', label: 'מוצרים אותנטיים' },
-];
-
 export default function SocialProof() {
   return (
     <section className="py-16 px-4">
       <div className="max-w-5xl mx-auto">
-        {/* Stats */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="grid grid-cols-3 gap-4 mb-12"
-        >
-          {stats.map((stat, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 15 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: i * 0.1 }}
-              className="card p-5 text-center"
-            >
-              <div className="w-10 h-10 rounded-xl bg-gold-faint flex items-center justify-center text-gold mx-auto mb-3">
-                {stat.icon}
-              </div>
-              <p className="font-serif text-2xl md:text-3xl text-gold font-bold" dir="ltr">{stat.value}</p>
-              <p className="text-ink-muted text-xs font-hebrew font-light mt-1">{stat.label}</p>
-            </motion.div>
-          ))}
-        </motion.div>
-
         {/* Powered by */}
         <motion.div
           initial={{ opacity: 0 }}

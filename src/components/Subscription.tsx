@@ -247,7 +247,7 @@ export default function Subscription() {
                   </button>
                 ) : !isSignedIn ? (
                   <SignInButton mode="modal">
-                    <button className={`w-full py-3 text-sm font-hebrew font-semibold flex items-center justify-center gap-2 rounded-lg transition-all ${
+                    <button data-cta-dark={tier.highlight ? '' : undefined} className={`w-full py-3 text-sm font-hebrew font-semibold flex items-center justify-center gap-2 rounded-lg transition-all ${
                       tier.highlight
                         ? 'bg-[#0D0D0D] text-white hover:bg-[#1a1a1a] shadow-md'
                         : 'btn-outline'
@@ -266,6 +266,7 @@ export default function Subscription() {
                   </button>
                 ) : (
                   <button
+                    data-cta-dark={tier.highlight ? '' : undefined}
                     onClick={() => startCheckout(tier.id)}
                     disabled={isLoading || loadingTier !== null}
                     className={`w-full py-3 text-sm font-hebrew font-semibold flex items-center justify-center gap-2 rounded-lg transition-all disabled:opacity-60 ${

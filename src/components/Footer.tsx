@@ -74,7 +74,7 @@ export default function Footer() {
             כל הבשמים הם סימנים מסחריים של בעליהם.
           </p>
           <p className="text-ink-faint/60 text-[11px] font-sans font-light" dir="ltr">
-            &copy; 2026 SCENTORY. All rights reserved.
+            &copy; 2026 SCENTORY Ltd. All rights reserved.
           </p>
         </div>
       </div>

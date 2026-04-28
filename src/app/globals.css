@@ -120,7 +120,8 @@ body {
 .dark [data-hero-bg] {
   background: linear-gradient(135deg, #1A1714 0%, #2A2622 100%) !important;
 }
-.dark [data-hero-cta] {
+.dark [data-hero-cta],
+.dark [data-cta-dark] {
   background: linear-gradient(135deg, #C4A882, #D6BE9C) !important;
   color: #1A1714 !important;
 }
