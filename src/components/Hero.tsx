@@ -92,7 +92,7 @@ export default function Hero() {
         >
           <button
             data-hero-cta
-            onClick={() => scrollTo('quiz')}
+            onClick={() => scrollTo('quickmatch')}
             className="w-full sm:w-auto px-8 py-4 font-hebrew text-sm tracking-wide rounded-lg font-semibold transition-all duration-300 hover:-translate-y-0.5 min-h-[48px]"
             style={{ background: '#0D0D0D', color: '#FFFFFF', boxShadow: '0 4px 16px rgba(13,13,13,0.18)' }}
           >

@@ -5,6 +5,7 @@ import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
 import SocialProof from '@/components/SocialProof';
 import HowItWorks from '@/components/HowItWorks';
+import QuickMatch from '@/components/QuickMatch';
 import TasteQuiz from '@/components/TasteQuiz';
 import Collection from '@/components/Collection';
 import SignatureMatch from '@/components/SignatureMatch';
@@ -24,6 +25,10 @@ export default function Home() {
     <main id="main-content" className="relative">
       <Navbar />
       <Hero />
+
+      <QuickMatch />
+
+      <div className="gold-line max-w-xs mx-auto" />
 
       <SocialProof />
 
