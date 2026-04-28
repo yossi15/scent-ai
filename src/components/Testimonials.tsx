@@ -17,7 +17,7 @@ const testimonials = [
     role: 'Early Tester',
     scent: 'Baccarat Rouge 540',
     stars: 5,
-    text: 'הדגימות מגיעות עם כרטיס אישי שמסביר למה ה-AI בחר כל בושם. ההשקעה בפרטים מטורפת.',
+    text: 'ניתוח ה-DNA הראה לי שאני נמשכת ל-Iris פודרי ועור עשן — ומיד הציע 3 בשמים שלא הכרתי, אחד מהם נכנס לאוסף הקבוע.',
     color: 'bg-gradient-to-br from-rose-100 to-rose-200',
   },
   {

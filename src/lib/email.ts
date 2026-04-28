@@ -52,10 +52,11 @@ export async function sendSampleConfirmation(opts: {
   const brandLine = opts.brand ? ` (${opts.brand})` : '';
 
   const inner = `
-    <h1>בקשת הדגימה שלך התקבלה ✓</h1>
+    <h1>נרשמת להתראה ✓</h1>
     <p>${greeting}</p>
-    <p>קיבלנו את בקשתך לדגימה של <strong>${opts.fragranceName}</strong>${brandLine}.
-    הצוות שלנו יחזור אליך תוך 24 שעות עם פרטי משלוח ועלות.</p>
+    <p>קיבלנו את העניין שלך ב-<strong>${opts.fragranceName}</strong>${brandLine}.
+    SCENTORY היא פלטפורמת גילוי בשמים — אנחנו לא מוכרים בקבוקים בעצמנו, אבל
+    נעדכן אותך באימייל ברגע שנוסיף את הבושם הזה למאגר או נמצא עליו עסקה אצל אחד מהקמעונאים שלנו.</p>
     <p>בינתיים, אם יש לך שאלות — מוזמן לענות לאימייל הזה.</p>
     <a class="cta" href="${SITE}">חזור לאתר</a>
   `;
@@ -64,7 +65,7 @@ export async function sendSampleConfirmation(opts: {
     await r.emails.send({
       from: `SCENTORY <${FROM}>`,
       to: opts.to,
-      subject: `בקשת הדגימה שלך התקבלה — ${opts.fragranceName}`,
+      subject: `נרשמת להתראה — ${opts.fragranceName}`,
       html: shell(inner),
     });
   } catch (err) {
@@ -116,7 +117,7 @@ export async function sendSubscriptionConfirmation(opts: {
     <h1>המנוי שלך פעיל 🎉</h1>
     <p>${greeting}</p>
     <p>תודה שהצטרפת ל-SCENTORY במסלול <strong>${opts.tier}</strong>.
-    הדגימה הראשונה שלך — נבחרה במיוחד לפי פרופיל הריח שלך — בדרך אליך.</p>
+    מעכשיו פתוחות לך כל יכולות הפלטפורמה — אוסף אישי, המלצות AI מתקדמות, השוואת מחירים והתראות.</p>
     <p>אפשר לנהל את המנוי בכל עת מעמוד &ldquo;החשבון שלי&rdquo;.</p>
     <a class="cta" href="${SITE}/account">לחשבון שלי</a>
   `;

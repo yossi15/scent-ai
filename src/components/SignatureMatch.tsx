@@ -298,7 +298,7 @@ export default function SignatureMatch({ onCollectionChange }: Props) {
                             </div>
                             {inCatalog ? (
                               <span className="shrink-0 text-[10px] font-hebrew bg-green-50 text-green-700 border border-green-200 px-2 py-0.5 rounded-full">
-                                זמין לדגימה
+                                במאגר שלנו
                               </span>
                             ) : (
                               <span className="shrink-0 text-[10px] font-hebrew bg-gold-faint text-gold border border-gold/30 px-2 py-0.5 rounded-full">
@@ -333,7 +333,7 @@ export default function SignatureMatch({ onCollectionChange }: Props) {
                               onClick={() => setSampleModal({ name: rec.name, brand: rec.house })}
                               className="inline-flex items-center gap-1.5 text-xs font-hebrew px-3 py-1.5 rounded-lg border bg-gold-faint border-gold/30 text-gold hover:bg-gold hover:text-white transition-all duration-200"
                             >
-                              <Send className="w-3 h-3" /> בקש דגימה
+                              <Send className="w-3 h-3" /> קבל התראה
                             </button>
                           )}
                         </div>

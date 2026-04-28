@@ -117,7 +117,7 @@ export default function SampleRequestModal({ open, onClose, fragranceName, brand
             <div className="flex items-center justify-between px-5 py-3.5 border-b border-black/[0.06]">
               <div className="flex items-center gap-2">
                 <Droplets className="w-4 h-4 text-gold" />
-                <span id="sample-request-title" className="font-serif text-sm text-ink font-semibold">בקשת דגימה</span>
+                <span id="sample-request-title" className="font-serif text-sm text-ink font-semibold">קבל התראה כשנוסיף את הבושם</span>
               </div>
               <button
                 onClick={onClose}
@@ -134,8 +134,8 @@ export default function SampleRequestModal({ open, onClose, fragranceName, brand
                   <div className="w-12 h-12 rounded-full bg-green-50 border border-green-200 flex items-center justify-center">
                     <Check className="w-6 h-6 text-green-600" />
                   </div>
-                  <p className="font-serif text-lg text-ink font-semibold">הבקשה התקבלה!</p>
-                  <p className="text-xs text-ink-muted font-hebrew">נחזור אליך כשהדגימה תהיה זמינה</p>
+                  <p className="font-serif text-lg text-ink font-semibold">נרשמת להתראה ✓</p>
+                  <p className="text-xs text-ink-muted font-hebrew">נעדכן אותך באימייל ברגע שנוסיף את הבושם הזה למאגר או לעסקה מיוחדת</p>
                 </div>
               ) : (
                 <form onSubmit={submit} className="flex flex-col gap-4">
@@ -189,12 +189,12 @@ export default function SampleRequestModal({ open, onClose, fragranceName, brand
                     {status === 'sending' ? (
                       <><Loader2 className="w-4 h-4 animate-spin" /> שולח...</>
                     ) : (
-                      <>שלח בקשה</>
+                      <>הוסף לרשימת ההתראות</>
                     )}
                   </button>
 
                   <p className="text-[11px] text-ink-faint font-hebrew text-center -mt-1">
-                    נצור איתך קשר כשהדגימה תגיע למאגר שלנו
+                    SCENTORY לא מוכרת בשמים. נעדכן אותך אם נוסיף את הבושם או נמצא עליו עסקה.
                   </p>
                 </form>
               )}

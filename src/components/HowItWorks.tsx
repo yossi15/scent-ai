@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { UserCircle, Brain, Package } from 'lucide-react';
+import { UserCircle, Brain, Heart } from 'lucide-react';
 
 const steps = [
   {
@@ -14,13 +14,13 @@ const steps = [
     num: '02',
     icon: <Brain className="w-6 h-6" />,
     title: 'ה-AI מנתח ומתאים',
-    desc: 'האלגוריתם שלנו סורק מאות בשמי נישה, מנתח את פירמידת הריח של כל אחד, ומוצא את ההתאמה המושלמת לפרופיל שלך.',
+    desc: 'האלגוריתם שלנו סורק מאות בשמים, מנתח את פירמידת הריח של כל אחד, ומוצא את ההתאמה המושלמת לפרופיל שלך.',
   },
   {
     num: '03',
-    icon: <Package className="w-6 h-6" />,
-    title: 'קבל את הבושם הבא שלך',
-    desc: 'דגימות מבוקרות מגיעות עד הדלת. התנסה, דרג ביומן, וצפה איך ה-AI משתפר עם כל פידבק שאתה נותן.',
+    icon: <Heart className="w-6 h-6" />,
+    title: 'בנה את האוסף שלך',
+    desc: 'שמור את הבשמים שדיברו אליך, נהל יומן ריחות אישי, והשווה מחירים בין חנויות עם לחיצה אחת.',
   },
 ];
 

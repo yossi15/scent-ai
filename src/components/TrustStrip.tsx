@@ -1,12 +1,12 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Lock, BadgeCheck, RotateCcw } from 'lucide-react';
+import { Lock, BadgeCheck, XCircle } from 'lucide-react';
 
 const items = [
   { icon: <Lock className="w-4 h-4" />,       text: 'תשלום מאובטח עם Stripe' },
-  { icon: <BadgeCheck className="w-4 h-4" />, text: '100% מוצרים אותנטיים' },
-  { icon: <RotateCcw className="w-4 h-4" />,  text: 'החזרה תוך 30 יום' },
+  { icon: <BadgeCheck className="w-4 h-4" />, text: 'מידע אותנטי על כל בושם' },
+  { icon: <XCircle className="w-4 h-4" />,    text: 'ביטול מנוי בכל עת' },
 ];
 
 export default function TrustStrip() {

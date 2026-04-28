@@ -45,13 +45,13 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="font-serif text-lg text-ink font-semibold mb-2">6. החזרים וביטולים (חוק הגנת הצרכן)</h2>
-            <p>בהתאם לחוק הגנת הצרכן הישראלי — ניתן לבטל עסקת מנוי תוך 14 יום מיום הרכישה ולקבל החזר מלא, ובלבד שלא נעשה שימוש בדגימה. ביטול לאחר מכן יזכה בהחזר יחסי לפי תקופת החיוב הנותרת. בקשות החזר: <a href="mailto:contact@scentory.co.il" className="text-gold hover:underline" dir="ltr">contact@scentory.co.il</a></p>
+            <h2 className="font-serif text-lg text-ink font-semibold mb-2">6. ביטול מנוי והחזרים</h2>
+            <p>ניתן לבטל את המנוי בכל עת מעמוד &ldquo;החשבון שלי&rdquo;. הביטול ייכנס לתוקף בסוף תקופת החיוב הנוכחית — לא יבוצע חיוב נוסף. בהתאם לחוק הגנת הצרכן הישראלי, ניתן לבקש החזר מלא תוך 14 יום מיום הרכישה הראשון של המנוי. בקשות החזר: <a href="mailto:contact@scentory.co.il" className="text-gold hover:underline" dir="ltr">contact@scentory.co.il</a></p>
           </section>
 
           <section>
-            <h2 className="font-serif text-lg text-ink font-semibold mb-2">7. משלוחים</h2>
-            <p>זמני משלוח: עד 14 ימי עסקים בתוך ישראל. עיכובים בשליטת חברות השליחות אינם באחריותנו. דמי משלוח כלולים במנוי, אלא אם צוין אחרת.</p>
+            <h2 className="font-serif text-lg text-ink font-semibold mb-2">7. אופי השירות — אין מכירת מוצרים פיזיים</h2>
+            <p>SCENTORY היא פלטפורמת מידע, גילוי והמלצה דיגיטלית בלבד. אנחנו לא מחזיקים מלאי, לא מוכרים בקבוקים או דגימות, ולא שולחים מוצרים פיזיים. רכישת בשמים מתבצעת ישירות מול קמעונאים חיצוניים שאליהם אנחנו מקשרים — SCENTORY אינה צד לעסקה ואינה אחראית למשלוח, להחזרים או לאחריות מוצר.</p>
           </section>
 
           <section>
