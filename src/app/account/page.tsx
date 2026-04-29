@@ -25,12 +25,12 @@ const tierHebrewName: Record<string, string> = {
 };
 
 function formatDate(iso: string | null): string {
-  if (!iso) return '—';
+  if (!iso) return '-';
   try {
     return new Date(iso).toLocaleDateString('he-IL', {
       year: 'numeric', month: 'long', day: 'numeric',
     });
-  } catch { return '—'; }
+  } catch { return '-'; }
 }
 
 const statusLabel: Record<string, { text: string; color: string }> = {
@@ -112,7 +112,7 @@ export default function AccountPage() {
   const hasSub = !!sub?.tier && sub.status !== null;
   const tierIdx = sub?.tier ? subscriptionTiers.findIndex(t => t.id === sub.tier) : -1;
   const tierData = tierIdx >= 0 ? subscriptionTiers[tierIdx] : null;
-  const tierHe   = sub?.tier ? tierHebrewName[sub.tier] : '—';
+  const tierHe   = sub?.tier ? tierHebrewName[sub.tier] : '-';
   const statusInfo = sub?.status ? statusLabel[sub.status] ?? { text: sub.status, color: 'text-ink-muted bg-bg-secondary border-black/10' } : null;
   const isActive = sub?.status === 'active' || sub?.status === 'trialing';
 

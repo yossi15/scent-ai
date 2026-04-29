@@ -64,7 +64,7 @@ export default function ScentRadar({ collection = [] }: Props) {
       label: 'נטייה עיקרית',
       value: `${DIMENSION_LABELS[dominant]}-${DIMENSION_LABELS[secondary]}`,
       desc: hasCollection
-        ? `מבוסס על ${collection.length} בשמים — ה-DNA שלך נוטה לקומפוזיציות ${DIMENSION_LABELS[dominant].toLowerCase()} ו${DIMENSION_LABELS[secondary].toLowerCase()}`
+        ? `מבוסס על ${collection.length} בשמים - ה-DNA שלך נוטה לקומפוזיציות ${DIMENSION_LABELS[dominant].toLowerCase()} ו${DIMENSION_LABELS[secondary].toLowerCase()}`
         : 'בחר בשמים בסקשן "התאמת חתימה" לפרופיל אישי',
     },
     {
@@ -72,7 +72,7 @@ export default function ScentRadar({ collection = [] }: Props) {
       label: 'ממד משנה',
       value: DIMENSION_LABELS[secondary],
       desc: hasCollection
-        ? `${DIMENSION_LABELS[secondary]} (${profile[secondary]}/10) — הבחירות שלך מעידות על העדפה לאקורדים ${DIMENSION_LABELS[secondary].toLowerCase()}`
+        ? `${DIMENSION_LABELS[secondary]} (${profile[secondary]}/10) - הבחירות שלך מעידות על העדפה לאקורדים ${DIMENSION_LABELS[secondary].toLowerCase()}`
         : 'יתעדכן לפי הבשמים שתבחר',
     },
     {
@@ -80,7 +80,7 @@ export default function ScentRadar({ collection = [] }: Props) {
       label: 'נקודה עיוורת',
       value: DIMENSION_LABELS[weakest],
       desc: hasCollection
-        ? `${DIMENSION_LABELS[weakest]} (${profile[weakest]}/10) — שקול לחקור בשמים עם ממד ${DIMENSION_LABELS[weakest].toLowerCase()} חזק יותר`
+        ? `${DIMENSION_LABELS[weakest]} (${profile[weakest]}/10) - שקול לחקור בשמים עם ממד ${DIMENSION_LABELS[weakest].toLowerCase()} חזק יותר`
         : 'הממד החלש ביותר יזוהה לפי האוסף שלך',
     },
     {
@@ -89,10 +89,10 @@ export default function ScentRadar({ collection = [] }: Props) {
       value: `${diversity}/10`,
       desc: hasCollection
         ? diversity >= 7
-          ? 'האוסף שלך מאוזן ומגוון — מכסה מגוון רחב של משפחות ריח'
+          ? 'האוסף שלך מאוזן ומגוון - מכסה מגוון רחב של משפחות ריח'
           : diversity >= 5
-          ? 'האוסף שלך בעל פרסונליות ברורה — ניתן להרחיב לכיוונים חדשים'
-          : 'האוסף שלך ממוקד מאוד — אתה יודע מה אתה אוהב'
+          ? 'האוסף שלך בעל פרסונליות ברורה - ניתן להרחיב לכיוונים חדשים'
+          : 'האוסף שלך ממוקד מאוד - אתה יודע מה אתה אוהב'
         : 'בחר לפחות 2 בשמים לחישוב גיוון',
     },
   ];
@@ -115,7 +115,7 @@ export default function ScentRadar({ collection = [] }: Props) {
           </h2>
           <p className="text-ink-muted text-sm font-hebrew max-w-md mx-auto font-light">
             {hasCollection
-              ? `טביעת האצבע הריחנית שלך — מבוסס על ${collection.length} בשמ${collection.length === 1 ? '' : 'ים'} שבחרת`
+              ? `טביעת האצבע הריחנית שלך - מבוסס על ${collection.length} בשמ${collection.length === 1 ? '' : 'ים'} שבחרת`
               : 'בחר בשמים בסקשן "התאמת חתימה" כדי לראות את הפרופיל האישי שלך'}
           </p>
         </motion.div>

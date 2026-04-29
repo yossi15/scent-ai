@@ -56,11 +56,11 @@ export default function FragranceCard({ fragrance, index, onClick, inCollection,
     >
       {/* Light boutique card */}
       <div className="relative bg-white rounded-2xl overflow-hidden border border-[#E8E4DC] shadow-[0_2px_8px_rgba(13,13,13,0.04)] group-hover:shadow-[0_24px_48px_-16px_rgba(139,115,85,0.18)] group-hover:border-[#C4A882]/50 transition-all duration-500">
-        {/* Bottle showcase area — cream */}
+        {/* Bottle showcase area - cream */}
         <div
           role="button"
           tabIndex={0}
-          aria-label={`${fragrance.name} מאת ${fragrance.house} — פתח פרטים`}
+          aria-label={`${fragrance.name} מאת ${fragrance.house} - פתח פרטים`}
           className="relative h-64 w-full bg-[#F5F3EE] overflow-hidden cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C4A882] focus-visible:ring-offset-2"
           onClick={() => onClick(fragrance)}
           onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onClick(fragrance); } }}
@@ -75,7 +75,7 @@ export default function FragranceCard({ fragrance, index, onClick, inCollection,
             </p>
           </div>
 
-          {/* Bottle image — contain + 24px padding */}
+          {/* Bottle image - contain + 24px padding */}
           <div className="relative h-full flex items-center justify-center" style={{ padding: '24px' }}>
             {showImage ? (
               <div className="relative w-full h-full">

@@ -7,7 +7,7 @@ import { useUser, SignInButton } from '@clerk/nextjs';
 import { subscriptionTiers } from '@/data/fragrances';
 
 // Known promotion codes (must match Stripe). These are validated server-side
-// at checkout — the table here is for instant UX feedback only.
+// at checkout - the table here is for instant UX feedback only.
 const COUPONS: Record<string, { percent: number; label: string }> = {
   WELCOME20: { percent: 20, label: '20% הנחה לחודש ראשון' },
   SCENT50:   { percent: 50, label: '50% הנחה לחודש ראשון' },
@@ -136,7 +136,7 @@ export default function Subscription() {
                 המנוי שלך פעיל
                 {(() => {
                   const t = subscriptionTiers.find(t => t.id === activeTierId);
-                  return t ? ` — ${t.name}` : '';
+                  return t ? ` - ${t.name}` : '';
                 })()}
               </span>
             </div>
@@ -339,7 +339,7 @@ export default function Subscription() {
               <div className="flex items-center gap-2">
                 <Check className="w-4 h-4 text-[#8B7355]" />
                 <span className="text-[#8B7355] text-sm font-hebrew font-semibold">
-                  {appliedCoupon} פעיל — {couponInfo.label}
+                  {appliedCoupon} פעיל - {couponInfo.label}
                 </span>
               </div>
               <button onClick={clearCoupon} aria-label="הסר קופון" className="text-[#8B7355] hover:text-ink p-1">
@@ -359,7 +359,7 @@ export default function Subscription() {
         >
           <div className="flex items-center gap-2 mb-6">
             <Package className="w-4 h-4 text-gold" />
-            <h3 className="font-serif text-xl text-ink font-semibold">תצוגה מקדימה — לוח בקרה</h3>
+            <h3 className="font-serif text-xl text-ink font-semibold">תצוגה מקדימה - לוח בקרה</h3>
             <span className="mr-auto tag">דוגמא</span>
           </div>
 
@@ -396,7 +396,7 @@ export default function Subscription() {
             <div className="bg-bg-secondary rounded-xl p-4">
               <div className="flex items-center gap-2 mb-3">
                 <Package className="w-4 h-4 text-gold" />
-                <span className="text-ink-muted text-[11px] font-hebrew font-medium">תצוגה מקדימה — אפריל</span>
+                <span className="text-ink-muted text-[11px] font-hebrew font-medium">תצוגה מקדימה - אפריל</span>
               </div>
               <div className="space-y-2">
                 {[

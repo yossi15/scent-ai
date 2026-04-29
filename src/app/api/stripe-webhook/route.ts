@@ -5,7 +5,7 @@ import { getSupabase } from '@/lib/supabase';
 import { sendSubscriptionConfirmation } from '@/lib/email';
 
 export const runtime = 'nodejs';
-// Stripe needs the raw body for signature verification — disable Next's body parsing
+// Stripe needs the raw body for signature verification - disable Next's body parsing
 export const dynamic = 'force-dynamic';
 
 // POST /api/stripe-webhook

@@ -208,7 +208,7 @@ export default function FragranceModal({ fragrance, onClose, inCollection, onTog
                 className="btn-outline flex-1 py-3 rounded-lg text-sm font-hebrew font-medium flex items-center justify-center gap-2"
               >
                 <ShoppingBag className="w-4 h-4" />
-                השווה מחירים — ₪{fragrance.price.toLocaleString()}
+                השווה מחירים - ₪{fragrance.price.toLocaleString()}
               </button>
             </div>
           </div>

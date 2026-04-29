@@ -24,8 +24,8 @@ export async function GET() {
     const sub = subByUser.get(u.id);
     return {
       id: u.id,
-      name: [u.firstName, u.lastName].filter(Boolean).join(' ') || u.username || '—',
-      email: u.emailAddresses[0]?.emailAddress ?? '—',
+      name: [u.firstName, u.lastName].filter(Boolean).join(' ') || u.username || '-',
+      email: u.emailAddresses[0]?.emailAddress ?? '-',
       createdAt: new Date(u.createdAt).toISOString(),
       lastSignInAt: u.lastSignInAt ? new Date(u.lastSignInAt).toISOString() : null,
       tier: sub?.tier ?? null,

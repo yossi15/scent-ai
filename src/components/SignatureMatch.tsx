@@ -254,7 +254,7 @@ export default function SignatureMatch({ onCollectionChange }: Props) {
               <div className="flex items-center gap-2 mb-6">
                 <Sparkles className="w-4 h-4 text-gold" />
                 <p className="text-gold text-xs font-hebrew font-medium">
-                  3 יצירות מופת עבורך — ניתוח Claude AI
+                  3 יצירות מופת עבורך - ניתוח Claude AI
                 </p>
               </div>
 

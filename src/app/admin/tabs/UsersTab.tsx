@@ -16,7 +16,7 @@ type User = {
 const TIER_HE: Record<string, string> = { discovery: 'גילוי', collector: 'אספן', expert: 'מומחה' };
 
 function fmtDate(iso: string | null) {
-  if (!iso) return '—';
+  if (!iso) return '-';
   return new Date(iso).toLocaleDateString('he-IL', { year: 'numeric', month: 'short', day: 'numeric' });
 }
 
@@ -84,7 +84,7 @@ export default function UsersTab() {
                         {TIER_HE[u.tier] ?? u.tier} · {u.subStatus}
                       </span>
                     ) : (
-                      <span className="text-ink-faint text-xs">—</span>
+                      <span className="text-ink-faint text-xs">-</span>
                     )}
                   </td>
                 </tr>

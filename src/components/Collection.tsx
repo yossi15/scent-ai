@@ -72,7 +72,7 @@ const GENDER_OPTIONS = [
 
 const PRICE_OPTIONS = [
   { value: 'under500',   label: 'עד ₪500' },
-  { value: '500to1000',  label: '₪500–1000' },
+  { value: '500to1000',  label: '₪500-1000' },
   { value: 'over1000',   label: 'מעל ₪1000' },
 ];
 

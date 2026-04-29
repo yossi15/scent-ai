@@ -308,7 +308,7 @@ function ProfileChip({ label, value }: { label: string; value?: string }) {
   return (
     <div className="text-center">
       <p className="text-[10px] font-hebrew text-ink-faint uppercase tracking-wider mb-0.5">{label}</p>
-      <p className="text-xs font-hebrew text-ink font-medium" dir="auto">{value || '—'}</p>
+      <p className="text-xs font-hebrew text-ink font-medium" dir="auto">{value || '-'}</p>
     </div>
   );
 }

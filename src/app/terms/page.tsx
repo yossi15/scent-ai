@@ -3,7 +3,7 @@ import { ArrowLeft } from 'lucide-react';
 
 export const metadata = {
   title: 'תקנון שימוש | SCENTORY',
-  description: 'תנאי השימוש של SCENTORY — פלטפורמת AI לגילוי בשמים.',
+  description: 'תנאי השימוש של SCENTORY - פלטפורמת AI לגילוי בשמים.',
   alternates: { canonical: '/terms' },
 };
 
@@ -21,7 +21,7 @@ export default function TermsPage() {
 
           <section>
             <h2 className="font-serif text-lg text-ink font-semibold mb-2">1. כללי</h2>
-            <p>השימוש באתר SCENTORY (&ldquo;האתר&rdquo;, &ldquo;השירות&rdquo;) כפוף לתנאי השימוש המפורטים להלן. גלישה ושימוש מהווים הסכמה לתנאים אלה. אם אינך מסכים — אנא הימנע מלהשתמש בשירות.</p>
+            <p>השימוש באתר SCENTORY (&ldquo;האתר&rdquo;, &ldquo;השירות&rdquo;) כפוף לתנאי השימוש המפורטים להלן. גלישה ושימוש מהווים הסכמה לתנאים אלה. אם אינך מסכים - אנא הימנע מלהשתמש בשירות.</p>
           </section>
 
           <section>
@@ -41,17 +41,17 @@ export default function TermsPage() {
 
           <section>
             <h2 className="font-serif text-lg text-ink font-semibold mb-2">5. מנוי וחיוב</h2>
-            <p>החיוב הוא חודשי ומתבצע אוטומטית באמצעות Stripe. ניתן לבטל את המנוי בכל עת דרך עמוד &ldquo;החשבון שלי&rdquo;. ביטול ייכנס לתוקף בסוף תקופת החיוב הנוכחית — לא יבוצע חיוב נוסף.</p>
+            <p>החיוב הוא חודשי ומתבצע אוטומטית באמצעות Stripe. ניתן לבטל את המנוי בכל עת דרך עמוד &ldquo;החשבון שלי&rdquo;. ביטול ייכנס לתוקף בסוף תקופת החיוב הנוכחית - לא יבוצע חיוב נוסף.</p>
           </section>
 
           <section>
             <h2 className="font-serif text-lg text-ink font-semibold mb-2">6. ביטול מנוי והחזרים</h2>
-            <p>ניתן לבטל את המנוי בכל עת מעמוד &ldquo;החשבון שלי&rdquo;. הביטול ייכנס לתוקף בסוף תקופת החיוב הנוכחית — לא יבוצע חיוב נוסף. בהתאם לחוק הגנת הצרכן הישראלי, ניתן לבקש החזר מלא תוך 14 יום מיום הרכישה הראשון של המנוי. בקשות החזר: <a href="mailto:contact@scentory.co.il" className="text-gold hover:underline" dir="ltr">contact@scentory.co.il</a></p>
+            <p>ניתן לבטל את המנוי בכל עת מעמוד &ldquo;החשבון שלי&rdquo;. הביטול ייכנס לתוקף בסוף תקופת החיוב הנוכחית - לא יבוצע חיוב נוסף. בהתאם לחוק הגנת הצרכן הישראלי, ניתן לבקש החזר מלא תוך 14 יום מיום הרכישה הראשון של המנוי. בקשות החזר: <a href="mailto:contact@scentory.co.il" className="text-gold hover:underline" dir="ltr">contact@scentory.co.il</a></p>
           </section>
 
           <section>
-            <h2 className="font-serif text-lg text-ink font-semibold mb-2">7. אופי השירות — אין מכירת מוצרים פיזיים</h2>
-            <p>SCENTORY היא פלטפורמת מידע, גילוי והמלצה דיגיטלית בלבד. אנחנו לא מחזיקים מלאי, לא מוכרים בקבוקים או דגימות, ולא שולחים מוצרים פיזיים. רכישת בשמים מתבצעת ישירות מול קמעונאים חיצוניים שאליהם אנחנו מקשרים — SCENTORY אינה צד לעסקה ואינה אחראית למשלוח, להחזרים או לאחריות מוצר.</p>
+            <h2 className="font-serif text-lg text-ink font-semibold mb-2">7. אופי השירות - אין מכירת מוצרים פיזיים</h2>
+            <p>SCENTORY היא פלטפורמת מידע, גילוי והמלצה דיגיטלית בלבד. אנחנו לא מחזיקים מלאי, לא מוכרים בקבוקים או דגימות, ולא שולחים מוצרים פיזיים. רכישת בשמים מתבצעת ישירות מול קמעונאים חיצוניים שאליהם אנחנו מקשרים - SCENTORY אינה צד לעסקה ואינה אחראית למשלוח, להחזרים או לאחריות מוצר.</p>
           </section>
 
           <section>
@@ -61,7 +61,7 @@ export default function TermsPage() {
 
           <section>
             <h2 className="font-serif text-lg text-ink font-semibold mb-2">9. קניין רוחני</h2>
-            <p>כל הבשמים המוצגים באתר הם סימנים מסחריים של בעליהם. השימוש בשמות, סמלים ותמונות הוא לצרכי תיאור, השוואה והמלצה בלבד — תחת דיני שימוש הוגן (fair use). תוכן מקורי באתר (טקסטים, עיצוב, קוד, המלצות AI) שייך ל-SCENTORY.</p>
+            <p>כל הבשמים המוצגים באתר הם סימנים מסחריים של בעליהם. השימוש בשמות, סמלים ותמונות הוא לצרכי תיאור, השוואה והמלצה בלבד - תחת דיני שימוש הוגן (fair use). תוכן מקורי באתר (טקסטים, עיצוב, קוד, המלצות AI) שייך ל-SCENTORY.</p>
           </section>
 
           <section>
@@ -81,7 +81,7 @@ export default function TermsPage() {
 
           <section>
             <h2 className="font-serif text-lg text-ink font-semibold mb-2">13. דין וסמכות שיפוט</h2>
-            <p>על תקנון זה יחולו דיני מדינת ישראל. סמכות השיפוט הבלעדית בכל מחלוקת — בבתי המשפט המוסמכים בתל אביב-יפו.</p>
+            <p>על תקנון זה יחולו דיני מדינת ישראל. סמכות השיפוט הבלעדית בכל מחלוקת - בבתי המשפט המוסמכים בתל אביב-יפו.</p>
           </section>
 
           <section>

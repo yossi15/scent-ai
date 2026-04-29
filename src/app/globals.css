@@ -28,7 +28,7 @@
 }
 
 .dark {
-  /* Warm soft dark — less eye-strain than pure black on long scroll */
+  /* Warm soft dark - less eye-strain than pure black on long scroll */
   --bg-primary: #1A1714;
   --bg-secondary: #221F1B;
   --bg-card: #2A2622;
@@ -116,7 +116,7 @@ body {
 .dark .bg-\[\#ECEAE4\].text-\[\#4A4A4A\],
 .dark .bg-\[\#ECEAE4\].text-\[\#0D0D0D\] { background-color: #2F2B26 !important; }
 
-/* Hero gradient — warm soft dark instead of black */
+/* Hero gradient - warm soft dark instead of black */
 .dark [data-hero-bg] {
   background: linear-gradient(135deg, #1A1714 0%, #2A2622 100%) !important;
 }
@@ -266,14 +266,14 @@ p, li, span, label, button, a, input, textarea, select {
                      radial-gradient(circle at 75% 75%, rgba(150,121,58,0.03) 0%, transparent 50%);
 }
 
-/* Focus ring — inputs */
+/* Focus ring - inputs */
 input:focus, select:focus, textarea:focus {
   outline: none;
   border-color: var(--gold) !important;
   box-shadow: 0 0 0 3px var(--gold-faint);
 }
 
-/* Focus ring — keyboard navigation (all interactive elements) */
+/* Focus ring - keyboard navigation (all interactive elements) */
 a:focus-visible,
 button:focus-visible,
 [role="button"]:focus-visible,

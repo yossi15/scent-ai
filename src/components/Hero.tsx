@@ -80,7 +80,7 @@ export default function Hero() {
           </p>
 
           <p className="font-hebrew text-[13px] sm:text-sm md:text-base max-w-lg mx-auto leading-relaxed mb-10 font-light text-ink-secondary px-3">
-            פלטפורמת AI לגילוי בשמים — שמור את האוסף שלך, קבל המלצות חכמות, וקנה דרכנו.
+            פלטפורמת AI לגילוי בשמים - שמור את האוסף שלך, קבל המלצות חכמות, וקנה דרכנו.
           </p>
         </motion.div>
 

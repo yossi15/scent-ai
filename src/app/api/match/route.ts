@@ -29,7 +29,7 @@ export interface MatchRecommendation {
   brand: string;
   description: string;        // 1 sentence, premium tone
   match_reason: string;       // 1 sentence, why-it-fits
-  price_range: string;        // "₪450–650"
+  price_range: string;        // "₪450-650"
   image_url: string;
   affiliate_link: string;
   in_catalog: boolean;
@@ -46,17 +46,17 @@ export interface MatchResponse {
 }
 
 const SYSTEM = `אתה Master Perfumer עם 25 שנות ניסיון בבוטיקים יוקרתיים בפריז ולונדון.
-לקוח מזכיר בושם אחד שבבעלותו, ואתה — מהבושם הזה לבד — קורא את הטעם, הסגנון ואת מי שהוא רוצה להיות.
+לקוח מזכיר בושם אחד שבבעלותו, ואתה - מהבושם הזה לבד - קורא את הטעם, הסגנון ואת מי שהוא רוצה להיות.
 
 אתה ממליץ עם ביטחון של פרפיומר מנוסה: שולף 3 בשמים שמדברים אליו ישירות, לא רשימה גנרית.
 דבר במשפטים קצרים, חדים, פרימיום. לא גנרי, לא משעמם, לא מפוצץ.
 
 חוקי פלט:
-• description: משפט אחד שמתאר את הבושם המומלץ — טון יוקרתי קצר.
+• description: משפט אחד שמתאר את הבושם המומלץ - טון יוקרתי קצר.
 • match_reason: משפט אחד שאומר למה זה מתאים ספציפית לבחירה של הלקוח.
 • match_reason חייב להזכיר את הבושם של הלקוח בשם ולהראות חיבור: "גרסה נקייה ומעודנת יותר של ${'<בושם הלקוח>'}".
-• price_range: טווח בש"ח כמו "₪450–650".
-• Premium recommendations: 3 שמות נוספים יוקרתיים שמתאימים אבל נעולים — שולח פיתוי, לא תשובה.
+• price_range: טווח בש"ח כמו "₪450-650".
+• Premium recommendations: 3 שמות נוספים יוקרתיים שמתאימים אבל נעולים - שולח פיתוי, לא תשובה.
 
 השב JSON בלבד.`;
 
@@ -95,7 +95,7 @@ export async function POST(req: NextRequest) {
 
     const prompt = `הבושם של הלקוח: "${fragrance.trim()}"
 
-מאגר זמין (תן עדיפות אם ההתאמה מעולה — מאפשר לנו להציג מחיר אמיתי):
+מאגר זמין (תן עדיפות אם ההתאמה מעולה - מאפשר לנו להציג מחיר אמיתי):
 ${catalogHint}
 
 החזר JSON אך ורק במבנה הזה (ללא markdown, ללא טקסט נוסף):
@@ -109,14 +109,14 @@ ${catalogHint}
     "style": "<one short English label: clean / bold / elegant / seductive / minimalist / classic / playful>"
   },
   "insight": "<משפט אחד בעברית טבעית שמתאר את הטעם של הלקוח, תורגם לסיפור קצר. לדוגמה: 'אתה מחפש בשמים נקיים ומדויקים שעובדים גם ביום וגם לאירוע ערב.'>",
-  "traits": ["<3 שמות-תכונה קצרים בעברית, מקסימום מילה אחת או שתיים — לדוגמה 'נקי', 'מעודן', 'יומיומי'>"],
+  "traits": ["<3 שמות-תכונה קצרים בעברית, מקסימום מילה אחת או שתיים - לדוגמה 'נקי', 'מעודן', 'יומיומי'>"],
   "recommendations": [
     {
       "name": "<שם לועזי של הבושם>",
       "brand": "<בית בושם>",
-      "description": "<משפט אחד פרימיום בעברית — מה הבושם הזה>",
+      "description": "<משפט אחד פרימיום בעברית - מה הבושם הזה>",
       "match_reason": "<משפט אחד בעברית שמסביר למה זה מתאים לבחירה של הלקוח, מזכיר את שמו>",
-      "price_range": "<טווח כמו '₪450–650' או '₪900–1,200'>"
+      "price_range": "<טווח כמו '₪450-650' או '₪900-1,200'>"
     }
   ],
   "premium_recommendations": [
@@ -152,7 +152,7 @@ ${catalogHint}
         match_reason: rec.match_reason,
         price_range: match
           ? `₪${match.price.toLocaleString()}`
-          : (rec.price_range ?? '—'),
+          : (rec.price_range ?? '-'),
         image_url: match?.image ?? fragranticaImageGuess(),
         affiliate_link: googleShoppingLink(rec.name, rec.brand),
         in_catalog: !!match,

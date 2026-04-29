@@ -39,7 +39,7 @@ export default function Navbar() {
           <div className="flex items-center justify-between h-16 md:h-20">
 
             {/* Logo */}
-            <a href="#" aria-label="SCENTORY — דף הבית">
+            <a href="#" aria-label="SCENTORY - דף הבית">
               <Logo size="sm" />
             </a>
 
@@ -57,7 +57,7 @@ export default function Navbar() {
               ))}
             </div>
 
-            {/* Auth area — desktop */}
+            {/* Auth area - desktop */}
             <div className="hidden md:flex items-center gap-3">
               <ThemeToggle />
               {!isLoaded ? (

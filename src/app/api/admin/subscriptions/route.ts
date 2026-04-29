@@ -38,8 +38,8 @@ export async function GET() {
     try {
       const u = await cc.users.getUser(id);
       userMap.set(id, {
-        name: [u.firstName, u.lastName].filter(Boolean).join(' ') || u.username || '—',
-        email: u.emailAddresses[0]?.emailAddress ?? '—',
+        name: [u.firstName, u.lastName].filter(Boolean).join(' ') || u.username || '-',
+        email: u.emailAddresses[0]?.emailAddress ?? '-',
       });
     } catch { /* ignore single failures */ }
   }
@@ -55,10 +55,10 @@ export async function GET() {
 
     return {
       id: s.id,
-      name: clerk?.name ?? customer?.name ?? '—',
-      email: clerk?.email ?? customer?.email ?? '—',
+      name: clerk?.name ?? customer?.name ?? '-',
+      email: clerk?.email ?? customer?.email ?? '-',
       tier,
-      tierHebrew: tier ? TIER_HEBREW[tier] : '—',
+      tierHebrew: tier ? TIER_HEBREW[tier] : '-',
       status: s.status,
       currentPeriodEnd: new Date(s.current_period_end * 1000).toISOString(),
       cancelAtPeriodEnd: s.cancel_at_period_end,

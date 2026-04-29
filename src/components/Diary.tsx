@@ -340,7 +340,7 @@ export default function Diary() {
                         className="w-full bg-bg-secondary border border-black/[0.06] text-ink text-sm rounded-lg px-3 py-2.5 focus:outline-none focus:border-gold-border transition-colors"
                       >
                         {availableFragrances.map((f) => (
-                          <option key={f.id} value={f.id}>{f.name} — {f.house}</option>
+                          <option key={f.id} value={f.id}>{f.name} - {f.house}</option>
                         ))}
                       </select>
                     </div>

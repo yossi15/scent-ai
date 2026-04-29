@@ -12,7 +12,7 @@ export async function PATCH(req: NextRequest, ctx: { params: Promise<{ id: strin
   const id = parseInt(idStr, 10);
   const patch = (await req.json()) as Partial<Fragrance>;
 
-  // Find current state — check static catalog or existing override
+  // Find current state - check static catalog or existing override
   const base = fragrances.find(f => f.id === id);
   let data: Fragrance | null = base ? { ...base } : null;
 

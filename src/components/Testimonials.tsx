@@ -17,7 +17,7 @@ const testimonials = [
     role: 'Early Tester',
     scent: 'Baccarat Rouge 540',
     stars: 5,
-    text: 'ניתוח ה-DNA הראה לי שאני נמשכת ל-Iris פודרי ועור עשן — ומיד הציע 3 בשמים שלא הכרתי, אחד מהם נכנס לאוסף הקבוע.',
+    text: 'ניתוח ה-DNA הראה לי שאני נמשכת ל-Iris פודרי ועור עשן - ומיד הציע 3 בשמים שלא הכרתי, אחד מהם נכנס לאוסף הקבוע.',
     color: 'bg-gradient-to-br from-rose-100 to-rose-200',
   },
   {

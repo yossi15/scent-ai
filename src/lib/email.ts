@@ -46,7 +46,7 @@ export async function sendSampleConfirmation(opts: {
   brand?: string | null;
 }): Promise<void> {
   const r = client();
-  if (!r) { console.warn('[email] RESEND_API_KEY missing — skipping send'); return; }
+  if (!r) { console.warn('[email] RESEND_API_KEY missing - skipping send'); return; }
 
   const greeting = opts.name ? `שלום ${opts.name},` : 'שלום,';
   const brandLine = opts.brand ? ` (${opts.brand})` : '';
@@ -55,9 +55,9 @@ export async function sendSampleConfirmation(opts: {
     <h1>נרשמת להתראה ✓</h1>
     <p>${greeting}</p>
     <p>קיבלנו את העניין שלך ב-<strong>${opts.fragranceName}</strong>${brandLine}.
-    SCENTORY היא פלטפורמת גילוי בשמים — אנחנו לא מוכרים בקבוקים בעצמנו, אבל
+    SCENTORY היא פלטפורמת גילוי בשמים - אנחנו לא מוכרים בקבוקים בעצמנו, אבל
     נעדכן אותך באימייל ברגע שנוסיף את הבושם הזה למאגר או נמצא עליו עסקה אצל אחד מהקמעונאים שלנו.</p>
-    <p>בינתיים, אם יש לך שאלות — מוזמן לענות לאימייל הזה.</p>
+    <p>בינתיים, אם יש לך שאלות - מוזמן לענות לאימייל הזה.</p>
     <a class="cta" href="${SITE}">חזור לאתר</a>
   `;
 
@@ -65,7 +65,7 @@ export async function sendSampleConfirmation(opts: {
     await r.emails.send({
       from: `SCENTORY <${FROM}>`,
       to: opts.to,
-      subject: `נרשמת להתראה — ${opts.fragranceName}`,
+      subject: `נרשמת להתראה - ${opts.fragranceName}`,
       html: shell(inner),
     });
   } catch (err) {
@@ -78,14 +78,14 @@ export async function sendWaitlistConfirmation(opts: {
   name?: string | null;
 }): Promise<void> {
   const r = client();
-  if (!r) { console.warn('[email] RESEND_API_KEY missing — skipping send'); return; }
+  if (!r) { console.warn('[email] RESEND_API_KEY missing - skipping send'); return; }
 
   const greeting = opts.name ? `שלום ${opts.name},` : 'שלום,';
 
   const inner = `
     <h1>ברוך הבא לרשימת ההמתנה ✓</h1>
     <p>${greeting}</p>
-    <p>נרשמת בהצלחה לרשימת ההמתנה של SCENTORY. בקרוב מאוד תקבל גישה ראשונה לשירות המנוי שלנו —
+    <p>נרשמת בהצלחה לרשימת ההמתנה של SCENTORY. בקרוב מאוד תקבל גישה ראשונה לשירות המנוי שלנו -
     בשמי נישה אישיים שנבחרים עבורך על ידי AI מתוך מאגר של 151 בשמים מ-43 בתי בושם.</p>
     <p>נעדכן אותך ברגע שהמקום שלך יהיה מוכן.</p>
     <a class="cta" href="${SITE}">בקר באתר</a>
@@ -95,7 +95,7 @@ export async function sendWaitlistConfirmation(opts: {
     await r.emails.send({
       from: `SCENTORY <${FROM}>`,
       to: opts.to,
-      subject: 'ברוך הבא ל-SCENTORY — אישור הרשמה',
+      subject: 'ברוך הבא ל-SCENTORY - אישור הרשמה',
       html: shell(inner),
     });
   } catch (err) {
@@ -109,7 +109,7 @@ export async function sendSubscriptionConfirmation(opts: {
   tier: string;
 }): Promise<void> {
   const r = client();
-  if (!r) { console.warn('[email] RESEND_API_KEY missing — skipping send'); return; }
+  if (!r) { console.warn('[email] RESEND_API_KEY missing - skipping send'); return; }
 
   const greeting = opts.name ? `שלום ${opts.name},` : 'שלום,';
 
@@ -117,7 +117,7 @@ export async function sendSubscriptionConfirmation(opts: {
     <h1>המנוי שלך פעיל 🎉</h1>
     <p>${greeting}</p>
     <p>תודה שהצטרפת ל-SCENTORY במסלול <strong>${opts.tier}</strong>.
-    מעכשיו פתוחות לך כל יכולות הפלטפורמה — אוסף אישי, המלצות AI מתקדמות, השוואת מחירים והתראות.</p>
+    מעכשיו פתוחות לך כל יכולות הפלטפורמה - אוסף אישי, המלצות AI מתקדמות, השוואת מחירים והתראות.</p>
     <p>אפשר לנהל את המנוי בכל עת מעמוד &ldquo;החשבון שלי&rdquo;.</p>
     <a class="cta" href="${SITE}/account">לחשבון שלי</a>
   `;

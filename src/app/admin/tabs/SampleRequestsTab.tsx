@@ -83,7 +83,7 @@ export default function SampleRequestsTab() {
                       <div className="text-ink font-medium" dir="ltr">{r.fragrance_name}</div>
                       {r.brand && <div className="text-ink-faint text-[11px]" dir="ltr">{r.brand}</div>}
                     </td>
-                    <td className="px-3 py-2.5 text-ink-secondary">{r.name ?? '—'}</td>
+                    <td className="px-3 py-2.5 text-ink-secondary">{r.name ?? '-'}</td>
                     <td className="px-3 py-2.5 text-ink-secondary text-xs" dir="ltr">{r.email}</td>
                     <td className="px-3 py-2.5 text-ink-faint text-xs">{fmtDate(r.created_at)}</td>
                     <td className="px-3 py-2.5">

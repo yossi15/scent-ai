@@ -17,7 +17,7 @@ export async function GET() {
       .order('updated_at', { ascending: false });
     edits = (data ?? []) as typeof edits;
   } catch {
-    // Table may not exist yet — fall through with empty edits
+    // Table may not exist yet - fall through with empty edits
   }
 
   // Apply edits: index by base_id (latest wins; we already ordered desc)

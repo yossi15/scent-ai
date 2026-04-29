@@ -3,7 +3,7 @@ import { ArrowLeft } from 'lucide-react';
 
 export const metadata = {
   title: 'מדיניות פרטיות | SCENTORY',
-  description: 'מדיניות הפרטיות של SCENTORY — איך אנחנו אוספים, משתמשים ושומרים על המידע שלך, בהתאם ל-GDPR ולחוק הגנת הפרטיות בישראל.',
+  description: 'מדיניות הפרטיות של SCENTORY - איך אנחנו אוספים, משתמשים ושומרים על המידע שלך, בהתאם ל-GDPR ולחוק הגנת הפרטיות בישראל.',
   alternates: { canonical: '/privacy' },
 };
 
@@ -28,21 +28,21 @@ export default function PrivacyPage() {
           <section>
             <h2 className="font-serif text-lg text-ink font-semibold mb-2">2. איזה מידע אנחנו אוספים</h2>
             <ul className="list-disc pr-5 space-y-1">
-              <li><strong>פרטי חשבון</strong> — שם ואימייל מתהליך ההרשמה (דרך Clerk).</li>
-              <li><strong>העדפות בשמים</strong> — תשובות מהשאלון, רשימת אוסף, יומן ריחות.</li>
-              <li><strong>נתוני רכישה</strong> — היסטוריית הזמנות (תהליך התשלום עצמו ב-Stripe).</li>
-              <li><strong>נתוני שימוש טכניים</strong> — IP, סוג דפדפן, פעולות באתר (לצורכי ניטור ואבטחה).</li>
-              <li><strong>תוכן שאתה משתף</strong> — בקשות דגימה, פניות תמיכה.</li>
+              <li><strong>פרטי חשבון</strong> - שם ואימייל מתהליך ההרשמה (דרך Clerk).</li>
+              <li><strong>העדפות בשמים</strong> - תשובות מהשאלון, רשימת אוסף, יומן ריחות.</li>
+              <li><strong>נתוני רכישה</strong> - היסטוריית הזמנות (תהליך התשלום עצמו ב-Stripe).</li>
+              <li><strong>נתוני שימוש טכניים</strong> - IP, סוג דפדפן, פעולות באתר (לצורכי ניטור ואבטחה).</li>
+              <li><strong>תוכן שאתה משתף</strong> - בקשות דגימה, פניות תמיכה.</li>
             </ul>
           </section>
 
           <section>
             <h2 className="font-serif text-lg text-ink font-semibold mb-2">3. בסיס משפטי לעיבוד (GDPR Art. 6)</h2>
             <ul className="list-disc pr-5 space-y-1">
-              <li><strong>ביצוע חוזה</strong> — לספק לך את שירות המנוי.</li>
-              <li><strong>הסכמה</strong> — לדיוור שיווקי וניתוח העדפות מתקדם (ניתן לבטל בכל עת).</li>
-              <li><strong>אינטרס לגיטימי</strong> — שיפור השירות, מניעת הונאות, אבטחה.</li>
-              <li><strong>חובה חוקית</strong> — שמירת חשבוניות לצורכי מס.</li>
+              <li><strong>ביצוע חוזה</strong> - לספק לך את שירות המנוי.</li>
+              <li><strong>הסכמה</strong> - לדיוור שיווקי וניתוח העדפות מתקדם (ניתן לבטל בכל עת).</li>
+              <li><strong>אינטרס לגיטימי</strong> - שיפור השירות, מניעת הונאות, אבטחה.</li>
+              <li><strong>חובה חוקית</strong> - שמירת חשבוניות לצורכי מס.</li>
             </ul>
           </section>
 
@@ -55,12 +55,12 @@ export default function PrivacyPage() {
             <h2 className="font-serif text-lg text-ink font-semibold mb-2">5. צדדים שלישיים ומעבדי משנה</h2>
             <p>אנחנו עובדים עם ספקי שירות מהימנים שעומדים בתקני אבטחה מחמירים:</p>
             <ul className="list-disc pr-5 space-y-1 mt-2">
-              <li><strong>Clerk</strong> — אימות והזדהות (ארה&quot;ב, SOC 2)</li>
-              <li><strong>Stripe</strong> — תשלומים בלבד (PCI-DSS Level 1)</li>
-              <li><strong>Supabase</strong> — אחסון נתונים (אזור EU)</li>
-              <li><strong>Anthropic</strong> — מנוע AI להמלצות (לא נשמר מידע אישי מזהה)</li>
-              <li><strong>Resend</strong> — שירות שליחת אימיילים</li>
-              <li><strong>Vercel</strong> — אירוח האתר</li>
+              <li><strong>Clerk</strong> - אימות והזדהות (ארה&quot;ב, SOC 2)</li>
+              <li><strong>Stripe</strong> - תשלומים בלבד (PCI-DSS Level 1)</li>
+              <li><strong>Supabase</strong> - אחסון נתונים (אזור EU)</li>
+              <li><strong>Anthropic</strong> - מנוע AI להמלצות (לא נשמר מידע אישי מזהה)</li>
+              <li><strong>Resend</strong> - שירות שליחת אימיילים</li>
+              <li><strong>Vercel</strong> - אירוח האתר</li>
             </ul>
           </section>
 
@@ -71,18 +71,18 @@ export default function PrivacyPage() {
 
           <section>
             <h2 className="font-serif text-lg text-ink font-semibold mb-2">7. תקופת שמירה</h2>
-            <p>נתוני חשבון נשמרים כל עוד החשבון פעיל ועד 24 חודשים מיום סיום המנוי. חשבוניות נשמרות 7 שנים בהתאם לדין הישראלי. נתוני שימוש טכניים — עד 12 חודשים.</p>
+            <p>נתוני חשבון נשמרים כל עוד החשבון פעיל ועד 24 חודשים מיום סיום המנוי. חשבוניות נשמרות 7 שנים בהתאם לדין הישראלי. נתוני שימוש טכניים - עד 12 חודשים.</p>
           </section>
 
           <section>
             <h2 className="font-serif text-lg text-ink font-semibold mb-2">8. הזכויות שלך (GDPR Art. 15-22)</h2>
             <ul className="list-disc pr-5 space-y-1">
-              <li><strong>זכות עיון</strong> — לקבל עותק מהמידע שלך.</li>
-              <li><strong>זכות תיקון</strong> — לעדכן מידע שגוי.</li>
-              <li><strong>זכות מחיקה (&ldquo;להישכח&rdquo;)</strong> — למחוק את המידע שלך.</li>
-              <li><strong>זכות הגבלת עיבוד</strong> — לעצור עיבוד במצבים מסוימים.</li>
-              <li><strong>זכות ניידות</strong> — לקבל את המידע בפורמט מובנה (JSON/CSV).</li>
-              <li><strong>זכות התנגדות</strong> — לדיוור שיווקי וקבלת החלטות אוטומטית.</li>
+              <li><strong>זכות עיון</strong> - לקבל עותק מהמידע שלך.</li>
+              <li><strong>זכות תיקון</strong> - לעדכן מידע שגוי.</li>
+              <li><strong>זכות מחיקה (&ldquo;להישכח&rdquo;)</strong> - למחוק את המידע שלך.</li>
+              <li><strong>זכות הגבלת עיבוד</strong> - לעצור עיבוד במצבים מסוימים.</li>
+              <li><strong>זכות ניידות</strong> - לקבל את המידע בפורמט מובנה (JSON/CSV).</li>
+              <li><strong>זכות התנגדות</strong> - לדיוור שיווקי וקבלת החלטות אוטומטית.</li>
               <li><strong>זכות לבטל הסכמה</strong> בכל עת, ללא השפעה על עיבוד שכבר בוצע.</li>
             </ul>
             <p className="mt-2">למימוש זכויות: <a href="mailto:privacy@scentory.co.il" className="text-gold hover:underline" dir="ltr">privacy@scentory.co.il</a>. נשיב תוך 30 יום.</p>
@@ -95,12 +95,12 @@ export default function PrivacyPage() {
 
           <section>
             <h2 className="font-serif text-lg text-ink font-semibold mb-2">10. אבטחה</h2>
-            <p>כל התקשורת מוצפנת ב-TLS/HTTPS. סיסמאות מאוחסנות אצל Clerk בלבד עם hashing חזק. פרטי תשלום מאוחסנים אצל Stripe בלבד — לא אצלנו. גישה לנתונים מוגבלת לאנשי צוות מורשים בלבד.</p>
+            <p>כל התקשורת מוצפנת ב-TLS/HTTPS. סיסמאות מאוחסנות אצל Clerk בלבד עם hashing חזק. פרטי תשלום מאוחסנים אצל Stripe בלבד - לא אצלנו. גישה לנתונים מוגבלת לאנשי צוות מורשים בלבד.</p>
           </section>
 
           <section>
             <h2 className="font-serif text-lg text-ink font-semibold mb-2">11. עוגיות (Cookies)</h2>
-            <p>אנחנו משתמשים בעוגיות הכרחיות בלבד — לתפעול האתר ולשמירת מצב התחברות. אין עוגיות פרסום צד שלישי או מעקב חוצה אתרים.</p>
+            <p>אנחנו משתמשים בעוגיות הכרחיות בלבד - לתפעול האתר ולשמירת מצב התחברות. אין עוגיות פרסום צד שלישי או מעקב חוצה אתרים.</p>
           </section>
 
           <section>
@@ -110,7 +110,7 @@ export default function PrivacyPage() {
 
           <section>
             <h2 className="font-serif text-lg text-ink font-semibold mb-2">13. הגשת תלונה</h2>
-            <p>אם אתה תושב EU, באפשרותך להגיש תלונה לרשות הגנת המידע במדינתך. בישראל — לרשות להגנת הפרטיות:
+            <p>אם אתה תושב EU, באפשרותך להגיש תלונה לרשות הגנת המידע במדינתך. בישראל - לרשות להגנת הפרטיות:
             <a href="https://www.gov.il/he/departments/the_privacy_protection_authority" className="text-gold hover:underline" target="_blank" rel="noopener"> gov.il</a></p>
           </section>
 

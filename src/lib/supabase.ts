@@ -1,5 +1,5 @@
 /**
- * Server-side Supabase client — used only in API routes.
+ * Server-side Supabase client - used only in API routes.
  * Never import this in 'use client' components.
  *
  * Before using, run this SQL in your Supabase SQL editor:

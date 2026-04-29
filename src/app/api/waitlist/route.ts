@@ -13,7 +13,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Invalid email' }, { status: 400 });
     }
 
-    // Best-effort persist (table may or may not exist — don't block on failure)
+    // Best-effort persist (table may or may not exist - don't block on failure)
     try {
       const supabase = getSupabase();
       await supabase.from('waitlist').insert({ email, name: name ?? null });

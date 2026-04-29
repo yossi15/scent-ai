@@ -307,7 +307,7 @@ export default function FragrancePage() {
             <span>חזרה לקולקציה</span>
           </button>
           <p className="hidden sm:block font-sans text-[10px] tracking-[0.18em] uppercase text-ink-faint" dir="ltr">
-            {fragrance.house} — {fragrance.name}
+            {fragrance.house} - {fragrance.name}
           </p>
         </div>
       </header>
@@ -317,7 +317,7 @@ export default function FragrancePage() {
         {/* ── Hero: bottle + key info ──────────────────────────────────────── */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-14 mb-14">
 
-          {/* LEFT — Bottle on gradient bg */}
+          {/* LEFT - Bottle on gradient bg */}
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -376,7 +376,7 @@ export default function FragrancePage() {
             </div>
           </motion.div>
 
-          {/* RIGHT — Info panel */}
+          {/* RIGHT - Info panel */}
           <motion.div
             initial={{ opacity: 0, y: 28 }}
             animate={{ opacity: 1, y: 0 }}

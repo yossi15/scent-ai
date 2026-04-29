@@ -5,7 +5,7 @@ import { getStripe, tierToPriceId, appUrl, type Tier } from '@/lib/stripe';
 import { getSupabase } from '@/lib/supabase';
 
 // POST /api/checkout  body: { tier: 'discovery' | 'collector' | 'expert', couponCode?: string }
-//   → { url: string }   (Stripe Checkout URL — redirect the user there)
+//   → { url: string }   (Stripe Checkout URL - redirect the user there)
 export async function POST(req: NextRequest) {
   const { userId } = await auth();
   if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });

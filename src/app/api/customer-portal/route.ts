@@ -4,7 +4,7 @@ import { getStripe, appUrl } from '@/lib/stripe';
 import { getSupabase } from '@/lib/supabase';
 
 // POST /api/customer-portal
-//   → { url: string }   (Stripe Customer Portal URL — redirect for cancel/upgrade/billing)
+//   → { url: string }   (Stripe Customer Portal URL - redirect for cancel/upgrade/billing)
 export async function POST() {
   const { userId } = await auth();
   if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });

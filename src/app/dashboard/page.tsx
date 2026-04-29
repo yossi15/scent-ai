@@ -27,7 +27,7 @@ interface DiaryRow {
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 function getTopFamily(frags: Fragrance[]): string {
-  if (!frags.length) return '—';
+  if (!frags.length) return '-';
   const counts: Record<string, number> = {};
   frags.forEach(f => { counts[f.family] = (counts[f.family] ?? 0) + 1; });
   return Object.entries(counts).sort((a, b) => b[1] - a[1])[0][0];
@@ -137,7 +137,7 @@ export default function Dashboard() {
   const topFamily    = getTopFamily(collectionFrags);
   const avgLongevity = diaryEntries.length
     ? (diaryEntries.reduce((s, e) => s + e.longevity, 0) / diaryEntries.length).toFixed(1)
-    : '—';
+    : '-';
 
   const firstName = user.firstName ?? user.emailAddresses[0]?.emailAddress.split('@')[0] ?? 'חבר';
   const recentEntries = diaryEntries.slice(0, 5);
@@ -187,7 +187,7 @@ export default function Dashboard() {
             שלום, {firstName} 👋
           </h1>
           <p className="text-ink-muted text-sm font-hebrew mt-1">
-            הנה הזהות הריחנית שלך — {collectionFrags.length} בשמים,{' '}
+            הנה הזהות הריחנית שלך - {collectionFrags.length} בשמים,{' '}
             {diaryEntries.length} רשומות יומן
           </p>
         </motion.div>
@@ -197,7 +197,7 @@ export default function Dashboard() {
           <StatCard icon={Droplets}   value={collectionFrags.length} label="בשמים באוסף"       delay={0}    />
           <StatCard icon={Sparkles}   value={topFamily}              label="משפחה מובילה"       delay={0.08} sub={collectionFrags.length ? undefined : 'הוסף בשמים'} />
           <StatCard icon={BookOpen}   value={diaryEntries.length}    label="רשומות יומן"        delay={0.16} />
-          <StatCard icon={TrendingUp} value={totalValue ? `₪${totalValue.toLocaleString()}` : '—'} label="שווי האוסף" delay={0.24} />
+          <StatCard icon={TrendingUp} value={totalValue ? `₪${totalValue.toLocaleString()}` : '-'} label="שווי האוסף" delay={0.24} />
         </div>
 
         {/* ── Main grid ────────────────────────────────────────────────────── */}
@@ -352,7 +352,7 @@ export default function Dashboard() {
                       label: 'הקרנה ממוצעת', icon: Wind,
                       value: diaryEntries.length
                         ? (diaryEntries.reduce((s, e) => s + e.projection, 0) / diaryEntries.length).toFixed(1)
-                        : '—',
+                        : '-',
                     },
                   ].map(({ label, icon: Icon, value }) => (
                     <div key={label} className="flex items-center justify-between">

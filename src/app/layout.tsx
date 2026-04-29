@@ -5,11 +5,11 @@ import './globals.css';
 export const metadata: Metadata = {
   metadataBase: new URL('https://scentory.co.il'),
   title: 'SCENTORY | Know your scent.',
-  description: 'SCENTORY — פלטפורמת AI לגילוי בשמים. שמור את האוסף שלך, קבל המלצות חכמות, וקנה דרכנו.',
+  description: 'SCENTORY - פלטפורמת AI לגילוי בשמים. שמור את האוסף שלך, קבל המלצות חכמות, וקנה דרכנו.',
   alternates: { canonical: '/' },
   openGraph: {
     title: 'SCENTORY | Know your scent.',
-    description: 'SCENTORY — פלטפורמת AI לגילוי בשמים. שמור את האוסף שלך, קבל המלצות חכמות, וקנה דרכנו.',
+    description: 'SCENTORY - פלטפורמת AI לגילוי בשמים. שמור את האוסף שלך, קבל המלצות חכמות, וקנה דרכנו.',
     siteName: 'SCENTORY',
     type: 'website',
     locale: 'he_IL',
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'SCENTORY | Know your scent.',
-    description: 'SCENTORY — פלטפורמת AI לגילוי בשמים.',
+    description: 'SCENTORY - פלטפורמת AI לגילוי בשמים.',
   },
 };
 

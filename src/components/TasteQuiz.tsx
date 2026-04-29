@@ -54,8 +54,8 @@ const QUESTIONS = [
     title: 'כמה זמן אתה רוצה שיחזיק?',
     cols: 3,
     options: [
-      { value: '3-5h',  emoji: '⏱️', label: '3–5 שעות' },
-      { value: '6-8h',  emoji: '⌚', label: '6–8 שעות' },
+      { value: '3-5h',  emoji: '⏱️', label: '3-5 שעות' },
+      { value: '6-8h',  emoji: '⌚', label: '6-8 שעות' },
       { value: '10h+',  emoji: '🔋', label: '10+ שעות' },
     ],
   },
@@ -78,7 +78,7 @@ const QUESTIONS = [
     cols: 3,
     options: [
       { value: 'under500',   emoji: '💵', label: 'עד ₪500' },
-      { value: '500-1000',   emoji: '💳', label: '₪500–1000' },
+      { value: '500-1000',   emoji: '💳', label: '₪500-1000' },
       { value: 'above1000',  emoji: '💎', label: 'מעל ₪1000' },
     ],
   },
@@ -306,7 +306,7 @@ export default function TasteQuiz() {
         house: f.house,
         family: f.family,
         inCatalog: true,
-        reason: `${f.name} של ${f.house} הוא התאמה מושלמת — ${f.family} עם תגיות ${f.tags.slice(0, 2).join(' ו')} שמתאימות בדיוק לפרופיל שלך.`,
+        reason: `${f.name} של ${f.house} הוא התאמה מושלמת - ${f.family} עם תגיות ${f.tags.slice(0, 2).join(' ו')} שמתאימות בדיוק לפרופיל שלך.`,
       })));
     } finally {
       setIsLoading(false);
@@ -489,7 +489,7 @@ export default function TasteQuiz() {
               <div className="flex-1 overflow-y-auto p-5">
                 <AnimatePresence mode="wait">
 
-                  {/* Questions 1–6 */}
+                  {/* Questions 1-6 */}
                   {currentQ && step <= 6 && (
                     <motion.div
                       key={`q${step}`}
@@ -518,7 +518,7 @@ export default function TasteQuiz() {
                     </motion.div>
                   )}
 
-                  {/* Question 7 — free text */}
+                  {/* Question 7 - free text */}
                   {step === 7 && (
                     <motion.div
                       key="q7"
@@ -532,7 +532,7 @@ export default function TasteQuiz() {
                         בושם שאהבת בעבר?
                       </h3>
                       <p className="text-xs text-ink-muted font-hebrew text-center -mt-2">
-                        אופציונלי — עוזר לנו להבין את הטעם שלך טוב יותר
+                        אופציונלי - עוזר לנו להבין את הטעם שלך טוב יותר
                       </p>
                       <input
                         type="text"
@@ -558,7 +558,7 @@ export default function TasteQuiz() {
                     </motion.div>
                   )}
 
-                  {/* Loading — skeleton cards */}
+                  {/* Loading - skeleton cards */}
                   {step === 8 && (
                     <motion.div
                       key="loading"
