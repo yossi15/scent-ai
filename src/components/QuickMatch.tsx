@@ -343,6 +343,15 @@ function RecCard({ rec, index }: { rec: MatchResponse['recommendations'][number]
             במאגר שלנו
           </span>
         )}
+        {rec.tier && (
+          <span className={`absolute top-2 left-2 text-[10px] font-hebrew font-semibold px-2 py-0.5 rounded-full border ${
+            rec.tier === 'cheap'  ? 'bg-stone-100 text-stone-700 border-stone-200' :
+            rec.tier === 'mid'    ? 'bg-amber-100 text-amber-800 border-amber-200' :
+                                    'bg-[#0D0D0D] text-[#C4A882] border-[#C4A882]/40'
+          }`}>
+            {rec.tier === 'cheap' ? 'נגיש' : rec.tier === 'mid' ? 'אמצע' : 'יוקרה'}
+          </span>
+        )}
       </div>
 
       {/* Content */}

@@ -1,10 +1,17 @@
 {
-  "existing_before": 307,
-  "scraped": 19,
-  "duplicates_skipped": 0,
-  "added": 19,
-  "new_total": 326,
-  "new_houses": [],
-  "new_houses_count": 0,
-  "image_verified_http_200": 19
+  "existing_before": 326,
+  "scraped": 137,
+  "duplicates_skipped": 1,
+  "added": 136,
+  "new_total": 462,
+  "new_houses": [
+    "Al Haramain",
+    "Bond No. 9",
+    "Emporio Armani",
+    "Histoires de Parfums",
+    "Initio Parfums Privés",
+    "MDCI Parfums"
+  ],
+  "new_houses_count": 6,
+  "image_verified_http_200": 137
 }

@@ -171,13 +171,14 @@ p, li, span, label, button, a, input, textarea, select {
   box-shadow: var(--shadow-gold);
 }
 
-/* Gradient text */
+/* Section heading: tight tracking, solid ink. The previous gold gradient
+   read too "AI-templated" — switching to a confident editorial look. */
 .gold-text {
-  background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 50%, var(--gold) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--ink);
+  letter-spacing: -0.02em;
+  font-weight: 600;
 }
+.dark .gold-text { color: var(--ink); }
 
 /* Gold button */
 .btn-gold {
