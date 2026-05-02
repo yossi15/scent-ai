@@ -5,8 +5,8 @@ import { ChevronDown, Sparkles, Droplets } from 'lucide-react';
 import Logo from './Logo';
 
 const stats = [
-  { value: '478', label: 'בשמים מובחרים' },
-  { value: '77', label: 'בתי בושם' },
+  { value: '609', label: 'בשמים מובחרים' },
+  { value: '101', label: 'בתי בושם' },
   { value: 'AI', label: 'התאמה חכמה' },
 ];
 
