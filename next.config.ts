@@ -1,6 +1,15 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  async redirects() {
+    return [
+      {
+        source: '/takshuv-night',
+        destination: '/takshuv-night/index.html',
+        permanent: false,
+      },
+    ];
+  },
   images: {
     remotePatterns: [
       {
