@@ -261,6 +261,7 @@ export default function TasteQuiz() {
   const [aiRecs, setAiRecs] = useState<AIRec[]>([]);
   const [addedIds, setAddedIds] = useState<Set<number>>(new Set());
   const [isLoading, setIsLoading] = useState(false);
+  const [usedFallback, setUsedFallback] = useState(false);
   const [sampleModal, setSampleModal] = useState<{ name: string; brand: string } | null>(null);
 
   // ESC to close + body scroll lock
@@ -299,7 +300,7 @@ export default function TasteQuiz() {
       const data = await res.json();
       setAiRecs(data.recommendations ?? []);
     } catch {
-      // Fallback to local top 3
+      setUsedFallback(true);
       setAiRecs(candidates.slice(0, 3).map(f => ({
         id: f.id,
         name: f.name,
@@ -334,6 +335,7 @@ export default function TasteQuiz() {
     setAiRecs([]);
     setAddedIds(new Set());
     setIsLoading(false);
+    setUsedFallback(false);
   };
 
   const close = () => { setIsOpen(false); setTimeout(reset, 300); };
@@ -598,7 +600,9 @@ export default function TasteQuiz() {
                       className="flex flex-col gap-4"
                     >
                       <p className="text-xs text-ink-muted font-hebrew text-center">
-                        בחרנו את 3 הבשמים שמתאימים ביותר לפרופיל שלך
+                        {usedFallback
+                          ? 'ההמלצות מבוססות על האלגוריתם המקומי שלנו'
+                          : 'בחרנו את 3 הבשמים שמתאימים ביותר לפרופיל שלך'}
                       </p>
                       {matchedRecs.map(({ rec, fragrance }, i) => (
                         <motion.div

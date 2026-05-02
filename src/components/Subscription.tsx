@@ -1,7 +1,8 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
+import { useSearchParams } from 'next/navigation';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Crown, Check, ArrowLeft, Package, Sparkles, Calendar, Loader2, Settings, Tag, X } from 'lucide-react';
 import { useUser, SignInButton } from '@clerk/nextjs';
 import { subscriptionTiers } from '@/data/fragrances';
@@ -23,6 +24,8 @@ type SubInfo = {
 
 export default function Subscription() {
   const { isLoaded, isSignedIn } = useUser();
+  const searchParams = useSearchParams();
+  const [stripeNotice, setStripeNotice] = useState<'cancelled' | null>(null);
   const [loadingTier, setLoadingTier] = useState<string | null>(null);
   const [portalLoading, setPortalLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -41,6 +44,12 @@ export default function Subscription() {
       .then(setSub)
       .catch(() => {});
   }, [isSignedIn]);
+
+  useEffect(() => {
+    if (searchParams.get('subscription') === 'cancelled') {
+      setStripeNotice('cancelled');
+    }
+  }, [searchParams]);
 
   const isActive = sub?.status === 'active' || sub?.status === 'trialing';
   const activeTierId = isActive ? sub?.tier : null;
@@ -156,6 +165,23 @@ export default function Subscription() {
           </motion.div>
         )}
 
+        {/* Stripe return notice */}
+        <AnimatePresence>
+          {stripeNotice === 'cancelled' && (
+            <motion.div
+              initial={{ opacity: 0, y: -8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              className="flex items-center justify-between gap-3 bg-amber-50 border border-amber-200 text-amber-800 text-sm font-hebrew rounded-lg px-4 py-3 mb-6"
+            >
+              <span>לא השלמת את התשלום — המנוי לא הופעל. ניתן לנסות שוב.</span>
+              <button onClick={() => setStripeNotice(null)} aria-label="סגור" className="shrink-0 text-amber-500 hover:text-amber-800 transition-colors">
+                <X className="w-4 h-4" />
+              </button>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
         {/* Error toast */}
         {error && (
           <motion.div
@@ -172,7 +198,7 @@ export default function Subscription() {
           {subscriptionTiers.map((tier, i) => {
             const isCurrent = activeTierId === tier.id;
             const isLoading = loadingTier === tier.id;
-            const discounted = tier.highlight ? priceWithDiscount(tier.price) : priceWithDiscount(tier.price);
+            const discounted = priceWithDiscount(tier.price);
 
             return (
               <motion.div
