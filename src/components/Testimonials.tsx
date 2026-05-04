@@ -1,95 +1,98 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Star, Quote, User } from 'lucide-react';
 
 const testimonials = [
   {
+    initials: 'ד.כ',
     name: 'דניאל כ.',
-    role: 'Early Tester',
-    scent: 'Aventus',
+    scent: 'Maison Francis Kurkdjian — Grand Soir',
     stars: 5,
-    text: 'ה-AI הציע לי את Grand Soir ולא האמנתי כמה הוא דומה לטעם שלי. שירות ברמה אחרת.',
-    color: 'bg-[#F5EDE3]',
+    text: 'הגעתי עם שמות מוכרים בלבד. אחרי השאלון גיליתי Grand Soir — ולא האמנתי כמה הוא קרוב לטעם שלי. חסך לי חודשים של ניסויים.',
   },
   {
+    initials: 'מ.ל',
     name: 'מיכל ל.',
-    role: 'Early Tester',
     scent: 'Baccarat Rouge 540',
     stars: 5,
-    text: 'ניתוח ה-DNA הראה לי שאני נמשכת ל-Iris פודרי ועור עשן - ומיד הציע 3 בשמים שלא הכרתי, אחד מהם נכנס לאוסף הקבוע.',
-    color: 'bg-[#F5EDE3]',
+    text: 'אף פעם לא הצלחתי להסביר מה בדיוק אני מחפשת. הפרופיל שיצרתי כאן הוביל אותי ל-Iris פודרי ועור — ומאז אני יודעת לחפש.',
   },
   {
+    initials: 'א.ש',
     name: 'אורי ש.',
-    role: 'Early Tester',
-    scent: 'Oud Wood',
+    scent: 'Tom Ford — Oud Wood',
     stars: 5,
-    text: 'הרדאר ריחות פתח לי את העיניים. גיליתי שאני נוטה למזרחי-עצי ומאז כל קנייה מדויקת.',
-    color: 'bg-[#F5EDE3]',
+    text: 'הרדאר ריחות פתח לי עיניים. מאז שגיליתי שאני נוטה למזרחי-עצי כל קנייה הרבה יותר מדויקת.',
   },
 ];
 
 export default function Testimonials() {
   return (
-    <section className="py-28 px-4 section-accent">
-      <div className="max-w-6xl mx-auto">
+    <section className="py-28 px-4" style={{ background: '#F5EDE3' }}>
+      <div className="max-w-5xl mx-auto">
+
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 18 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-12"
+          transition={{ duration: 0.7 }}
+          className="text-center mb-14"
         >
-          <p className="text-gold text-[11px] tracking-[0.2em] uppercase font-sans font-medium mb-2">
+          <p className="text-[10px] tracking-[0.22em] uppercase font-sans text-[#C4A882] mb-3">
             EARLY TESTERS
           </p>
-          <h2 className="font-serif text-4xl md:text-5xl gold-text mb-3 font-bold">
-            מה אומרים הבודקים הראשונים
+          <h2 className="font-serif text-4xl md:text-5xl text-[#0D0D0D] font-light mb-4">
+            מה אומרים הבודקים
           </h2>
-          <p className="text-ink-muted text-sm font-hebrew max-w-md mx-auto font-light">
-            משובים מקבוצת הבודקים המוקדמים שלנו
+          <p className="text-[#8B7355] text-sm font-hebrew font-light max-w-xs mx-auto leading-relaxed">
+            משובים ממשתמשים שהצטרפו לפני ההשקה הרשמית
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {testimonials.map((t, i) => (
             <motion.div
               key={i}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: i * 0.1 }}
-              className="card p-5"
+              transition={{ duration: 0.55, delay: i * 0.1 }}
+              className="bg-white p-7 flex flex-col"
+              style={{ borderRadius: '2px' }}
             >
-              <Quote className="w-6 h-6 text-gold/20 mb-3" />
+              {/* Quote mark */}
+              <span
+                className="font-serif text-5xl leading-none mb-4 select-none"
+                style={{ color: '#E0D8CC' }}
+                aria-hidden
+              >
+                &ldquo;
+              </span>
 
-              <p className="text-ink-secondary text-sm font-hebrew leading-relaxed mb-4">
-                &ldquo;{t.text}&rdquo;
+              <p className="text-sm font-hebrew text-[#3D3D3D] leading-relaxed flex-1 mb-6">
+                {t.text}
               </p>
 
-              <div className="flex items-center gap-0.5 mb-3">
+              {/* Stars */}
+              <div className="flex gap-0.5 mb-5" dir="ltr">
                 {Array.from({ length: 5 }).map((_, j) => (
-                  <Star
-                    key={j}
-                    className={`w-3.5 h-3.5 ${j < Math.floor(t.stars) ? 'text-gold fill-gold' : 'text-ink-faint/20'}`}
-                  />
+                  <svg key={j} className="w-3 h-3" viewBox="0 0 12 12" fill="#C4A882">
+                    <polygon points="6,0.5 7.6,4.2 11.7,4.5 8.7,7.1 9.7,11.1 6,8.9 2.3,11.1 3.3,7.1 0.3,4.5 4.4,4.2" />
+                  </svg>
                 ))}
               </div>
 
-              <div className="flex items-center justify-between pt-3 border-t border-black/[0.04]">
-                <div className="flex items-center gap-2.5">
-                  <div className={`w-9 h-9 rounded-full ${t.color} flex items-center justify-center`}>
-                    <User className="w-4 h-4 text-ink/40" />
-                  </div>
-                  <div>
-                    <p className="text-ink font-hebrew text-sm font-medium">{t.name}</p>
-                    <p className="text-ink-faint text-[11px] font-sans" dir="ltr">{t.role}</p>
-                  </div>
+              {/* Author */}
+              <div className="flex items-center gap-3 pt-4 border-t border-[#F0EDE8]">
+                <div
+                  className="w-10 h-10 rounded-full flex items-center justify-center shrink-0"
+                  style={{ background: '#F5EDE3', border: '1px solid #E0D8CC' }}
+                >
+                  <span className="text-xs font-sans text-[#8B7355]" dir="ltr">{t.initials}</span>
                 </div>
-                <div className="text-left" dir="ltr">
-                  <p className="text-[10px] text-ink-faint font-sans">favorite</p>
-                  <p className="text-gold text-xs font-serif font-semibold">{t.scent}</p>
+                <div>
+                  <p className="text-sm font-hebrew text-[#0D0D0D] font-medium">{t.name}</p>
+                  <p className="text-[11px] font-sans text-[#BFBAB4] font-light" dir="ltr">{t.scent}</p>
                 </div>
               </div>
             </motion.div>

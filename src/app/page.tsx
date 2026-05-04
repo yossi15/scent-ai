@@ -5,7 +5,7 @@ import Hero from '@/components/Hero';
 import StatsBar from '@/components/StatsBar';
 import HowItWorks from '@/components/HowItWorks';
 import TasteQuiz from '@/components/TasteQuiz';
-import Collection from '@/components/Collection';
+import FragranceSearch from '@/components/FragranceSearch';
 import Testimonials from '@/components/Testimonials';
 import Subscription from '@/components/Subscription';
 import FAQ from '@/components/FAQ';
@@ -20,7 +20,7 @@ export default function Home() {
       <StatsBar />
       <HowItWorks />
       <TasteQuiz />
-      <Collection />
+      <FragranceSearch />
       <Testimonials />
       <Subscription />
       <FAQ />
