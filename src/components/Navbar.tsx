@@ -64,7 +64,8 @@ export default function Navbar() {
                 <>
                   <Link
                     href="/dashboard"
-                    className="flex items-center gap-1.5 text-ink-muted hover:text-gold text-[13px] font-hebrew font-light transition-colors"
+                    className="flex items-center gap-1.5 text-[13px] font-hebrew font-semibold px-4 py-2 rounded transition-colors"
+                    style={{ background: '#0D0D0D', color: '#fff', borderRadius: '4px' }}
                   >
                     <LayoutDashboard className="w-3.5 h-3.5" />
                     הדשבורד שלי
@@ -74,7 +75,7 @@ export default function Navbar() {
                     className="flex items-center gap-1.5 text-ink-muted hover:text-gold text-[13px] font-hebrew font-light transition-colors"
                   >
                     <User className="w-3.5 h-3.5" />
-                    החשבון שלי
+                    חשבון
                   </Link>
                   <UserButton
                     appearance={{ elements: { avatarBox: 'w-9 h-9 ring-2 ring-gold-border' } }}

@@ -4,12 +4,6 @@ import { motion } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
 import Logo from './Logo';
 
-const stats = [
-  { value: '745', label: 'בשמים מובחרים' },
-  { value: '115', label: 'בתי בושם' },
-  { value: 'AI', label: 'התאמה חכמה' },
-];
-
 export default function Hero() {
   const scrollTo = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
@@ -54,7 +48,7 @@ export default function Hero() {
           </p>
 
           <p className="font-hebrew text-[13px] sm:text-sm md:text-base max-w-lg mx-auto leading-relaxed mb-10 font-light text-ink-secondary px-3">
-            פלטפורמת AI לגילוי בשמים - שמור את האוסף שלך, קבל המלצות חכמות, וקנה דרכנו.
+            ענה על 7 שאלות קצרות — ה-AI ימצא את הבשמים שמדברים אליך מתוך 745 יצירות מובחרות.
           </p>
         </motion.div>
 
@@ -66,11 +60,11 @@ export default function Hero() {
         >
           <button
             data-hero-cta
-            onClick={() => scrollTo('quickmatch')}
+            onClick={() => scrollTo('quiz')}
             className="w-full sm:w-auto px-8 py-4 font-hebrew text-sm tracking-wide font-semibold transition-all duration-300 hover:-translate-y-0.5 min-h-[48px]"
             style={{ background: '#0D0D0D', color: '#FFFFFF', borderRadius: '4px', boxShadow: '0 2px 8px rgba(13,13,13,0.14)' }}
           >
-            גלה את הבושם שלך
+            התחל את השאלון — 2 דקות
           </button>
           <button
             onClick={() => scrollTo('collection')}
@@ -81,20 +75,15 @@ export default function Hero() {
           </button>
         </motion.div>
 
-        {/* Stats */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
+        {/* Social hint — no stats duplication with StatsBar below */}
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.7 }}
-          className="flex justify-center gap-3 sm:gap-8 md:gap-16"
+          className="text-[12px] font-hebrew text-[#9A9A9A] font-light"
         >
-          {stats.map((stat, i) => (
-            <div key={i} className="text-center bg-bg-card/70 backdrop-blur-sm rounded-xl px-3 sm:px-5 py-3 border border-border min-w-[80px]">
-              <p className="font-serif text-xl sm:text-2xl md:text-3xl font-semibold text-gold">{stat.value}</p>
-              <p className="text-[11px] sm:text-xs font-hebrew font-light mt-1 text-ink-secondary">{stat.label}</p>
-            </div>
-          ))}
-        </motion.div>
+          שאלון קצר · המלצות AI · אוסף אישי
+        </motion.p>
       </div>
 
       <motion.div

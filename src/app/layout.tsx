@@ -43,8 +43,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       }}
       signInUrl="/sign-in"
       signUpUrl="/sign-up"
-      signInFallbackRedirectUrl="/"
-      signUpFallbackRedirectUrl="/"
+      signInFallbackRedirectUrl="/dashboard"
+      signUpFallbackRedirectUrl="/dashboard"
       afterSignOutUrl="/"
     >
       <html lang="he" dir="rtl" className="h-full antialiased" suppressHydrationWarning>
