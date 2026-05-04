@@ -28,6 +28,10 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: 'us.parfums-de-marly.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'www.tomfordbeauty.com',
+      },
     ],
   },
 };

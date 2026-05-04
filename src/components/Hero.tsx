@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { ChevronDown, Sparkles, Droplets } from 'lucide-react';
+import { ChevronDown } from 'lucide-react';
 import Logo from './Logo';
 
 const stats = [
@@ -19,38 +19,13 @@ export default function Hero() {
     <section
       data-hero-bg
       className="relative min-h-screen flex items-center justify-center overflow-hidden px-4"
-      style={{ background: 'linear-gradient(135deg, #F5F3EE 0%, #ECEAE4 100%)' }}
+      style={{ background: '#FAF8F5' }}
     >
-      {/* Decorative elements */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-[10%] right-[10%] w-[500px] h-[500px] rounded-full bg-gradient-to-br from-[#C4A882]/[0.18] to-transparent blur-3xl" />
-        <div className="absolute bottom-[15%] left-[5%] w-[400px] h-[400px] rounded-full bg-gradient-to-tr from-[#C4A882]/[0.14] to-transparent blur-3xl" />
-        <div className="absolute top-[40%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] rounded-full border border-[#C4A882]/[0.20]" />
-        <div className="absolute top-[40%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full border border-[#C4A882]/[0.14]" />
-        <div className="absolute top-[40%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full border border-[#C4A882]/[0.08]" />
-
-        {/* Floating scent drops */}
-        <motion.div
-          className="absolute top-[20%] right-[20%]"
-          animate={{ y: [-10, 10, -10], rotate: [0, 5, 0] }}
-          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-        >
-          <Droplets className="w-6 h-6 text-[#C4A882]/40" />
-        </motion.div>
-        <motion.div
-          className="absolute bottom-[30%] left-[15%]"
-          animate={{ y: [10, -10, 10], rotate: [0, -5, 0] }}
-          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-        >
-          <Droplets className="w-8 h-8 text-[#C4A882]/35" />
-        </motion.div>
-        <motion.div
-          className="absolute top-[60%] right-[12%]"
-          animate={{ y: [-5, 15, -5] }}
-          transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
-        >
-          <Sparkles className="w-5 h-5 text-[#C4A882]/40" />
-        </motion.div>
+      {/* Decorative rings — minimal, no glow */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-[40%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-[320px] h-[320px] rounded-full border border-[#C4A882]/[0.12]" />
+        <div className="absolute top-[40%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-[520px] h-[520px] rounded-full border border-[#C4A882]/[0.08]" />
+        <div className="absolute top-[40%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-[720px] h-[720px] rounded-full border border-[#C4A882]/[0.05]" />
       </div>
 
       <div className="relative z-10 text-center max-w-4xl mx-auto">
@@ -64,10 +39,9 @@ export default function Hero() {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#C4A882]/10 backdrop-blur-sm border border-[#C4A882]/30 mb-8"
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#F5EDE3] border border-[#C4A882]/25 mb-8"
           >
-            <Sparkles className="w-3.5 h-3.5 text-[#C4A882]" />
-            <span className="text-[#C4A882] text-xs font-hebrew font-medium">פלטפורמת AI לגילוי בשמים</span>
+            <span className="text-[#8B7355] text-xs font-hebrew font-medium tracking-wide">גילוי בשמים חכם</span>
           </motion.div>
 
           {/* Logo */}
@@ -93,15 +67,15 @@ export default function Hero() {
           <button
             data-hero-cta
             onClick={() => scrollTo('quickmatch')}
-            className="w-full sm:w-auto px-8 py-4 font-hebrew text-sm tracking-wide rounded-lg font-semibold transition-all duration-300 hover:-translate-y-0.5 min-h-[48px]"
-            style={{ background: '#0D0D0D', color: '#FFFFFF', boxShadow: '0 4px 16px rgba(13,13,13,0.18)' }}
+            className="w-full sm:w-auto px-8 py-4 font-hebrew text-sm tracking-wide font-semibold transition-all duration-300 hover:-translate-y-0.5 min-h-[48px]"
+            style={{ background: '#0D0D0D', color: '#FFFFFF', borderRadius: '4px', boxShadow: '0 2px 8px rgba(13,13,13,0.14)' }}
           >
             גלה את הבושם שלך
           </button>
           <button
             onClick={() => scrollTo('collection')}
-            className="w-full sm:w-auto px-8 py-4 font-hebrew text-sm tracking-wide rounded-lg border-2 transition-all duration-300 hover:bg-[#8B7355]/10 min-h-[48px]"
-            style={{ borderColor: '#8B7355', color: '#8B7355' }}
+            className="w-full sm:w-auto px-8 py-4 font-hebrew text-sm tracking-wide border transition-all duration-300 hover:bg-[#8B7355]/8 min-h-[48px]"
+            style={{ borderRadius: '4px', borderColor: '#8B7355', color: '#8B7355' }}
           >
             חקור את הקולקציה
           </button>

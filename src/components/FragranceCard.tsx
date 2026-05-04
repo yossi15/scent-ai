@@ -61,12 +61,12 @@ export default function FragranceCard({ fragrance, index, onClick, inCollection,
           role="button"
           tabIndex={0}
           aria-label={`${fragrance.name} מאת ${fragrance.house} - פתח פרטים`}
-          className="relative h-64 w-full bg-[#F5F3EE] overflow-hidden cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C4A882] focus-visible:ring-offset-2"
+          className="relative h-64 w-full bg-[#F9F7F4] overflow-hidden cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C4A882] focus-visible:ring-offset-2"
           onClick={() => onClick(fragrance)}
           onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onClick(fragrance); } }}
         >
-          {/* Soft radial highlight */}
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.6),transparent_70%)] pointer-events-none" />
+          {/* Clean white vignette edges — no glow */}
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_50%,rgba(249,247,244,0.4)_100%)] pointer-events-none" />
 
           {/* House name watermark */}
           <div className="absolute bottom-3 right-0 left-0 text-center opacity-[0.06] pointer-events-none">
@@ -140,7 +140,7 @@ export default function FragranceCard({ fragrance, index, onClick, inCollection,
 
           {/* Family tag */}
           <div className="absolute bottom-3 left-3">
-            <span className="text-[10px] font-sans bg-[#ECEAE4] text-[#4A4A4A] px-2.5 py-1 rounded-full shadow-sm border border-[#D4D0C8]" dir="ltr">
+            <span className="text-[10px] font-sans bg-[#F5EDE3] text-[#6B5B45] px-2.5 py-1 rounded-full shadow-sm border border-[#C4A882]/30" dir="ltr">
               {fragrance.family}
             </span>
           </div>
@@ -169,14 +169,14 @@ export default function FragranceCard({ fragrance, index, onClick, inCollection,
 
           {/* Stats */}
           <div className="grid grid-cols-2 gap-2 mb-3">
-            <div className="flex items-center gap-1.5 bg-[#F5F3EE] rounded-lg px-2.5 py-1.5 border border-[#E8E4DC]">
+            <div className="flex items-center gap-1.5 bg-[#FAF8F5] rounded-lg px-2.5 py-1.5 border border-[#E8E4DC]">
               <Clock className="w-3 h-3 text-[#8B7355] flex-shrink-0" />
               <div className="flex items-center gap-1 min-w-0">
                 <span className="text-[10px] text-[#4A4A4A] font-hebrew">עמידות</span>
                 <span className="text-[11px] font-sans font-semibold text-[#0D0D0D]">{fragrance.longevity}/10</span>
               </div>
             </div>
-            <div className="flex items-center gap-1.5 bg-[#F5F3EE] rounded-lg px-2.5 py-1.5 border border-[#E8E4DC]">
+            <div className="flex items-center gap-1.5 bg-[#FAF8F5] rounded-lg px-2.5 py-1.5 border border-[#E8E4DC]">
               <Wind className="w-3 h-3 text-[#8B7355] flex-shrink-0" />
               <div className="flex items-center gap-1 min-w-0">
                 <span className="text-[10px] text-[#4A4A4A] font-hebrew">הקרנה</span>
@@ -188,7 +188,7 @@ export default function FragranceCard({ fragrance, index, onClick, inCollection,
           {/* Tags */}
           <div className="flex flex-wrap gap-1.5 mb-4" dir="ltr">
             {fragrance.tags.slice(0, 2).map((tag) => (
-              <span key={tag} className="text-[10px] font-sans bg-[#ECEAE4] text-[#4A4A4A] px-2 py-0.5 rounded-full border border-[#D4D0C8]">
+              <span key={tag} className="text-[10px] font-sans bg-[#F5EDE3] text-[#6B5B45] px-2 py-0.5 rounded-full border border-[#C4A882]/25">
                 {tag}
               </span>
             ))}
