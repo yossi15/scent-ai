@@ -11,6 +11,10 @@ import {
   Clock, Wind, Calendar, Plus, ArrowLeft, Star, Sparkles,
 } from 'lucide-react';
 import { fragrances, type Fragrance } from '@/data/fragrances';
+import QuickMatch from '@/components/QuickMatch';
+import SignatureMatch from '@/components/SignatureMatch';
+import ScentRadar from '@/components/ScentRadar';
+import Diary from '@/components/Diary';
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 interface DiaryRow {
@@ -108,9 +112,10 @@ export default function Dashboard() {
   const { isLoaded, isSignedIn, user } = useUser();
   const router = useRouter();
 
-  const [collectionFrags, setCollectionFrags] = useState<Fragrance[]>([]);
-  const [diaryEntries, setDiaryEntries]       = useState<DiaryRow[]>([]);
-  const [loading, setLoading]                 = useState(true);
+  const [collectionFrags, setCollectionFrags]   = useState<Fragrance[]>([]);
+  const [diaryEntries, setDiaryEntries]         = useState<DiaryRow[]>([]);
+  const [matchCollection, setMatchCollection]   = useState<Fragrance[]>([]);
+  const [loading, setLoading]                   = useState(true);
 
   // Redirect if not signed in
   useEffect(() => {
@@ -248,9 +253,9 @@ export default function Dashboard() {
             <div>
               <div className="flex items-center justify-between mb-4">
                 <h2 className="font-serif text-xl text-ink font-semibold">יומן אחרון</h2>
-                <Link href="/#diary" className="text-gold text-xs font-hebrew hover:underline">
-                  כל הרשומות
-                </Link>
+                <a href="#diary" className="text-gold text-xs font-hebrew hover:underline">
+                  כל הרשומות ↓
+                </a>
               </div>
 
               {loading ? (
@@ -261,9 +266,9 @@ export default function Dashboard() {
                 <div className="card p-6 text-center">
                   <BookOpen className="w-8 h-8 text-gold/30 mx-auto mb-2" />
                   <p className="text-ink-faint text-xs font-hebrew">אין רשומות עדיין</p>
-                  <Link href="/#diary" className="text-gold text-xs font-hebrew mt-2 block hover:underline">
-                    תעד את הבושם של היום ←
-                  </Link>
+                  <a href="#diary" className="text-gold text-xs font-hebrew mt-2 block hover:underline">
+                    תעד את הבושם של היום ↓
+                  </a>
                 </div>
               ) : (
                 <div className="space-y-2">
@@ -368,6 +373,36 @@ export default function Dashboard() {
             )}
           </div>
         </div>
+
+        {/* ── Divider ──────────────────────────────────────────────────────── */}
+        <div className="my-14 border-t border-[#E8E4DC]" />
+
+        {/* ── QuickMatch ───────────────────────────────────────────────────── */}
+        <section id="quickmatch" className="-mx-4 sm:-mx-6">
+          <QuickMatch />
+        </section>
+
+        <div className="my-4 border-t border-[#E8E4DC]" />
+
+        {/* ── Signature Match ──────────────────────────────────────────────── */}
+        <section id="match" className="-mx-4 sm:-mx-6">
+          <SignatureMatch onCollectionChange={setMatchCollection} />
+        </section>
+
+        <div className="my-4 border-t border-[#E8E4DC]" />
+
+        {/* ── Scent Radar ──────────────────────────────────────────────────── */}
+        <section id="radar" className="-mx-4 sm:-mx-6">
+          <ScentRadar collection={matchCollection} />
+        </section>
+
+        <div className="my-4 border-t border-[#E8E4DC]" />
+
+        {/* ── Diary (full) ─────────────────────────────────────────────────── */}
+        <section id="diary" className="-mx-4 sm:-mx-6">
+          <Diary />
+        </section>
+
       </main>
     </div>
   );
