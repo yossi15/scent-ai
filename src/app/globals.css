@@ -5,10 +5,10 @@
 
 :root {
   /* SCENTORY palette */
-  --bg-primary: #F5F3EE;
-  --bg-secondary: #ECEAE4;
-  --bg-card: #ECEAE4;
-  --bg-accent: #EFEDE7;
+  --bg-primary: #FAF8F5;
+  --bg-secondary: #F5EDE3;
+  --bg-card: #FFFFFF;
+  --bg-accent: #F9F7F4;
   --ink: #0D0D0D;
   --ink-secondary: #4A4A4A;
   --ink-muted: #6B6B6B;
@@ -126,9 +126,9 @@ body {
   color: #1A1714 !important;
 }
 
-/* Subtle vignette to break monotony on long scroll in dark mode */
+/* Dark mode body - clean */
 .dark body {
-  background: radial-gradient(ellipse at top, #221F1B 0%, var(--bg-primary) 60%) fixed;
+  background: var(--bg-primary);
 }
 
 /* ── Typography hierarchy ───────────────────────────────────────── */
@@ -148,7 +148,7 @@ p, li, span, label, button, a, input, textarea, select {
 .card {
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 16px;
+  border-radius: 4px;
   box-shadow: var(--shadow-sm);
   transition: all 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
 }
@@ -182,16 +182,14 @@ p, li, span, label, button, a, input, textarea, select {
 
 /* Gold button */
 .btn-gold {
-  background: linear-gradient(135deg, var(--gold-dark), var(--gold));
-  color: #0D0D0D;
+  background: var(--gold-dark);
+  color: #fff;
   font-weight: 600;
   border: none;
   transition: all 0.3s ease;
-  box-shadow: 0 2px 8px rgba(139, 115, 85, 0.25);
 }
 .btn-gold:hover {
-  background: linear-gradient(135deg, var(--gold), var(--gold-light));
-  box-shadow: 0 4px 16px rgba(139, 115, 85, 0.35);
+  background: #0D0D0D;
   transform: translateY(-1px);
 }
 .dark .btn-gold {
@@ -213,7 +211,7 @@ p, li, span, label, button, a, input, textarea, select {
 
 /* Section accent background */
 .section-accent {
-  background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+  background: var(--bg-secondary);
 }
 
 /* Divider */

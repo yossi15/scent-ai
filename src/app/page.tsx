@@ -2,28 +2,27 @@
 
 import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
-import StatsBar from '@/components/StatsBar';
+import FragranceSearch from '@/components/FragranceSearch';
 import HowItWorks from '@/components/HowItWorks';
 import TasteQuiz from '@/components/TasteQuiz';
-import FragranceSearch from '@/components/FragranceSearch';
-import Testimonials from '@/components/Testimonials';
+import SignatureMatch from '@/components/SignatureMatch';
+import ScentRadar from '@/components/ScentRadar';
+import Diary from '@/components/Diary';
 import Subscription from '@/components/Subscription';
-import FAQ from '@/components/FAQ';
 import Footer from '@/components/Footer';
 
-// סדר הדף: שיווק בלבד — features (Match, Radar, Diary) בדאשבורד
 export default function Home() {
   return (
     <main id="main-content" className="relative">
       <Navbar />
       <Hero />
-      <StatsBar />
+      <FragranceSearch />
       <HowItWorks />
       <TasteQuiz />
-      <FragranceSearch />
-      <Testimonials />
+      <SignatureMatch />
+      <ScentRadar />
+      <Diary />
       <Subscription />
-      <FAQ />
       <Footer />
     </main>
   );
