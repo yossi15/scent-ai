@@ -10,7 +10,7 @@ const testimonials = [
     scent: 'Aventus',
     stars: 5,
     text: 'ה-AI הציע לי את Grand Soir ולא האמנתי כמה הוא דומה לטעם שלי. שירות ברמה אחרת.',
-    color: 'bg-gradient-to-br from-amber-100 to-amber-200',
+    color: 'bg-[#F5EDE3]',
   },
   {
     name: 'מיכל ל.',
@@ -18,7 +18,7 @@ const testimonials = [
     scent: 'Baccarat Rouge 540',
     stars: 5,
     text: 'ניתוח ה-DNA הראה לי שאני נמשכת ל-Iris פודרי ועור עשן - ומיד הציע 3 בשמים שלא הכרתי, אחד מהם נכנס לאוסף הקבוע.',
-    color: 'bg-gradient-to-br from-rose-100 to-rose-200',
+    color: 'bg-[#F5EDE3]',
   },
   {
     name: 'אורי ש.',
@@ -26,7 +26,7 @@ const testimonials = [
     scent: 'Oud Wood',
     stars: 5,
     text: 'הרדאר ריחות פתח לי את העיניים. גיליתי שאני נוטה למזרחי-עצי ומאז כל קנייה מדויקת.',
-    color: 'bg-gradient-to-br from-emerald-100 to-emerald-200',
+    color: 'bg-[#F5EDE3]',
   },
 ];
 

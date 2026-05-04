@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { Crown, Check, ArrowLeft, Package, Sparkles, Calendar, Loader2, Settings, Tag, X } from 'lucide-react';
+import { Crown, Check, ArrowLeft, Package, Sparkles, Calendar, Loader2, Settings, Tag, X, Lock, BadgeCheck, XCircle } from 'lucide-react';
 import { useUser, SignInButton } from '@clerk/nextjs';
 import { subscriptionTiers } from '@/data/fragrances';
 
@@ -347,6 +347,15 @@ export default function Subscription() {
               </button>
             </motion.div>
           )}
+        </div>
+
+        {/* Trust strip — ליד כפתורי הרכישה */}
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mb-12 text-ink-muted">
+          <span className="flex items-center gap-1.5 text-xs font-hebrew"><Lock className="w-3.5 h-3.5 text-gold" /> תשלום מאובטח עם Stripe</span>
+          <span className="hidden sm:block text-[#E8E4DC]">|</span>
+          <span className="flex items-center gap-1.5 text-xs font-hebrew"><BadgeCheck className="w-3.5 h-3.5 text-gold" /> מידע אותנטי על כל בושם</span>
+          <span className="hidden sm:block text-[#E8E4DC]">|</span>
+          <span className="flex items-center gap-1.5 text-xs font-hebrew"><XCircle className="w-3.5 h-3.5 text-gold" /> ביטול מנוי בכל עת</span>
         </div>
 
         {/* Dashboard Preview */}

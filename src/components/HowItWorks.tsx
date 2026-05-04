@@ -26,7 +26,7 @@ const steps = [
 
 export default function HowItWorks() {
   return (
-    <section className="py-24 px-4">
+    <section id="how" className="py-24 px-4 bg-[#FAF8F5]">
       <div className="max-w-5xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -46,7 +46,10 @@ export default function HowItWorks() {
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-3 gap-6 md:gap-8">
+        <div className="relative grid md:grid-cols-3 gap-8 md:gap-12">
+          {/* Connector line — desktop */}
+          <div className="hidden md:block absolute top-10 right-[16.66%] left-[16.66%] h-px bg-[#E8E4DC]" />
+
           {steps.map((step, i) => (
             <motion.div
               key={i}
@@ -54,25 +57,16 @@ export default function HowItWorks() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: i * 0.15 }}
-              className="text-center"
+              className="text-center relative"
             >
-              {/* Number */}
-              <span className="font-serif text-5xl text-gold/10 font-bold block mb-2" dir="ltr">
-                {step.num}
-              </span>
-
-              {/* Icon */}
-              <div className="w-14 h-14 rounded-2xl bg-gold-faint flex items-center justify-center text-gold mx-auto mb-4">
-                {step.icon}
+              {/* Step number circle */}
+              <div className="w-20 h-20 rounded-full bg-white border border-[#E8E4DC] shadow-sm flex flex-col items-center justify-center mx-auto mb-5 relative z-10">
+                <span className="font-serif text-xs text-[#C4A882] font-medium tracking-widest uppercase" dir="ltr">0{i + 1}</span>
+                <span className="text-[#8B7355] mt-0.5">{step.icon}</span>
               </div>
 
-              <h3 className="font-serif text-xl text-ink font-semibold mb-2">{step.title}</h3>
-              <p className="text-ink-muted text-sm font-hebrew leading-relaxed font-light">{step.desc}</p>
-
-              {/* Connector line on desktop */}
-              {i < 2 && (
-                <div className="hidden md:block absolute top-1/2 -left-4 w-8 h-px bg-gold-border" />
-              )}
+              <h3 className="font-serif text-xl text-[#0D0D0D] font-semibold mb-2">{step.title}</h3>
+              <p className="text-[#6B6B6B] text-sm font-hebrew leading-relaxed font-light max-w-xs mx-auto">{step.desc}</p>
             </motion.div>
           ))}
         </div>

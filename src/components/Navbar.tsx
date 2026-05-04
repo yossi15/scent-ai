@@ -9,11 +9,9 @@ import Logo from './Logo';
 import ThemeToggle from './ThemeToggle';
 
 const navLinks = [
+  { label: 'איך זה עובד',   href: '#how' },
   { label: 'שאלון טעמים',   href: '#quiz' },
   { label: 'קולקציה',       href: '#collection' },
-  { label: 'התאמת חתימה',   href: '#match' },
-  { label: 'רדאר ריחות',    href: '#radar' },
-  { label: 'היומן',         href: '#diary' },
   { label: 'מנוי',          href: '#subscribe' },
 ];
 
