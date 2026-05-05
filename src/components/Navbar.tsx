@@ -1,112 +1,91 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, LogIn, LayoutDashboard, User } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { SignInButton, SignUpButton, UserButton, useUser } from '@clerk/nextjs';
 import Link from 'next/link';
 import Logo from './Logo';
 import ThemeToggle from './ThemeToggle';
 
 const navLinks = [
-  { label: 'איך זה עובד',   href: '#how' },
-  { label: 'שאלון טעמים',   href: '#quiz' },
-  { label: 'קולקציה',       href: '#collection' },
-  { label: 'מנוי',          href: '#subscribe' },
+  { label: 'קולקציה',     href: '#collection' },
+  { label: 'שאלון',       href: '#quiz' },
+  { label: 'מנוי',        href: '#subscribe' },
 ];
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [scrolled, setScrolled]     = useState(false);
-  const { isLoaded, isSignedIn }    = useUser();
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener('scroll', onScroll);
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
+  const { isLoaded, isSignedIn } = useUser();
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50">
-      <div className="bg-white border-b border-[#EDE9E2]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16 md:h-20">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-white border-b border-[#EBEBEB]">
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="flex items-center justify-between h-14 md:h-16">
 
-            {/* Logo */}
-            <a href="#" aria-label="SCENTORY - דף הבית">
-              <Logo size="sm" />
-            </a>
+          {/* Logo */}
+          <a href="#" aria-label="SCENTORY">
+            <Logo size="sm" />
+          </a>
 
-            {/* Desktop nav */}
-            <div className="hidden md:flex items-center gap-8">
-              {navLinks.map((link) => (
-                <a
-                  key={link.label}
-                  href={link.href}
-                  className="text-ink-muted hover:text-gold text-[13px] font-hebrew font-light transition-colors duration-300 relative group"
-                >
-                  {link.label}
-                  <span className="absolute -bottom-1 right-0 w-0 h-[1.5px] bg-gold transition-all duration-300 group-hover:w-full" />
-                </a>
-              ))}
-            </div>
-
-            {/* Auth area - desktop */}
-            <div className="hidden md:flex items-center gap-3">
-              <ThemeToggle />
-              {!isLoaded ? (
-                <div className="w-20 h-8 bg-gold-faint rounded-lg animate-pulse" />
-              ) : isSignedIn ? (
-                <>
-                  <Link
-                    href="/dashboard"
-                    className="flex items-center gap-1.5 text-[13px] font-hebrew font-semibold px-4 py-2 rounded transition-colors"
-                    style={{ background: '#0D0D0D', color: '#fff', borderRadius: '4px' }}
-                  >
-                    <LayoutDashboard className="w-3.5 h-3.5" />
-                    הדשבורד שלי
-                  </Link>
-                  <Link
-                    href="/account"
-                    className="flex items-center gap-1.5 text-ink-muted hover:text-gold text-[13px] font-hebrew font-light transition-colors"
-                  >
-                    <User className="w-3.5 h-3.5" />
-                    חשבון
-                  </Link>
-                  <UserButton
-                    appearance={{ elements: { avatarBox: 'w-9 h-9 ring-2 ring-gold-border' } }}
-                                      />
-                </>
-              ) : (
-                <>
-                  <SignInButton mode="modal">
-                    <button className="flex items-center gap-1.5 text-ink-muted hover:text-gold text-[13px] font-hebrew font-light transition-colors">
-                      <LogIn className="w-3.5 h-3.5" />
-                      כניסה
-                    </button>
-                  </SignInButton>
-                  <SignUpButton mode="modal">
-                    <button className="btn-gold px-5 py-2 text-xs font-hebrew rounded-lg tracking-wide">
-                      הרשמה חינם
-                    </button>
-                  </SignUpButton>
-                </>
-              )}
-            </div>
-
-            {/* Mobile: theme toggle + hamburger */}
-            <div className="md:hidden flex items-center gap-1">
-              <ThemeToggle />
-              <button
-                className="text-ink-muted p-3 -m-1"
-                onClick={() => setMobileOpen(!mobileOpen)}
-                aria-label={mobileOpen ? 'סגור תפריט' : 'פתח תפריט'}
-                aria-expanded={mobileOpen}
+          {/* Desktop nav */}
+          <div className="hidden md:flex items-center gap-8">
+            {navLinks.map(link => (
+              <a
+                key={link.label}
+                href={link.href}
+                className="text-[11px] tracking-[0.15em] uppercase font-sans text-[#666] hover:text-[#1a1a1a] transition-colors"
               >
-                {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-              </button>
-            </div>
+                {link.label}
+              </a>
+            ))}
           </div>
+
+          {/* Auth — desktop */}
+          <div className="hidden md:flex items-center gap-4">
+            <ThemeToggle />
+            {!isLoaded ? (
+              <div className="w-16 h-6 bg-[#f0eeea] animate-pulse" />
+            ) : isSignedIn ? (
+              <>
+                <Link
+                  href="/dashboard"
+                  className="text-[11px] tracking-[0.15em] uppercase font-sans px-4 py-2 bg-[#1a1a1a] text-white hover:opacity-75 transition-opacity"
+                >
+                  Dashboard
+                </Link>
+                <UserButton
+                  appearance={{ elements: { avatarBox: 'w-7 h-7' } }}
+                />
+              </>
+            ) : (
+              <>
+                <SignInButton mode="modal">
+                  <button className="text-[11px] tracking-[0.15em] uppercase font-sans text-[#666] hover:text-[#1a1a1a] transition-colors">
+                    כניסה
+                  </button>
+                </SignInButton>
+                <SignUpButton mode="modal">
+                  <button className="text-[11px] tracking-[0.15em] uppercase font-sans px-5 py-2 bg-[#1a1a1a] text-white hover:opacity-75 transition-opacity">
+                    הרשמה
+                  </button>
+                </SignUpButton>
+              </>
+            )}
+          </div>
+
+          {/* Mobile */}
+          <div className="md:hidden flex items-center gap-2">
+            <ThemeToggle />
+            <button
+              onClick={() => setMobileOpen(!mobileOpen)}
+              className="p-2 text-[#666]"
+              aria-label={mobileOpen ? 'סגור תפריט' : 'פתח תפריט'}
+            >
+              {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            </button>
+          </div>
+
         </div>
       </div>
 
@@ -117,56 +96,51 @@ export default function Navbar() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3 }}
-            className="md:hidden bg-bg-primary/98 backdrop-blur-xl border-b border-black/[0.04]"
+            transition={{ duration: 0.2 }}
+            className="md:hidden bg-white border-t border-[#EBEBEB]"
           >
-            <div className="px-6 py-5 space-y-1">
-              {navLinks.map((link) => (
+            <div className="px-6 py-4 space-y-1">
+              {navLinks.map(link => (
                 <a
                   key={link.label}
                   href={link.href}
                   onClick={() => setMobileOpen(false)}
-                  className="block text-ink-secondary hover:text-gold text-base font-hebrew py-2.5 transition-colors border-b border-black/[0.03] last:border-0"
+                  className="block text-[11px] tracking-[0.15em] uppercase font-sans text-[#666] py-3 border-b border-[#F5F5F5] last:border-0"
                 >
                   {link.label}
                 </a>
               ))}
-
-              {/* Mobile auth */}
               <div className="pt-3 flex flex-col gap-2">
                 {isSignedIn ? (
-                  <div className="flex flex-col gap-2">
+                  <>
                     <Link
                       href="/dashboard"
                       onClick={() => setMobileOpen(false)}
-                      className="flex items-center gap-2 py-2.5 text-base font-hebrew text-ink-secondary hover:text-gold transition-colors"
+                      className="block text-center py-3 bg-[#1a1a1a] text-white text-[11px] tracking-[0.15em] uppercase font-sans"
                     >
-                      <LayoutDashboard className="w-4 h-4" />
-                      הדשבורד שלי
+                      Dashboard
                     </Link>
-                    <Link
-                      href="/account"
-                      onClick={() => setMobileOpen(false)}
-                      className="flex items-center gap-2 py-2.5 text-base font-hebrew text-ink-secondary hover:text-gold transition-colors"
-                    >
-                      <User className="w-4 h-4" />
-                      החשבון שלי
-                    </Link>
-                    <div className="flex items-center gap-3 py-1">
+                    <div className="flex items-center gap-2 py-2">
                       <UserButton />
-                      <span className="text-sm font-hebrew text-ink-muted">הגדרות חשבון</span>
+                      <span className="text-xs font-hebrew text-[#999]">הגדרות</span>
                     </div>
-                  </div>
+                  </>
                 ) : (
                   <>
                     <SignInButton mode="modal">
-                      <button className="w-full py-3 text-sm font-hebrew border border-gold-border text-gold rounded-lg">
-                        כניסה לחשבון
+                      <button
+                        onClick={() => setMobileOpen(false)}
+                        className="w-full py-3 border border-[#1a1a1a] text-[11px] tracking-[0.15em] uppercase font-sans text-[#1a1a1a]"
+                      >
+                        כניסה
                       </button>
                     </SignInButton>
                     <SignUpButton mode="modal">
-                      <button className="btn-gold w-full py-3 text-sm font-hebrew rounded-lg tracking-wide">
-                        הרשמה חינם
+                      <button
+                        onClick={() => setMobileOpen(false)}
+                        className="w-full py-3 bg-[#1a1a1a] text-white text-[11px] tracking-[0.15em] uppercase font-sans"
+                      >
+                        הרשמה
                       </button>
                     </SignUpButton>
                   </>
