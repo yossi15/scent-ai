@@ -1,35 +1,25 @@
 /**
  * POST /api/match
- *   body: { fragrance: string }
- *   returns the structured QuickMatch payload (see MatchResponse type below).
- *
- * Conversion-focused single-fragrance flow:
- *   1. AI infers the user's scent profile + personality from one input.
- *   2. Returns 3 visible recommendations (with affiliate links) + 3 premium-locked.
- *   3. Each visible rec is enriched with image + buy URL when found in catalog,
- *      otherwise gets a Google Shopping affiliate fallback.
+ * Local similarity algorithm — no external API required.
+ * Given one fragrance name, infers profile + returns 3 similar fragrances.
  */
-
-import Anthropic from '@anthropic-ai/sdk';
 import { NextRequest, NextResponse } from 'next/server';
 import { fragrances, type Fragrance } from '@/data/fragrances';
 
-const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
-
 export interface MatchProfile {
-  scent_type: string;       // "fresh / sweet / woody / spicy / oriental"
-  intensity: string;        // "light / medium / strong"
-  season: string[];         // ["summer"], ["winter", "fall"], or ["all-season"]
-  occasions: string[];      // ["day", "night", "date", "office"]
-  style: string;            // "clean / bold / elegant / seductive ..."
+  scent_type: string;
+  intensity: 'light' | 'medium' | 'strong';
+  season: string[];
+  occasions: string[];
+  style: string;
 }
 
 export interface MatchRecommendation {
   name: string;
   brand: string;
-  description: string;        // 1 sentence, premium tone
-  match_reason: string;       // 1 sentence, why-it-fits
-  price_range: string;        // "₪450-650"
+  description: string;
+  match_reason: string;
+  price_range: string;
   tier: 'cheap' | 'mid' | 'luxury';
   image_url: string;
   affiliate_link: string;
@@ -41,160 +31,142 @@ export interface MatchResponse {
   input_fragrance: string;
   profile: MatchProfile;
   insight: string;
-  traits: string[];           // 3 short tags rendered on the profile card
+  traits: string[];
   recommendations: MatchRecommendation[];
   premium_recommendations: { name: string; hidden: true }[];
 }
 
-const SYSTEM = `אתה Master Perfumer עם 25 שנות ניסיון בבוטיקים יוקרתיים בפריז ולונדון.
-לקוח מזכיר בושם אחד שבבעלותו, ואתה - מהבושם הזה לבד - קורא את הטעם, הסגנון ואת מי שהוא רוצה להיות.
+const RADAR_KEYS = ['woody', 'floral', 'oriental', 'fresh', 'gourmand', 'animalic'] as const;
+type RadarKey = typeof RADAR_KEYS[number];
+type RadarVec = Record<RadarKey, number>;
 
-אתה ממליץ עם ביטחון של פרפיומר מנוסה: שולף 3 בשמים שמדברים אליו ישירות, לא רשימה גנרית.
-דבר במשפטים קצרים, חדים, פרימיום. לא גנרי, לא משעמם, לא מפוצץ.
-
-חוקי פלט:
-• description: משפט אחד שמתאר את הבושם המומלץ - טון יוקרתי קצר.
-• match_reason: משפט אחד שאומר למה זה מתאים ספציפית לבחירה של הלקוח.
-• match_reason חייב להזכיר את הבושם של הלקוח בשם ולהראות חיבור: "גרסה נקייה ומעודנת יותר של ${'<בושם הלקוח>'}".
-• price_range: טווח בש"ח כמו "₪450-650".
-• Premium recommendations: 3 שמות נוספים יוקרתיים שמתאימים אבל נעולים - שולח פיתוי, לא תשובה.
-
-חוק פיזור מחירים (חובה):
-3 ההמלצות חייבות להיות בשלוש רמות מחיר שונות, אחת בכל קטגוריה:
-  • CHEAP   — עד ₪450 (designer / Lattafa / Rasasi / Armaf / קלוני יוקרה)
-  • MID     — ₪450-1,200 (Tom Ford סלקט, MFK Aqua, Creed Cologne, Jo Malone)
-  • LUXURY  — ₪1,200+ (Roja, Amouage, Xerjoff, Henry Jacques, Clive Christian, MFK BR540)
-
-ב-recommendations החזר את ה-3 בסדר הזה: cheap, mid, luxury.
-תוסיף שדה "tier" לכל המלצה: "cheap" | "mid" | "luxury".
-זה מאפשר ללקוח לראות שאתה מבין גם פתרונות זמינים וגם פנטזיות.
-
-השב JSON בלבד.`;
-
-function googleShoppingLink(name: string, brand: string): string {
-  return `https://www.google.com/search?tbm=shop&q=${encodeURIComponent(`${name} ${brand} perfume`)}`;
+function cosine(a: RadarVec, b: RadarVec): number {
+  const dot  = RADAR_KEYS.reduce((s, k) => s + a[k] * b[k], 0);
+  const magA = Math.sqrt(RADAR_KEYS.reduce((s, k) => s + a[k] ** 2, 0));
+  const magB = Math.sqrt(RADAR_KEYS.reduce((s, k) => s + b[k] ** 2, 0));
+  return magA && magB ? dot / (magA * magB) : 0;
 }
 
-function fragranticaImageGuess(): string {
-  // Generic premium fallback (transparent bottle silhouette is preferable, but
-  // we don't bundle one in /public; UI handles missing image gracefully).
-  return '';
-}
-
-function findInCatalog(name: string, brand: string): Fragrance | undefined {
+function findFragrance(name: string): Fragrance | undefined {
   const n = name.trim().toLowerCase();
-  const b = brand.trim().toLowerCase();
-  return fragrances.find(f =>
-    f.name.toLowerCase() === n && f.house.toLowerCase() === b
-  ) ?? fragrances.find(f =>
-    f.name.toLowerCase().includes(n) && f.house.toLowerCase().includes(b)
-  );
+  return fragrances.find(f => f.name.toLowerCase() === n || f.name.toLowerCase().includes(n)) ??
+         fragrances.find(f => f.house.toLowerCase().includes(n));
+}
+
+function dominantNote(r: RadarVec): RadarKey {
+  return (RADAR_KEYS as readonly RadarKey[]).reduce((best, k) => r[k] > r[best] ? k : best, RADAR_KEYS[0]);
+}
+
+function inferProfile(f: Fragrance): MatchProfile {
+  const r = f.radarProfile as RadarVec;
+  const dom = dominantNote(r);
+  const scentTypeMap: Record<RadarKey, string> = {
+    woody: 'woody', floral: 'floral', oriental: 'oriental',
+    fresh: 'fresh', gourmand: 'gourmand', animalic: 'leather',
+  };
+  return {
+    scent_type: scentTypeMap[dom],
+    intensity: f.sillage >= 8 ? 'strong' : f.sillage >= 5 ? 'medium' : 'light',
+    season: f.radarProfile.fresh >= 6 ? ['spring', 'summer'] :
+            f.radarProfile.oriental >= 7 || f.radarProfile.gourmand >= 6 ? ['fall', 'winter'] :
+            ['all-season'],
+    occasions: f.sillage <= 6 ? ['day', 'office'] :
+               f.radarProfile.oriental >= 7 ? ['night', 'date'] : ['day', 'casual'],
+    style: f.rating >= 4.7 ? 'elegant' : f.radarProfile.fresh >= 7 ? 'clean' : 'classic',
+  };
+}
+
+function insightHe(f: Fragrance): string {
+  const r = f.radarProfile as RadarVec;
+  const dom = dominantNote(r);
+  const domMap: Record<RadarKey, string> = {
+    woody: 'בשמים עציים ועמוקים', floral: 'בשמים פרחוניים ועדינים',
+    oriental: 'בשמים מזרחיים וחמים', fresh: 'בשמים טריים ומרעננים',
+    gourmand: 'בשמים מתוקים ועוטפים', animalic: 'בשמים חייתיים ועוריים',
+  };
+  return `הטעם שלך נוטה ל${domMap[dom]}, עם העדפה לבשמים ${f.sillage >= 7 ? 'בולטים ונוכחים' : 'אינטימיים ואישיים'}.`;
+}
+
+function tierOf(price: number): 'cheap' | 'mid' | 'luxury' {
+  return price < 450 ? 'cheap' : price > 1200 ? 'luxury' : 'mid';
+}
+
+function buildMatchRec(f: Fragrance, inputName: string): MatchRecommendation {
+  const topNotes = f.notes.filter(n => n.type === 'top').slice(0, 2).map(n => n.name).join(' ו-');
+  return {
+    name: f.name,
+    brand: f.house,
+    description: `${f.house} ${f.name} — בושם ${f.family.toLowerCase()} עם ${topNotes}.`,
+    match_reason: `בהשראת ${inputName}, אך בגרסה ${f.radarProfile.fresh >= 7 ? 'קלה וטרייה יותר' : f.radarProfile.oriental >= 7 ? 'עמוקה ומחממת יותר' : 'מעודנת ומאוזנת יותר'}.`,
+    price_range: `₪${f.price.toLocaleString()}`,
+    tier: tierOf(f.price),
+    image_url: f.image ?? '',
+    affiliate_link: `https://www.google.com/search?tbm=shop&q=${encodeURIComponent(f.name + ' ' + f.house)}`,
+    in_catalog: true,
+    catalog_id: f.id,
+  };
 }
 
 export async function POST(req: NextRequest) {
   try {
-    const { fragrance } = (await req.json()) as { fragrance?: string };
-    if (!fragrance || !fragrance.trim()) {
+    const { fragrance: inputName } = (await req.json()) as { fragrance?: string };
+    if (!inputName?.trim()) {
       return NextResponse.json({ error: 'Missing fragrance' }, { status: 400 });
     }
 
-    // Pull a small catalog hint so the AI prefers in-stock matches when relevant
-    const catalogHint = fragrances
-      .slice(0, 60)
-      .map(f => `${f.name} (${f.house})`)
-      .join(', ');
+    const source = findFragrance(inputName.trim());
+    const sourceVec: RadarVec = source
+      ? source.radarProfile as RadarVec
+      : { woody: 5, floral: 3, oriental: 4, fresh: 5, gourmand: 2, animalic: 2 };
 
-    const prompt = `הבושם של הלקוח: "${fragrance.trim()}"
+    // Score by cosine similarity, exclude the source itself
+    const similar = fragrances
+      .filter(f => f.id !== source?.id)
+      .map(f => ({ f, sim: cosine(sourceVec, f.radarProfile as RadarVec) }))
+      .sort((a, b) => b.sim - a.sim);
 
-מאגר זמין (תן עדיפות אם ההתאמה מעולה - מאפשר לנו להציג מחיר אמיתי):
-${catalogHint}
+    // 3 tiers: cheap / mid / luxury
+    const pick = (tier: 'cheap' | 'mid' | 'luxury') =>
+      similar.find(({ f }) => tierOf(f.price) === tier)?.f ??
+      similar[0]?.f;
 
-החזר JSON אך ורק במבנה הזה (ללא markdown, ללא טקסט נוסף):
-{
-  "input_fragrance": "<echo of input>",
-  "profile": {
-    "scent_type": "<fresh / sweet / woody / spicy / oriental / aromatic / floral / leather / aquatic>",
-    "intensity": "<light / medium / strong>",
-    "season": ["<summer / winter / spring / fall / all-season>"],
-    "occasions": ["<day / night / date / office / casual / formal / sport>"],
-    "style": "<one short English label: clean / bold / elegant / seductive / minimalist / classic / playful>"
-  },
-  "insight": "<משפט אחד בעברית טבעית שמתאר את הטעם של הלקוח, תורגם לסיפור קצר. לדוגמה: 'אתה מחפש בשמים נקיים ומדויקים שעובדים גם ביום וגם לאירוע ערב.'>",
-  "traits": ["<3 שמות-תכונה קצרים בעברית, מקסימום מילה אחת או שתיים - לדוגמה 'נקי', 'מעודן', 'יומיומי'>"],
-  "recommendations": [
-    {
-      "name": "<שם לועזי של הבושם>",
-      "brand": "<בית בושם>",
-      "description": "<משפט אחד פרימיום בעברית - מה הבושם הזה>",
-      "match_reason": "<משפט אחד בעברית שמסביר למה זה מתאים לבחירה של הלקוח, מזכיר את שמו>",
-      "price_range": "<טווח כמו '₪450-650' או '₪900-1,200'>",
-      "tier": "<cheap | mid | luxury>"
-    }
-  ],
-  "premium_recommendations": [
-    { "name": "<שם בושם יוקרתי שיוצג נעול>", "hidden": true }
-  ]
-}
+    const cheap   = pick('cheap');
+    const mid     = pick('mid');
+    const luxury  = pick('luxury');
 
-מבנה: 3 פריטים ב-recommendations, 3 פריטים ב-premium_recommendations.
-החזר 3 בדיוק בכל אחד.`;
+    const recs = [cheap, mid, luxury]
+      .filter(Boolean)
+      .filter((f, i, arr) => arr.findIndex(x => x?.id === f?.id) === i)
+      .slice(0, 3) as Fragrance[];
 
-    const message = await client.messages.create({
-      model: 'claude-sonnet-4-20250514',
-      max_tokens: 1500,
-      system: SYSTEM,
-      messages: [{ role: 'user', content: prompt }],
-    });
+    // Premium (locked) — next 3 most similar
+    const usedIds = new Set(recs.map(f => f.id));
+    const premium = similar
+      .filter(({ f }) => !usedIds.has(f.id))
+      .slice(0, 3)
+      .map(({ f }) => ({ name: f.name, hidden: true as const }));
 
-    const text = message.content[0].type === 'text' ? message.content[0].text : '{}';
-    const jsonMatch = text.match(/\{[\s\S]*\}/);
-    if (!jsonMatch) throw new Error('No JSON in AI response');
-
-    const raw = JSON.parse(jsonMatch[0]) as Omit<MatchResponse, 'recommendations'> & {
-      recommendations: Array<Omit<MatchRecommendation, 'image_url' | 'affiliate_link' | 'in_catalog' | 'catalog_id'>>;
+    const profile = source ? inferProfile(source) : {
+      scent_type: 'woody', intensity: 'medium' as const,
+      season: ['all-season'], occasions: ['day'], style: 'elegant',
     };
 
-    // Enrich each recommendation: image + affiliate link + catalog match
-    const recommendations: MatchRecommendation[] = (raw.recommendations ?? []).slice(0, 3).map(rec => {
-      const match = findInCatalog(rec.name, rec.brand);
-      // Infer tier from catalog price if not explicitly tagged
-      let tier: 'cheap' | 'mid' | 'luxury' = rec.tier ?? 'mid';
-      if (!rec.tier && match) {
-        if (match.price < 450) tier = 'cheap';
-        else if (match.price > 1200) tier = 'luxury';
-        else tier = 'mid';
-      }
-      return {
-        name: rec.name,
-        brand: rec.brand,
-        description: rec.description,
-        match_reason: rec.match_reason,
-        price_range: match
-          ? `₪${match.price.toLocaleString()}`
-          : (rec.price_range ?? '-'),
-        tier,
-        image_url: match?.image ?? fragranticaImageGuess(),
-        affiliate_link: googleShoppingLink(rec.name, rec.brand),
-        in_catalog: !!match,
-        catalog_id: match?.id ?? null,
-      };
-    });
-
     const response: MatchResponse = {
-      input_fragrance: fragrance.trim(),
-      profile: raw.profile,
-      insight: raw.insight,
-      traits: (raw.traits ?? []).slice(0, 3),
-      recommendations,
-      premium_recommendations: (raw.premium_recommendations ?? []).slice(0, 3).map(p => ({
-        name: p.name,
-        hidden: true,
-      })),
+      input_fragrance: inputName.trim(),
+      profile,
+      insight: source ? insightHe(source) : 'בושם עם אופי ייחודי — הנה כמה כיוונים שיכולים לעניין אותך.',
+      traits: [
+        profile.intensity === 'strong' ? 'נוכח' : 'עדין',
+        profile.scent_type,
+        profile.season.includes('summer') ? 'קיצי' : 'כל-עונה',
+      ],
+      recommendations: recs.map(f => buildMatchRec(f, inputName.trim())),
+      premium_recommendations: premium,
     };
 
     return NextResponse.json(response);
   } catch (err) {
-    console.error('Match API error:', err);
+    console.error('Match local error:', err);
     return NextResponse.json({ error: 'Internal error' }, { status: 500 });
   }
 }

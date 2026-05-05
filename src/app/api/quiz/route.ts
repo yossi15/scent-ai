@@ -1,155 +1,148 @@
-import Anthropic from '@anthropic-ai/sdk';
+/**
+ * POST /api/quiz
+ * Local scoring algorithm — no external API required.
+ * Scores every fragrance against the user's quiz answers and returns top 3.
+ */
 import { NextRequest, NextResponse } from 'next/server';
-
-const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
-
-const SCENT_MAP: Record<string, string> = {
-  woody: 'יערי/עצי', floral: 'פרחוני', fresh: 'הדרי/טרי',
-  gourmand: 'מתוק/גורמה', oriental: 'מזרחי/עשן',
-};
-const SEASON_MAP: Record<string, string> = {
-  spring: 'אביב', summer: 'קיץ', fall: 'סתיו', winter: 'חורף',
-};
-const OCCASION_MAP: Record<string, string> = {
-  business: 'עסקי', evening: 'ערב', daily: 'יומיומי', romantic: 'רומנטי',
-};
-const LONGEVITY_MAP: Record<string, string> = {
-  '3-5h': '3-5 שעות', '6-8h': '6-8 שעות', '10h+': '10+ שעות',
-};
-const STYLE_MAP: Record<string, string> = {
-  classic: 'קלאסי ונצחי', modern: 'מודרני ובולט',
-  minimal: 'מינימליסטי', eccentric: 'אקסצנטרי/ייחודי',
-};
-const BUDGET_MAP: Record<string, string> = {
-  under500: 'עד ₪500', '500-1000': '₪500-1000', above1000: 'מעל ₪1000',
-};
-
-interface Note { name: string; type: 'top' | 'heart' | 'base' }
-
-interface Candidate {
-  id: number;
-  name: string;
-  house: string;
-  family: string;
-  price: number;
-  concentration: string;
-  tags: string[];
-  longevity: number;
-  sillage: number;
-  notes?: Note[];
-  radarProfile: Record<string, number>;
-  gender?: string;
-  year?: number;
-}
+import { fragrances, type Fragrance } from '@/data/fragrances';
 
 interface Answers {
-  scentType?: string;
-  season?: string;
-  occasion?: string;
-  longevity?: string;
-  style?: string;
-  budget?: string;
+  scentType?: string;   // woody | floral | fresh | gourmand | oriental
+  season?: string;      // spring | summer | fall | winter
+  occasion?: string;    // business | evening | daily | romantic
+  longevity?: string;   // 3-5h | 6-8h | 10h+
+  style?: string;       // classic | modern | minimal | eccentric
+  budget?: string;      // under500 | 500-1000 | above1000
   previousFragrance?: string;
+  gender?: string;
 }
 
-const SYSTEM = `אתה Master Perfumer עם 25 שנות ניסיון בבוטיק נישה יוקרתי בפריז ובלונדון -
-עבדת עם Roja Dove, Frédéric Malle, ואצל Henry Jacques. הריח הוא שפת האם שלך.
+const RADAR_KEYS = ['woody', 'floral', 'oriental', 'fresh', 'gourmand', 'animalic'] as const;
+type RadarKey = typeof RADAR_KEYS[number];
 
-כשלקוח עומד מולך, אתה לא בוחר בושם "פופולרי" - אתה קורא אותו: עור, מזג אוויר, סיפור,
-איך הוא רוצה להרגיש, את מה הוא לובש מתחת לבושם. אתה ממליץ כמו שמוזג יין:
-לפי האף, לא לפי הרשימה.
+// ── Scoring ────────────────────────────────────────────────────────────────────
+function score(f: Fragrance, answers: Answers): number {
+  let pts = 0;
+  const r = f.radarProfile;
 
-חוקי המלצה:
-1. דבר על תווים ספציפיים (Pineapple-Birch בפתיחה, Iris פודרי בלב, Ambroxan סטטי בבסיס) -
-   לא על "משפחות" כלליות. הזכר 2-3 תווים ממש בכל המלצה.
-2. תאר טקסטורה ואינטראקציה עם העור - "פותח חמוץ ויבש, מתפנה לעור רך אחרי שעתיים".
-3. הצמד למצב - "לפגישת ערב באוקטובר", "ליום עבודה במשרד ממוזג", "לדייט שני".
-4. אל תפחד להמליץ על פחות מוכר - אם בית ניש'ה קטן עונה יותר טוב, זה הבחירה.
-5. אם המאגר שלנו מציע התאמה מצוינת - קח משם (זה מאפשר דגימה מיידית).
-   אם השוק הרחב מציע משהו טוב יותר - תמליץ עליו ותציין שאפשר לבקש דגימה.
-6. כל המלצה: בושם אחד עיקרי + הסבר אישי בעברית טבעית כאילו דיברת מול הלקוח.
-7. גוון את ההמלצות - לא 3 בשמים מאותה משפחה.
-8. אם הלקוח ציין בושם שאהב - תקרא אותו (האם הוא רומז על שיק קלאסי? gourmand מתחבא?
-   חיפוש אחר wow factor?) ותציע לו את "המקבילה הניש'ית" או "הצעד הבא".`;
+  // 1. Primary scent type (0–50)
+  const scentMap: Record<string, RadarKey> = {
+    woody: 'woody', floral: 'floral', fresh: 'fresh',
+    gourmand: 'gourmand', oriental: 'oriental',
+  };
+  const pk = scentMap[answers.scentType ?? ''];
+  if (pk) pts += r[pk] * 5;
 
+  // 2. Season fit (0–20)
+  if (answers.season === 'summer' && r.fresh >= 6) pts += 20;
+  if (answers.season === 'winter' && (r.oriental >= 6 || r.gourmand >= 5)) pts += 20;
+  if (answers.season === 'spring' && (r.fresh >= 4 || r.floral >= 5)) pts += 20;
+  if (answers.season === 'fall'   && (r.woody >= 5  || r.oriental >= 4)) pts += 20;
+
+  // 3. Occasion fit (0–20)
+  if (answers.occasion === 'business' && f.sillage <= 7 && f.longevity >= 5) pts += 20;
+  if (answers.occasion === 'evening'  && f.sillage >= 7 && r.oriental >= 5)  pts += 20;
+  if (answers.occasion === 'daily'    && f.sillage <= 7)                      pts += 20;
+  if (answers.occasion === 'romantic' && (r.floral >= 5 || r.oriental >= 6))  pts += 20;
+
+  // 4. Longevity fit (0–20)
+  if (answers.longevity === '3-5h'  && f.longevity <= 5)                      pts += 20;
+  if (answers.longevity === '6-8h'  && f.longevity >= 6 && f.longevity <= 8)  pts += 20;
+  if (answers.longevity === '10h+'  && f.longevity >= 9)                      pts += 20;
+
+  // 5. Budget (0–30)
+  if (answers.budget === 'under500'  && f.price < 500)                        pts += 30;
+  if (answers.budget === '500-1000'  && f.price >= 500 && f.price <= 1000)    pts += 30;
+  if (answers.budget === 'above1000' && f.price > 1000)                       pts += 30;
+
+  // 6. Gender (0–15)
+  if (!answers.gender || answers.gender === 'any') pts += 10;
+  else if (f.gender.toLowerCase() === answers.gender.toLowerCase()) pts += 15;
+  else if (f.gender.toLowerCase() === 'unisex') pts += 8;
+
+  // 7. Rating bonus (0–10)
+  pts += (f.rating - 3.5) * 8;
+
+  return pts;
+}
+
+// ── Reason generator (template-based Hebrew) ───────────────────────────────────
+function buildReason(f: Fragrance, answers: Answers): string {
+  const topNotes = f.notes.filter(n => n.type === 'top').slice(0, 2).map(n => n.name);
+  const baseNotes = f.notes.filter(n => n.type === 'base').slice(0, 2).map(n => n.name);
+  const r = f.radarProfile;
+
+  const dominant = (RADAR_KEYS as readonly string[])
+    .map(k => ({ k, v: r[k as RadarKey] }))
+    .sort((a, b) => b.v - a.v)[0].k;
+
+  const characterMap: Record<string, string> = {
+    woody: 'עצי ועמוק', floral: 'פרחוני ועדין', oriental: 'מזרחי ומחמם',
+    fresh: 'טרי ומרענן', gourmand: 'מתוק ועוטף', animalic: 'חייתי ועורני',
+  };
+
+  const longevityText = f.longevity >= 9 ? 'חזיקה מצוינת — כל היום על העור' :
+                        f.longevity >= 7 ? `חזיקה טובה של ${f.longevity}-${f.longevity + 1} שעות` :
+                        `ריח קצר ואינטימי, כ-${f.longevity} שעות`;
+
+  const occasionText = answers.occasion === 'evening'  ? 'מושלם לאירועי ערב' :
+                       answers.occasion === 'business' ? 'מתאים ליום עבודה ופגישות' :
+                       answers.occasion === 'romantic' ? 'עובד מצוין לדייטים' :
+                       'רב-שימוש ויומיומי';
+
+  const opening = topNotes.length
+    ? `פותח עם ${topNotes.join(' ו-')}`
+    : `בושם ${characterMap[dominant] ?? dominant}`;
+
+  const closing = baseNotes.length
+    ? `ומגיע לבסיס של ${baseNotes.join(' ו-')}`
+    : 'עם בסיס חם שנשאר על העור';
+
+  return `${opening}, ${closing}. ${longevityText}. ${occasionText} — ${f.sillage >= 8 ? 'הקרנה חזקה שנוכחת בכל חדר' : f.sillage >= 6 ? 'הקרנה מתונה ומאוזנת' : 'ריח אינטימי ואישי'}.`;
+}
+
+// ── Route ──────────────────────────────────────────────────────────────────────
 export async function POST(req: NextRequest) {
   try {
-    const { answers, candidates } = await req.json() as { answers: Answers; candidates: Candidate[] };
+    const body = await req.json() as { answers: Answers; candidates?: unknown[] };
+    const answers: Answers = body.answers ?? {};
 
-    // Rich catalog summary - include notes so AI can reason about ingredients
-    const catalogList = (candidates ?? [])
-      .map(f => {
-        const top = f.notes?.filter(n => n.type === 'top').map(n => n.name).slice(0, 3).join(', ') ?? '';
-        const heart = f.notes?.filter(n => n.type === 'heart').map(n => n.name).slice(0, 3).join(', ') ?? '';
-        const base = f.notes?.filter(n => n.type === 'base').map(n => n.name).slice(0, 3).join(', ') ?? '';
-        return `ID:${f.id} | ${f.name} (${f.house}, ${f.year ?? '-'}) | ${f.family} | ${f.gender ?? 'Unisex'} | ` +
-               `עמידות ${f.longevity}/10, הקרנה ${f.sillage}/10 | ₪${f.price.toLocaleString()} | ` +
-               `top: ${top} | heart: ${heart} | base: ${base}`;
-      })
-      .join('\n');
+    // Score all fragrances and pick top 3 (diverse family selection)
+    const scored = fragrances
+      .map(f => ({ f, pts: score(f, answers) }))
+      .sort((a, b) => b.pts - a.pts);
 
-    const profile = `פרופיל הלקוח:
-• סוג ריח שמושך: ${SCENT_MAP[answers.scentType ?? ''] ?? answers.scentType ?? '-'}
-• עונה דומיננטית: ${SEASON_MAP[answers.season ?? ''] ?? '-'}
-• אירוע מרכזי: ${OCCASION_MAP[answers.occasion ?? ''] ?? '-'}
-• עמידות רצויה: ${LONGEVITY_MAP[answers.longevity ?? ''] ?? '-'}
-• סגנון אישי: ${STYLE_MAP[answers.style ?? ''] ?? '-'}
-• תקציב לבקבוק מלא: ${BUDGET_MAP[answers.budget ?? ''] ?? '-'}${answers.previousFragrance ? `
-• בושם שאהב/לבש: ${answers.previousFragrance}` : ''}`;
+    // Pick top 3 ensuring family diversity
+    const chosen: Fragrance[] = [];
+    const usedFamilies = new Set<string>();
+    for (const { f } of scored) {
+      const familyBase = f.family.split(' ')[0];
+      if (!usedFamilies.has(familyBase)) {
+        chosen.push(f);
+        usedFamilies.add(familyBase);
+      }
+      if (chosen.length === 3) break;
+    }
+    // Fallback: fill with top scorers if not enough diversity
+    if (chosen.length < 3) {
+      for (const { f } of scored) {
+        if (!chosen.find(c => c.id === f.id)) chosen.push(f);
+        if (chosen.length === 3) break;
+      }
+    }
 
-    const prompt = `${profile}
+    const recommendations = chosen.map(f => ({
+      id: f.id,
+      name: f.name,
+      house: f.house,
+      family: f.family,
+      reason: buildReason(f, answers),
+      inCatalog: true,
+    }));
 
-המאגר הזמין שלנו (כל הבשמים האלה נגישים לדגימה מיידית - תן להם עדיפות אם ההתאמה דומה):
-${catalogList}
-
-המשימה: בחר 3 בשמים - אפשר מהמאגר ואפשר מכל בית בושם בעולם.
-תוודא שהשלישייה מגוונת (משפחה/עוצמה/אנרגיה - לא 3 ורסיות של אותו דבר).
-לכל בושם, ה-reason חייב לכלול:
-  (א) 2-3 תווים ספציפיים שיורגשו על העור
-  (ב) פתיחה → מעבר → יבשה (איך הוא מתפתח)
-  (ג) "כשללבוש" - מתי/איפה/עם מי
-  (ד) קישור אישי לתשובות הלקוח (לא גנרי)
-
-החזר JSON בלבד, ללא markdown, ללא טקסט מלפני/אחרי:
-{"recommendations":[
-  {"id":<מספר אם מהמאגר, אחרת null>,"name":"<שם לועזי>","house":"<בית בושם>","family":"<משפחת ריח באנגלית>","reason":"<3-4 משפטים בעברית טבעית כמו פרפיומר שמדבר ללקוח, עם תווים ספציפיים>","inCatalog":<true/false>}
-]}`;
-
-    const message = await client.messages.create({
-      model: 'claude-sonnet-4-20250514',
-      max_tokens: 1500,
-      system: SYSTEM,
-      messages: [{ role: 'user', content: prompt }],
-    });
-
-    const text = message.content[0].type === 'text' ? message.content[0].text : '{}';
-    const jsonMatch = text.match(/\{[\s\S]*\}/);
-    if (!jsonMatch) throw new Error('No JSON in response');
-
-    const data = JSON.parse(jsonMatch[0]) as { recommendations: Array<{
-      id: number | null; name: string; house: string; family: string; reason: string; inCatalog: boolean;
-    }> };
-
-    // Server-side verification: match by ID first, then name (case-insensitive)
-    const catalogById = new Map((candidates ?? []).map(c => [c.id, c]));
-    const catalogByName = new Map((candidates ?? []).map(c => [c.name.toLowerCase().trim(), c]));
-
-    const recs = (data.recommendations ?? []).map(rec => {
-      let match = rec.id != null ? catalogById.get(rec.id) : undefined;
-      if (!match) match = catalogByName.get(rec.name.toLowerCase().trim());
-      return {
-        id: match?.id ?? null,
-        name: rec.name,
-        house: match?.house ?? rec.house,
-        family: match?.family ?? rec.family,
-        reason: rec.reason,
-        inCatalog: !!match,
-      };
-    });
-
-    return NextResponse.json({ recommendations: recs });
+    return NextResponse.json({ recommendations });
   } catch (err) {
-    console.error('Quiz API error:', err);
+    console.error('Quiz local error:', err);
     return NextResponse.json({ error: 'Internal error' }, { status: 500 });
   }
 }

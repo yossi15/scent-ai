@@ -1,142 +1,115 @@
-import Anthropic from '@anthropic-ai/sdk';
+/**
+ * POST /api/recommend
+ * Local collection-based recommendation — no external API required.
+ * Analyses the user's collection DNA and returns 3 complementary fragrances.
+ */
 import { NextRequest, NextResponse } from 'next/server';
+import { fragrances, type Fragrance } from '@/data/fragrances';
 
-const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
-
-interface Note { name: string; type: 'top' | 'heart' | 'base' }
+const RADAR_KEYS = ['woody', 'floral', 'oriental', 'fresh', 'gourmand', 'animalic'] as const;
+type RadarKey = typeof RADAR_KEYS[number];
+type RadarVec = Record<RadarKey, number>;
 
 interface FragranceInput {
   id: number;
   name: string;
   house: string;
   family: string;
-  concentration?: string;
-  price?: number;
-  tags?: string[];
-  notes?: Note[];
-  longevity?: number;
-  sillage?: number;
-  year?: number;
-  gender?: string;
+  radarProfile?: RadarVec;
 }
 
-interface CatalogEntry {
-  id: number;
-  name: string;
-  house: string;
-  family: string;
-  notes?: Note[];
-  year?: number;
-  gender?: string;
-  longevity?: number;
-  sillage?: number;
+function cosine(a: RadarVec, b: RadarVec): number {
+  const dot  = RADAR_KEYS.reduce((s, k) => s + a[k] * b[k], 0);
+  const magA = Math.sqrt(RADAR_KEYS.reduce((s, k) => s + a[k] ** 2, 0));
+  const magB = Math.sqrt(RADAR_KEYS.reduce((s, k) => s + b[k] ** 2, 0));
+  return magA && magB ? dot / (magA * magB) : 0;
 }
 
-const SYSTEM = `אתה Master Perfumer עם 25 שנות ניסיון בבוטיק נישה יוקרתי בפריז ובלונדון -
-עבדת עם Roja Dove, Frédéric Malle, ואצל Henry Jacques. אתה לא מצטט רשימות -
-אתה מריח את האוסף של הלקוח ושומע את הסיפור שמסתתר מאחוריו.
+function avgVec(vecs: RadarVec[]): RadarVec {
+  if (!vecs.length) return { woody: 5, floral: 3, oriental: 4, fresh: 5, gourmand: 2, animalic: 2 };
+  const sum = vecs.reduce((acc, v) => {
+    RADAR_KEYS.forEach(k => { acc[k] = (acc[k] ?? 0) + v[k]; });
+    return acc;
+  }, {} as RadarVec);
+  RADAR_KEYS.forEach(k => { sum[k] /= vecs.length; });
+  return sum;
+}
 
-לפני שאתה ממליץ, אתה ממפה את ה-DNA של האוסף:
-• מה החוט המשותף? (סגנון? תקופה? עוצמה? תווי בסיס חוזרים?)
-• איפה החללים? (אין floral נשי? אין משהו לקיץ? תמיד חזק?)
-• האם יש "תפר אישי" - חיבה ל-Iris? לעור עשן? לתווים imaginary של MFK?
+function invertVec(v: RadarVec): RadarVec {
+  const inv = {} as RadarVec;
+  RADAR_KEYS.forEach(k => { inv[k] = 10 - v[k]; });
+  return inv;
+}
 
-ההמלצות שלך עוקבות אחרי שלוש פילוסופיות:
-1. **Sister fragrance** - קרוב למה שיש, אבל מעדן/משדרג זווית אחת.
-2. **Lateral move** - ממלא חלל באוסף (אם הכל יבש וכבד, תציע משהו חיוני; אם הכל
-   מודרני, תציע קלאסיקה).
-3. **Stretch pick** - צעד אחד מחוץ לאזור הנוחות. בושם שיגדיל את הנפש הריחנית.
+function buildReason(f: Fragrance, type: 'sister' | 'lateral' | 'stretch', collectionNames: string[]): string {
+  const ref = collectionNames[0] ?? 'האוסף שלך';
+  const topNotes = f.notes.filter(n => n.type === 'top').slice(0, 2).map(n => n.name).join(' ו-');
+  const baseNotes = f.notes.filter(n => n.type === 'base').slice(0, 2).map(n => n.name).join(' ו-');
 
-חוקים:
-• דבר על תווים ספציפיים. לא "פרחוני" אלא "Iris פודרי על Cashmeran חמים".
-• הסבר בדיוק איך זה מתחבר לאוסף הקיים - קרא אותו בשם.
-• כל המלצה: בעברית טבעית, 3-4 משפטים, כמו פרפיומר שמדבר מול לקוח.
-• עדיפות לבשמים מהמאגר שלנו (זמינים לדגימה מיידית) אם ההתאמה דומה.`;
+  if (type === 'sister') {
+    return `בדומה ל${ref}, ${f.name} מציע ${topNotes} בפתיחה ו${baseNotes} בבסיס. המשך טבעי וקרוב לה-DNA של האוסף שלך.`;
+  }
+  if (type === 'lateral') {
+    return `${f.name} ממלא פינה שחסרה באוסף — ${f.family.toLowerCase()} שמאזן את הסגנון הקיים ב${ref}. ${f.sillage >= 7 ? 'עוצמה טובה.' : 'עדין ואינטימי.'} `;
+  }
+  return `${f.name} הוא צעד מחוץ לאזור הנוחות — ${topNotes} בפתיחה ייחודית עם בסיס של ${baseNotes}. מרחיב את הנפש הריחנית שלך מעבר ל${ref}.`;
+}
 
 export async function POST(req: NextRequest) {
   try {
-    const { collection, catalog } = await req.json() as {
-      collection: FragranceInput[];
-      catalog?: CatalogEntry[];
-    };
-
+    const { collection } = await req.json() as { collection: FragranceInput[]; catalog?: unknown };
     if (!collection?.length) {
       return NextResponse.json({ error: 'Missing collection' }, { status: 400 });
     }
 
-    const collectionDesc = collection
-      .map(f => {
-        const top = f.notes?.filter(n => n.type === 'top').map(n => n.name).slice(0, 3).join(', ') ?? '';
-        const heart = f.notes?.filter(n => n.type === 'heart').map(n => n.name).slice(0, 3).join(', ') ?? '';
-        const base = f.notes?.filter(n => n.type === 'base').map(n => n.name).slice(0, 3).join(', ') ?? '';
-        return `• ${f.name} - ${f.house} (${f.year ?? '-'}) | ${f.family} | ${f.gender ?? 'Unisex'} | ` +
-               `עמידות ${f.longevity ?? '-'}/10, הקרנה ${f.sillage ?? '-'}/10` +
-               (top || heart || base ? `\n   top: ${top} | heart: ${heart} | base: ${base}` : '');
-      })
-      .join('\n');
+    const collectionIds = new Set(collection.map(c => c.id));
+    const collectionNames = collection.map(c => c.name);
 
-    const catalogList = (catalog ?? [])
-      .slice(0, 30)
-      .map(c => {
-        const top = c.notes?.filter(n => n.type === 'top').map(n => n.name).slice(0, 3).join(', ') ?? '';
-        const heart = c.notes?.filter(n => n.type === 'heart').map(n => n.name).slice(0, 3).join(', ') ?? '';
-        const base = c.notes?.filter(n => n.type === 'base').map(n => n.name).slice(0, 3).join(', ') ?? '';
-        return `ID:${c.id} | ${c.name} (${c.house}) | ${c.family} | top: ${top} | heart: ${heart} | base: ${base}`;
-      })
-      .join('\n');
+    // Get radarProfiles for collection items from our catalog
+    const collectionVecs: RadarVec[] = collection
+      .map(c => fragrances.find(f => f.id === c.id)?.radarProfile as RadarVec | undefined)
+      .filter(Boolean) as RadarVec[];
 
-    const prompt = `האוסף של הלקוח (קרא את ה-DNA שלו לפני שאתה ממליץ):
-${collectionDesc}
+    const avgProfile = avgVec(collectionVecs);
+    const invertedProfile = invertVec(avgProfile);
 
-המאגר שלנו (תן עדיפות לאלה אם ההתאמה דומה - זמין לדגימה מיידית):
-${catalogList}
+    const available = fragrances.filter(f => !collectionIds.has(f.id));
 
-המשימה: 3 בשמים. אחד "Sister" (קרוב לאוסף), אחד "Lateral" (ממלא חלל), אחד "Stretch" (מתח את הטעם בעדינות).
-ה-reason חייב:
-  (א) לקרוא את ה-DNA שאתה זיהית באוסף בשם (שם בושם ספציפי)
-  (ב) להסביר איך הבושם המומלץ מתחבר/מרחיב/משלים את ה-DNA הזה
-  (ג) להזכיר 2-3 תווים ספציפיים שיורגשו על העור
-  (ד) "כשללבוש" - מצב/מזג אוויר/אנרגיה
+    // Sister — most similar to collection avg
+    const sister = available
+      .map(f => ({ f, sim: cosine(avgProfile, f.radarProfile as RadarVec) }))
+      .sort((a, b) => b.sim - a.sim)[0]?.f;
 
-החזר JSON בלבד, ללא markdown:
-{"recommendations":[
-  {"id":<מספר אם מהמאגר, אחרת null>,"name":"<שם לועזי>","house":"<בית בושם>","family":"<משפחה באנגלית>","reason":"<3-4 משפטים בעברית טבעית כמו פרפיומר>","inCatalog":<true/false>}
-]}`;
+    // Lateral — fills a gap (moderate inverse match)
+    const lateral = available
+      .filter(f => f.id !== sister?.id)
+      .map(f => ({ f, sim: cosine(invertedProfile, f.radarProfile as RadarVec) * 0.5 + cosine(avgProfile, f.radarProfile as RadarVec) * 0.5 }))
+      .sort((a, b) => b.sim - a.sim)[0]?.f;
 
-    const message = await client.messages.create({
-      model: 'claude-sonnet-4-20250514',
-      max_tokens: 1500,
-      system: SYSTEM,
-      messages: [{ role: 'user', content: prompt }],
-    });
+    // Stretch — most different from collection avg (but highly rated)
+    const stretch = available
+      .filter(f => f.id !== sister?.id && f.id !== lateral?.id && f.rating >= 4.5)
+      .map(f => ({ f, sim: 1 - cosine(avgProfile, f.radarProfile as RadarVec) }))
+      .sort((a, b) => b.sim - a.sim)[0]?.f;
 
-    const text = message.content[0].type === 'text' ? message.content[0].text : '{}';
-    const jsonMatch = text.match(/\{[\s\S]*\}/);
-    if (!jsonMatch) throw new Error('No JSON in response');
+    const picks = [
+      sister  && { f: sister,  type: 'sister'  as const },
+      lateral && { f: lateral, type: 'lateral' as const },
+      stretch && { f: stretch, type: 'stretch' as const },
+    ].filter(Boolean) as { f: Fragrance; type: 'sister' | 'lateral' | 'stretch' }[];
 
-    const data = JSON.parse(jsonMatch[0]) as { recommendations: Array<{
-      id: number | null; name: string; house: string; family: string; reason: string; inCatalog: boolean;
-    }> };
+    const recommendations = picks.map(({ f, type }) => ({
+      id: f.id,
+      name: f.name,
+      house: f.house,
+      family: f.family,
+      reason: buildReason(f, type, collectionNames),
+      inCatalog: true,
+    }));
 
-    const catalogById = new Map((catalog ?? []).map(c => [c.id, c]));
-    const catalogByName = new Map((catalog ?? []).map(c => [c.name.toLowerCase().trim(), c]));
-
-    const recs = (data.recommendations ?? []).map(rec => {
-      let match = rec.id != null ? catalogById.get(rec.id) : undefined;
-      if (!match) match = catalogByName.get(rec.name.toLowerCase().trim());
-      return {
-        id: match?.id ?? null,
-        name: rec.name,
-        house: match?.house ?? rec.house,
-        family: match?.family ?? rec.family,
-        reason: rec.reason,
-        inCatalog: !!match,
-      };
-    });
-
-    return NextResponse.json({ recommendations: recs });
+    return NextResponse.json({ recommendations });
   } catch (err) {
-    console.error('Recommend API error:', err);
+    console.error('Recommend local error:', err);
     return NextResponse.json({ error: 'Internal error' }, { status: 500 });
   }
 }
