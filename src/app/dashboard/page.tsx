@@ -11,7 +11,6 @@ import {
   Clock, Wind, Calendar, Plus, ArrowLeft, Star, Sparkles,
 } from 'lucide-react';
 import { fragrances, type Fragrance } from '@/data/fragrances';
-import QuickMatch from '@/components/QuickMatch';
 import SignatureMatch from '@/components/SignatureMatch';
 import ScentRadar from '@/components/ScentRadar';
 import Diary from '@/components/Diary';
@@ -376,13 +375,6 @@ export default function Dashboard() {
 
         {/* ── Divider ──────────────────────────────────────────────────────── */}
         <div className="my-14 border-t border-[#E8E4DC]" />
-
-        {/* ── QuickMatch ───────────────────────────────────────────────────── */}
-        <section id="quickmatch" className="-mx-4 sm:-mx-6">
-          <QuickMatch />
-        </section>
-
-        <div className="my-4 border-t border-[#E8E4DC]" />
 
         {/* ── Signature Match ──────────────────────────────────────────────── */}
         <section id="match" className="-mx-4 sm:-mx-6">
