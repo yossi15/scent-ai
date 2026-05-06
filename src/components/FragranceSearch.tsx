@@ -72,7 +72,7 @@ export default function FragranceSearch() {
             THE COLLECTION
           </p>
           <h2 className="font-serif text-4xl md:text-5xl text-[#0D0D0D] mb-4 font-light">
-            חפש בין 745 בשמים
+            חפש בין {fragrances.length} בשמים
           </h2>
           <p className="font-hebrew text-sm text-[#8B7355] font-light leading-relaxed">
             הקלד שם, בית בשמים, או מאפיין — ומצא את הבושם שלך
@@ -223,7 +223,7 @@ export default function FragranceSearch() {
           transition={{ duration: 0.6, delay: 0.3 }}
           className="text-center text-[11px] font-hebrew text-[#C0B8AF] mt-8"
         >
-          745 בשמים · 120+ בתי בשמים · מעודכן 2025
+          {fragrances.length} בשמים · 120+ בתי בשמים · מעודכן 2025
         </motion.p>
       </div>
     </section>

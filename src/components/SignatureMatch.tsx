@@ -90,7 +90,7 @@ export default function SignatureMatch({ onCollectionChange }: Props) {
       const data = await res.json();
       setRecs(data.recommendations ?? []);
     } catch {
-      setError('משהו השתבש, נסה שוב');
+      setError('השירות עמוס כרגע, נסה שוב בעוד כמה דקות');
     } finally {
       setIsAnalyzing(false);
     }
@@ -210,11 +210,14 @@ export default function SignatureMatch({ onCollectionChange }: Props) {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -8 }}
               transition={{ duration: 0.25 }}
-              className="flex items-center gap-2 mb-4 text-red-600 bg-red-50 border border-red-100 rounded-xl px-4 py-3 text-xs font-hebrew"
+              className="flex items-start gap-3 mb-4 px-4 py-3.5 bg-[#FFF8F0] border border-[#F0D9B5] rounded-sm"
             >
-              <AlertCircle className="w-3.5 h-3.5 flex-shrink-0" />
-              <span className="flex-1">{error}</span>
-              <button onClick={() => setError(null)} className="text-red-400 hover:text-red-600 transition-colors ml-1" aria-label="סגור">✕</button>
+              <AlertCircle className="w-4 h-4 text-[#C4A882] flex-shrink-0 mt-0.5" />
+              <div className="flex-1">
+                <p className="text-sm font-hebrew text-[#7A5C3A]">{error}</p>
+                <p className="text-xs font-hebrew text-[#C4A882] mt-0.5">החיפוש והקולקציה ממשיכים לעבוד ללא הפרעה</p>
+              </div>
+              <button onClick={() => setError(null)} className="text-[#C4A882] hover:text-[#7A5C3A] transition-colors text-lg leading-none" aria-label="סגור">×</button>
             </motion.div>
           )}
         </AnimatePresence>

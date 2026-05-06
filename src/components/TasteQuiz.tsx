@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles, X, ChevronRight, RotateCcw, Check, Droplets, Send } from 'lucide-react';
+import { Sparkles, X, ChevronRight, RotateCcw, Check, Droplets, Send, AlertCircle } from 'lucide-react';
 import { fragrances, type Fragrance } from '@/data/fragrances';
 import Image from 'next/image';
 import SampleRequestModal from './SampleRequestModal';
@@ -261,6 +261,7 @@ export default function TasteQuiz() {
   const [aiRecs, setAiRecs] = useState<AIRec[]>([]);
   const [addedIds, setAddedIds] = useState<Set<number>>(new Set());
   const [isLoading, setIsLoading] = useState(false);
+  const [apiError, setApiError] = useState(false);
   const [sampleModal, setSampleModal] = useState<{ name: string; brand: string } | null>(null);
 
   // ESC to close + body scroll lock
@@ -281,6 +282,7 @@ export default function TasteQuiz() {
   const submitQuiz = async () => {
     setStep(8); // loading
     setIsLoading(true);
+    setApiError(false);
     const candidates = getTopCandidates(answers);
     try {
       const res = await fetch('/api/quiz', {
@@ -296,17 +298,19 @@ export default function TasteQuiz() {
           })),
         }),
       });
+      if (!res.ok) throw new Error('api_error');
       const data = await res.json();
       setAiRecs(data.recommendations ?? []);
     } catch {
-      // Fallback to local top 3
+      // Fallback to local top 3 — show subtle notice
+      setApiError(true);
       setAiRecs(candidates.slice(0, 3).map(f => ({
         id: f.id,
         name: f.name,
         house: f.house,
         family: f.family,
         inCatalog: true,
-        reason: `${f.name} של ${f.house} הוא התאמה מושלמת - ${f.family} עם תגיות ${f.tags.slice(0, 2).join(' ו')} שמתאימות בדיוק לפרופיל שלך.`,
+        reason: `${f.name} של ${f.house} — ${f.family} עם ${f.tags.slice(0, 2).join(' ו')} שמתאימים לפרופיל שלך.`,
       })));
     } finally {
       setIsLoading(false);
@@ -334,6 +338,7 @@ export default function TasteQuiz() {
     setAiRecs([]);
     setAddedIds(new Set());
     setIsLoading(false);
+    setApiError(false);
   };
 
   const close = () => { setIsOpen(false); setTimeout(reset, 300); };
@@ -380,7 +385,7 @@ export default function TasteQuiz() {
                 גלה את הבושם המושלם עבורך
               </h3>
               <p className="text-ink-muted text-sm font-hebrew max-w-sm mx-auto font-light leading-relaxed">
-                האלגוריתם שלנו בשילוב AI מנתח את ההעדפות שלך ומתאים לך בשמים מתוך מאגר של 745 בשמים מ-115 בתי בושם
+                האלגוריתם שלנו מנתח את ההעדפות שלך ומתאים לך בשמים מתוך מאגר של 745+ בשמים מ-115 בתי בושם
               </p>
             </div>
             <div className="flex items-center gap-6 text-xs text-ink-muted font-hebrew">
@@ -597,6 +602,14 @@ export default function TasteQuiz() {
                       transition={{ duration: 0.3 }}
                       className="flex flex-col gap-4"
                     >
+                      {apiError && (
+                        <div className="flex items-start gap-2.5 px-4 py-3 bg-[#FFF8F0] border border-[#F0D9B5] rounded-sm mb-1">
+                          <AlertCircle className="w-3.5 h-3.5 text-[#C4A882] flex-shrink-0 mt-0.5" />
+                          <p className="text-xs font-hebrew text-[#7A5C3A]">
+                            השירות עמוס כרגע — מציג תוצאות מקומיות. נסה שוב בעוד כמה דקות.
+                          </p>
+                        </div>
+                      )}
                       <p className="text-xs text-ink-muted font-hebrew text-center">
                         בחרנו את 3 הבשמים שמתאימים ביותר לפרופיל שלך
                       </p>

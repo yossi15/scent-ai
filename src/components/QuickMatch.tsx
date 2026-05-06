@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, Sparkles, Lock, ExternalLink, Loader2, ArrowLeft, ShoppingBag, RotateCcw } from 'lucide-react';
+import { Search, Sparkles, Lock, ExternalLink, Loader2, ArrowLeft, ShoppingBag, RotateCcw, AlertCircle } from 'lucide-react';
 import { fragrances } from '@/data/fragrances';
 import type { MatchResponse } from '@/app/api/match/route';
 
@@ -59,14 +59,14 @@ export default function QuickMatch() {
         body: JSON.stringify({ fragrance }),
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error ?? 'הניתוח נכשל');
+      if (!res.ok) throw new Error('api_error');
       setResult(data as MatchResponse);
       // Scroll to result
       setTimeout(() => {
         document.getElementById('quickmatch-result')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }, 100);
-    } catch (e) {
-      setError(e instanceof Error ? e.message : 'שגיאה');
+    } catch {
+      setError('השירות עמוס כרגע, נסה שוב בעוד כמה דקות');
     } finally {
       setLoading(false);
     }
@@ -166,7 +166,18 @@ export default function QuickMatch() {
         </div>
 
         {error && (
-          <p className="text-red-500 text-sm font-hebrew text-center mb-6">{error}</p>
+          <motion.div
+            initial={{ opacity: 0, y: -6 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="flex items-start gap-3 mb-6 px-4 py-3.5 bg-[#FFF8F0] border border-[#F0D9B5] rounded-sm"
+          >
+            <AlertCircle className="w-4 h-4 text-[#C4A882] flex-shrink-0 mt-0.5" />
+            <div className="flex-1">
+              <p className="text-sm font-hebrew text-[#7A5C3A]">{error}</p>
+              <p className="text-xs font-hebrew text-[#C4A882] mt-0.5">כל החיפושים ממשיכים לעבוד ללא הפרעה</p>
+            </div>
+            <button onClick={() => setError(null)} className="text-[#C4A882] hover:text-[#7A5C3A] transition-colors text-lg leading-none">×</button>
+          </motion.div>
         )}
 
         {/* Loading state */}
