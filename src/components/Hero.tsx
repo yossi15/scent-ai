@@ -20,7 +20,7 @@ export default function Hero() {
           transition={{ duration: 0.8 }}
           className="text-[10px] tracking-[0.35em] uppercase font-sans text-[#999] mb-10"
         >
-          Fragrance Discovery · 745+ Curated Scents
+          Fragrance Discovery · 788+ Curated Scents
         </motion.p>
 
         <motion.h1
@@ -39,7 +39,7 @@ export default function Hero() {
           transition={{ duration: 0.8, delay: 0.3 }}
           className="font-hebrew text-sm text-[#666] font-light max-w-xs mx-auto mb-6 leading-relaxed"
         >
-          שבע שאלות קצרות. המלצות מדויקות מתוך 745+ בשמים.
+          שבע שאלות קצרות. המלצות מדויקות מתוך 788+ בשמים.
         </motion.p>
 
         {/* Live counter */}

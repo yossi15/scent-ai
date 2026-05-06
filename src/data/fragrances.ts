@@ -19827,6 +19827,287 @@ export const fragrances: Fragrance[] = [
     tags: ["Sensual", "Sweet", "Beast Mode"],
     radarProfile: { woody: 4, floral: 3, oriental: 8, fresh: 2, gourmand: 8, animalic: 3 },
   },
+
+  // ── Versace ──────────────────────────────────────────────────────────────────
+  { id: 746, name: "Pour Homme", house: "Versace", year: 2008, concentration: "EDT", price: 380, size: "100ml", rating: 4.2, family: "Citrus Aromatic", gender: "Masculine", longevity: 6, sillage: 7,
+    notes: [{name:"Neroli",type:"top"},{name:"Bergamot",type:"top"},{name:"Hyacinth",type:"heart"},{name:"Geranium",type:"heart"},{name:"Cedar",type:"base"},{name:"Amber",type:"base"}],
+    description: "A fresh Mediterranean citrus-aromatic for the modern man — clean, versatile, effortlessly elegant.",
+    image: "https://fimgs.net/mdimg/perfume/375x500.2038.jpg",
+    tags: ["Fresh", "Versatile", "Office"], radarProfile: { woody: 4, floral: 3, oriental: 3, fresh: 8, gourmand: 1, animalic: 1 } },
+
+  { id: 747, name: "Bright Crystal", house: "Versace", year: 2005, concentration: "EDT", price: 380, size: "100ml", rating: 4.1, family: "Floral Fruity", gender: "Feminine", longevity: 5, sillage: 5,
+    notes: [{name:"Yuzu",type:"top"},{name:"Pomegranate",type:"top"},{name:"Peony",type:"heart"},{name:"Magnolia",type:"heart"},{name:"Musk",type:"base"},{name:"Amber",type:"base"}],
+    description: "Bright, sheer florals with a sparkling fruity opening — feminine, light, and universally wearable.",
+    image: "https://fimgs.net/mdimg/perfume/375x500.7806.jpg",
+    tags: ["Light", "Feminine", "Daytime"], radarProfile: { woody: 1, floral: 8, oriental: 2, fresh: 7, gourmand: 2, animalic: 1 } },
+
+  // ── Dolce & Gabbana ───────────────────────────────────────────────────────────
+  { id: 748, name: "The Only One", house: "Dolce & Gabbana", year: 2018, concentration: "EDP", price: 490, size: "100ml", rating: 4.4, family: "Floral Oriental", gender: "Feminine", longevity: 7, sillage: 7,
+    notes: [{name:"Violet",type:"top"},{name:"Coffee",type:"top"},{name:"Iris",type:"heart"},{name:"Jasmine",type:"heart"},{name:"Vanilla",type:"base"},{name:"Sandalwood",type:"base"}],
+    description: "An intoxicating blend of violet and coffee over warm vanilla — creamy, feminine, addictive.",
+    image: "https://fimgs.net/mdimg/perfume/375x500.59985.jpg",
+    tags: ["Violet", "Coffee", "Sensual"], radarProfile: { woody: 3, floral: 7, oriental: 7, fresh: 2, gourmand: 6, animalic: 2 } },
+
+  { id: 749, name: "Velvet Rose", house: "Dolce & Gabbana", year: 2012, concentration: "EDP", price: 780, size: "50ml", rating: 4.3, family: "Floral Oriental", gender: "Feminine", longevity: 7, sillage: 6,
+    notes: [{name:"Raspberry",type:"top"},{name:"Neroli",type:"top"},{name:"Rose",type:"heart"},{name:"Jasmine",type:"heart"},{name:"Musk",type:"base"},{name:"Sandalwood",type:"base"}],
+    description: "A lush, opulent rose at the heart of this Velvet collection jewel — rich and intensely feminine.",
+    image: "https://fimgs.net/mdimg/perfume/375x500.26432.jpg",
+    tags: ["Rose", "Opulent", "Evening"], radarProfile: { woody: 3, floral: 9, oriental: 6, fresh: 2, gourmand: 3, animalic: 2 } },
+
+  // ── Calvin Klein ─────────────────────────────────────────────────────────────
+  { id: 750, name: "Contradiction", house: "Calvin Klein", year: 1997, concentration: "EDP", price: 320, size: "100ml", rating: 3.9, family: "Floral Woody", gender: "Feminine", longevity: 5, sillage: 5,
+    notes: [{name:"Plum",type:"top"},{name:"Cassia",type:"top"},{name:"Rose",type:"heart"},{name:"Lily",type:"heart"},{name:"Sandalwood",type:"base"},{name:"Musk",type:"base"}],
+    description: "A 90s classic — spiced plum and warm florals in a comforting woody base.",
+    image: "https://fimgs.net/mdimg/perfume/375x500.2090.jpg",
+    tags: ["90s Classic", "Floral", "Warm"], radarProfile: { woody: 5, floral: 7, oriental: 5, fresh: 3, gourmand: 3, animalic: 2 } },
+
+  // ── Ralph Lauren ─────────────────────────────────────────────────────────────
+  { id: 751, name: "Polo Green", house: "Ralph Lauren", year: 1978, concentration: "EDT", price: 350, size: "100ml", rating: 4.0, family: "Chypre Aromatic", gender: "Masculine", longevity: 6, sillage: 7,
+    notes: [{name:"Artemisia",type:"top"},{name:"Basil",type:"top"},{name:"Pine",type:"heart"},{name:"Leather",type:"heart"},{name:"Oakmoss",type:"base"},{name:"Vetiver",type:"base"}],
+    description: "The original Polo — a rugged chypre of green herbs, leather, and oakmoss that defined masculine fragrance.",
+    image: "https://fimgs.net/mdimg/perfume/375x500.4254.jpg",
+    tags: ["Classic", "Green", "Masculine"], radarProfile: { woody: 7, floral: 2, oriental: 3, fresh: 7, gourmand: 1, animalic: 5 } },
+
+  // ── Carolina Herrera ──────────────────────────────────────────────────────────
+  { id: 752, name: "212 VIP", house: "Carolina Herrera", year: 2012, concentration: "EDT", price: 390, size: "100ml", rating: 4.0, family: "Fruity Floral", gender: "Feminine", longevity: 5, sillage: 6,
+    notes: [{name:"Champagne",type:"top"},{name:"Passion Fruit",type:"top"},{name:"Gardenia",type:"heart"},{name:"Tuberose",type:"heart"},{name:"Musk",type:"base"},{name:"White Amber",type:"base"}],
+    description: "The VIP party in a bottle — bubbly champagne and lush florals for the always-invited.",
+    image: "https://fimgs.net/mdimg/perfume/375x500.18729.jpg",
+    tags: ["Bubbly", "Party", "Feminine"], radarProfile: { woody: 1, floral: 7, oriental: 3, fresh: 7, gourmand: 4, animalic: 1 } },
+
+  { id: 753, name: "Good Girl Suprême", house: "Carolina Herrera", year: 2021, concentration: "EDP", price: 490, size: "80ml", rating: 4.5, family: "Floral Oriental", gender: "Feminine", longevity: 8, sillage: 7,
+    notes: [{name:"Cherry",type:"top"},{name:"Praline",type:"top"},{name:"Jasmine",type:"heart"},{name:"Tonka Bean",type:"base"},{name:"Benzoin",type:"base"}],
+    description: "An intensified Good Girl — cherry and praline over jasmine in a luscious oriental foundation.",
+    image: "https://fimgs.net/mdimg/perfume/375x500.77243.jpg",
+    tags: ["Cherry", "Gourmand", "Luxurious"], radarProfile: { woody: 2, floral: 6, oriental: 8, fresh: 1, gourmand: 8, animalic: 2 } },
+
+  // ── Jean Paul Gaultier ────────────────────────────────────────────────────────
+  { id: 754, name: "Le Male", house: "Jean Paul Gaultier", year: 1995, concentration: "EDT", price: 380, size: "125ml", rating: 4.3, family: "Oriental Fougère", gender: "Masculine", longevity: 7, sillage: 8,
+    notes: [{name:"Lavender",type:"top"},{name:"Mint",type:"top"},{name:"Cardamom",type:"heart"},{name:"Cinnamon",type:"heart"},{name:"Vanilla",type:"base"},{name:"Musk",type:"base"}],
+    description: "The iconic, inseparable lavender-mint-vanilla fougère — one of the best-selling masculines ever created.",
+    image: "https://fimgs.net/mdimg/perfume/375x500.2075.jpg",
+    tags: ["Iconic", "Lavender", "Crowd Pleaser"], radarProfile: { woody: 3, floral: 4, oriental: 7, fresh: 6, gourmand: 6, animalic: 2 } },
+
+  { id: 755, name: "Scandal Pour Homme", house: "Jean Paul Gaultier", year: 2019, concentration: "EDT", price: 420, size: "100ml", rating: 4.3, family: "Oriental Woody", gender: "Masculine", longevity: 7, sillage: 7,
+    notes: [{name:"Blood Orange",type:"top"},{name:"Vetiver",type:"heart"},{name:"Honey",type:"heart"},{name:"Laurel",type:"base"},{name:"Cedar",type:"base"}],
+    description: "Honey and vetiver create an addictive, unexpected masculine — smoky sweetness with woody depth.",
+    image: "https://fimgs.net/mdimg/perfume/375x500.62012.jpg",
+    tags: ["Honey", "Smoky", "Addictive"], radarProfile: { woody: 6, floral: 1, oriental: 7, fresh: 3, gourmand: 5, animalic: 3 } },
+
+  // ── Mont Blanc ────────────────────────────────────────────────────────────────
+  { id: 756, name: "Individuel", house: "Mont Blanc", year: 2003, concentration: "EDT", price: 290, size: "75ml", rating: 4.0, family: "Fruity Floral", gender: "Masculine", longevity: 5, sillage: 5,
+    notes: [{name:"Lemon",type:"top"},{name:"Pineapple",type:"top"},{name:"Cyclamen",type:"heart"},{name:"Cardamom",type:"heart"},{name:"Sandalwood",type:"base"},{name:"Amber",type:"base"}],
+    description: "A unique, fruity-floral masculine with pineapple and cyclamen — soft, intimate, underrated.",
+    image: "https://fimgs.net/mdimg/perfume/375x500.2070.jpg",
+    tags: ["Underrated", "Fruity", "Intimate"], radarProfile: { woody: 4, floral: 5, oriental: 4, fresh: 6, gourmand: 3, animalic: 1 } },
+
+  // ── Azzaro ────────────────────────────────────────────────────────────────────
+  { id: 757, name: "Chrome", house: "Azzaro", year: 1996, concentration: "EDT", price: 280, size: "100ml", rating: 4.1, family: "Citrus Aromatic", gender: "Masculine", longevity: 5, sillage: 6,
+    notes: [{name:"Bergamot",type:"top"},{name:"Lemon",type:"top"},{name:"Coriander",type:"heart"},{name:"Oakmoss",type:"heart"},{name:"Sandalwood",type:"base"},{name:"Tonka Bean",type:"base"}],
+    description: "A timeless aquatic-aromatic classic — clean, fresh, and professional for any occasion.",
+    image: "https://fimgs.net/mdimg/perfume/375x500.2180.jpg",
+    tags: ["Classic", "Clean", "Versatile"], radarProfile: { woody: 4, floral: 2, oriental: 3, fresh: 8, gourmand: 1, animalic: 1 } },
+
+  { id: 758, name: "The Most Wanted", house: "Azzaro", year: 2021, concentration: "EDP", price: 390, size: "100ml", rating: 4.4, family: "Oriental Spicy", gender: "Masculine", longevity: 8, sillage: 7,
+    notes: [{name:"Cardamom",type:"top"},{name:"Bitter Almond",type:"top"},{name:"Lavender",type:"heart"},{name:"Tobacco",type:"heart"},{name:"Tonka Bean",type:"base"},{name:"Vanilla",type:"base"}],
+    description: "Almond and tobacco over vanilla — a seductive, modern Oriental that punches above its price.",
+    image: "https://fimgs.net/mdimg/perfume/375x500.79154.jpg",
+    tags: ["Seductive", "Tobacco", "Value"], radarProfile: { woody: 4, floral: 2, oriental: 8, fresh: 2, gourmand: 7, animalic: 3 } },
+
+  { id: 759, name: "Chrome Legend", house: "Azzaro", year: 2011, concentration: "EDT", price: 290, size: "100ml", rating: 3.9, family: "Citrus Aromatic", gender: "Masculine", longevity: 5, sillage: 6,
+    notes: [{name:"Bergamot",type:"top"},{name:"Black Pepper",type:"top"},{name:"Tarragon",type:"heart"},{name:"Rosemary",type:"heart"},{name:"Sandalwood",type:"base"},{name:"Musk",type:"base"}],
+    description: "A peppered, herbaceous take on Chrome — slightly more complex with black pepper and tarragon.",
+    image: "https://fimgs.net/mdimg/perfume/375x500.15427.jpg",
+    tags: ["Fresh", "Herbal", "Spicy"], radarProfile: { woody: 4, floral: 1, oriental: 3, fresh: 8, gourmand: 1, animalic: 1 } },
+
+  // ── Paco Rabanne ─────────────────────────────────────────────────────────────
+  { id: 760, name: "1 Million Lucky", house: "Paco Rabanne", year: 2018, concentration: "EDT", price: 380, size: "100ml", rating: 4.1, family: "Oriental Fruity", gender: "Masculine", longevity: 6, sillage: 6,
+    notes: [{name:"Plum",type:"top"},{name:"Grapefruit",type:"top"},{name:"Hazel",type:"heart"},{name:"Clary Sage",type:"heart"},{name:"Amber",type:"base"},{name:"Patchouli",type:"base"}],
+    description: "A softer, fruitier take on 1 Million — plum and hazelnut make this surprisingly cosy.",
+    image: "https://fimgs.net/mdimg/perfume/375x500.54963.jpg",
+    tags: ["Fruity", "Approachable", "Date Night"], radarProfile: { woody: 4, floral: 1, oriental: 6, fresh: 5, gourmand: 5, animalic: 2 } },
+
+  // ── Issey Miyake ──────────────────────────────────────────────────────────────
+  { id: 761, name: "A Drop d'Issey", house: "Issey Miyake", year: 2021, concentration: "EDP", price: 430, size: "90ml", rating: 4.3, family: "Floral Musky", gender: "Feminine", longevity: 6, sillage: 5,
+    notes: [{name:"Magnolia",type:"top"},{name:"Peony",type:"top"},{name:"Jasmine",type:"heart"},{name:"Heliotrope",type:"heart"},{name:"Sandalwood",type:"base"},{name:"Musk",type:"base"}],
+    description: "Soft white florals on a milky, skin-close musk — minimalist, Japanese, effortlessly modern.",
+    image: "https://fimgs.net/mdimg/perfume/375x500.74989.jpg",
+    tags: ["Minimalist", "White Floral", "Skin Scent"], radarProfile: { woody: 3, floral: 8, oriental: 2, fresh: 5, gourmand: 2, animalic: 3 } },
+
+  // ── Gucci ─────────────────────────────────────────────────────────────────────
+  { id: 762, name: "Guilty", house: "Gucci", year: 2010, concentration: "EDT", price: 390, size: "75ml", rating: 4.0, family: "Floral Fruity", gender: "Feminine", longevity: 5, sillage: 5,
+    notes: [{name:"Pink Pepper",type:"top"},{name:"Mandarin",type:"top"},{name:"Peach",type:"heart"},{name:"Geranium",type:"heart"},{name:"Patchouli",type:"base"},{name:"Amber",type:"base"}],
+    description: "The original Gucci Guilty — a modern floral fruity with a rebellious patchouli base.",
+    image: "https://fimgs.net/mdimg/perfume/375x500.10069.jpg",
+    tags: ["Fruity", "Modern Classic", "Feminine"], radarProfile: { woody: 3, floral: 6, oriental: 4, fresh: 5, gourmand: 3, animalic: 2 } },
+
+  { id: 763, name: "Flora", house: "Gucci", year: 2009, concentration: "EDT", price: 350, size: "100ml", rating: 3.9, family: "Floral", gender: "Feminine", longevity: 4, sillage: 4,
+    notes: [{name:"Citrus",type:"top"},{name:"Peony",type:"top"},{name:"Rose",type:"heart"},{name:"Osmanthus",type:"heart"},{name:"Sandalwood",type:"base"},{name:"Musk",type:"base"}],
+    description: "Delicate and powdery florals inspired by a print from the 1960s — light, feminine, easy.",
+    image: "https://fimgs.net/mdimg/perfume/375x500.4488.jpg",
+    tags: ["Delicate", "Powdery", "Feminine"], radarProfile: { woody: 2, floral: 9, oriental: 2, fresh: 6, gourmand: 1, animalic: 1 } },
+
+  // ── Lancôme ───────────────────────────────────────────────────────────────────
+  { id: 764, name: "Miracle", house: "Lancôme", year: 2000, concentration: "EDP", price: 380, size: "100ml", rating: 4.0, family: "Floral Fruity", gender: "Feminine", longevity: 5, sillage: 5,
+    notes: [{name:"Lychee",type:"top"},{name:"Freesia",type:"top"},{name:"Ginger",type:"heart"},{name:"Jasmine",type:"heart"},{name:"Amber",type:"base"},{name:"Musk",type:"base"}],
+    description: "Lychee and spiced ginger open into a sheer jasmine heart — luminous and uniquely modern.",
+    image: "https://fimgs.net/mdimg/perfume/375x500.2168.jpg",
+    tags: ["Lychee", "Fresh Floral", "2000s Classic"], radarProfile: { woody: 2, floral: 7, oriental: 3, fresh: 7, gourmand: 2, animalic: 1 } },
+
+  // ── Givenchy ──────────────────────────────────────────────────────────────────
+  { id: 765, name: "Gentleman Réserve Privée", house: "Givenchy", year: 2022, concentration: "EDP", price: 690, size: "60ml", rating: 4.6, family: "Oriental Woody", gender: "Masculine", longevity: 9, sillage: 7,
+    notes: [{name:"Bergamot",type:"top"},{name:"Iris",type:"heart"},{name:"Vetiver",type:"heart"},{name:"Orris Root",type:"heart"},{name:"Cedarwood",type:"base"},{name:"Vanilla",type:"base"}],
+    description: "The ultimate Givenchy Gentleman — deep iris, vetiver, and vanilla in a luxurious concentration.",
+    image: "https://fimgs.net/mdimg/perfume/375x500.80421.jpg",
+    tags: ["Iris", "Luxurious", "Longevity King"], radarProfile: { woody: 7, floral: 5, oriental: 7, fresh: 3, gourmand: 5, animalic: 2 } },
+
+  { id: 766, name: "Amarige", house: "Givenchy", year: 1991, concentration: "EDT", price: 360, size: "100ml", rating: 3.9, family: "Floral", gender: "Feminine", longevity: 7, sillage: 8,
+    notes: [{name:"Neroli",type:"top"},{name:"Violet",type:"top"},{name:"Gardenia",type:"heart"},{name:"Ylang-Ylang",type:"heart"},{name:"Sandalwood",type:"base"},{name:"Musk",type:"base"}],
+    description: "A voluptuous, heady floral — gardenia and ylang-ylang that projects powerfully and unapologetically.",
+    image: "https://fimgs.net/mdimg/perfume/375x500.2173.jpg",
+    tags: ["90s Classic", "Bold Floral", "Projection"], radarProfile: { woody: 2, floral: 10, oriental: 4, fresh: 3, gourmand: 1, animalic: 2 } },
+
+  // ── Valentino ─────────────────────────────────────────────────────────────────
+  { id: 767, name: "Valentina", house: "Valentino", year: 2011, concentration: "EDP", price: 450, size: "80ml", rating: 4.1, family: "Floral Fruity", gender: "Feminine", longevity: 6, sillage: 6,
+    notes: [{name:"White Truffle",type:"top"},{name:"Bergamot",type:"top"},{name:"White Rose",type:"heart"},{name:"Orange Blossom",type:"heart"},{name:"White Musk",type:"base"},{name:"Sandalwood",type:"base"}],
+    description: "White truffle and soft rose create an unexpectedly creamy, luxurious femininity.",
+    image: "https://fimgs.net/mdimg/perfume/375x500.14900.jpg",
+    tags: ["Creamy", "White Floral", "Feminine"], radarProfile: { woody: 3, floral: 8, oriental: 3, fresh: 4, gourmand: 3, animalic: 2 } },
+
+  { id: 768, name: "Voce Viva", house: "Valentino", year: 2021, concentration: "EDP", price: 430, size: "100ml", rating: 4.2, family: "Floral Musky", gender: "Feminine", longevity: 6, sillage: 6,
+    notes: [{name:"Bergamot",type:"top"},{name:"Orange Blossom",type:"heart"},{name:"Tuberose",type:"heart"},{name:"Vanilla",type:"base"},{name:"Musk",type:"base"}],
+    description: "Sheer orange blossom over a creamy musk — the lighter, radiant version of the Voce Viva line.",
+    image: "https://fimgs.net/mdimg/perfume/375x500.72100.jpg",
+    tags: ["Orange Blossom", "Sheer", "Radiant"], radarProfile: { woody: 2, floral: 8, oriental: 4, fresh: 5, gourmand: 3, animalic: 1 } },
+
+  // ── Mancera ───────────────────────────────────────────────────────────────────
+  { id: 769, name: "Holidays", house: "Mancera", year: 2019, concentration: "EDP", price: 490, size: "120ml", rating: 4.3, family: "Floral Fruity", gender: "Unisex", longevity: 7, sillage: 7,
+    notes: [{name:"Peach",type:"top"},{name:"Lychee",type:"top"},{name:"Rose",type:"heart"},{name:"Jasmine",type:"heart"},{name:"Musk",type:"base"},{name:"Sandalwood",type:"base"}],
+    description: "A sun-drenched Mancera — peach and lychee over rose, perfect for summer vacations.",
+    image: "https://fimgs.net/mdimg/perfume/375x500.64532.jpg",
+    tags: ["Summer", "Fruity Floral", "Vacation"], radarProfile: { woody: 3, floral: 7, oriental: 3, fresh: 7, gourmand: 3, animalic: 1 } },
+
+  // ── Montale ───────────────────────────────────────────────────────────────────
+  { id: 770, name: "Arabians Tonka", house: "Montale", year: 2017, concentration: "EDP", price: 520, size: "100ml", rating: 4.3, family: "Oriental Vanilla", gender: "Unisex", longevity: 8, sillage: 7,
+    notes: [{name:"Tonka Bean",type:"top"},{name:"Saffron",type:"heart"},{name:"Oud",type:"heart"},{name:"Vanilla",type:"base"},{name:"Musk",type:"base"}],
+    description: "Tonka and saffron meld with oud into a warm, enveloping Oriental dream.",
+    image: "https://fimgs.net/mdimg/perfume/375x500.53000.jpg",
+    tags: ["Tonka", "Saffron", "Warm"], radarProfile: { woody: 5, floral: 1, oriental: 9, fresh: 1, gourmand: 8, animalic: 3 } },
+
+  { id: 771, name: "Oud Wood", house: "Montale", year: 2015, concentration: "EDP", price: 520, size: "100ml", rating: 4.2, family: "Oud Woody", gender: "Unisex", longevity: 8, sillage: 7,
+    notes: [{name:"Saffron",type:"top"},{name:"Oud",type:"heart"},{name:"Sandalwood",type:"heart"},{name:"Amber",type:"base"},{name:"Musk",type:"base"}],
+    description: "Montale's raw, direct approach to oud — no adornment, just deep resinous wood and saffron.",
+    image: "https://fimgs.net/mdimg/perfume/375x500.36840.jpg",
+    tags: ["Oud", "Raw", "Woody"], radarProfile: { woody: 9, floral: 1, oriental: 8, fresh: 1, gourmand: 2, animalic: 4 } },
+
+  { id: 772, name: "Dark Purple", house: "Montale", year: 2016, concentration: "EDP", price: 520, size: "100ml", rating: 4.0, family: "Floral Fruity", gender: "Feminine", longevity: 7, sillage: 6,
+    notes: [{name:"Blackcurrant",type:"top"},{name:"Plum",type:"top"},{name:"Rose",type:"heart"},{name:"Jasmine",type:"heart"},{name:"Patchouli",type:"base"},{name:"Musk",type:"base"}],
+    description: "Dark berries and rose collide into a lush, glamorous feminine Oriental.",
+    image: "https://fimgs.net/mdimg/perfume/375x500.43218.jpg",
+    tags: ["Berry", "Dark", "Glamorous"], radarProfile: { woody: 4, floral: 7, oriental: 6, fresh: 3, gourmand: 4, animalic: 2 } },
+
+  // ── Tiziana Terenzi ───────────────────────────────────────────────────────────
+  { id: 773, name: "Orion", house: "Tiziana Terenzi", year: 2016, concentration: "EDP", price: 1200, size: "100ml", rating: 4.5, family: "Oriental Woody", gender: "Unisex", longevity: 9, sillage: 8,
+    notes: [{name:"Bergamot",type:"top"},{name:"Cardamom",type:"top"},{name:"Tobacco",type:"heart"},{name:"Patchouli",type:"heart"},{name:"Oud",type:"base"},{name:"Amber",type:"base"}],
+    description: "A celestial tobacco-oud with hypnotic amber — dark, cosmic, and utterly compelling.",
+    image: "https://fimgs.net/mdimg/perfume/375x500.50427.jpg",
+    tags: ["Tobacco", "Cosmic", "Powerful"], radarProfile: { woody: 8, floral: 1, oriental: 9, fresh: 2, gourmand: 3, animalic: 5 } },
+
+  { id: 774, name: "Halley", house: "Tiziana Terenzi", year: 2019, concentration: "EDP", price: 1250, size: "100ml", rating: 4.4, family: "Floral Oriental", gender: "Unisex", longevity: 8, sillage: 8,
+    notes: [{name:"Grapefruit",type:"top"},{name:"Bergamot",type:"top"},{name:"Jasmine",type:"heart"},{name:"Rose",type:"heart"},{name:"Oud",type:"base"},{name:"Musk",type:"base"}],
+    description: "Comet-bright citrus opens into a soft floral-oud — radiant, celestial, unforgettable.",
+    image: "https://fimgs.net/mdimg/perfume/375x500.62000.jpg",
+    tags: ["Celestial", "Floral Oud", "Radiant"], radarProfile: { woody: 6, floral: 7, oriental: 7, fresh: 5, gourmand: 1, animalic: 2 } },
+
+  // ── Kilian ────────────────────────────────────────────────────────────────────
+  { id: 775, name: "Rolling in Love", house: "Kilian", year: 2019, concentration: "EDP", price: 1450, size: "50ml", rating: 4.3, family: "Floral Musky", gender: "Feminine", longevity: 7, sillage: 6,
+    notes: [{name:"Pink Pepper",type:"top"},{name:"Bergamot",type:"top"},{name:"Rose",type:"heart"},{name:"Iris",type:"heart"},{name:"Sandalwood",type:"base"},{name:"Musk",type:"base"}],
+    description: "Soft pink rose and iris over clean musk — romantic, delicate, effortlessly sophisticated.",
+    image: "https://fimgs.net/mdimg/perfume/375x500.62050.jpg",
+    tags: ["Rose", "Romantic", "Soft"], radarProfile: { woody: 4, floral: 8, oriental: 3, fresh: 5, gourmand: 2, animalic: 2 } },
+
+  // ── Juliette Has A Gun ────────────────────────────────────────────────────────
+  { id: 776, name: "Not a Perfume", house: "Juliette Has A Gun", year: 2010, concentration: "EDP", price: 390, size: "100ml", rating: 4.2, family: "Musky", gender: "Unisex", longevity: 6, sillage: 5,
+    notes: [{name:"Cetalox",type:"base"}],
+    description: "A single molecule — Cetalox — creating a skin-enhancing ambergris effect unique to each wearer.",
+    image: "https://fimgs.net/mdimg/perfume/375x500.10870.jpg",
+    tags: ["Minimalist", "Skin Scent", "Musk"], radarProfile: { woody: 1, floral: 1, oriental: 3, fresh: 3, gourmand: 1, animalic: 7 } },
+
+  { id: 777, name: "Lady Vengeance", house: "Juliette Has A Gun", year: 2009, concentration: "EDP", price: 390, size: "100ml", rating: 4.0, family: "Floral Oriental", gender: "Feminine", longevity: 6, sillage: 6,
+    notes: [{name:"Patchouli",type:"top"},{name:"Rose",type:"heart"},{name:"Heliotrope",type:"heart"},{name:"Musk",type:"base"},{name:"Vetiver",type:"base"}],
+    description: "Patchouli and rose in a daring, slightly dark feminine — modern, edgy, unforgettable.",
+    image: "https://fimgs.net/mdimg/perfume/375x500.8100.jpg",
+    tags: ["Patchouli Rose", "Edgy", "Feminine"], radarProfile: { woody: 5, floral: 7, oriental: 6, fresh: 2, gourmand: 2, animalic: 3 } },
+
+  { id: 778, name: "Pear Inc", house: "Juliette Has A Gun", year: 2019, concentration: "EDP", price: 420, size: "100ml", rating: 4.2, family: "Floral Fruity", gender: "Unisex", longevity: 6, sillage: 5,
+    notes: [{name:"Pear",type:"top"},{name:"Bergamot",type:"top"},{name:"Musk Rose",type:"heart"},{name:"Cetalox",type:"base"},{name:"Musk",type:"base"}],
+    description: "Juicy pear and musk rose — playful, fresh, and surprisingly sophisticated.",
+    image: "https://fimgs.net/mdimg/perfume/375x500.67543.jpg",
+    tags: ["Pear", "Playful", "Fresh"], radarProfile: { woody: 1, floral: 5, oriental: 2, fresh: 8, gourmand: 4, animalic: 3 } },
+
+  { id: 779, name: "Sunny Side Up", house: "Juliette Has A Gun", year: 2020, concentration: "EDP", price: 420, size: "100ml", rating: 4.1, family: "Floral Musky", gender: "Feminine", longevity: 6, sillage: 5,
+    notes: [{name:"Freesia",type:"top"},{name:"Neroli",type:"top"},{name:"Iris",type:"heart"},{name:"Musk",type:"base"},{name:"Sandalwood",type:"base"}],
+    description: "Sunshine in a bottle — bright neroli and iris over clean musk, light as morning air.",
+    image: "https://fimgs.net/mdimg/perfume/375x500.70200.jpg",
+    tags: ["Sunny", "Fresh Floral", "Daytime"], radarProfile: { woody: 2, floral: 7, oriental: 2, fresh: 8, gourmand: 1, animalic: 2 } },
+
+  // ── Acqua di Parma ────────────────────────────────────────────────────────────
+  { id: 780, name: "Oud", house: "Acqua di Parma", year: 2014, concentration: "EDP", price: 890, size: "75ml", rating: 4.4, family: "Oud Woody", gender: "Unisex", longevity: 8, sillage: 7,
+    notes: [{name:"Saffron",type:"top"},{name:"Oud",type:"heart"},{name:"Rose",type:"heart"},{name:"Sandalwood",type:"base"},{name:"Amber",type:"base"}],
+    description: "An Italian interpretation of oud — elegant, restrained, with saffron and sandalwood refinement.",
+    image: "https://fimgs.net/mdimg/perfume/375x500.29011.jpg",
+    tags: ["Oud", "Italian Elegance", "Saffron"], radarProfile: { woody: 8, floral: 3, oriental: 8, fresh: 2, gourmand: 1, animalic: 3 } },
+
+  { id: 781, name: "Blu Mediterraneo Arancia di Capri", house: "Acqua di Parma", year: 1998, concentration: "EDT", price: 420, size: "150ml", rating: 4.1, family: "Citrus Aromatic", gender: "Unisex", longevity: 4, sillage: 5,
+    notes: [{name:"Sweet Orange",type:"top"},{name:"Mandarin",type:"top"},{name:"Lemon",type:"heart"},{name:"Thyme",type:"heart"},{name:"Musk",type:"base"}],
+    description: "Liquid Mediterranean sunshine — sweet orange and mandarin capturing Capri in a bottle.",
+    image: "https://fimgs.net/mdimg/perfume/375x500.2093.jpg",
+    tags: ["Citrus", "Mediterranean", "Summer"], radarProfile: { woody: 1, floral: 2, oriental: 1, fresh: 10, gourmand: 2, animalic: 1 } },
+
+  // ── Maison Margiela ───────────────────────────────────────────────────────────
+  { id: 782, name: "Replica Bubble Bath", house: "Maison Margiela", year: 2020, concentration: "EDT", price: 520, size: "100ml", rating: 4.3, family: "Floral Musky", gender: "Unisex", longevity: 5, sillage: 4,
+    notes: [{name:"Bergamot",type:"top"},{name:"Peony",type:"heart"},{name:"White Musk",type:"base"},{name:"Sandalwood",type:"base"}],
+    description: "The scent of a relaxing bubble bath — soapy white musk and soft peony over warm sandalwood.",
+    image: "https://fimgs.net/mdimg/perfume/375x500.70897.jpg",
+    tags: ["Soapy", "Clean", "Relaxing"], radarProfile: { woody: 3, floral: 6, oriental: 1, fresh: 7, gourmand: 1, animalic: 3 } },
+
+  // ── Escentric Molecules ───────────────────────────────────────────────────────
+  { id: 783, name: "Molecule 02", house: "Escentric Molecules", year: 2008, concentration: "EDT", price: 490, size: "100ml", rating: 4.1, family: "Musky Woody", gender: "Unisex", longevity: 6, sillage: 4,
+    notes: [{name:"Ambroxan",type:"base"}],
+    description: "Pure Ambroxan — a warm, woody-ambergris molecule that bonds to your skin and reads differently on everyone.",
+    image: "https://fimgs.net/mdimg/perfume/375x500.6940.jpg",
+    tags: ["Skin Scent", "Ambergris", "Minimalist"], radarProfile: { woody: 5, floral: 1, oriental: 4, fresh: 3, gourmand: 1, animalic: 6 } },
+
+  { id: 784, name: "Escentric 01", house: "Escentric Molecules", year: 2006, concentration: "EDT", price: 490, size: "100ml", rating: 4.2, family: "Woody Floral", gender: "Unisex", longevity: 6, sillage: 5,
+    notes: [{name:"Lime",type:"top"},{name:"Petitgrain",type:"top"},{name:"Iso E Super",type:"heart"},{name:"Black Pepper",type:"heart"},{name:"Orris Root",type:"base"},{name:"Musk",type:"base"}],
+    description: "Molecule 01 surrounded by a full composition — the molecule with a personality, lime and woody iris.",
+    image: "https://fimgs.net/mdimg/perfume/375x500.6939.jpg",
+    tags: ["Woody", "Citrus", "Unisex"], radarProfile: { woody: 6, floral: 3, oriental: 3, fresh: 6, gourmand: 1, animalic: 4 } },
+
+  // ── Commodity ─────────────────────────────────────────────────────────────────
+  { id: 785, name: "Gold", house: "Commodity", year: 2014, concentration: "EDP", price: 490, size: "100ml", rating: 4.3, family: "Oriental Vanilla", gender: "Unisex", longevity: 7, sillage: 6,
+    notes: [{name:"Sandalwood",type:"top"},{name:"Amber",type:"heart"},{name:"Vetiver",type:"heart"},{name:"Benzoin",type:"base"},{name:"Musk",type:"base"}],
+    description: "Warm, honeyed sandalwood and amber — rich but never heavy, Gold wraps like a second skin.",
+    image: "https://fimgs.net/mdimg/perfume/375x500.38543.jpg",
+    tags: ["Sandalwood", "Warm", "Skin Scent"], radarProfile: { woody: 6, floral: 1, oriental: 7, fresh: 2, gourmand: 5, animalic: 3 } },
+
+  { id: 786, name: "Book", house: "Commodity", year: 2014, concentration: "EDP", price: 490, size: "100ml", rating: 4.2, family: "Woody Aromatic", gender: "Unisex", longevity: 6, sillage: 5,
+    notes: [{name:"Papyrus",type:"top"},{name:"Vetiver",type:"heart"},{name:"Papyrus Wood",type:"heart"},{name:"Amber",type:"base"},{name:"Musk",type:"base"}],
+    description: "The smell of old books, paper and wood — a cult literary fragrance for the intellectually curious.",
+    image: "https://fimgs.net/mdimg/perfume/375x500.38544.jpg",
+    tags: ["Papyrus", "Intellectual", "Unique"], radarProfile: { woody: 7, floral: 1, oriental: 4, fresh: 4, gourmand: 2, animalic: 3 } },
+
+  { id: 787, name: "Bergamot", house: "Commodity", year: 2015, concentration: "EDP", price: 490, size: "100ml", rating: 4.1, family: "Citrus Woody", gender: "Unisex", longevity: 5, sillage: 5,
+    notes: [{name:"Bergamot",type:"top"},{name:"Petitgrain",type:"heart"},{name:"Vetiver",type:"heart"},{name:"Cedar",type:"base"},{name:"Musk",type:"base"}],
+    description: "A single-ingredient study in bergamot — fresh, green, and effortlessly sophisticated.",
+    image: "https://fimgs.net/mdimg/perfume/375x500.38545.jpg",
+    tags: ["Bergamot", "Clean", "Versatile"], radarProfile: { woody: 5, floral: 2, oriental: 2, fresh: 9, gourmand: 1, animalic: 1 } },
+
+  { id: 788, name: "Moss", house: "Commodity", year: 2015, concentration: "EDP", price: 490, size: "100ml", rating: 4.2, family: "Chypre Woody", gender: "Unisex", longevity: 6, sillage: 5,
+    notes: [{name:"Violet",type:"top"},{name:"Oakmoss",type:"heart"},{name:"Vetiver",type:"heart"},{name:"Patchouli",type:"base"},{name:"Musk",type:"base"}],
+    description: "Earthy oakmoss and vetiver — a modern chypre inspired by a forest floor after rain.",
+    image: "https://fimgs.net/mdimg/perfume/375x500.38546.jpg",
+    tags: ["Earthy", "Forest", "Chypre"], radarProfile: { woody: 8, floral: 3, oriental: 3, fresh: 5, gourmand: 1, animalic: 4 } },
 ];
 
 export const subscriptionTiers = [
