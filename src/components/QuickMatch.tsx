@@ -58,8 +58,8 @@ export default function QuickMatch() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ fragrance }),
       });
-      const data = await res.json();
       if (!res.ok) throw new Error('api_error');
+      const data = await res.json();
       setResult(data as MatchResponse);
       // Scroll to result
       setTimeout(() => {
@@ -109,7 +109,7 @@ export default function QuickMatch() {
             <Search className="w-5 h-5 text-ink-faint mr-1 shrink-0" aria-hidden="true" />
             <input
               ref={inputRef}
-              type="search"
+              type="text"
               placeholder="הכנס בושם שאתה מכיר... (לדוגמה: Dior Sauvage)"
               value={input}
               onChange={(e) => { setInput(e.target.value); setShowSuggestions(true); }}
