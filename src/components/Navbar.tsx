@@ -12,6 +12,7 @@ const navLinks = [
   { label: 'קולקציה',     href: '#collection' },
   { label: 'שאלון',       href: '#quiz' },
   { label: 'מנוי',        href: '#subscribe' },
+  { label: 'הסיפור שלנו', href: '/about' },
 ];
 
 export default function Navbar() {
@@ -30,15 +31,25 @@ export default function Navbar() {
 
           {/* Desktop nav */}
           <div className="hidden md:flex items-center gap-8">
-            {navLinks.map(link => (
-              <a
-                key={link.label}
-                href={link.href}
-                className="text-[11px] tracking-[0.15em] uppercase font-sans text-[#666] hover:text-[#1a1a1a] transition-colors"
-              >
-                {link.label}
-              </a>
-            ))}
+            {navLinks.map(link =>
+              link.href.startsWith('/') ? (
+                <Link
+                  key={link.label}
+                  href={link.href}
+                  className="text-[11px] tracking-[0.15em] uppercase font-sans text-[#666] hover:text-[#1a1a1a] transition-colors"
+                >
+                  {link.label}
+                </Link>
+              ) : (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  className="text-[11px] tracking-[0.15em] uppercase font-sans text-[#666] hover:text-[#1a1a1a] transition-colors"
+                >
+                  {link.label}
+                </a>
+              )
+            )}
           </div>
 
           {/* Auth — desktop */}
@@ -100,16 +111,27 @@ export default function Navbar() {
             className="md:hidden bg-white border-t border-[#EBEBEB]"
           >
             <div className="px-6 py-4 space-y-1">
-              {navLinks.map(link => (
-                <a
-                  key={link.label}
-                  href={link.href}
-                  onClick={() => setMobileOpen(false)}
-                  className="block text-[11px] tracking-[0.15em] uppercase font-sans text-[#666] py-3 border-b border-[#F5F5F5] last:border-0"
-                >
-                  {link.label}
-                </a>
-              ))}
+              {navLinks.map(link =>
+                link.href.startsWith('/') ? (
+                  <Link
+                    key={link.label}
+                    href={link.href}
+                    onClick={() => setMobileOpen(false)}
+                    className="block text-[11px] tracking-[0.15em] uppercase font-sans text-[#666] py-3 border-b border-[#F5F5F5] last:border-0"
+                  >
+                    {link.label}
+                  </Link>
+                ) : (
+                  <a
+                    key={link.label}
+                    href={link.href}
+                    onClick={() => setMobileOpen(false)}
+                    className="block text-[11px] tracking-[0.15em] uppercase font-sans text-[#666] py-3 border-b border-[#F5F5F5] last:border-0"
+                  >
+                    {link.label}
+                  </a>
+                )
+              )}
               <div className="pt-3 flex flex-col gap-2">
                 {isSignedIn ? (
                   <>

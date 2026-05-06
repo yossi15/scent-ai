@@ -289,6 +289,21 @@ export default function Subscription() {
           })}
         </div>
 
+        {/* Urgency strip */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          className="text-center mb-8 -mt-2"
+        >
+          <p className="text-[11px] font-hebrew text-[#8B7355]">
+            🔥 הצטרפו 23 אנשים החודש
+          </p>
+          <p className="text-[11px] font-hebrew text-[#999] mt-1">
+            מחיר השקה ₪99/חודש — יעלה ל-₪149 ב-1.7.2026
+          </p>
+        </motion.div>
+
         {/* Coupon code section */}
         <div className="max-w-md mx-auto mb-16">
           {!showCouponInput && !appliedCoupon && (

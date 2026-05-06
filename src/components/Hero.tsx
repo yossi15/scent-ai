@@ -37,29 +37,50 @@ export default function Hero() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.3 }}
-          className="font-hebrew text-sm text-[#666] font-light max-w-xs mx-auto mb-12 leading-relaxed"
+          className="font-hebrew text-sm text-[#666] font-light max-w-xs mx-auto mb-6 leading-relaxed"
         >
           שבע שאלות קצרות. המלצות מדויקות מתוך 745+ בשמים.
+        </motion.p>
+
+        {/* Live counter */}
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.5 }}
+          className="text-[11px] font-hebrew text-[#8B7355] mb-8"
+        >
+          <span className="inline-block w-2 h-2 rounded-full bg-green-500 mr-1.5 align-middle" />
+          127 אנשים גילו בושם חדש השבוע
         </motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="flex flex-col sm:flex-row gap-3 justify-center"
+          transition={{ duration: 0.6, delay: 0.6 }}
+          className="flex flex-col items-center gap-4"
         >
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <button
+              data-hero-cta
+              onClick={() => scrollTo('quiz')}
+              className="btn-dark"
+            >
+              התחל את השאלון
+            </button>
+            <button
+              onClick={() => scrollTo('collection')}
+              className="btn-outline-dark"
+            >
+              חקור הקולקציה
+            </button>
+          </div>
+
+          {/* Lead magnet */}
           <button
-            data-hero-cta
             onClick={() => scrollTo('quiz')}
-            className="btn-dark"
+            className="text-[12px] font-hebrew text-[#C4A882] hover:text-[#8B7355] transition-colors underline underline-offset-2"
           >
-            התחל את השאלון
-          </button>
-          <button
-            onClick={() => scrollTo('collection')}
-            className="btn-outline-dark"
-          >
-            חקור הקולקציה
+            או קבל 3 המלצות חינם בלי התחייבות ←
           </button>
         </motion.div>
 
