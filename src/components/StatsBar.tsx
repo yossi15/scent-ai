@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 
 const stats = [
   { value: '745',  label: 'בשמים מובחרים', suffix: '+' },
-  { value: '120',  label: 'בתי בושם',       suffix: '+' },
+  { value: '115',  label: 'בתי בושם',       suffix: '+' },
   { value: '7',    label: 'שאלות בלבד',     suffix: '' },
   { value: '100%', label: 'ללא תשלום',      suffix: '' },
 ];

@@ -223,7 +223,7 @@ export default function FragranceSearch() {
           transition={{ duration: 0.6, delay: 0.3 }}
           className="text-center text-[11px] font-hebrew text-[#C0B8AF] mt-8"
         >
-          {fragrances.length} בשמים · 120+ בתי בושם · מעודכן 2026
+          745+ בשמים · 115+ בתי בושם · מעודכן 2026
         </motion.p>
       </div>
     </section>
