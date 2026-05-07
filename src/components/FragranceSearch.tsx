@@ -148,9 +148,7 @@ export default function FragranceSearch() {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ delay: i * 0.04 }}
-                        href={`https://www.google.com/search?q=${encodeURIComponent(f.house + ' ' + f.name + ' perfume')}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
+                        href={`/fragrance/${f.id}`}
                         className="flex items-center justify-between px-5 py-3.5 hover:bg-[#FAF8F5] transition-colors group border-b border-[#F0EDE8] last:border-0"
                       >
                         <div className="flex flex-col gap-0.5">
