@@ -6,9 +6,11 @@ const isPublicRoute = createRouteMatcher([
   '/fragrance/(.*)',
   '/sign-in(.*)',
   '/sign-up(.*)',
+  '/api/match(.*)',
   '/api/recommend(.*)',
   '/api/quiz(.*)',
   '/api/sample-request(.*)',
+  '/api/waitlist(.*)',
   // dashboard redirects to sign-in itself if not authenticated
   '/dashboard(.*)',
 ]);
