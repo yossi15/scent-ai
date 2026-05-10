@@ -39,6 +39,35 @@ const familyGradients: Record<string, string> = {
 const getGradient = (family: string) =>
   familyGradients[family] ?? 'from-stone-200/60 via-amber-100/50 to-stone-100/50';
 
+// Hebrew description fallback by family — used when DB-loaded fragrances have English text
+const HEBREW_BY_FAMILY: Record<string, string> = {
+  'Amber':            'ענברי חם ומפתה עם עומק מזרחי מתמשך',
+  'Amber Floral':     'שילוב מושלם של ענבר חמה ועדינות פרחונית',
+  'Amber Spicy':      'ענבר עשיר עם תבלינים חריפים ואינטנסיביים',
+  'Amber Vanilla':    'ונילה שמנתית ועמוקה על בסיס ענברי מפנק',
+  'Amber Woody':      'ענבר זהוב עם עצב יקר ועושר חושני',
+  'Animalic':         'עמוק ואנימלי, בושם שמשאיר חותם בלתי נשכח',
+  'Aromatic':         'ארומטי נקי ואלגנטי עם עשבי תיבול טריים',
+  'Aromatic Aquatic': 'ארומטי ימי ורענן עם משב אוויר ים תיכוני',
+  'Aromatic Citrus':  'הדרי ורענן עם ניחוח ארומטי מרומם',
+  'Aromatic Floral':  'פרחוני עם נגיעות ארומטיות ירוקות ורעננות',
+  'Aromatic Fougere': 'פוז\'ר קלאסי עם לוונדר, אימוס ורוח יער',
+  'Aromatic Spicy':   'ארומטי ותבלינים עם אישיות חזקה ונוכחות',
+  'Chypre Leather':   'שייפר עורני מתוחכם עם עומק ונוכחות',
+  'Citrus':           'הדרי טרי ומרענן, אנרגטי ומעורר',
+  'Citrus Aromatic':  'הדרי עם בסיס ארומטי עמוק ומורכב',
+  'Citrus Green':     'הדרי ירוק, טרי כמו גינה לאחר הגשם',
+  'Floral':           'פרחוני מפואר ועשיר, אלגנטי ונצחי',
+  'Floral Fruity':    'פרחוני פירותי, שמח ואופטימי',
+  'Floral Green':     'פרחוני ירוק, טבעי ועדין',
+  'Floral Powdery':   'פרחוני אבקתי קלאסי עם חן נצחי',
+  'Floral Woody':     'פרחים יקרים על בסיס עצב חם ועמוק',
+  'Leather':          'עורני אמיץ, מסוגנן וחד אישיות',
+  'Woody':            'עצבי יקר ואדמתי עם עומק ובגרות',
+  'Woody Aromatic':   'עצבי ארומטי ומתוחכם, נוכחות חזקה',
+  'Woody Spicy':      'עצבי חריף עם תבלינים מזרחיים',
+};
+
 // ── Season / occasion inference (mirrors Collection.tsx) ─────────────────────
 function getSeasons(f: Fragrance): string[] {
   const s: string[] = [];
@@ -284,7 +313,13 @@ export default function FragrancePage() {
   const seasons   = getSeasons(fragrance);
   const occasions = getOccasions(fragrance);
   const gradient  = getGradient(fragrance.family);
-  const showImage = !!fragrance.image && !imgError;
+
+  // Prefer canonical Fragrantica image when fragrantica_id exists
+  const canonicalImg = fragrance.fragrantica_id
+    ? `https://fimgs.net/mdimg/perfume/375x500.${fragrance.fragrantica_id}.jpg`
+    : fragrance.image;
+  const imgUrl = canonicalImg ?? fragrance.image;
+  const showImage = !!imgUrl && !imgError;
 
   const SEASON_LABELS: Record<string, string> = {
     spring: 'אביב 🌸', summer: 'קיץ ☀️', fall: 'סתיו 🍂', winter: 'חורף ❄️',
@@ -342,7 +377,7 @@ export default function FragrancePage() {
                 className="relative w-44 h-64 sm:w-56 sm:h-80 drop-shadow-2xl z-10"
               >
                 <Image
-                  src={fragrance.image}
+                  src={imgUrl}
                   alt={`${fragrance.name} by ${fragrance.house}`}
                   fill
                   sizes="(max-width: 768px) 50vw, 30vw"
@@ -406,9 +441,11 @@ export default function FragrancePage() {
               <span className="text-ink-faint text-sm font-sans">/ {fragrance.size}</span>
             </div>
 
-            {/* Description */}
+            {/* Description (auto-fallback to Hebrew if source is English) */}
             <p className="text-ink-secondary text-sm font-hebrew leading-relaxed font-light mb-8 max-w-md">
-              {fragrance.description}
+              {/[֐-׿]/.test(fragrance.description ?? '')
+                ? fragrance.description
+                : (HEBREW_BY_FAMILY[fragrance.family] ?? `בושם ייחודי מבית ${fragrance.house}, מהמובחרים בעולם הבשמים הנישתיים.`)}
             </p>
 
             {/* Action buttons */}

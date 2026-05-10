@@ -188,6 +188,29 @@ const EXTRA_RAW = [
       { name: "Amber", type: "base" },
     ],
   },
+  {
+    name: "L'Homme à la Rose",
+    house: "Maison Francis Kurkdjian",
+    year: 2020,
+    gender: "Masculine",
+    family: "Amber Floral",
+    concentration: "EDP",
+    price: 1500,
+    longevity: 7,
+    sillage: 7,
+    fragrantica_id: 60099,
+    image: "https://fimgs.net/mdimg/perfume/375x500.60099.jpg",
+    notes: [
+      { name: "Damascena Rose", type: "top" },
+      { name: "Egyptian Geranium", type: "top" },
+      { name: "Cinnamon", type: "top" },
+      { name: "Centifolia Rose", type: "heart" },
+      { name: "Honey", type: "heart" },
+      { name: "Patchouli", type: "base" },
+      { name: "Papyrus", type: "base" },
+      { name: "Amber", type: "base" },
+    ],
+  },
 ];
 
 // ── Build final array ────────────────────────────────────────────────────────
