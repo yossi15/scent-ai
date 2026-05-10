@@ -1,0 +1,25 @@
+{
+  "existing_before": 593,
+  "scraped": 136,
+  "duplicates_skipped": 0,
+  "added": 136,
+  "new_total": 729,
+  "new_houses": [
+    "Aerin",
+    "Aesop",
+    "Aramis",
+    "Atkinsons",
+    "Comme des Garcons",
+    "DKNY",
+    "Donna Karan",
+    "Estée Lauder",
+    "Fueguia 1833",
+    "Goutal Paris",
+    "Jo Malone London",
+    "Le Galion",
+    "Mizensir",
+    "Vera Wang"
+  ],
+  "new_houses_count": 14,
+  "image_verified_http_200": 136
+}

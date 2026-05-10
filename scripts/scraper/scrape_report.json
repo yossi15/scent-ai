@@ -1,0 +1,26 @@
+{
+  "catalog_size": 227,
+  "kept": 225,
+  "dropped": 2,
+  "houses_in_catalog": 64,
+  "houses_kept": 64,
+  "fragrantica_probe": {
+    "sampled": 5,
+    "ok": 5,
+    "blocked": 0,
+    "errors": 0,
+    "skipped": false
+  },
+  "dropped_examples": [
+    {
+      "name": "Cedrat Boise",
+      "house": "Mancera",
+      "status": 404
+    },
+    {
+      "name": "Vanille Insensee",
+      "house": "Atelier Cologne",
+      "status": 404
+    }
+  ]
+}

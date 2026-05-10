@@ -1,0 +1,353 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600&family=Heebo:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  /* SCENTORY palette */
+  --bg-primary: #F5F3EE;
+  --bg-secondary: #ECEAE4;
+  --bg-card: #ECEAE4;
+  --bg-accent: #EFEDE7;
+  --ink: #0D0D0D;
+  --ink-secondary: #4A4A4A;
+  --ink-muted: #6B6B6B;
+  --ink-faint: #9A9A9A;
+  --gold: #C4A882;
+  --gold-hover: #B08F66;
+  --gold-light: #D6BE9C;
+  --gold-dark: #8B7355;
+  --gold-faint: rgba(196, 168, 130, 0.10);
+  --gold-border: rgba(139, 115, 85, 0.22);
+  --accent: #2C1810;
+  --border: #D4D0C8;
+  --shadow-sm: 0 1px 3px rgba(13,13,13,0.05), 0 1px 2px rgba(13,13,13,0.03);
+  --shadow-md: 0 4px 16px rgba(13,13,13,0.06), 0 2px 4px rgba(13,13,13,0.04);
+  --shadow-lg: 0 12px 40px rgba(13,13,13,0.08), 0 4px 12px rgba(13,13,13,0.05);
+  --shadow-gold: 0 8px 32px rgba(196, 168, 130, 0.18);
+}
+
+.dark {
+  /* Warm soft dark - less eye-strain than pure black on long scroll */
+  --bg-primary: #1A1714;
+  --bg-secondary: #221F1B;
+  --bg-card: #2A2622;
+  --bg-accent: #2F2B26;
+  --ink: #EDE8DF;
+  --ink-secondary: #D4CEC2;
+  --ink-muted: #B8B1A6;
+  --ink-faint: #948D82;
+  --gold: #C4A882;
+  --gold-hover: #D6BE9C;
+  --gold-light: #EAD9BB;
+  --gold-dark: #B08F66;
+  --gold-faint: rgba(196, 168, 130, 0.12);
+  --gold-border: rgba(196, 168, 130, 0.30);
+  --accent: #4A2C1A;
+  --border: #38332D;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.5), 0 1px 2px rgba(0,0,0,0.4);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.55), 0 2px 4px rgba(0,0,0,0.4);
+  --shadow-lg: 0 12px 40px rgba(0,0,0,0.6), 0 4px 12px rgba(0,0,0,0.45);
+  --shadow-gold: 0 8px 32px rgba(196, 168, 130, 0.20);
+}
+
+@theme inline {
+  --color-bg-primary: var(--bg-primary);
+  --color-bg-secondary: var(--bg-secondary);
+  --color-bg-card: var(--bg-card);
+  --color-bg-accent: var(--bg-accent);
+  --color-ink: var(--ink);
+  --color-ink-secondary: var(--ink-secondary);
+  --color-ink-muted: var(--ink-muted);
+  --color-ink-faint: var(--ink-faint);
+  --color-gold: var(--gold);
+  --color-gold-hover: var(--gold-hover);
+  --color-gold-light: var(--gold-light);
+  --color-gold-faint: var(--gold-faint);
+  --color-gold-border: var(--gold-border);
+  --color-gold-dark: var(--gold-dark);
+  --color-accent: var(--accent);
+  --color-border: var(--border);
+  --font-serif: 'Cormorant Garamond', Georgia, serif;
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-hebrew: 'Heebo', 'Inter', system-ui, sans-serif;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--ink-faint) transparent;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--bg-primary);
+  color: var(--ink);
+  font-family: 'Heebo', 'Inter', system-ui, sans-serif;
+  direction: rtl;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Smooth theme switching for all themed elements */
+*, *::before, *::after {
+  transition-property: background-color, border-color, color, fill, stroke, box-shadow;
+  transition-duration: 0.3s;
+  transition-timing-function: ease;
+}
+
+/* ── Dark mode overrides for hardcoded hex colors ───────────────── */
+.dark .bg-white { background-color: #2A2622 !important; }
+.dark .bg-\[\#FFFFFF\] { background-color: #2A2622 !important; }
+.dark .bg-\[\#F5F3EE\] { background-color: #221F1B !important; }
+.dark .bg-\[\#ECEAE4\] { background-color: #2F2B26 !important; }
+.dark .bg-\[\#EFEDE7\] { background-color: #2F2B26 !important; }
+
+.dark .text-\[\#0D0D0D\] { color: #EDE8DF !important; }
+.dark .text-\[\#4A4A4A\] { color: #C9C2B6 !important; }
+.dark .text-\[\#9A9A9A\] { color: #948D82 !important; }
+
+.dark .border-\[\#E8E4DC\] { border-color: #38332D !important; }
+.dark .border-\[\#D4D0C8\] { border-color: #38332D !important; }
+
+.dark .bg-\[\#ECEAE4\].text-\[\#4A4A4A\],
+.dark .bg-\[\#ECEAE4\].text-\[\#0D0D0D\] { background-color: #2F2B26 !important; }
+
+/* Hero gradient - warm soft dark instead of black */
+.dark [data-hero-bg] {
+  background: linear-gradient(135deg, #1A1714 0%, #2A2622 100%) !important;
+}
+.dark [data-hero-cta],
+.dark [data-cta-dark] {
+  background: linear-gradient(135deg, #C4A882, #D6BE9C) !important;
+  color: #1A1714 !important;
+}
+
+/* Subtle vignette to break monotony on long scroll in dark mode */
+.dark body {
+  background: radial-gradient(ellipse at top, #221F1B 0%, var(--bg-primary) 60%) fixed;
+}
+
+/* ── Typography hierarchy ───────────────────────────────────────── */
+h1, h2 {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  letter-spacing: -0.01em;
+}
+h3, h4, h5, h6 {
+  font-family: 'Heebo', 'Inter', system-ui, sans-serif;
+  letter-spacing: -0.005em;
+}
+p, li, span, label, button, a, input, textarea, select {
+  font-family: inherit;
+}
+
+/* Premium card */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+.dark .card {
+  border-color: var(--border);
+}
+
+.card:hover {
+  box-shadow: var(--shadow-md);
+  border-color: var(--gold-border);
+  transform: translateY(-2px);
+}
+
+/* Gold accent card */
+.card-gold {
+  background: var(--bg-card);
+  border: 1px solid var(--gold-border);
+  border-radius: 16px;
+  box-shadow: var(--shadow-gold);
+}
+
+/* Section heading: tight tracking, solid ink. The previous gold gradient
+   read too "AI-templated" — switching to a confident editorial look. */
+.gold-text {
+  color: var(--ink);
+  letter-spacing: -0.02em;
+  font-weight: 600;
+}
+.dark .gold-text { color: var(--ink); }
+
+/* Gold button */
+.btn-gold {
+  background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+  color: #0D0D0D;
+  font-weight: 600;
+  border: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(139, 115, 85, 0.25);
+}
+.btn-gold:hover {
+  background: linear-gradient(135deg, var(--gold), var(--gold-light));
+  box-shadow: 0 4px 16px rgba(139, 115, 85, 0.35);
+  transform: translateY(-1px);
+}
+.dark .btn-gold {
+  color: #0D0D0D;
+}
+
+/* Outline button */
+.btn-outline {
+  background: transparent;
+  color: var(--gold);
+  border: 1.5px solid var(--gold-border);
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+.btn-outline:hover {
+  background: var(--gold-faint);
+  border-color: var(--gold);
+}
+
+/* Section accent background */
+.section-accent {
+  background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+}
+
+/* Divider */
+.divider {
+  height: 1px;
+  background: linear-gradient(to left, transparent 5%, var(--gold-border) 50%, transparent 95%);
+  max-width: 200px;
+  margin: 0 auto;
+}
+
+.gold-line {
+  height: 1px;
+  background: linear-gradient(to left, transparent 5%, var(--gold-border) 50%, transparent 95%);
+  margin: 0 auto;
+}
+
+/* Recharts */
+.recharts-polar-grid-concentric-circle {
+  stroke: rgba(150, 121, 58, 0.12) !important;
+}
+.recharts-polar-angle-axis-tick-value {
+  fill: var(--ink-muted) !important;
+  font-size: 11px !important;
+  font-family: 'Heebo', sans-serif !important;
+}
+
+/* Tag pill */
+.tag {
+  font-size: 10px;
+  letter-spacing: 0.05em;
+  padding: 3px 10px;
+  border-radius: 100px;
+  background: var(--gold-faint);
+  color: var(--gold);
+  font-weight: 500;
+  border: 1px solid transparent;
+}
+
+/* Stat badge */
+.stat-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  color: var(--ink-muted);
+}
+
+/* Hero background pattern */
+.hero-pattern {
+  background-image: radial-gradient(circle at 25% 25%, rgba(150,121,58,0.04) 0%, transparent 50%),
+                     radial-gradient(circle at 75% 75%, rgba(150,121,58,0.03) 0%, transparent 50%);
+}
+
+/* Focus ring - inputs */
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: var(--gold) !important;
+  box-shadow: 0 0 0 3px var(--gold-faint);
+}
+
+/* Focus ring - keyboard navigation (all interactive elements) */
+a:focus-visible,
+button:focus-visible,
+[role="button"]:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* Hide focus ring on mouse-click, keep for keyboard */
+a:focus:not(:focus-visible),
+button:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Skip-to-content link */
+.skip-to-content {
+  position: absolute;
+  top: -100px;
+  right: 16px;
+  z-index: 100;
+  padding: 10px 16px;
+  background: var(--gold);
+  color: white;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  transition: top 0.2s ease;
+}
+.skip-to-content:focus {
+  top: 16px;
+}
+
+/* Respect reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Selection */
+::selection {
+  background: rgba(150, 121, 58, 0.20);
+  color: var(--ink);
+}
+
+/* ── Skeleton loader ───────────────────────────────────────────── */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--bg-secondary) 0%,
+    var(--bg-accent) 50%,
+    var(--bg-secondary) 100%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.6s ease-in-out infinite;
+  border-radius: 8px;
+}
+
+.dark .skeleton {
+  background: linear-gradient(
+    90deg,
+    rgba(255,255,255,0.04) 0%,
+    rgba(255,255,255,0.07) 50%,
+    rgba(255,255,255,0.04) 100%
+  );
+  background-size: 200% 100%;
+}
+
+@keyframes skeleton-shimmer {
+  0%   { background-position: 100% 0; }
+  100% { background-position: -100% 0; }
+}
