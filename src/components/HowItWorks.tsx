@@ -1,62 +1,87 @@
 'use client';
 
-import { motion } from 'framer-motion';
-import { ClipboardList, Sparkles, Package } from 'lucide-react';
-
 const STEPS = [
   {
-    icon: ClipboardList,
-    title: 'שאלון טעמים',
-    desc: 'ענה על שאלות קצרות על העדפות הריח שלך — אנחנו מנתחים את התשובות בעזרת AI',
+    title: 'Take the quiz',
+    titleHe: 'שאלון טעמים',
+    desc: 'ענה על מספר שאלות על העדפות הריח, ההזדמנויות והסגנון האישי שלך.',
   },
   {
-    icon: Sparkles,
-    title: 'המלצה חכמה',
-    desc: 'האלגוריתם שלנו מאתר את הבשמים המתאימים ביותר מתוך הקולקציה המיוחדת שלנו',
+    title: 'Receive a profile',
+    titleHe: 'פרופיל מותאם',
+    desc: 'אלגוריתם פנימי מנתח את הטעמים ובונה פרופיל ריח אישי.',
   },
   {
-    icon: Package,
-    title: 'גילוי ושמירה',
-    desc: 'שמור בשמים לאוסף האישי שלך, השווה מחירים והזמן מהחנויות המובחרות בעולם',
+    title: 'Discover your scent',
+    titleHe: 'גילוי הריח',
+    desc: 'גלה את הבשמים שמתאימים לך — שמור, השווה, הזמן.',
   },
 ];
 
+const eyebrow: React.CSSProperties = {
+  fontFamily: 'Inter, sans-serif',
+  fontWeight: 400,
+  fontSize: '11px',
+  letterSpacing: '3px',
+  textTransform: 'uppercase',
+  color: '#999',
+};
+
+const heading: React.CSSProperties = {
+  fontFamily: '"Cormorant Garamond", Georgia, serif',
+  fontWeight: 600,
+  fontSize: 'clamp(32px, 5vw, 48px)',
+  lineHeight: 1.1,
+  letterSpacing: '-0.01em',
+  color: '#000',
+};
+
+const num: React.CSSProperties = {
+  fontFamily: '"Cormorant Garamond", Georgia, serif',
+  fontWeight: 400,
+  fontSize: '40px',
+  color: '#000',
+  letterSpacing: '-0.02em',
+};
+
+const stepTitle: React.CSSProperties = {
+  fontFamily: '"Cormorant Garamond", Georgia, serif',
+  fontWeight: 500,
+  fontSize: '24px',
+  color: '#000',
+  letterSpacing: '-0.005em',
+  lineHeight: 1.2,
+};
+
+const body: React.CSSProperties = {
+  fontFamily: 'Inter, sans-serif',
+  fontWeight: 300,
+  fontSize: '14px',
+  lineHeight: 1.7,
+  color: '#666',
+};
+
 export default function HowItWorks() {
   return (
-    <section id="how-it-works" className="py-28 px-4" aria-labelledby="how-heading">
-      <div className="max-w-5xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-14"
-        >
-          <p className="text-gold text-[11px] tracking-[0.2em] uppercase font-sans font-medium mb-2">איך זה עובד</p>
-          <h2 id="how-heading" className="font-serif text-4xl md:text-5xl gold-text font-bold">
-            התהליך
-          </h2>
-        </motion.div>
+    <section
+      id="how-it-works"
+      className="py-32 px-6"
+      style={{ background: '#FAF8F4' }}
+      aria-labelledby="how-heading"
+    >
+      <div className="max-w-6xl mx-auto">
+        <div className="text-center mb-24">
+          <p style={eyebrow} className="mb-4">The Process</p>
+          <h2 id="how-heading" style={heading}>איך זה עובד</h2>
+        </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {STEPS.map(({ icon: Icon, title, desc }, i) => (
-            <motion.div
-              key={title}
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: i * 0.15 }}
-              className="card p-8 text-center"
-            >
-              <div className="w-14 h-14 rounded-2xl bg-gold-faint border border-gold-border flex items-center justify-center mx-auto mb-5">
-                <Icon className="w-6 h-6 text-gold" />
-              </div>
-              <div className="w-6 h-6 rounded-full bg-gold/10 border border-gold-border flex items-center justify-center mx-auto mb-4">
-                <span className="text-gold text-xs font-sans font-bold">{i + 1}</span>
-              </div>
-              <h3 className="font-serif text-xl text-ink font-semibold mb-3">{title}</h3>
-              <p className="text-ink-muted text-sm font-hebrew leading-relaxed font-light">{desc}</p>
-            </motion.div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
+          {STEPS.map((s, i) => (
+            <div key={s.title} className="text-center md:text-right" dir="rtl">
+              <p style={num} className="mb-6">0{i + 1}</p>
+              <h3 style={stepTitle} className="mb-4">{s.titleHe}</h3>
+              <p style={body}>{s.desc}</p>
+            </div>
           ))}
         </div>
       </div>

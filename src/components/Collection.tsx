@@ -269,7 +269,7 @@ export default function Collection() {
   const activeFilterCount = Object.values(filters).flat().length + (houseFilter !== 'הכל' ? 1 : 0);
 
   return (
-    <section id="collection" className="py-28 px-4">
+    <section id="collection" className="py-32 px-6" style={{ background: '#FFFFFF' }}>
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <motion.div
@@ -279,10 +279,10 @@ export default function Collection() {
           transition={{ duration: 0.8 }}
           className="text-center mb-12"
         >
-          <p className="text-gold text-[11px] tracking-[0.2em] uppercase font-sans font-medium mb-2">נבחרים</p>
-          <h2 className="font-serif text-4xl md:text-5xl gold-text mb-3 font-bold">הקולקציה</h2>
-          <p className="text-ink-muted text-sm font-hebrew max-w-md mx-auto font-light">
-            {fragrances.length} יצירות מופת מ-{houses.length - 1} בתי בושם נישתיים מובילים בעולם
+          <p className="mb-4" style={{ fontFamily: 'Inter, sans-serif', fontWeight: 400, fontSize: '11px', letterSpacing: '3px', textTransform: 'uppercase', color: '#999' }}>The Collection</p>
+          <h2 className="mb-4" style={{ fontFamily: '"Cormorant Garamond", Georgia, serif', fontWeight: 600, fontSize: 'clamp(32px, 5vw, 48px)', lineHeight: 1.1, letterSpacing: '-0.01em', color: '#000' }}>הקולקציה המלאה</h2>
+          <p style={{ fontFamily: 'Inter, sans-serif', fontWeight: 300, fontSize: '14px', lineHeight: 1.7, color: '#666' }}>
+            {fragrances.length} בשמים נישתיים מ-{houses.length - 1} בתי בושם נבחרים
           </p>
         </motion.div>
 
@@ -389,7 +389,7 @@ export default function Collection() {
         </p>
 
         {/* Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-16">
           {visible.map((f, i) => (
             <FragranceCard
               key={f.id} fragrance={f} index={i}
@@ -403,13 +403,22 @@ export default function Collection() {
 
         {/* Load more */}
         {hasMore && (
-          <div className="text-center mt-10">
+          <div className="text-center mt-20">
             <button
               onClick={() => setVisibleCount(v => v + 12)}
-              className="px-8 py-3 font-hebrew text-sm font-semibold rounded-lg transition-all duration-300 hover:-translate-y-0.5"
-              style={{ background: '#0D0D0D', color: '#FFFFFF', boxShadow: '0 4px 16px rgba(13,13,13,0.18)' }}
+              className="hover:opacity-60 transition-opacity"
+              style={{
+                fontFamily: 'Inter, sans-serif',
+                fontWeight: 400,
+                fontSize: '12px',
+                letterSpacing: '2px',
+                textTransform: 'uppercase',
+                color: '#000',
+                borderBottom: '1px solid #000',
+                paddingBottom: '4px',
+              }}
             >
-              לכל הקולקציה ← ({filtered.length - visibleCount} נוספים)
+              Load more ({filtered.length - visibleCount})
             </button>
           </div>
         )}

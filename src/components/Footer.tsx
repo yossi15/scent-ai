@@ -4,77 +4,99 @@ import Link from 'next/link';
 import { fragrances } from '@/data/fragrances';
 
 const TOTAL = fragrances.length;
-const HOUSES = new Set(fragrances.map(f => f.house)).size;
+
+const eyebrow: React.CSSProperties = {
+  fontFamily: 'Inter, sans-serif',
+  fontWeight: 400,
+  fontSize: '10px',
+  letterSpacing: '3px',
+  textTransform: 'uppercase',
+  color: '#999',
+};
+
+const linkStyle: React.CSSProperties = {
+  fontFamily: 'Inter, sans-serif',
+  fontWeight: 400,
+  fontSize: '12px',
+  color: '#000',
+  letterSpacing: '0.3px',
+};
 
 export default function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="bg-bg-secondary border-t border-black/[0.05] pt-14 pb-8 px-4" dir="rtl">
-      <div className="max-w-6xl mx-auto">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-10">
-          {/* Brand */}
+    <footer
+      className="px-6 pt-24 pb-12"
+      style={{ background: '#FAF8F4', borderTop: '1px solid #eee' }}
+    >
+      <div className="max-w-7xl mx-auto">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-12 mb-20">
           <div className="col-span-2 md:col-span-1">
-            <p className="font-serif text-2xl font-bold text-ink mb-2">SCENTORY</p>
-            <p className="text-ink-faint text-xs font-hebrew leading-relaxed">
-              פלטפורמת AI לגילוי בשמים נישתיים. {TOTAL} בשמים מ-{HOUSES}+ בתי בושם.
+            <p
+              style={{
+                fontFamily: '"Cormorant Garamond", Georgia, serif',
+                fontWeight: 600,
+                fontSize: '24px',
+                letterSpacing: '0.5px',
+                color: '#000',
+                marginBottom: '12px',
+              }}
+            >
+              SCENTORY
+            </p>
+            <p style={{ ...linkStyle, color: '#666', fontWeight: 300, lineHeight: 1.7 }}>
+              {TOTAL} Niche Fragrances · 46 Houses
             </p>
           </div>
 
-          {/* Navigation */}
           <div>
-            <p className="text-[10px] font-sans text-ink-faint uppercase tracking-wider mb-3">ניווט</p>
-            <ul className="space-y-2" role="list">
+            <p style={eyebrow} className="mb-5">Navigate</p>
+            <ul className="space-y-3" role="list">
               {[
-                { label: 'הקולקציה',    href: '#collection' },
-                { label: 'איך זה עובד', href: '#how-it-works' },
-                { label: 'שאלון טעמים', href: '#quiz' },
-                { label: 'מנוי',         href: '#subscription' },
+                { label: 'Collection',  href: '#collection' },
+                { label: 'Process',     href: '#how-it-works' },
+                { label: 'Quiz',        href: '#quiz' },
+                { label: 'Membership',  href: '#subscription' },
               ].map(({ label, href }) => (
                 <li key={href}>
-                  <a href={href} className="text-ink-muted text-xs font-hebrew hover:text-gold transition-colors">
-                    {label}
-                  </a>
+                  <a href={href} style={linkStyle} className="hover:opacity-60 transition-opacity">{label}</a>
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* Legal */}
           <div>
-            <p className="text-[10px] font-sans text-ink-faint uppercase tracking-wider mb-3">משפטי</p>
-            <ul className="space-y-2" role="list">
+            <p style={eyebrow} className="mb-5">Legal</p>
+            <ul className="space-y-3" role="list">
               {[
-                { label: 'תנאי שימוש',  href: '/terms' },
-                { label: 'מדיניות פרטיות', href: '/privacy' },
+                { label: 'Terms',   href: '/terms' },
+                { label: 'Privacy', href: '/privacy' },
               ].map(({ label, href }) => (
                 <li key={href}>
-                  <Link href={href} className="text-ink-muted text-xs font-hebrew hover:text-gold transition-colors">
-                    {label}
-                  </Link>
+                  <Link href={href} style={linkStyle} className="hover:opacity-60 transition-opacity">{label}</Link>
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* Contact */}
           <div>
-            <p className="text-[10px] font-sans text-ink-faint uppercase tracking-wider mb-3">יצירת קשר</p>
-            <a
-              href="mailto:hello@scentory.co.il"
-              className="text-ink-muted text-xs font-hebrew hover:text-gold transition-colors"
-            >
+            <p style={eyebrow} className="mb-5">Contact</p>
+            <a href="mailto:hello@scentory.co.il" style={linkStyle} className="hover:opacity-60 transition-opacity">
               hello@scentory.co.il
             </a>
           </div>
         </div>
 
-        <div className="border-t border-black/[0.05] pt-6 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="text-ink-faint text-[11px] font-sans" dir="ltr">
-            © {year} SCENTORY. All rights reserved.
+        <div
+          className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-3"
+          style={{ borderTop: '1px solid #eee' }}
+        >
+          <p style={{ ...linkStyle, fontSize: '11px', color: '#999', letterSpacing: '1px' }} dir="ltr">
+            © {year} SCENTORY
           </p>
-          <p className="text-ink-faint text-[10px] font-hebrew">
-            בנוי עם AI · עיצוב ופיתוח בישראל
+          <p style={{ ...linkStyle, fontSize: '11px', color: '#999', letterSpacing: '1px' }} dir="ltr">
+            Made in Israel
           </p>
         </div>
       </div>

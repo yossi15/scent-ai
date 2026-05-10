@@ -1,114 +1,110 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
-import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 import { SignInButton, UserButton, useAuth } from '@clerk/nextjs';
 
 const NAV_LINKS = [
-  { label: 'הקולקציה',    href: '#collection' },
-  { label: 'איך זה עובד', href: '#how-it-works' },
-  { label: 'שאלון טעמים', href: '#quiz' },
-  { label: 'מנוי',         href: '#subscription' },
+  { label: 'Collection', href: '#collection' },
+  { label: 'Process',    href: '#how-it-works' },
+  { label: 'Quiz',       href: '#quiz' },
+  { label: 'Membership', href: '#subscription' },
 ];
 
+const linkStyle: React.CSSProperties = {
+  fontFamily: 'Inter, sans-serif',
+  fontWeight: 400,
+  fontSize: '12px',
+  letterSpacing: '1.5px',
+  textTransform: 'uppercase',
+  color: '#000',
+};
+
 export default function Navbar() {
-  const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const { isSignedIn } = useAuth();
 
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
-
   return (
     <header
-      className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 ${
-        scrolled ? 'bg-bg-primary/92 backdrop-blur-md border-b border-black/[0.05] shadow-sm' : 'bg-transparent'
-      }`}
+      className="fixed top-0 inset-x-0 z-50"
+      style={{ background: '#fff', borderBottom: '1px solid #eee' }}
     >
-      <nav className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between" aria-label="ניווט ראשי">
-        {/* Logo */}
-        <Link href="/" className="font-serif text-xl font-bold text-ink tracking-tight hover:text-gold transition-colors" aria-label="SCENTORY - עמוד הבית">
+      <nav className="max-w-7xl mx-auto px-6 h-[72px] flex items-center justify-between" aria-label="Primary">
+        {/* Logo on left */}
+        <Link
+          href="/"
+          aria-label="SCENTORY home"
+          style={{
+            fontFamily: '"Cormorant Garamond", Georgia, serif',
+            fontWeight: 600,
+            fontSize: '22px',
+            letterSpacing: '0.5px',
+            color: '#000',
+          }}
+        >
           SCENTORY
         </Link>
 
-        {/* Desktop links */}
-        <ul className="hidden md:flex items-center gap-6" role="list">
+        {/* Links on right (rendered after logo in DOM) */}
+        <ul className="hidden md:flex items-center gap-10" role="list">
           {NAV_LINKS.map((l) => (
             <li key={l.href}>
-              <a
-                href={l.href}
-                className="text-[13px] font-hebrew text-ink-muted hover:text-gold transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded"
-              >
+              <a href={l.href} style={linkStyle} className="hover:opacity-60 transition-opacity duration-200">
                 {l.label}
               </a>
             </li>
           ))}
+          <li>
+            {!isSignedIn ? (
+              <SignInButton mode="modal">
+                <button style={linkStyle} className="hover:opacity-60 transition-opacity duration-200">
+                  Sign in
+                </button>
+              </SignInButton>
+            ) : (
+              <UserButton />
+            )}
+          </li>
         </ul>
 
-        {/* Auth + mobile toggle */}
-        <div className="flex items-center gap-3">
-          {!isSignedIn ? (
-            <SignInButton mode="modal">
-              <button className="hidden sm:block text-[13px] font-hebrew px-4 py-1.5 rounded-full border border-gold-border text-gold hover:bg-gold-faint transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-gold">
-                כניסה
-              </button>
-            </SignInButton>
-          ) : (
-            <UserButton  />
-          )}
-
-          {/* Mobile hamburger */}
-          <button
-            className="md:hidden p-2 text-ink-muted hover:text-gold transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded"
-            onClick={() => setMobileOpen(v => !v)}
-            aria-label={mobileOpen ? 'סגור תפריט' : 'פתח תפריט'}
-            aria-expanded={mobileOpen}
-          >
-            {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-          </button>
-        </div>
+        {/* Mobile hamburger */}
+        <button
+          className="md:hidden p-2"
+          onClick={() => setMobileOpen(v => !v)}
+          aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
+          aria-expanded={mobileOpen}
+        >
+          {mobileOpen ? <X className="w-5 h-5 text-black" /> : <Menu className="w-5 h-5 text-black" />}
+        </button>
       </nav>
 
       {/* Mobile menu */}
-      <AnimatePresence>
-        {mobileOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.22 }}
-            className="md:hidden bg-bg-primary/96 backdrop-blur-md border-b border-black/[0.05] overflow-hidden"
-          >
-            <ul className="px-4 py-3 space-y-1" role="list">
-              {NAV_LINKS.map((l) => (
-                <li key={l.href}>
-                  <a
-                    href={l.href}
-                    onClick={() => setMobileOpen(false)}
-                    className="block px-3 py-2.5 text-sm font-hebrew text-ink-muted hover:text-gold hover:bg-gold-faint rounded-lg transition-colors"
-                  >
-                    {l.label}
-                  </a>
-                </li>
-              ))}
-              {!isSignedIn && (
-                <li>
-                  <SignInButton mode="modal">
-                    <button className="w-full text-right px-3 py-2.5 text-sm font-hebrew text-gold hover:bg-gold-faint rounded-lg transition-colors">
-                      כניסה / הרשמה
-                    </button>
-                  </SignInButton>
-                </li>
-              )}
-            </ul>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {mobileOpen && (
+        <div className="md:hidden border-t border-[#eee] bg-white">
+          <ul className="px-6 py-4 space-y-3" role="list">
+            {NAV_LINKS.map((l) => (
+              <li key={l.href}>
+                <a
+                  href={l.href}
+                  onClick={() => setMobileOpen(false)}
+                  style={linkStyle}
+                  className="block py-2"
+                >
+                  {l.label}
+                </a>
+              </li>
+            ))}
+            {!isSignedIn && (
+              <li>
+                <SignInButton mode="modal">
+                  <button style={linkStyle} className="block py-2 w-full text-right">Sign in</button>
+                </SignInButton>
+              </li>
+            )}
+          </ul>
+        </div>
+      )}
     </header>
   );
 }

@@ -1,99 +1,117 @@
 'use client';
 
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronDown } from 'lucide-react';
 import { fragrances } from '@/data/fragrances';
 
 const TOTAL = fragrances.length;
 
 const FAQS = [
   {
-    q: `כמה בשמים יש בקולקציה?`,
-    a: `הקולקציה כוללת כרגע ${TOTAL} בשמים מאת 46+ בתי בושם נישתיים מובחרים מרחבי העולם. אנחנו מוסיפים בשמים חדשים באופן שוטף.`,
+    q: 'כמה בשמים יש בקולקציה?',
+    a: `הקולקציה כוללת ${TOTAL} בשמים מ-46 בתי בושם נישתיים נבחרים. אנחנו מוסיפים בשמים חדשים באופן שוטף.`,
   },
   {
-    q: 'האם הבשמים אמיתיים ולא מזויפים?',
-    a: 'כל הבשמים בפלטפורמה הם בשמים מקוריים 100%. אנחנו מקשרים רק לחנויות מורשות ומהימנות ומספקים השוואת מחירים שקופה.',
+    q: 'האם הבשמים מקוריים?',
+    a: 'כל הבשמים מקוריים 100%. אנחנו מקשרים רק לחנויות מורשות ומספקים השוואת מחירים שקופה.',
   },
   {
     q: 'איך השאלון עובד?',
-    a: 'השאלון מנתח את טעמי הריח שלך ומשתמש באלגוריתם AI כדי למצוא מתוך הקולקציה שלנו את הבשמים שהכי מתאימים לפרופיל שלך.',
+    a: 'השאלון מנתח את העדפות הריח שלך ומצליב אותן עם פרופילי הבשמים בקולקציה.',
   },
   {
     q: 'האם אפשר לבטל מנוי?',
-    a: 'כן, ניתן לבטל את המנוי בכל עת ללא עלות נוספת. אין התחייבות והביטול מיידי.',
+    a: 'כן. ביטול בכל עת, בלי התחייבות, מיידי.',
   },
   {
     q: 'מה ההבדל בין EDP ל-EDT?',
-    a: 'EDP (Eau de Parfum) מכיל ריכוז גבוה יותר של חומרי ריח ולכן מחזיק מעמד זמן ארוך יותר ומורגש ממרחק. EDT (Eau de Toilette) קליל יותר ומתאים ליומיום.',
+    a: 'EDP מכיל ריכוז גבוה של חומרי ריח — מחזיק יותר זמן ומורגש יותר. EDT קליל וטרי, מתאים ליומיום.',
   },
   {
-    q: 'כיצד אשמור את הבשמים שאני מוצא?',
-    a: 'תוכל להוסיף כל בושם לאוסף האישי שלך. הנתונים נשמרים בחשבון המשתמש שלך כך שתוכל לגשת אליהם מכל מכשיר.',
+    q: 'איך שומרים בשמים?',
+    a: 'הוסף לאוסף האישי. הנתונים נשמרים בחשבון ונגישים מכל מכשיר.',
   },
 ];
+
+const eyebrow: React.CSSProperties = {
+  fontFamily: 'Inter, sans-serif',
+  fontWeight: 400,
+  fontSize: '11px',
+  letterSpacing: '3px',
+  textTransform: 'uppercase',
+  color: '#999',
+};
+
+const heading: React.CSSProperties = {
+  fontFamily: '"Cormorant Garamond", Georgia, serif',
+  fontWeight: 600,
+  fontSize: 'clamp(32px, 5vw, 48px)',
+  lineHeight: 1.1,
+  letterSpacing: '-0.01em',
+  color: '#000',
+};
+
+const qStyle: React.CSSProperties = {
+  fontFamily: '"Cormorant Garamond", Georgia, serif',
+  fontWeight: 500,
+  fontSize: '20px',
+  color: '#000',
+  letterSpacing: '-0.005em',
+};
+
+const aStyle: React.CSSProperties = {
+  fontFamily: 'Inter, sans-serif',
+  fontWeight: 300,
+  fontSize: '14px',
+  lineHeight: 1.7,
+  color: '#666',
+};
 
 export default function FAQ() {
   const [open, setOpen] = useState<number | null>(null);
 
   return (
-    <section className="py-28 px-4" aria-labelledby="faq-heading">
-      <div className="max-w-2xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-12"
-        >
-          <p className="text-gold text-[11px] tracking-[0.2em] uppercase font-sans font-medium mb-2">שאלות נפוצות</p>
-          <h2 id="faq-heading" className="font-serif text-4xl md:text-5xl gold-text font-bold">
-            יש לך שאלות?
-          </h2>
-        </motion.div>
+    <section
+      className="py-32 px-6"
+      style={{ background: '#FAF8F4' }}
+      aria-labelledby="faq-heading"
+    >
+      <div className="max-w-3xl mx-auto">
+        <div className="text-center mb-20">
+          <p style={eyebrow} className="mb-4">FAQ</p>
+          <h2 id="faq-heading" style={heading}>שאלות נפוצות</h2>
+        </div>
 
-        <dl className="space-y-2">
+        <dl>
           {FAQS.map(({ q, a }, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 12 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.06 }}
-              className="card overflow-hidden"
-            >
+            <div key={i} style={{ borderTop: i === 0 ? '1px solid #eee' : 'none', borderBottom: '1px solid #eee' }}>
               <dt>
                 <button
                   onClick={() => setOpen(open === i ? null : i)}
-                  className="w-full flex items-center justify-between p-5 text-right focus:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+                  className="w-full flex items-center justify-between py-6 text-right"
                   aria-expanded={open === i}
-                  aria-controls={`faq-${i}`}
                 >
-                  <span className="font-hebrew text-sm font-semibold text-ink">{q}</span>
-                  <ChevronDown
-                    className={`w-4 h-4 text-gold shrink-0 transition-transform duration-200 ${open === i ? 'rotate-180' : ''}`}
+                  <span style={qStyle}>{q}</span>
+                  <span
+                    className="text-2xl shrink-0 mr-4 transition-transform"
+                    style={{
+                      fontFamily: 'Inter, sans-serif',
+                      fontWeight: 300,
+                      color: '#000',
+                      transform: open === i ? 'rotate(45deg)' : 'rotate(0)',
+                      transitionDuration: '200ms',
+                    }}
                     aria-hidden="true"
-                  />
+                  >
+                    +
+                  </span>
                 </button>
               </dt>
-              <AnimatePresence initial={false}>
-                {open === i && (
-                  <motion.dd
-                    id={`faq-${i}`}
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: 'auto', opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.22 }}
-                    className="overflow-hidden"
-                  >
-                    <p className="px-5 pb-5 text-ink-secondary text-sm font-hebrew leading-relaxed font-light">
-                      {a}
-                    </p>
-                  </motion.dd>
-                )}
-              </AnimatePresence>
-            </motion.div>
+              {open === i && (
+                <dd className="pb-6">
+                  <p style={aStyle}>{a}</p>
+                </dd>
+              )}
+            </div>
           ))}
         </dl>
       </div>

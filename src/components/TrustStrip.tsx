@@ -1,33 +1,33 @@
 'use client';
 
-import { motion } from 'framer-motion';
-import { ShieldCheck, CreditCard, RotateCcw, Star } from 'lucide-react';
-
 const ITEMS = [
-  { icon: ShieldCheck, label: 'בשמים מקוריים בלבד' },
-  { icon: CreditCard,  label: 'תשלום מאובטח' },
-  { icon: RotateCcw,   label: 'ביטול בכל עת' },
-  { icon: Star,        label: 'חוות דעת מאומתות' },
+  'Authentic fragrances only',
+  'Secure checkout',
+  'Cancel anytime',
+  'Verified reviews',
 ];
+
+const itemStyle: React.CSSProperties = {
+  fontFamily: 'Inter, sans-serif',
+  fontWeight: 400,
+  fontSize: '11px',
+  letterSpacing: '2px',
+  textTransform: 'uppercase',
+  color: '#999',
+};
 
 export default function TrustStrip() {
   return (
-    <motion.aside
-      initial={{ opacity: 0 }}
-      whileInView={{ opacity: 1 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.6 }}
-      className="py-8 px-4 border-t border-b border-black/[0.05] bg-bg-secondary"
-      aria-label="אותות אמינות"
+    <aside
+      className="py-10 px-6"
+      style={{ background: '#FFFFFF', borderTop: '1px solid #eee', borderBottom: '1px solid #eee' }}
+      aria-label="Trust signals"
     >
-      <ul className="max-w-4xl mx-auto flex flex-wrap items-center justify-center gap-8" role="list">
-        {ITEMS.map(({ icon: Icon, label }) => (
-          <li key={label} className="flex items-center gap-2">
-            <Icon className="w-4 h-4 text-gold shrink-0" aria-hidden="true" />
-            <span className="text-ink-muted text-xs font-hebrew">{label}</span>
-          </li>
+      <ul className="max-w-5xl mx-auto flex flex-wrap items-center justify-center gap-x-12 gap-y-4" role="list">
+        {ITEMS.map((label) => (
+          <li key={label} style={itemStyle}>{label}</li>
         ))}
       </ul>
-    </motion.aside>
+    </aside>
   );
 }

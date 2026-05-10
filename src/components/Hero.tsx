@@ -1,95 +1,90 @@
 'use client';
 
-import { motion } from 'framer-motion';
 import { fragrances } from '@/data/fragrances';
 
-const TOTAL = fragrances.length; // 138
+const TOTAL = fragrances.length;
 
 export default function Hero() {
   return (
     <section
-      className="relative min-h-screen flex flex-col items-center justify-center text-center px-4 py-24 overflow-hidden bg-bg-primary"
+      className="min-h-[88vh] flex flex-col items-center justify-center text-center px-6 py-32"
+      style={{ background: '#FAF8F4' }}
       aria-labelledby="hero-heading"
-      data-hero-bg
     >
-      {/* Subtle radial glow */}
-      <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-[radial-gradient(ellipse_at_center,rgba(196,168,130,0.09),transparent_65%)]" />
-      </div>
-
-      <motion.div
-        initial={{ opacity: 0, y: 32 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-        className="relative z-10 max-w-3xl mx-auto"
+      <p
+        className="mb-10 text-[#999]"
+        style={{
+          fontFamily: 'Inter, sans-serif',
+          fontWeight: 400,
+          fontSize: '11px',
+          letterSpacing: '3px',
+          textTransform: 'uppercase',
+        }}
       >
-        {/* Eyebrow */}
-        <p className="text-gold text-[11px] tracking-[0.3em] uppercase font-sans font-medium mb-6">
-          הקולקציה
-        </p>
+        Niche Fragrance Curation · {TOTAL} Scents
+      </p>
 
-        {/* Main heading */}
-        <h1
-          id="hero-heading"
-          className="font-serif text-5xl sm:text-6xl md:text-7xl lg:text-8xl text-ink font-bold leading-[0.9] mb-6"
+      <h1
+        id="hero-heading"
+        className="text-black max-w-4xl"
+        style={{
+          fontFamily: '"Cormorant Garamond", Georgia, serif',
+          fontWeight: 700,
+          fontSize: 'clamp(40px, 7vw, 64px)',
+          lineHeight: 1.1,
+          letterSpacing: '-0.01em',
+          marginBottom: '28px',
+        }}
+      >
+        Know your scent.
+      </h1>
+
+      <p
+        className="max-w-xl"
+        style={{
+          fontFamily: 'Inter, sans-serif',
+          fontWeight: 300,
+          fontSize: '15px',
+          lineHeight: 1.7,
+          color: '#666',
+          marginBottom: '48px',
+        }}
+        dir="rtl"
+      >
+        קולקציה שקופה של {TOTAL} בשמים נישתיים מ-46 בתי בושם נבחרים. גלה את הריח שלך — בלי תיווך.
+      </p>
+
+      <div className="flex flex-col sm:flex-row gap-4 items-center">
+        <a
+          href="#quiz"
+          className="px-10 py-4 bg-black text-white inline-flex items-center justify-center"
+          style={{
+            fontFamily: 'Inter, sans-serif',
+            fontWeight: 500,
+            fontSize: '12px',
+            letterSpacing: '2px',
+            textTransform: 'uppercase',
+            minWidth: '200px',
+          }}
         >
-          Know your
-          <br />
-          <span className="gold-text italic">scent.</span>
-        </h1>
-
-        {/* Sub-heading */}
-        <p className="text-ink-muted font-hebrew text-base sm:text-lg font-light max-w-xl mx-auto leading-relaxed mb-3">
-          {TOTAL} בשמים נישתיים מהמובחרים בעולם — גלה את זהות הריח שלך
-        </p>
-
-        {/* Stats strip */}
-        <div className="flex items-center justify-center gap-8 mb-10 mt-2">
-          {[
-            { num: String(TOTAL), label: 'בשמים' },
-            { num: '46+', label: 'בתי בושם' },
-            { num: 'AI', label: 'מותאם אישית' },
-          ].map(({ num, label }) => (
-            <div key={label} className="text-center">
-              <p className="font-serif text-2xl font-bold text-gold">{num}</p>
-              <p className="text-[10px] font-hebrew text-ink-faint uppercase tracking-wider">{label}</p>
-            </div>
-          ))}
-        </div>
-
-        {/* CTAs */}
-        <div className="flex flex-col sm:flex-row gap-3 justify-center items-center">
-          <motion.a
-            href="#quiz"
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            className="btn-gold px-8 py-3.5 rounded-xl font-hebrew text-sm font-semibold min-w-[160px] text-center focus:outline-none focus-visible:ring-2 focus-visible:ring-gold"
-            data-hero-cta
-          >
-            שאלון טעמים
-          </motion.a>
-          <motion.a
-            href="#collection"
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            className="btn-outline px-8 py-3.5 rounded-xl font-hebrew text-sm font-medium min-w-[160px] text-center focus:outline-none focus-visible:ring-2 focus-visible:ring-gold"
-          >
-            לכל הקולקציה ←
-          </motion.a>
-        </div>
-      </motion.div>
-
-      {/* Scroll indicator */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.4, duration: 0.8 }}
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5"
-        aria-hidden="true"
-      >
-        <div className="w-px h-10 bg-gradient-to-b from-transparent to-gold/40" />
-        <span className="text-[9px] font-sans text-ink-faint tracking-[0.2em] uppercase">scroll</span>
-      </motion.div>
+          Take the quiz
+        </a>
+        <a
+          href="#collection"
+          className="inline-flex items-center justify-center text-black"
+          style={{
+            fontFamily: 'Inter, sans-serif',
+            fontWeight: 400,
+            fontSize: '12px',
+            letterSpacing: '2px',
+            textTransform: 'uppercase',
+            borderBottom: '1px solid #000',
+            paddingBottom: '4px',
+          }}
+        >
+          Discover the collection
+        </a>
+      </div>
     </section>
   );
 }
