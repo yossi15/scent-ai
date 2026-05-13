@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500" preserveAspectRatio="xMidYMid meet">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#8B6F4A" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="#4A3320" stop-opacity="0.32"/>
+    </linearGradient>
+    <linearGradient id="bottle" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#8B6F4A" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#4A3320" stop-opacity="0.92"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="500" fill="url(#bg)"/>
+  <!-- Bottle silhouette -->
+  <rect x="155" y="90" width="90" height="32" rx="3" fill="#4A3320" opacity="0.6"/>
+  <rect x="170" y="122" width="60" height="18" fill="#4A3320" opacity="0.5"/>
+  <path d="M 145 140 L 145 410 Q 145 430 165 430 L 235 430 Q 255 430 255 410 L 255 140 Z" fill="url(#bottle)" stroke="#4A3320" stroke-width="1" stroke-opacity="0.4"/>
+  <rect x="165" y="230" width="70" height="120" fill="white" opacity="0.08"/>
+</svg>

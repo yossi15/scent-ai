@@ -10084,8 +10084,7 @@
     "price": 360,
     "longevity": 8,
     "sillage": 7,
-    "fragrantica_id": 36000,
-    "image": "https://fimgs.net/mdimg/perfume/375x500.36000.jpg",
+    "image": "/placeholders/amber-spicy.svg",
     "notes": [
       {
         "name": "Ginger",
@@ -10162,8 +10161,7 @@
     "price": 280,
     "longevity": 6,
     "sillage": 5,
-    "fragrantica_id": 800,
-    "image": "https://fimgs.net/mdimg/perfume/375x500.800.jpg",
+    "image": "/placeholders/floral.svg",
     "notes": [
       {
         "name": "Rose",
@@ -11098,8 +11096,7 @@
     "price": 320,
     "longevity": 7,
     "sillage": 6,
-    "fragrantica_id": 36000,
-    "image": "https://fimgs.net/mdimg/perfume/375x500.36000.jpg",
+    "image": "/placeholders/floral.svg",
     "notes": [
       {
         "name": "Rose",
@@ -15427,8 +15424,7 @@
     "price": 360,
     "longevity": 8,
     "sillage": 7,
-    "fragrantica_id": 36000,
-    "image": "https://fimgs.net/mdimg/perfume/375x500.36000.jpg",
+    "image": "/placeholders/amber-spicy.svg",
     "notes": [
       {
         "name": "Ginger",
@@ -19015,8 +19011,7 @@
     "price": 360,
     "longevity": 6,
     "sillage": 6,
-    "fragrantica_id": 800,
-    "image": "https://fimgs.net/mdimg/perfume/375x500.800.jpg",
+    "image": "/placeholders/floral.svg",
     "notes": [
       {
         "name": "Rose",
@@ -21199,8 +21194,7 @@
     "price": 320,
     "longevity": 6,
     "sillage": 6,
-    "fragrantica_id": 36000,
-    "image": "https://fimgs.net/mdimg/perfume/375x500.36000.jpg",
+    "image": "/placeholders/aromatic-aquatic.svg",
     "notes": [
       {
         "name": "Sea Water",
@@ -22447,8 +22441,7 @@
     "price": 380,
     "longevity": 7,
     "sillage": 6,
-    "fragrantica_id": 800,
-    "image": "https://fimgs.net/mdimg/perfume/375x500.800.jpg",
+    "image": "/placeholders/amber-floral.svg",
     "notes": [
       {
         "name": "Bergamot",
@@ -22720,8 +22713,7 @@
     "price": 520,
     "longevity": 8,
     "sillage": 7,
-    "fragrantica_id": 36000,
-    "image": "https://fimgs.net/mdimg/perfume/375x500.36000.jpg",
+    "image": "/placeholders/floral.svg",
     "notes": [
       {
         "name": "Rose",
@@ -24046,8 +24038,7 @@
     "price": 520,
     "longevity": 7,
     "sillage": 7,
-    "fragrantica_id": 90013,
-    "image": "https://fimgs.net/mdimg/perfume/375x500.90013.jpg",
+    "image": "/placeholders/aromatic-citrus.svg",
     "notes": [
       {
         "name": "Bergamot",
@@ -25489,8 +25480,7 @@
     "price": 780,
     "longevity": 8,
     "sillage": 7,
-    "fragrantica_id": 36000,
-    "image": "https://fimgs.net/mdimg/perfume/375x500.36000.jpg",
+    "image": "/placeholders/floral.svg",
     "notes": [
       {
         "name": "Rose",
@@ -27517,8 +27507,7 @@
     "price": 1300,
     "longevity": 8,
     "sillage": 7,
-    "fragrantica_id": 36000,
-    "image": "https://fimgs.net/mdimg/perfume/375x500.36000.jpg",
+    "image": "/placeholders/floral.svg",
     "notes": [
       {
         "name": "Rose",
@@ -30169,8 +30158,7 @@
     "price": 700,
     "longevity": 7,
     "sillage": 7,
-    "fragrantica_id": 800,
-    "image": "https://fimgs.net/mdimg/perfume/375x500.800.jpg",
+    "image": "/placeholders/amber.svg",
     "notes": [
       {
         "name": "Bergamot",
@@ -31339,8 +31327,7 @@
     "price": 480,
     "longevity": 7,
     "sillage": 6,
-    "fragrantica_id": 33700,
-    "image": "https://fimgs.net/mdimg/perfume/375x500.33700.jpg",
+    "image": "/placeholders/amber-woody.svg",
     "notes": [
       {
         "name": "Bergamot",
@@ -33640,8 +33627,7 @@
     "price": 500,
     "longevity": 8,
     "sillage": 8,
-    "fragrantica_id": 36004,
-    "image": "https://fimgs.net/mdimg/perfume/375x500.36004.jpg",
+    "image": "/placeholders/amber-vanilla.svg",
     "notes": [
       {
         "name": "Pink Pepper",
@@ -38776,8 +38762,7 @@
     "price": 420,
     "longevity": 7,
     "sillage": 6,
-    "fragrantica_id": 800,
-    "image": "https://fimgs.net/mdimg/perfume/375x500.800.jpg",
+    "image": "/placeholders/aromatic-fougere.svg",
     "notes": [
       {
         "name": "Lavender",
