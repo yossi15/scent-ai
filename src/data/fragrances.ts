@@ -149,8 +149,8 @@ const EXTRA_RAW = [
     price: 2200,
     longevity: 9,
     sillage: 9,
-    fragrantica_id: 25168,
-    image: "https://fimgs.net/mdimg/perfume/375x500.25168.jpg",
+    fragrantica_id: 9828,
+    image: "https://fimgs.net/mdimg/perfume/375x500.9828.jpg",
     notes: [
       { name: "Pineapple", type: "top" },
       { name: "Blackcurrant", type: "top" },
@@ -176,8 +176,8 @@ const EXTRA_RAW = [
     price: 2500,
     longevity: 9,
     sillage: 9,
-    fragrantica_id: 55248,
-    image: "https://fimgs.net/mdimg/perfume/375x500.55248.jpg",
+    fragrantica_id: 33519,
+    image: "https://fimgs.net/mdimg/perfume/375x500.33519.jpg",
     notes: [
       { name: "Saffron", type: "top" },
       { name: "Jasmine", type: "top" },
@@ -221,8 +221,8 @@ const EXTRA_RAW = [
     price: 1400,
     longevity: 7,
     sillage: 7,
-    fragrantica_id: 5143,
-    image: "https://fimgs.net/mdimg/perfume/375x500.5143.jpg",
+    fragrantica_id: 6458,
+    image: "https://fimgs.net/mdimg/perfume/375x500.6458.jpg",
     notes: [
       { name: "Bergamot", type: "top" },
       { name: "Cyclamen", type: "top" },
@@ -246,8 +246,8 @@ const EXTRA_RAW = [
     price: 1500,
     longevity: 7,
     sillage: 7,
-    fragrantica_id: 60099,
-    image: "https://fimgs.net/mdimg/perfume/375x500.60099.jpg",
+    fragrantica_id: 61779,
+    image: "https://fimgs.net/mdimg/perfume/375x500.61779.jpg",
     notes: [
       { name: "Damascena Rose", type: "top" },
       { name: "Egyptian Geranium", type: "top" },
