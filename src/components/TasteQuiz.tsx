@@ -81,6 +81,26 @@ const QUESTIONS: Question[] = [
       { value: 'niche',  label: 'נישה ייחודי',   scores: { animalic: 1, oriental: 2, woody: 1 } },
     ],
   },
+  {
+    id: 'duration',
+    text: 'כמה זמן אתה רוצה שהבושם יחזיק?',
+    options: [
+      { value: '1to3h',  label: '1–3 שעות',   scores: { fresh: 2 } },
+      { value: '4to6h',  label: '4–6 שעות',   scores: { floral: 1, woody: 1 } },
+      { value: '7to10h', label: '7–10 שעות',  scores: { oriental: 2, woody: 1 } },
+      { value: 'allday', label: 'כל היום',     scores: { oriental: 3, animalic: 2 } },
+    ],
+  },
+  {
+    id: 'sillage',
+    text: 'מה חשוב לך יותר?',
+    options: [
+      { value: 'opening',   label: 'ריח ראשוני חד',      scores: { fresh: 2, floral: 1 } },
+      { value: 'drydown',   label: 'חיתום עמוק ומתפתח',  scores: { oriental: 2, woody: 2 } },
+      { value: 'projection',label: 'קרינה חזקה סביבי',   scores: { animalic: 2, oriental: 1 } },
+      { value: 'skin',      label: 'ריח אישי וקרוב לעור', scores: { fresh: 1, floral: 1, woody: 1 } },
+    ],
+  },
 ];
 
 type Scores = Record<string, number>;
