@@ -2,16 +2,19 @@
 
 const TESTIMONIALS = [
   {
-    name: 'ניר כהן',
-    text: 'מצאתי את הבושם המושלם אחרי שנים של חיפוש. הפלטפורמה מעוצבת בטעם ובלי הסחות.',
+    name: 'דניאל מ., תל אביב',
+    text: 'מצאתי דרך SCENTORY את Kirke — חיפשתי אותו שנתיים.',
+    stars: 5,
   },
   {
-    name: 'מיכל לוי',
-    text: 'הפירמידות, הביצועים, השוואת המחירים — הכל במקום אחד, נקי וברור.',
+    name: 'יעל ר., חיפה',
+    text: 'השאלון תפס בדיוק את הסגנון שלי — Molecule 01 היה פגיעה ישירה.',
+    stars: 5,
   },
   {
-    name: 'יובל אברהם',
-    text: 'נכנסתי לשאלון, קיבלתי שלוש המלצות, קניתי את הראשונה. אני מרוצה מאוד.',
+    name: 'נועם ב., פתח תקווה',
+    text: 'יש לי 40 בשמים — SCENTORY עזרה לי למצוא מה חסר.',
+    stars: 5,
   },
 ];
 
@@ -66,8 +69,11 @@ export default function Testimonials() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-x-12 gap-y-16">
-          {TESTIMONIALS.map(({ name, text }) => (
+          {TESTIMONIALS.map(({ name, text, stars }) => (
             <blockquote key={name} className="text-center">
+              <p style={{ ...nameStyle, color: 'var(--gold)', letterSpacing: '3px', marginBottom: '20px' }}>
+                {'★'.repeat(stars)}
+              </p>
               <p style={quoteStyle} className="mb-8">&ldquo;{text}&rdquo;</p>
               <footer style={nameStyle}>— {name}</footer>
             </blockquote>

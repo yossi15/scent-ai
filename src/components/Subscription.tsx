@@ -7,7 +7,7 @@ const TIERS = [
     id: 'discovery',
     name: 'Discovery',
     nameHe: 'גילוי',
-    price: 179,
+    price: 49,
     recommended: false,
     features: [
       'גישה לכל הקולקציה',
@@ -20,7 +20,7 @@ const TIERS = [
     id: 'collector',
     name: 'Collector',
     nameHe: 'אספן',
-    price: 549,
+    price: 99,
     recommended: true,
     features: [
       'כל יתרונות גילוי',
@@ -33,7 +33,7 @@ const TIERS = [
     id: 'expert',
     name: 'Expert',
     nameHe: 'מומחה',
-    price: 1459,
+    price: 199,
     recommended: false,
     features: [
       'כל יתרונות אספן',
@@ -249,7 +249,7 @@ export default function Subscription() {
                   }
                 }}
               >
-                {t.recommended ? 'התחל עכשיו' : 'בחר תוכנית'}
+                {t.recommended ? 'הצטרף עכשיו' : 'הצטרף'}
               </a>
             </motion.div>
           ))}

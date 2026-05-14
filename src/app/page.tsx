@@ -3,12 +3,11 @@
 import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
 import FeaturedFragrances from '@/components/FeaturedFragrances';
+import Collection from '@/components/Collection';
 import HowItWorks from '@/components/HowItWorks';
 import TasteQuiz from '@/components/TasteQuiz';
-import Collection from '@/components/Collection';
 import Testimonials from '@/components/Testimonials';
 import Subscription from '@/components/Subscription';
-import FAQ from '@/components/FAQ';
 import TrustStrip from '@/components/TrustStrip';
 import Footer from '@/components/Footer';
 
@@ -19,12 +18,11 @@ export default function Home() {
       <div style={{ height: '72px' }} />
       <Hero />
       <FeaturedFragrances />
+      <Collection />
       <HowItWorks />
       <TasteQuiz />
-      <Collection />
       <Testimonials />
       <Subscription />
-      <FAQ />
       <TrustStrip />
       <Footer />
     </main>
