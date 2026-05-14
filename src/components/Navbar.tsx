@@ -6,10 +6,9 @@ import { Menu, X } from 'lucide-react';
 import { SignInButton, UserButton, useAuth } from '@clerk/nextjs';
 
 const NAV_LINKS = [
-  { label: 'קולקציה',       href: '#collection' },
-  { label: 'איך זה עובד',   href: '#how-it-works' },
-  { label: 'שאלון טעמים',   href: '#quiz' },
-  { label: 'מנוי',          href: '#subscription' },
+  { label: 'קולקציה', href: '#collection' },
+  { label: 'שאלון',   href: '#quiz' },
+  { label: 'מנוי',    href: '#subscription' },
 ];
 
 const linkStyle: React.CSSProperties = {

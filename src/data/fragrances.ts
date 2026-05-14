@@ -137,8 +137,56 @@ function deriveRating(longevity: number, sillage: number, id: number): number {
   return Math.round(Math.min(5.0, Math.max(4.0, base + micro)) * 10) / 10;
 }
 
-// ── Raw extras (Halley + Bal d'Afrique not in scraped JSON) ─────────────────
+// ── Raw extras ───────────────────────────────────────────────────────────────
 const EXTRA_RAW = [
+  {
+    name: "Aventus",
+    house: "Creed",
+    year: 2010,
+    gender: "Masculine",
+    family: "Amber Woody",
+    concentration: "EDP",
+    price: 2200,
+    longevity: 9,
+    sillage: 9,
+    fragrantica_id: 25168,
+    image: "https://fimgs.net/mdimg/perfume/375x500.25168.jpg",
+    notes: [
+      { name: "Pineapple", type: "top" },
+      { name: "Blackcurrant", type: "top" },
+      { name: "Apple", type: "top" },
+      { name: "Bergamot", type: "top" },
+      { name: "Rose", type: "heart" },
+      { name: "Birch", type: "heart" },
+      { name: "Jasmine", type: "heart" },
+      { name: "Patchouli", type: "heart" },
+      { name: "Musk", type: "base" },
+      { name: "Oakmoss", type: "base" },
+      { name: "Ambergris", type: "base" },
+      { name: "Vanilla", type: "base" },
+    ],
+  },
+  {
+    name: "Baccarat Rouge 540",
+    house: "Maison Francis Kurkdjian",
+    year: 2015,
+    gender: "Unisex",
+    family: "Amber Floral",
+    concentration: "EDP",
+    price: 2500,
+    longevity: 9,
+    sillage: 9,
+    fragrantica_id: 55248,
+    image: "https://fimgs.net/mdimg/perfume/375x500.55248.jpg",
+    notes: [
+      { name: "Saffron", type: "top" },
+      { name: "Jasmine", type: "top" },
+      { name: "Amberwood", type: "heart" },
+      { name: "Ambroxi", type: "heart" },
+      { name: "Fir Resin", type: "base" },
+      { name: "Cedar", type: "base" },
+    ],
+  },
   {
     name: "Halley",
     house: "Tiziana Terenzi",
@@ -216,13 +264,18 @@ const EXTRA_RAW = [
 // ── Build final array ────────────────────────────────────────────────────────
 type RawEntry = typeof rawJson[0];
 
+function cleanName(name: string, house: string): string {
+  if (name.startsWith(house + ' ')) return name.slice(house.length + 1);
+  return name;
+}
+
 function transform(raw: RawEntry, index: number): Fragrance {
   const radar = RADAR[raw.family] ?? DEFAULT_RADAR;
   const notes = raw.notes as { name: string; type: 'top' | 'heart' | 'base' }[];
   const id = index + 1;
   return {
     id,
-    name: raw.name,
+    name: cleanName(raw.name, raw.house),
     house: raw.house,
     year: raw.year,
     gender: raw.gender,

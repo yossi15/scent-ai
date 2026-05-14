@@ -5,8 +5,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { fragrances, type Fragrance } from '@/data/fragrances';
 
-// Hand-curated iconic fragrances by id (Sauvage EDP, Oud Wood, Black Orchid, Tobacco Vanille)
-const FEATURED_IDS = [846, 906, 908, 7];
+// Aventus=1018, BR540=1019, Sauvage EDP=846, Oud Wood=906
+const FEATURED_IDS = [1018, 1019, 846, 906];
 const FEATURED: Fragrance[] = FEATURED_IDS.map(id => fragrances.find(f => f.id === id)!).filter(Boolean);
 
 const eyebrow: React.CSSProperties = {
