@@ -45,10 +45,40 @@ const QUESTIONS: Question[] = [
     id: 'intensity',
     text: 'איזו עוצמת ריח?',
     options: [
-      { value: 'subtle',  label: 'עדין',           scores: { fresh: 2 } },
+      { value: 'subtle',   label: 'עדין',         scores: { fresh: 2 } },
       { value: 'moderate', label: 'מאוזן',         scores: { floral: 1, woody: 1 } },
       { value: 'strong',   label: 'חזק ונוכח',    scores: { oriental: 2, animalic: 1 } },
       { value: 'beast',    label: 'מקסימום',      scores: { animalic: 2, oriental: 3 } },
+    ],
+  },
+  {
+    id: 'notes',
+    text: 'אילו תווים תואמים אותך?',
+    options: [
+      { value: 'wood',    label: 'עצים וענבר',       scores: { woody: 3, oriental: 1 } },
+      { value: 'flower',  label: 'פרחים ועלי ורד',  scores: { floral: 3 } },
+      { value: 'citrus',  label: 'הדרים ומינטה',    scores: { fresh: 3 } },
+      { value: 'spice',   label: 'תבלינים ועשן',    scores: { oriental: 2, animalic: 2 } },
+    ],
+  },
+  {
+    id: 'style',
+    text: 'איך תתאר את הסגנון האישי שלך?',
+    options: [
+      { value: 'classic',  label: 'קלאסי ואלגנטי',   scores: { floral: 1, woody: 2 } },
+      { value: 'bold',     label: 'נועז ובולט',       scores: { animalic: 2, oriental: 2 } },
+      { value: 'minimal',  label: 'מינימליסטי ונקי',  scores: { fresh: 3 } },
+      { value: 'romantic', label: 'רומנטי ורגיש',    scores: { floral: 2, gourmand: 1 } },
+    ],
+  },
+  {
+    id: 'gender',
+    text: 'איזה סוג בושם מעניין אותך?',
+    options: [
+      { value: 'masc',   label: 'גברי קלאסי',    scores: { woody: 2, fresh: 1 } },
+      { value: 'fem',    label: 'נשי אלגנטי',    scores: { floral: 2, gourmand: 1 } },
+      { value: 'unisex', label: 'יוניסקס מודרני', scores: { woody: 1, fresh: 1, floral: 1 } },
+      { value: 'niche',  label: 'נישה ייחודי',   scores: { animalic: 1, oriental: 2, woody: 1 } },
     ],
   },
 ];
@@ -156,7 +186,7 @@ export default function TasteQuiz() {
     >
       <div className="max-w-2xl mx-auto">
         <div className="text-center mb-20">
-          <p style={eyebrow} className="mb-4">Taste Quiz</p>
+          <p style={eyebrow} className="mb-4">שאלון טעמים</p>
           <h2 id="quiz-heading" style={heading}>שאלון טעמים</h2>
         </div>
 
@@ -183,7 +213,7 @@ export default function TasteQuiz() {
           </div>
         ) : (
           <div>
-            <p style={metaStyle} className="mb-6 text-center">Your matches</p>
+            <p style={metaStyle} className="mb-6 text-center">ההמלצות שלנו</p>
             <h3 style={qStyle} className="mb-12 text-center">ההמלצות שלנו</h3>
 
             <div style={{ borderTop: '1px solid #eee' }}>
@@ -214,7 +244,7 @@ export default function TasteQuiz() {
                     </span>
                   </span>
                   <span style={{ fontFamily: 'Inter, sans-serif', fontWeight: 400, fontSize: '12px', letterSpacing: '2px', textTransform: 'uppercase', color: '#000' }}>
-                    View →
+                    צפה ←
                   </span>
                 </button>
               ))}
@@ -222,10 +252,10 @@ export default function TasteQuiz() {
 
             <div className="flex items-center justify-center gap-10 mt-12">
               <button onClick={reset} style={linkStyle} className="hover:opacity-60 transition-opacity">
-                Restart
+                שאלון חדש
               </button>
               <a href="#collection" style={linkStyle} className="hover:opacity-60 transition-opacity">
-                View collection
+                לכל הקולקציה ←
               </a>
             </div>
           </div>

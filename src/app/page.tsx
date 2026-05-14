@@ -14,7 +14,7 @@ import Footer from '@/components/Footer';
 
 export default function Home() {
   return (
-    <main id="main-content" className="relative" style={{ background: '#FFFFFF' }}>
+    <main id="main-content" className="relative" style={{ background: 'var(--bg-primary)' }}>
       <Navbar />
       <div style={{ height: '72px' }} />
       <Hero />

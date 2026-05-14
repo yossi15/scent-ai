@@ -5,19 +5,9 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { fragrances, type Fragrance } from '@/data/fragrances';
 
-// Pick 4 hand-curated highlights (top-rated, diverse families)
-const FEATURED: Fragrance[] = (() => {
-  const ranked = [...fragrances].sort((a, b) => b.rating - a.rating);
-  const seenFamilies = new Set<string>();
-  const out: Fragrance[] = [];
-  for (const f of ranked) {
-    if (seenFamilies.has(f.family)) continue;
-    seenFamilies.add(f.family);
-    out.push(f);
-    if (out.length === 4) break;
-  }
-  return out.length === 4 ? out : ranked.slice(0, 4);
-})();
+// Hand-curated iconic fragrances by id (Sauvage EDP, Oud Wood, Black Orchid, Tobacco Vanille)
+const FEATURED_IDS = [846, 906, 908, 7];
+const FEATURED: Fragrance[] = FEATURED_IDS.map(id => fragrances.find(f => f.id === id)!).filter(Boolean);
 
 const eyebrow: React.CSSProperties = {
   fontFamily: 'Inter, sans-serif',
@@ -104,8 +94,8 @@ export default function FeaturedFragrances() {
     >
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-20">
-          <p style={eyebrow} className="mb-4">The Collection</p>
-          <h2 id="featured-heading" style={heading}>Featured Scents</h2>
+          <p style={eyebrow} className="mb-4">הקולקציה</p>
+          <h2 id="featured-heading" style={heading}>נבחרים</h2>
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-16">
@@ -116,7 +106,7 @@ export default function FeaturedFragrances() {
 
         <div className="text-center mt-20">
           <a href="#collection" style={linkStyle} className="hover:opacity-60 transition-opacity">
-            View all {fragrances.length}
+            לכל הקולקציה — {fragrances.length} ←
           </a>
         </div>
       </div>

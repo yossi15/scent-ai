@@ -71,7 +71,7 @@ export default function HowItWorks() {
     >
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-24">
-          <p style={eyebrow} className="mb-4">The Process</p>
+          <p style={eyebrow} className="mb-4">איך זה עובד</p>
           <h2 id="how-heading" style={heading}>איך זה עובד</h2>
         </div>
 

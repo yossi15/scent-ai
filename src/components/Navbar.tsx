@@ -6,10 +6,10 @@ import { Menu, X } from 'lucide-react';
 import { SignInButton, UserButton, useAuth } from '@clerk/nextjs';
 
 const NAV_LINKS = [
-  { label: 'Collection', href: '#collection' },
-  { label: 'Process',    href: '#how-it-works' },
-  { label: 'Quiz',       href: '#quiz' },
-  { label: 'Membership', href: '#subscription' },
+  { label: 'קולקציה',       href: '#collection' },
+  { label: 'איך זה עובד',   href: '#how-it-works' },
+  { label: 'שאלון טעמים',   href: '#quiz' },
+  { label: 'מנוי',          href: '#subscription' },
 ];
 
 const linkStyle: React.CSSProperties = {
@@ -59,7 +59,7 @@ export default function Navbar() {
             {!isSignedIn ? (
               <SignInButton mode="modal">
                 <button style={linkStyle} className="hover:opacity-60 transition-opacity duration-200">
-                  Sign in
+                  כניסה
                 </button>
               </SignInButton>
             ) : (
@@ -98,7 +98,7 @@ export default function Navbar() {
             {!isSignedIn && (
               <li>
                 <SignInButton mode="modal">
-                  <button style={linkStyle} className="block py-2 w-full text-right">Sign in</button>
+                  <button style={linkStyle} className="block py-2 w-full text-right">כניסה</button>
                 </SignInButton>
               </li>
             )}
