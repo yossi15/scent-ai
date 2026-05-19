@@ -11,13 +11,13 @@ const NAV_LINKS = [
   { label: 'מנוי',    href: '#subscription' },
 ];
 
-const linkStyle: React.CSSProperties = {
+const navLink: React.CSSProperties = {
   fontFamily: 'Inter, sans-serif',
   fontWeight: 400,
-  fontSize: '12px',
+  fontSize: '11px',
   letterSpacing: '1.5px',
   textTransform: 'uppercase',
-  color: '#000',
+  color: '#1A1A1A',
 };
 
 export default function Navbar() {
@@ -26,30 +26,32 @@ export default function Navbar() {
 
   return (
     <header
-      className="fixed top-0 inset-x-0 z-50"
-      style={{ background: '#fff', borderBottom: '1px solid #eee' }}
+      className="fixed top-0 inset-x-0 z-50 bg-white"
+      style={{ borderBottom: '1px solid #eee' }}
     >
       <nav className="max-w-7xl mx-auto px-6 h-[72px] flex items-center justify-between" aria-label="Primary">
-        {/* Logo on left */}
         <Link
           href="/"
           aria-label="SCENTORY home"
           style={{
             fontFamily: '"Cormorant Garamond", Georgia, serif',
-            fontWeight: 600,
-            fontSize: '22px',
-            letterSpacing: '0.5px',
-            color: '#000',
+            fontWeight: 500,
+            fontSize: '20px',
+            letterSpacing: '1.5px',
+            color: '#1A1A1A',
           }}
         >
           SCENTORY
         </Link>
 
-        {/* Links on right (rendered after logo in DOM) */}
         <ul className="hidden md:flex items-center gap-10" role="list">
           {NAV_LINKS.map((l) => (
             <li key={l.href}>
-              <a href={l.href} style={linkStyle} className="hover:opacity-60 transition-opacity duration-200">
+              <a
+                href={l.href}
+                style={navLink}
+                className="transition-opacity duration-200 hover:opacity-50"
+              >
                 {l.label}
               </a>
             </li>
@@ -57,7 +59,7 @@ export default function Navbar() {
           <li>
             {!isSignedIn ? (
               <SignInButton mode="modal">
-                <button style={linkStyle} className="hover:opacity-60 transition-opacity duration-200">
+                <button style={navLink} className="transition-opacity duration-200 hover:opacity-50">
                   כניסה
                 </button>
               </SignInButton>
@@ -67,29 +69,22 @@ export default function Navbar() {
           </li>
         </ul>
 
-        {/* Mobile hamburger */}
         <button
           className="md:hidden p-2"
           onClick={() => setMobileOpen(v => !v)}
-          aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
+          aria-label={mobileOpen ? 'סגור תפריט' : 'פתח תפריט'}
           aria-expanded={mobileOpen}
         >
-          {mobileOpen ? <X className="w-5 h-5 text-black" /> : <Menu className="w-5 h-5 text-black" />}
+          {mobileOpen ? <X className="w-5 h-5" style={{ color: '#1A1A1A' }} /> : <Menu className="w-5 h-5" style={{ color: '#1A1A1A' }} />}
         </button>
       </nav>
 
-      {/* Mobile menu */}
       {mobileOpen && (
-        <div className="md:hidden border-t border-[#eee] bg-white">
-          <ul className="px-6 py-4 space-y-3" role="list">
+        <div className="md:hidden bg-white" style={{ borderTop: '1px solid #eee' }}>
+          <ul className="px-6 py-4 space-y-4" role="list">
             {NAV_LINKS.map((l) => (
               <li key={l.href}>
-                <a
-                  href={l.href}
-                  onClick={() => setMobileOpen(false)}
-                  style={linkStyle}
-                  className="block py-2"
-                >
+                <a href={l.href} onClick={() => setMobileOpen(false)} style={navLink} className="block py-2">
                   {l.label}
                 </a>
               </li>
@@ -97,7 +92,7 @@ export default function Navbar() {
             {!isSignedIn && (
               <li>
                 <SignInButton mode="modal">
-                  <button style={linkStyle} className="block py-2 w-full text-right">כניסה</button>
+                  <button style={navLink} className="block py-2 w-full text-right">כניסה</button>
                 </SignInButton>
               </li>
             )}

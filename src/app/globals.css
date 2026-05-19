@@ -4,27 +4,27 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
-  /* SCENTORY palette */
-  --bg-primary: #F5F3EE;
-  --bg-secondary: #ECEAE4;
-  --bg-card: #ECEAE4;
-  --bg-accent: #EFEDE7;
-  --ink: #0D0D0D;
-  --ink-secondary: #4A4A4A;
-  --ink-muted: #6B6B6B;
-  --ink-faint: #9A9A9A;
-  --gold: #C4A882;
-  --gold-hover: #B08F66;
-  --gold-light: #D6BE9C;
-  --gold-dark: #8B7355;
-  --gold-faint: rgba(196, 168, 130, 0.10);
-  --gold-border: rgba(139, 115, 85, 0.22);
-  --accent: #2C1810;
-  --border: #D4D0C8;
-  --shadow-sm: 0 1px 3px rgba(13,13,13,0.05), 0 1px 2px rgba(13,13,13,0.03);
-  --shadow-md: 0 4px 16px rgba(13,13,13,0.06), 0 2px 4px rgba(13,13,13,0.04);
-  --shadow-lg: 0 12px 40px rgba(13,13,13,0.08), 0 4px 12px rgba(13,13,13,0.05);
-  --shadow-gold: 0 8px 32px rgba(196, 168, 130, 0.18);
+  /* SCENTORY palette — boutique luxury */
+  --bg-primary: #FAF8F4;
+  --bg-secondary: #F5F3EF;
+  --bg-card: #FFFFFF;
+  --bg-accent: #F5F3EF;
+  --ink: #1A1A1A;
+  --ink-secondary: #3D3D3D;
+  --ink-muted: #6B6867;
+  --ink-faint: #9E9B98;
+  --gold: #8B7355;
+  --gold-hover: #7A6448;
+  --gold-light: #A8906E;
+  --gold-dark: #6B5840;
+  --gold-faint: rgba(139, 115, 85, 0.07);
+  --gold-border: rgba(139, 115, 85, 0.18);
+  --accent: #1A1A1A;
+  --border: #E8E4DC;
+  --shadow-sm: 0 1px 2px rgba(26,26,26,0.04);
+  --shadow-md: 0 2px 8px rgba(26,26,26,0.06);
+  --shadow-lg: 0 4px 20px rgba(26,26,26,0.07);
+  --shadow-gold: 0 2px 12px rgba(139, 115, 85, 0.12);
 }
 
 .dark {
@@ -144,31 +144,20 @@ p, li, span, label, button, a, input, textarea, select {
   font-family: inherit;
 }
 
-/* Premium card */
+/* Boutique card */
 .card {
   background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  box-shadow: var(--shadow-sm);
-  transition: all 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
+  border: 0.5px solid var(--border);
+  transition: border-color 0.3s ease;
 }
-
-.dark .card {
-  border-color: var(--border);
-}
-
 .card:hover {
-  box-shadow: var(--shadow-md);
   border-color: var(--gold-border);
-  transform: translateY(-2px);
 }
 
 /* Gold accent card */
 .card-gold {
   background: var(--bg-card);
-  border: 1px solid var(--gold-border);
-  border-radius: 16px;
-  box-shadow: var(--shadow-gold);
+  border: 0.5px solid var(--gold-border);
 }
 
 /* Section heading: tight tracking, solid ink. The previous gold gradient
@@ -180,23 +169,15 @@ p, li, span, label, button, a, input, textarea, select {
 }
 .dark .gold-text { color: var(--ink); }
 
-/* Gold button */
+/* Gold button — flat boutique style */
 .btn-gold {
-  background: linear-gradient(135deg, var(--gold-dark), var(--gold));
-  color: #0D0D0D;
-  font-weight: 600;
+  background: var(--ink);
+  color: var(--bg-primary);
+  font-weight: 500;
   border: none;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 8px rgba(139, 115, 85, 0.25);
+  transition: opacity 0.2s ease;
 }
-.btn-gold:hover {
-  background: linear-gradient(135deg, var(--gold), var(--gold-light));
-  box-shadow: 0 4px 16px rgba(139, 115, 85, 0.35);
-  transform: translateY(-1px);
-}
-.dark .btn-gold {
-  color: #0D0D0D;
-}
+.btn-gold:hover { opacity: 0.82; }
 
 /* Outline button */
 .btn-outline {
