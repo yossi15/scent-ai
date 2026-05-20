@@ -1,10 +1,10 @@
 'use client';
 
 const ITEMS = [
-  'Authentic fragrances only',
-  'Secure checkout',
-  'Cancel anytime',
-  'Verified reviews',
+  'בשמים אותנטיים בלבד',
+  'תשלום מאובטח',
+  'ביטול בכל עת',
+  'ביקורות מאומתות',
 ];
 
 const itemStyle: React.CSSProperties = {

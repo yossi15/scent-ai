@@ -91,8 +91,23 @@ export default function FragranceCard({ fragrance: f, onClick, inCollection, onT
             </div>
           </div>
         ) : (
-          <div className="absolute inset-0 flex items-center justify-center">
-            <BottleSilhouette className="w-20 h-28" style={{ color: 'var(--ink-faint)' }} />
+          <div
+            className="absolute inset-0 flex items-center justify-center"
+            style={{ background: '#FAF8F3' }}
+          >
+            <span
+              style={{
+                fontFamily: '"Cormorant Garamond", Georgia, serif',
+                fontSize: '60px',
+                fontWeight: 400,
+                color: '#A09890',
+                lineHeight: 1,
+                userSelect: 'none',
+              }}
+              aria-hidden="true"
+            >
+              {f.house.charAt(0).toUpperCase()}
+            </span>
           </div>
         )}
       </div>

@@ -3,6 +3,7 @@
 import { fragrances } from '@/data/fragrances';
 
 const TOTAL = fragrances.length;
+const HOUSES = new Set(fragrances.map(f => f.house)).size;
 
 export default function Hero() {
   return (
@@ -23,7 +24,7 @@ export default function Hero() {
           marginBottom: '36px',
         }}
       >
-        ריחות נישה · {TOTAL} בשמים · 63 בתי בושם
+        ריחות נישה · {TOTAL} בשמים · {HOUSES} בתי בושם
       </p>
 
       <h1

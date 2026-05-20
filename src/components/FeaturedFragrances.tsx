@@ -5,8 +5,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { fragrances, type Fragrance } from '@/data/fragrances';
 
-// Aventus=1018, BR540=1019, Sauvage EDP=846, Oud Wood=906
-const FEATURED_IDS = [1018, 1019, 846, 906];
+// Aventus=1015, BR540=1016, Sauvage EDP=846, Oud Wood=906
+const FEATURED_IDS = [1015, 1016, 846, 906];
 const FEATURED: Fragrance[] = FEATURED_IDS.map(id => fragrances.find(f => f.id === id)!).filter(Boolean);
 
 const eyebrow: React.CSSProperties = {
@@ -75,7 +75,26 @@ function FeaturedCard({ fragrance }: { fragrance: Fragrance }) {
               />
             </div>
           </div>
-        ) : null}
+        ) : (
+          <div
+            className="absolute inset-0 flex items-center justify-center"
+            style={{ background: '#FAF8F3' }}
+          >
+            <span
+              style={{
+                fontFamily: '"Cormorant Garamond", Georgia, serif',
+                fontSize: '60px',
+                fontWeight: 400,
+                color: '#A09890',
+                lineHeight: 1,
+                userSelect: 'none',
+              }}
+              aria-hidden="true"
+            >
+              {fragrance.house.charAt(0).toUpperCase()}
+            </span>
+          </div>
+        )}
       </div>
       <div dir="ltr" className="text-center">
         <p style={houseStyle} className="mb-2">{fragrance.house}</p>

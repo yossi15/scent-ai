@@ -279,7 +279,7 @@ export default function Collection() {
           transition={{ duration: 0.8 }}
           className="text-center mb-12"
         >
-          <p className="mb-4" style={{ fontFamily: 'Inter, sans-serif', fontWeight: 400, fontSize: '11px', letterSpacing: '3px', textTransform: 'uppercase', color: '#999' }}>The Collection</p>
+          <p className="mb-4" style={{ fontFamily: 'Inter, sans-serif', fontWeight: 400, fontSize: '11px', letterSpacing: '3px', textTransform: 'uppercase', color: '#999' }}>הקולקציה</p>
           <h2 className="mb-4" style={{ fontFamily: '"Cormorant Garamond", Georgia, serif', fontWeight: 600, fontSize: 'clamp(32px, 5vw, 48px)', lineHeight: 1.1, letterSpacing: '-0.01em', color: '#000' }}>הקולקציה המלאה</h2>
           <p style={{ fontFamily: 'Inter, sans-serif', fontWeight: 300, fontSize: '14px', lineHeight: 1.7, color: '#666' }}>
             {fragrances.length} בשמים נישתיים מ-{houses.length - 1} בתי בושם נבחרים

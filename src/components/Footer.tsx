@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { fragrances } from '@/data/fragrances';
 
 const TOTAL = fragrances.length;
-const HOUSES = 63;
+const HOUSES = new Set(fragrances.map(f => f.house)).size;
 
 const eyebrow: React.CSSProperties = {
   fontFamily: 'Inter, sans-serif',

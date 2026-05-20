@@ -83,7 +83,7 @@ export default function Subscription() {
               color: 'var(--gold)',
             }}
           >
-            Membership
+            מנוי
           </p>
           <h2
             id="subscription-heading"
@@ -144,21 +144,6 @@ export default function Subscription() {
                   מומלץ
                 </div>
               )}
-
-              <p
-                className="mb-3"
-                dir="ltr"
-                style={{
-                  fontFamily: 'var(--font-sans)',
-                  fontWeight: 400,
-                  fontSize: '10px',
-                  letterSpacing: '3px',
-                  textTransform: 'uppercase',
-                  color: t.recommended ? 'var(--gold)' : 'var(--ink-faint)',
-                }}
-              >
-                {t.name}
-              </p>
 
               <h3
                 className="mb-8"

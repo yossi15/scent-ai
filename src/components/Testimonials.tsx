@@ -64,7 +64,7 @@ export default function Testimonials() {
     >
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-20">
-          <p style={eyebrow} className="mb-4">Testimonials</p>
+          <p style={eyebrow} className="mb-4">המלצות</p>
           <h2 id="testimonials-heading" style={heading}>קולות מהקהילה</h2>
         </div>
 
