@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { Menu, X } from 'lucide-react';
-import { SignInButton, UserButton, useAuth } from '@clerk/nextjs';
+import { UserButton, useAuth } from '@clerk/nextjs';
 
 const NAV_LINKS = [
   { label: 'קולקציה', href: '#collection' },
@@ -58,11 +58,9 @@ export default function Navbar() {
           ))}
           <li>
             {!isSignedIn ? (
-              <SignInButton mode="modal">
-                <button style={navLink} className="transition-opacity duration-200 hover:opacity-50">
-                  כניסה
-                </button>
-              </SignInButton>
+              <Link href="/sign-in" style={navLink} className="transition-opacity duration-200 hover:opacity-50">
+                כניסה
+              </Link>
             ) : (
               <UserButton />
             )}
@@ -91,9 +89,7 @@ export default function Navbar() {
             ))}
             {!isSignedIn && (
               <li>
-                <SignInButton mode="modal">
-                  <button style={navLink} className="block py-2 w-full text-right">כניסה</button>
-                </SignInButton>
+                <Link href="/sign-in" style={navLink} className="block py-2">כניסה</Link>
               </li>
             )}
           </ul>

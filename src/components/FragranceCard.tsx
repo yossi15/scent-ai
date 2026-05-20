@@ -82,7 +82,7 @@ export default function FragranceCard({ fragrance: f, onClick, inCollection, onT
             <div className="relative w-full h-full">
               <Image
                 src={f.image}
-                alt={`${f.name} by ${f.house}`}
+                alt={`${f.name} מאת ${f.house} — בקבוק בושם`}
                 fill
                 sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
                 className="object-contain transition-transform duration-700 ease-out group-hover:scale-[1.04]"
@@ -100,7 +100,7 @@ export default function FragranceCard({ fragrance: f, onClick, inCollection, onT
                 fontFamily: '"Cormorant Garamond", Georgia, serif',
                 fontSize: '60px',
                 fontWeight: 400,
-                color: '#A09890',
+                color: '#6B6560',
                 lineHeight: 1,
                 userSelect: 'none',
               }}

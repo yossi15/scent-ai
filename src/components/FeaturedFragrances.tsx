@@ -67,7 +67,7 @@ function FeaturedCard({ fragrance }: { fragrance: Fragrance }) {
             <div className="relative w-full h-full">
               <Image
                 src={fragrance.image}
-                alt={fragrance.name}
+                alt={`${fragrance.name} מאת ${fragrance.house} — בקבוק בושם`}
                 fill
                 sizes="(max-width: 640px) 50vw, 25vw"
                 className="object-contain transition-transform duration-700 ease-out group-hover:scale-[1.03]"
@@ -85,7 +85,7 @@ function FeaturedCard({ fragrance }: { fragrance: Fragrance }) {
                 fontFamily: '"Cormorant Garamond", Georgia, serif',
                 fontSize: '60px',
                 fontWeight: 400,
-                color: '#A09890',
+                color: '#6B6560',
                 lineHeight: 1,
                 userSelect: 'none',
               }}

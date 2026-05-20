@@ -71,9 +71,10 @@ export default function Footer() {
             <p style={eyebrow} className="mb-5">משפטי</p>
             <ul className="space-y-3" role="list">
               {[
-                { label: 'תנאי שימוש', href: '/terms' },
-                { label: 'פרטיות',     href: '/privacy' },
-                { label: 'שאלות נפוצות', href: '/faq' },
+                { label: 'תנאי שימוש',    href: '/terms' },
+                { label: 'פרטיות',        href: '/privacy' },
+                { label: 'שאלות נפוצות',  href: '/faq' },
+                { label: 'הצהרת נגישות', href: '/accessibility' },
               ].map(({ label, href }) => (
                 <li key={href}>
                   <Link href={href} style={linkStyle} className="hover:opacity-60 transition-opacity">{label}</Link>

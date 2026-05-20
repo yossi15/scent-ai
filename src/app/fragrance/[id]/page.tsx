@@ -214,7 +214,7 @@ function SimilarCard({ fragrance, index }: { fragrance: Fragrance; index: number
               <div className="relative w-16 h-24 z-10">
                 <Image
                   src={fragrance.image}
-                  alt={fragrance.name}
+                  alt={`${fragrance.name} מאת ${fragrance.house} — בקבוק בושם`}
                   fill
                   sizes="96px"
                   className="object-contain drop-shadow-md group-hover:scale-105 transition-transform duration-500"
@@ -390,7 +390,7 @@ export default function FragrancePage() {
               >
                 <Image
                   src={imgUrl}
-                  alt={`${fragrance.name} by ${fragrance.house}`}
+                  alt={`${fragrance.name} מאת ${fragrance.house} — בקבוק בושם`}
                   fill
                   sizes="(max-width: 768px) 50vw, 30vw"
                   className="object-contain"
@@ -408,7 +408,7 @@ export default function FragrancePage() {
                     fontFamily: '"Cormorant Garamond", Georgia, serif',
                     fontSize: '96px',
                     fontWeight: 400,
-                    color: '#A09890',
+                    color: '#6B6560',
                     lineHeight: 1,
                     userSelect: 'none',
                   }}

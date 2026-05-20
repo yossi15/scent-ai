@@ -12,7 +12,7 @@
   --ink: #1A1A1A;
   --ink-secondary: #3D3D3D;
   --ink-muted: #6B6867;
-  --ink-faint: #9E9B98;
+  --ink-faint: #6B6560;
   --gold: #8B7355;
   --gold-hover: #7A6448;
   --gold-light: #A8906E;
@@ -288,6 +288,30 @@ button:focus:not(:focus-visible) {
 .skip-to-content:focus {
   top: 16px;
 }
+
+/* ── Accessibility Widget ───────────────────────────────────────── */
+/* High contrast mode */
+html.a11y-contrast {
+  --ink: #000000;
+  --ink-secondary: #111111;
+  --ink-muted: #222222;
+  --ink-faint: #333333;
+  --bg-primary: #FFFFFF;
+  --bg-secondary: #F0F0F0;
+  --bg-card: #FFFFFF;
+  --border: #888888;
+  --gold: #4A3700;
+  --gold-border: rgba(74,55,0,0.4);
+}
+/* Link highlight mode */
+html.a11y-links a {
+  text-decoration: underline !important;
+  text-decoration-thickness: 2px !important;
+  text-underline-offset: 3px !important;
+}
+/* Font boost levels */
+html.a11y-font-1 { font-size: 112.5%; }
+html.a11y-font-2 { font-size: 125%; }
 
 /* Respect reduced motion preferences */
 @media (prefers-reduced-motion: reduce) {

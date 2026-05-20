@@ -1,5 +1,7 @@
 import type { Metadata } from 'next';
 import { ClerkProvider } from '@clerk/nextjs';
+import CookieBanner from '@/components/CookieBanner';
+import AccessibilityWidget from '@/components/AccessibilityWidget';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -59,6 +61,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <body className="min-h-full flex flex-col">
           <a href="#main-content" className="skip-to-content">דלג לתוכן הראשי</a>
           {children}
+          <CookieBanner />
+          <AccessibilityWidget />
         </body>
       </html>
     </ClerkProvider>
