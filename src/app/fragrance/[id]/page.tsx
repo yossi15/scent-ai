@@ -222,7 +222,19 @@ function SimilarCard({ fragrance, index }: { fragrance: Fragrance; index: number
                 />
               </div>
             ) : (
-              <BottleSilhouette className="w-14 h-20 text-ink opacity-20 z-10" />
+              <span
+                style={{
+                  fontFamily: '"Cormorant Garamond", Georgia, serif',
+                  fontSize: '48px',
+                  fontWeight: 400,
+                  color: '#A09890',
+                  lineHeight: 1,
+                  userSelect: 'none',
+                }}
+                aria-hidden="true"
+              >
+                {fragrance.house.charAt(0).toUpperCase()}
+              </span>
             )}
             <div className="absolute top-2.5 right-2.5">
               <span className="text-[9px] font-sans bg-white/90 backdrop-blur-sm text-ink-muted px-2 py-0.5 rounded-full" dir="ltr">
@@ -387,7 +399,24 @@ export default function FragrancePage() {
                 />
               </motion.div>
             ) : (
-              <BottleSilhouette className="w-36 h-52 text-ink opacity-20 z-10" />
+              <div
+                className="absolute inset-0 flex items-center justify-center"
+                style={{ background: '#FAF8F3' }}
+              >
+                <span
+                  style={{
+                    fontFamily: '"Cormorant Garamond", Georgia, serif',
+                    fontSize: '96px',
+                    fontWeight: 400,
+                    color: '#A09890',
+                    lineHeight: 1,
+                    userSelect: 'none',
+                  }}
+                  aria-hidden="true"
+                >
+                  {fragrance.house.charAt(0).toUpperCase()}
+                </span>
+              </div>
             )}
 
             {/* Rating */}
