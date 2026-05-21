@@ -25,6 +25,8 @@
   --shadow-md: 0 2px 8px rgba(26,26,26,0.06);
   --shadow-lg: 0 4px 20px rgba(26,26,26,0.07);
   --shadow-gold: 0 2px 12px rgba(139, 115, 85, 0.12);
+  --accent-gold: #C9A961;
+  --bg-dark: #0F0F0E;
 }
 
 .dark {

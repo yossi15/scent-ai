@@ -96,7 +96,7 @@ export default function Subscription() {
               color: 'var(--ink)',
             }}
           >
-            תוכניות מנוי
+            בחר את המסלול שלך
           </h2>
         </motion.div>
 
@@ -117,12 +117,10 @@ export default function Subscription() {
                 padding: '48px',
                 borderBottom: '1px solid var(--border)',
                 borderRight: i < TIERS.length - 1 ? '1px solid var(--border)' : 'none',
-                background: t.recommended ? 'var(--bg-primary)' : 'transparent',
+                background: t.recommended ? '#0F0F0E' : 'transparent',
                 ...(t.recommended
                   ? {
-                      outline: '1.5px solid var(--gold-border)',
-                      outlineOffset: '-1px',
-                      boxShadow: 'var(--shadow-gold)',
+                      border: 'none',
                     }
                   : {}),
               }}
@@ -131,7 +129,7 @@ export default function Subscription() {
                 <div
                   className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 px-4 py-1"
                   style={{
-                    background: 'var(--gold)',
+                    background: '#C9A961',
                     fontFamily: 'var(--font-sans)',
                     fontWeight: 500,
                     fontSize: '9px',
@@ -151,7 +149,7 @@ export default function Subscription() {
                   fontFamily: 'var(--font-serif)',
                   fontWeight: 500,
                   fontSize: '28px',
-                  color: 'var(--ink)',
+                  color: t.recommended ? '#FFFFFF' : 'var(--ink)',
                   letterSpacing: '-0.01em',
                 }}
               >
@@ -164,7 +162,7 @@ export default function Subscription() {
                     fontFamily: 'var(--font-serif)',
                     fontWeight: 400,
                     fontSize: '44px',
-                    color: 'var(--ink)',
+                    color: t.recommended ? '#C9A961' : 'var(--ink)',
                     letterSpacing: '-0.02em',
                   }}
                 >
@@ -174,7 +172,7 @@ export default function Subscription() {
                   style={{
                     fontFamily: 'var(--font-sans)',
                     fontSize: '11px',
-                    color: 'var(--ink-faint)',
+                    color: t.recommended ? 'rgba(255,255,255,0.4)' : 'var(--ink-faint)',
                     letterSpacing: '1px',
                   }}
                 >
@@ -190,7 +188,7 @@ export default function Subscription() {
                       fontFamily: 'var(--font-hebrew)',
                       fontWeight: 300,
                       fontSize: '13px',
-                      color: 'var(--ink-secondary)',
+                      color: t.recommended ? 'rgba(255,255,255,0.65)' : 'var(--ink-secondary)',
                       lineHeight: 1.7,
                     }}
                   >
@@ -209,25 +207,23 @@ export default function Subscription() {
                   fontSize: '11px',
                   letterSpacing: '2px',
                   textTransform: 'uppercase',
-                  background: t.recommended ? 'var(--ink)' : 'transparent',
-                  color: t.recommended ? 'var(--bg-primary)' : 'var(--ink)',
+                  background: t.recommended ? '#C9A961' : 'transparent',
+                  color: t.recommended ? '#0F0F0E' : 'var(--ink)',
                   border: t.recommended ? 'none' : '1px solid var(--border)',
                 }}
                 onMouseEnter={e => {
                   const el = e.currentTarget as HTMLElement;
                   if (t.recommended) {
-                    el.style.background = 'var(--gold-dark)';
-                    el.style.boxShadow = '0 4px 14px rgba(139,115,85,0.28)';
+                    el.style.opacity = '0.85';
                   } else {
-                    el.style.borderColor = 'var(--gold)';
-                    el.style.color = 'var(--gold)';
+                    el.style.borderColor = '#C9A961';
+                    el.style.color = '#C9A961';
                   }
                 }}
                 onMouseLeave={e => {
                   const el = e.currentTarget as HTMLElement;
                   if (t.recommended) {
-                    el.style.background = 'var(--ink)';
-                    el.style.boxShadow = 'none';
+                    el.style.opacity = '1';
                   } else {
                     el.style.borderColor = 'var(--border)';
                     el.style.color = 'var(--ink)';
