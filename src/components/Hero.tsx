@@ -11,7 +11,7 @@ export default function Hero() {
     <section
       id="hero"
       className="relative overflow-hidden"
-      style={{ background: '#FAF8F3', paddingTop: '72px' /* navbar height */ }}
+      style={{ background: 'var(--bg-primary)', paddingTop: '72px' /* navbar height */ }}
       aria-labelledby="hero-heading"
     >
       {/* 50 / 50 grid — LTR so image stays physically left */}
@@ -35,7 +35,7 @@ export default function Hero() {
               position: 'absolute',
               bottom: '32px',
               right: '32px',
-              background: '#C9A961',
+              background: 'var(--accent-gold)',
               padding: '10px 16px',
               maxWidth: '220px',
             }}
@@ -60,7 +60,7 @@ export default function Hero() {
         <div
           dir="rtl"
           className="flex flex-col justify-center px-10 md:px-16 lg:px-24 py-24 md:py-0"
-          style={{ background: '#FAF8F3' }}
+          style={{ background: 'var(--bg-primary)' }}
         >
           {/* eyebrow */}
           <p
@@ -70,41 +70,29 @@ export default function Hero() {
               fontSize: '9px',
               letterSpacing: '4px',
               textTransform: 'uppercase',
-              color: '#6B6560',
+              color: 'var(--ink-muted)',
               marginBottom: '28px',
             }}
           >
             פלטפורמת AI לגילוי בשמים
           </p>
 
-          {/* Heading */}
+          {/* Heading — single h1, second line styled via span */}
           <h1
             id="hero-heading"
             style={{
               fontFamily: '"Cormorant Garamond", Georgia, serif',
               fontWeight: 300,
               fontSize: 'clamp(38px, 5vw, 56px)',
-              lineHeight: 1.1,
+              lineHeight: 1.15,
               letterSpacing: '-0.02em',
-              color: '#1C1C1A',
-              marginBottom: '4px',
+              color: 'var(--ink)',
+              marginBottom: '32px',
             }}
           >
             האלגוריתם שמבין את
-          </h1>
-          <h1
-            style={{
-              fontFamily: '"Cormorant Garamond", Georgia, serif',
-              fontWeight: 300,
-              fontSize: 'clamp(38px, 5vw, 56px)',
-              lineHeight: 1.1,
-              letterSpacing: '-0.02em',
-              color: '#C9A961',
-              marginBottom: '32px',
-            }}
-            aria-hidden="true"
-          >
-            הזכרון הריחני שלך
+            <br />
+            <span style={{ color: 'var(--accent-gold)' }}>הזכרון הריחני שלך</span>
           </h1>
 
           {/* Description */}
@@ -114,7 +102,7 @@ export default function Hero() {
               fontWeight: 300,
               fontSize: '14px',
               lineHeight: 1.8,
-              color: '#6B6560',
+              color: 'var(--ink-muted)',
               maxWidth: '380px',
               marginBottom: '44px',
             }}
@@ -129,8 +117,8 @@ export default function Hero() {
               style={{
                 display: 'inline-block',
                 padding: '15px 36px',
-                background: '#1C1C1A',
-                color: '#FAF8F3',
+                background: 'var(--ink)',
+                color: 'var(--bg-primary)',
                 fontFamily: 'Inter, sans-serif',
                 fontWeight: 400,
                 fontSize: '11px',
@@ -150,7 +138,7 @@ export default function Hero() {
               display: 'grid',
               gridTemplateColumns: 'repeat(3, auto)',
               gap: '0',
-              borderTop: '1px solid #E8E4DC',
+              borderTop: '1px solid var(--border)',
               paddingTop: '28px',
               maxWidth: '360px',
             }}
@@ -166,7 +154,7 @@ export default function Hero() {
                   flex: 1,
                   paddingLeft: i > 0 ? '24px' : 0,
                   marginLeft: i > 0 ? '24px' : 0,
-                  borderLeft: i > 0 ? '1px solid #E8E4DC' : 'none',
+                  borderLeft: i > 0 ? '1px solid var(--border)' : 'none',
                   textAlign: 'left',
                 }}
               >
@@ -175,7 +163,7 @@ export default function Hero() {
                     fontFamily: '"Cormorant Garamond", Georgia, serif',
                     fontWeight: 400,
                     fontSize: '28px',
-                    color: '#1C1C1A',
+                    color: 'var(--ink)',
                     lineHeight: 1,
                     letterSpacing: '-0.02em',
                     marginBottom: '4px',
@@ -190,7 +178,7 @@ export default function Hero() {
                     fontSize: '9px',
                     letterSpacing: '2px',
                     textTransform: 'uppercase',
-                    color: '#6B6560',
+                    color: 'var(--ink-muted)',
                   }}
                 >
                   {label}

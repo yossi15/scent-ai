@@ -24,7 +24,7 @@ function FeaturedCard({ fragrance }: { fragrance: Fragrance }) {
       {/* Image */}
       <div
         className="relative overflow-hidden mb-6"
-        style={{ aspectRatio: '3/4', background: '#F5F2EC' }}
+        style={{ aspectRatio: '3/4', background: 'var(--bg-secondary)' }}
       >
         {!err && fragrance.image ? (
           <div className="absolute inset-0 flex items-center justify-center p-10">
@@ -40,13 +40,13 @@ function FeaturedCard({ fragrance }: { fragrance: Fragrance }) {
             </div>
           </div>
         ) : (
-          <div className="absolute inset-0 flex items-center justify-center" style={{ background: '#FAF8F3' }}>
+          <div className="absolute inset-0 flex items-center justify-center" style={{ background: 'var(--bg-accent)' }}>
             <span
               style={{
                 fontFamily: '"Cormorant Garamond", Georgia, serif',
                 fontSize: '60px',
                 fontWeight: 300,
-                color: '#6B6560',
+                color: 'var(--ink-muted)',
                 lineHeight: 1,
                 userSelect: 'none',
               }}
@@ -67,7 +67,7 @@ function FeaturedCard({ fragrance }: { fragrance: Fragrance }) {
             fontSize: '9px',
             letterSpacing: '3px',
             textTransform: 'uppercase',
-            color: '#6B6560',
+            color: 'var(--ink-muted)',
             marginBottom: '6px',
           }}
         >
@@ -78,7 +78,7 @@ function FeaturedCard({ fragrance }: { fragrance: Fragrance }) {
             fontFamily: '"Cormorant Garamond", Georgia, serif',
             fontWeight: 400,
             fontSize: '18px',
-            color: '#1C1C1A',
+            color: 'var(--ink)',
             letterSpacing: '-0.005em',
             lineHeight: 1.2,
             marginBottom: '8px',
@@ -92,7 +92,7 @@ function FeaturedCard({ fragrance }: { fragrance: Fragrance }) {
             fontWeight: 300,
             fontSize: '11px',
             lineHeight: 1.6,
-            color: '#6B6560',
+            color: 'var(--ink-muted)',
           }}
         >
           {TAGLINES[fragrance.id] ?? `${fragrance.family} · ${fragrance.concentration}`}
@@ -106,7 +106,7 @@ export default function FeaturedFragrances() {
   return (
     <section
       className="py-28 px-6"
-      style={{ background: '#FFFFFF' }}
+      style={{ background: 'var(--bg-card)' }}
       aria-labelledby="featured-heading"
     >
       <div className="max-w-7xl mx-auto">
@@ -119,7 +119,7 @@ export default function FeaturedFragrances() {
               fontSize: '9px',
               letterSpacing: '4px',
               textTransform: 'uppercase',
-              color: '#6B6560',
+              color: 'var(--ink-muted)',
               marginBottom: '12px',
             }}
           >
@@ -131,12 +131,12 @@ export default function FeaturedFragrances() {
               fontFamily: '"Cormorant Garamond", Georgia, serif',
               fontWeight: 400,
               fontSize: 'clamp(28px, 4vw, 40px)',
-              color: '#1C1C1A',
+              color: 'var(--ink)',
               letterSpacing: '-0.01em',
               lineHeight: 1.1,
               display: 'inline-block',
               paddingBottom: '10px',
-              borderBottom: '1px solid #C9A961',
+              borderBottom: '1px solid var(--accent-gold)',
             }}
           >
             נבחרים
@@ -160,8 +160,8 @@ export default function FeaturedFragrances() {
               fontSize: '10px',
               letterSpacing: '2.5px',
               textTransform: 'uppercase',
-              color: '#1C1C1A',
-              borderBottom: '1px solid #1C1C1A',
+              color: 'var(--ink)',
+              borderBottom: '1px solid var(--ink)',
               paddingBottom: '4px',
               display: 'inline-block',
             }}
