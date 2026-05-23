@@ -2,7 +2,8 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { BookOpen, Plus, Clock, Wind, Calendar, X, Droplets, LogIn } from 'lucide-react';
+import { BookOpen, Plus, Clock, Wind, Calendar, X, Droplets, LogIn, Sun, Moon, Briefcase, Heart } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 import { useAuth, SignInButton } from '@clerk/nextjs';
 import { fragrances, type Fragrance } from '@/data/fragrances';
 
@@ -21,11 +22,11 @@ interface DiaryEntry {
 
 const COLLECTION_KEY = 'scent-ai-collection';
 
-const occasions = [
-  { value: 'daily',    label: 'יומיומי', emoji: '☀️' },
-  { value: 'evening',  label: 'ערב',     emoji: '🌙' },
-  { value: 'business', label: 'עסקי',    emoji: '💼' },
-  { value: 'romantic', label: 'רומנטי',  emoji: '❤️' },
+const occasions: { value: string; label: string; icon: LucideIcon }[] = [
+  { value: 'daily',    label: 'יומיומי', icon: Sun },
+  { value: 'evening',  label: 'ערב',     icon: Moon },
+  { value: 'business', label: 'עסקי',    icon: Briefcase },
+  { value: 'romantic', label: 'רומנטי',  icon: Heart },
 ];
 
 // ── Rating slider ─────────────────────────────────────────────────────────────
@@ -360,7 +361,7 @@ export default function Diary() {
                               : 'bg-bg-secondary border-black/[0.06] text-ink-muted hover:border-gold-border hover:text-gold'
                           }`}
                         >
-                          <span className="text-xl leading-none">{occ.emoji}</span>
+                          <occ.icon className="w-4 h-4" />
                           <span className="text-[10px] font-hebrew font-medium">{occ.label}</span>
                         </button>
                       ))}
@@ -490,7 +491,7 @@ export default function Diary() {
                         <div className="flex flex-wrap gap-2 my-2">
                           {occ && (
                             <span className="stat-badge">
-                              <span className="text-xs">{occ.emoji}</span>
+                              <occ.icon className="w-3 h-3 text-gold/60 shrink-0" />
                               {occ.label}
                             </span>
                           )}

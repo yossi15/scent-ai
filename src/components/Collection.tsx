@@ -49,10 +49,10 @@ function getOccasions(f: Fragrance): string[] {
 
 // ── Filter config ──────────────────────────────────────────────────────────────
 const SEASON_OPTIONS = [
-  { value: 'spring', label: 'אביב 🌸' },
-  { value: 'summer', label: 'קיץ ☀️' },
-  { value: 'fall',   label: 'סתיו 🍂' },
-  { value: 'winter', label: 'חורף ❄️' },
+  { value: 'spring', label: 'אביב' },
+  { value: 'summer', label: 'קיץ' },
+  { value: 'fall',   label: 'סתיו' },
+  { value: 'winter', label: 'חורף' },
 ];
 
 const OCCASION_OPTIONS = [

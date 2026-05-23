@@ -9,7 +9,9 @@ import { useUser } from '@clerk/nextjs';
 import {
   LayoutDashboard, Droplets, BookOpen, TrendingUp,
   Clock, Wind, Calendar, Plus, ArrowLeft, Star, Sparkles,
+  Sun, Moon, Briefcase, Heart,
 } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 import { fragrances, type Fragrance } from '@/data/fragrances';
 
 // ── Types ─────────────────────────────────────────────────────────────────────
@@ -33,8 +35,8 @@ function getTopFamily(frags: Fragrance[]): string {
   return Object.entries(counts).sort((a, b) => b[1] - a[1])[0][0];
 }
 
-const occasionEmoji: Record<string, string> = {
-  daily: '☀️', evening: '🌙', business: '💼', romantic: '❤️',
+const occasionIcon: Record<string, LucideIcon> = {
+  daily: Sun, evening: Moon, business: Briefcase, romantic: Heart,
 };
 const occasionLabel: Record<string, string> = {
   daily: 'יומיומי', evening: 'ערב', business: 'עסקי', romantic: 'רומנטי',
@@ -275,8 +277,8 @@ export default function Dashboard() {
                       transition={{ duration: 0.4, delay: 0.1 + i * 0.06 }}
                       className="card p-3.5 flex items-center gap-3"
                     >
-                      <span className="text-lg shrink-0">
-                        {occasionEmoji[entry.occasion] ?? '🌸'}
+                      <span className="shrink-0 text-gold/70">
+                        {(() => { const Icon = occasionIcon[entry.occasion] ?? Sun; return <Icon className="w-4 h-4" />; })()}
                       </span>
                       <div className="flex-1 min-w-0">
                         <p className="text-ink text-xs font-sans font-semibold truncate" dir="ltr">
