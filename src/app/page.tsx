@@ -2,13 +2,13 @@
 
 import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
-import FeaturedFragrances from '@/components/FeaturedFragrances';
-import Collection from '@/components/Collection';
+import ProblemSection from '@/components/ProblemSection';
 import HowItWorks from '@/components/HowItWorks';
-import TasteQuiz from '@/components/TasteQuiz';
-import Testimonials from '@/components/Testimonials';
+import WhyScentory from '@/components/WhyScentory';
+import FeaturedFragrances from '@/components/FeaturedFragrances';
 import Subscription from '@/components/Subscription';
-import TrustStrip from '@/components/TrustStrip';
+import Testimonials from '@/components/Testimonials';
+import FinalCTA from '@/components/FinalCTA';
 import Footer from '@/components/Footer';
 
 export default function Home() {
@@ -17,13 +17,13 @@ export default function Home() {
       <Navbar />
       <div style={{ height: '72px' }} />
       <Hero />
-      <FeaturedFragrances />
-      <Collection />
+      <ProblemSection />
       <HowItWorks />
-      <TasteQuiz />
-      <Testimonials />
+      <WhyScentory />
+      <FeaturedFragrances id="collection" />
       <Subscription />
-      <TrustStrip />
+      <Testimonials id="testimonials" />
+      <FinalCTA />
       <Footer />
     </main>
   );

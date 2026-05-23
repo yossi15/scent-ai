@@ -102,9 +102,10 @@ function FeaturedCard({ fragrance }: { fragrance: Fragrance }) {
   );
 }
 
-export default function FeaturedFragrances() {
+export default function FeaturedFragrances({ id }: { id?: string } = {}) {
   return (
     <section
+      id={id}
       className="py-28 px-6"
       style={{ background: 'var(--bg-card)' }}
       aria-labelledby="featured-heading"

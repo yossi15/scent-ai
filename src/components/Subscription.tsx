@@ -1,14 +1,15 @@
 'use client';
 
+import Link from 'next/link';
 import { motion } from 'framer-motion';
+import { Check } from 'lucide-react';
 
 const TIERS = [
   {
     id: 'discovery',
-    name: 'Discovery',
-    nameHe: 'גילוי',
+    name: 'גילוי',
     price: 49,
-    recommended: false,
+    popular: false,
     features: [
       'גישה לכל הקולקציה',
       'שאלון טעמים',
@@ -18,10 +19,9 @@ const TIERS = [
   },
   {
     id: 'collector',
-    name: 'Collector',
-    nameHe: 'אספן',
+    name: 'אספן',
     price: 99,
-    recommended: true,
+    popular: true,
     features: [
       'כל יתרונות גילוי',
       'המלצות AI מותאמות',
@@ -31,10 +31,9 @@ const TIERS = [
   },
   {
     id: 'expert',
-    name: 'Expert',
-    nameHe: 'מומחה',
+    name: 'מומחה',
     price: 199,
-    recommended: false,
+    popular: false,
     features: [
       'כל יתרונות אספן',
       'ייעוץ אישי חודשי',
@@ -44,17 +43,7 @@ const TIERS = [
   },
 ];
 
-const stagger = {
-  hidden: {},
-  show: { transition: { staggerChildren: 0.1 } },
-};
-
-const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
-
-const fadeUp = {
-  hidden: { opacity: 0, y: 18 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.55, ease: EASE } },
-};
+const ease: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
 export default function Subscription() {
   return (
@@ -64,189 +53,208 @@ export default function Subscription() {
       style={{ background: 'var(--bg-secondary)' }}
       aria-labelledby="subscription-heading"
     >
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-5xl mx-auto">
+        {/* Header */}
         <motion.div
-          className="text-center mb-20"
+          className="text-center mb-6"
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 0.6, ease }}
         >
           <p
-            className="mb-4"
             style={{
-              fontFamily: 'var(--font-sans)',
+              fontFamily: 'Inter, sans-serif',
+              fontSize: '9px',
               fontWeight: 400,
-              fontSize: '10px',
-              letterSpacing: '3.5px',
+              letterSpacing: '4px',
               textTransform: 'uppercase',
-              color: 'var(--gold)',
+              color: 'var(--accent-gold)',
+              marginBottom: '16px',
             }}
           >
-            מנוי
+            המסלולים
           </p>
           <h2
             id="subscription-heading"
             style={{
-              fontFamily: 'var(--font-serif)',
-              fontWeight: 600,
-              fontSize: 'clamp(32px, 5vw, 48px)',
+              fontFamily: '"Cormorant Garamond", Georgia, serif',
+              fontWeight: 400,
+              fontSize: 'clamp(28px, 4vw, 42px)',
               lineHeight: 1.1,
-              letterSpacing: '-0.02em',
+              letterSpacing: '-0.015em',
               color: 'var(--ink)',
+              marginBottom: '12px',
             }}
           >
-            בחר את המסלול שלך
+            בחר את הרמה שלך
           </h2>
+          <p
+            style={{
+              fontFamily: 'Inter, sans-serif',
+              fontSize: '12px',
+              fontWeight: 300,
+              color: 'var(--ink-muted)',
+              letterSpacing: '0.5px',
+            }}
+          >
+            7 ימי ניסיון חינם &nbsp;·&nbsp; ללא כרטיס אשראי &nbsp;·&nbsp; ביטול בכל עת
+          </p>
         </motion.div>
 
-        <motion.div
-          className="grid grid-cols-1 md:grid-cols-3"
-          style={{ borderTop: '1px solid var(--border)' }}
-          variants={stagger}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true }}
-        >
-          {TIERS.map((t, i) => (
+        {/* Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16">
+          {TIERS.map((tier, i) => (
             <motion.div
-              key={t.id}
-              variants={fadeUp}
-              className="relative flex flex-col"
+              key={tier.id}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.55, delay: i * 0.1, ease }}
               style={{
-                padding: '48px',
-                borderBottom: '1px solid var(--border)',
-                borderRight: i < TIERS.length - 1 ? '1px solid var(--border)' : 'none',
-                background: t.recommended ? '#0F0F0E' : 'transparent',
-                ...(t.recommended
-                  ? {
-                      border: 'none',
-                    }
-                  : {}),
+                position: 'relative',
+                background: 'var(--bg-card)',
+                border: tier.popular
+                  ? '2px solid var(--accent-gold)'
+                  : '1px solid var(--border)',
+                padding: '40px 32px',
+                display: 'flex',
+                flexDirection: 'column',
               }}
             >
-              {t.recommended && (
+              {/* Popular badge */}
+              {tier.popular && (
                 <div
-                  className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 px-4 py-1"
                   style={{
-                    background: '#C9A961',
-                    fontFamily: 'var(--font-sans)',
+                    position: 'absolute',
+                    top: '-13px',
+                    left: '50%',
+                    transform: 'translateX(-50%)',
+                    background: 'var(--accent-gold)',
+                    color: '#0a0a0a',
+                    fontFamily: 'Inter, sans-serif',
                     fontWeight: 500,
                     fontSize: '9px',
                     letterSpacing: '2.5px',
                     textTransform: 'uppercase',
-                    color: 'var(--bg-primary)',
+                    padding: '4px 14px',
                     whiteSpace: 'nowrap',
                   }}
                 >
-                  מומלץ
+                  הכי פופולרי
                 </div>
               )}
 
+              {/* Plan name */}
               <h3
-                className="mb-8"
                 style={{
-                  fontFamily: 'var(--font-serif)',
-                  fontWeight: 500,
-                  fontSize: '28px',
-                  color: t.recommended ? '#FFFFFF' : 'var(--ink)',
+                  fontFamily: '"Cormorant Garamond", Georgia, serif',
+                  fontWeight: 400,
+                  fontSize: '24px',
+                  color: 'var(--ink)',
                   letterSpacing: '-0.01em',
+                  marginBottom: '20px',
                 }}
               >
-                {t.nameHe}
+                {tier.name}
               </h3>
 
-              <div className="mb-10 flex items-baseline gap-2" dir="ltr">
+              {/* Price */}
+              <div className="mb-8 flex items-baseline gap-1.5" dir="ltr">
                 <span
                   style={{
-                    fontFamily: 'var(--font-serif)',
-                    fontWeight: 400,
+                    fontFamily: '"Cormorant Garamond", Georgia, serif',
+                    fontWeight: 300,
                     fontSize: '44px',
-                    color: t.recommended ? '#C9A961' : 'var(--ink)',
-                    letterSpacing: '-0.02em',
+                    color: tier.popular ? 'var(--accent-gold)' : 'var(--ink)',
+                    lineHeight: 1,
+                    letterSpacing: '-0.03em',
                   }}
                 >
-                  ₪{t.price}
+                  &#8362;{tier.price}
                 </span>
                 <span
                   style={{
-                    fontFamily: 'var(--font-sans)',
+                    fontFamily: 'Inter, sans-serif',
                     fontSize: '11px',
-                    color: t.recommended ? 'rgba(255,255,255,0.4)' : 'var(--ink-faint)',
-                    letterSpacing: '1px',
+                    color: 'var(--ink-muted)',
+                    letterSpacing: '0.5px',
                   }}
                 >
                   / חודש
                 </span>
               </div>
 
-              <ul className="mb-12 space-y-3 flex-1" role="list">
-                {t.features.map(f => (
+              {/* Features */}
+              <ul className="space-y-3 flex-1 mb-10" role="list">
+                {tier.features.map(f => (
                   <li
                     key={f}
                     style={{
-                      fontFamily: 'var(--font-hebrew)',
+                      display: 'flex',
+                      alignItems: 'flex-start',
+                      gap: '10px',
+                      fontFamily: 'Heebo, Inter, sans-serif',
                       fontWeight: 300,
                       fontSize: '13px',
-                      color: t.recommended ? 'rgba(255,255,255,0.65)' : 'var(--ink-secondary)',
-                      lineHeight: 1.7,
+                      color: 'var(--ink-secondary)',
+                      lineHeight: 1.6,
                     }}
                   >
-                    — {f}
+                    <Check
+                      size={13}
+                      style={{
+                        color: 'var(--accent-gold)',
+                        flexShrink: 0,
+                        marginTop: '3px',
+                      }}
+                    />
+                    {f}
                   </li>
                 ))}
               </ul>
 
-              <a
+              {/* CTA */}
+              <Link
                 href="/sign-up"
-                className="inline-block text-center transition-all duration-300 active:scale-[0.97]"
                 style={{
-                  padding: '14px 32px',
-                  fontFamily: 'var(--font-sans)',
+                  display: 'block',
+                  textAlign: 'center',
+                  padding: '13px 24px',
+                  fontFamily: 'Inter, sans-serif',
                   fontWeight: 500,
                   fontSize: '11px',
                   letterSpacing: '2px',
                   textTransform: 'uppercase',
-                  background: t.recommended ? '#C9A961' : 'transparent',
-                  color: t.recommended ? '#0F0F0E' : 'var(--ink)',
-                  border: t.recommended ? 'none' : '1px solid var(--border)',
+                  background: tier.popular ? 'var(--accent-gold)' : 'transparent',
+                  color: tier.popular ? '#0a0a0a' : 'var(--ink)',
+                  border: tier.popular ? 'none' : '1px solid var(--border)',
+                  transition: 'all 0.2s',
                 }}
                 onMouseEnter={e => {
                   const el = e.currentTarget as HTMLElement;
-                  if (t.recommended) {
-                    el.style.opacity = '0.85';
+                  if (!tier.popular) {
+                    el.style.borderColor = 'var(--accent-gold)';
+                    el.style.color = 'var(--accent-gold)';
                   } else {
-                    el.style.borderColor = '#C9A961';
-                    el.style.color = '#C9A961';
+                    el.style.opacity = '0.85';
                   }
                 }}
                 onMouseLeave={e => {
                   const el = e.currentTarget as HTMLElement;
-                  if (t.recommended) {
-                    el.style.opacity = '1';
-                  } else {
+                  if (!tier.popular) {
                     el.style.borderColor = 'var(--border)';
                     el.style.color = 'var(--ink)';
+                  } else {
+                    el.style.opacity = '1';
                   }
                 }}
               >
-                {t.recommended ? 'הצטרף עכשיו' : 'הצטרף'}
-              </a>
+                {tier.popular ? 'הצטרף עכשיו' : 'הצטרף'}
+              </Link>
             </motion.div>
           ))}
-        </motion.div>
-
-        <p
-          className="text-center mt-10"
-          style={{
-            fontFamily: 'var(--font-sans)',
-            fontSize: '11px',
-            color: 'var(--ink-faint)',
-            letterSpacing: '1px',
-          }}
-        >
-          ביטול בכל עת · ללא התחייבות
-        </p>
+        </div>
       </div>
     </section>
   );
