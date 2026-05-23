@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { Accessibility } from 'lucide-react';
+import ThemeToggle from './ThemeToggle';
 
 type A11yPrefs = {
   fontSize: 0 | 1 | 2;
@@ -110,6 +111,9 @@ export default function AccessibilityWidget() {
           <p style={{ fontFamily: 'Heebo, sans-serif', fontWeight: 600, fontSize: '13px', color: 'var(--ink)', marginBottom: '14px' }}>
             הגדרות נגישות
           </p>
+
+          {/* Theme toggle — synced with Navbar ThemeToggle via custom event */}
+          <ThemeToggle variant="row" />
 
           {/* Font size */}
           <p style={{ fontFamily: 'Heebo, sans-serif', fontSize: '11px', color: 'var(--ink-faint)', marginBottom: '6px' }}>גודל טקסט</p>

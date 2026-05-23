@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "lint:hyphens": "node -e \"const fs=require('fs'),path=require('path'),maqaf='\\u05BE';let found=[];function scan(d){for(const f of fs.readdirSync(d)){const p=path.join(d,f),s=fs.statSync(p);if(s.isDirectory()&&!['node_modules','.next','.git'].includes(f))scan(p);else if(/\\.(tsx|ts|css|md)$/.test(f)){const lines=fs.readFileSync(p,'utf8').split('\\n');lines.forEach((l,i)=>{if(l.includes(maqaf))found.push(p+':'+(i+1)+': '+l.trim())});}}}scan('src');if(found.length){console.error('Hebrew maqaf found:');found.forEach(x=>console.error(x));process.exit(1);}else{console.log('OK - no Hebrew maqaf');}\""
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.88.0",
