@@ -41,6 +41,8 @@ interface Candidate {
   radarProfile: Record<string, number>;
   gender?: string;
   year?: number;
+  algoRank?: number;        // pre-ranking position (1 = best match)
+  similarityScore?: number; // cosine similarity 0-1
 }
 
 interface Answers {
@@ -51,6 +53,8 @@ interface Answers {
   style?: string;
   budget?: string;
   previousFragrance?: string;
+  gender?: string;
+  sillage?: string;
 }
 
 const SYSTEM = `אתה Master Perfumer עם 25 שנות ניסיון בבוטיק נישה יוקרתי בפריז ובלונדון -
@@ -79,41 +83,75 @@ export async function POST(req: NextRequest) {
     const limited = checkRateLimit({ key: `quiz:ip:${ip}`, limit: 10, windowMs: 60 * 60 * 1000 });
     if (!limited.ok) return rateLimitResponse(limited.resetAt);
 
-    const { answers, candidates } = await req.json() as { answers: Answers; candidates: Candidate[] };
+    const {
+      answers,
+      candidates,
+      tasteVector,
+      sigNotes,
+      dislikes,
+    } = await req.json() as {
+      answers: Answers;
+      candidates: Candidate[];
+      tasteVector: Record<string, number> | null;
+      sigNotes: string[];
+      dislikes: string[];
+    };
 
-    // Rich catalog summary - include notes so AI can reason about ingredients
+    // Rich catalog summary — candidates arrive pre-sorted by algo rank (1 = best match)
     const catalogList = (candidates ?? [])
       .map(f => {
-        const top = f.notes?.filter(n => n.type === 'top').map(n => n.name).slice(0, 3).join(', ') ?? '';
+        const top   = f.notes?.filter(n => n.type === 'top').map(n => n.name).slice(0, 3).join(', ') ?? '';
         const heart = f.notes?.filter(n => n.type === 'heart').map(n => n.name).slice(0, 3).join(', ') ?? '';
-        const base = f.notes?.filter(n => n.type === 'base').map(n => n.name).slice(0, 3).join(', ') ?? '';
-        return `ID:${f.id} | ${f.name} (${f.house}, ${f.year ?? '-'}) | ${f.family} | ${f.gender ?? 'Unisex'} | ` +
-               `עמידות ${f.longevity}/10, הקרנה ${f.sillage}/10 | ₪${f.price.toLocaleString()} | ` +
+        const base  = f.notes?.filter(n => n.type === 'base').map(n => n.name).slice(0, 3).join(', ') ?? '';
+        const rank  = f.algoRank != null ? `[#${f.algoRank}] ` : '';
+        const sim   = f.similarityScore != null ? ` | match: ${Math.round(f.similarityScore * 100)}%` : '';
+        return `${rank}ID:${f.id} | ${f.name} (${f.house}, ${f.year ?? '-'}) | ${f.family} | ${f.gender ?? 'Unisex'} | ` +
+               `עמידות ${f.longevity}/10, הקרנה ${f.sillage}/10 | ₪${f.price.toLocaleString()}${sim} | ` +
                `top: ${top} | heart: ${heart} | base: ${base}`;
       })
       .join('\n');
 
+    // Taste-vector radar summary (top 3 dominant axes)
+    const radarSummary = tasteVector
+      ? Object.entries(tasteVector)
+          .sort((a, b) => b[1] - a[1])
+          .slice(0, 4)
+          .map(([k, v]) => `${k} ${v.toFixed(1)}/10`)
+          .join(', ')
+      : null;
+
+    // Dislikes in Hebrew labels
+    const DISLIKE_HE: Record<string, string> = {
+      sweet: 'מתוק/גורמה', oud: 'עוד/קטרן', smoky: 'מעושן/טבק',
+      fresh: 'ים/אוזון', floral: 'פרחוני כבד', detergent: 'סבוני/מוסק',
+      animalic: 'אנימאלי', powdery: 'פודרי/טאלק',
+    };
+    const dislikeHe = (dislikes ?? []).map(d => DISLIKE_HE[d] ?? d).join(', ');
+
     const profile = `פרופיל הלקוח:
 • סוג ריח שמושך: ${SCENT_MAP[answers.scentType ?? ''] ?? answers.scentType ?? '-'}
 • עונה דומיננטית: ${SEASON_MAP[answers.season ?? ''] ?? '-'}
-• אירוע מרכזי: ${OCCASION_MAP[answers.occasion ?? ''] ?? '-'}
+• אירוע מרכזי: ${OCCASION_MAP[answers.occasion ?? ''] ?? answers.occasion ?? '-'}
 • עמידות רצויה: ${LONGEVITY_MAP[answers.longevity ?? ''] ?? '-'}
 • סגנון אישי: ${STYLE_MAP[answers.style ?? ''] ?? '-'}
-• תקציב לבקבוק מלא: ${BUDGET_MAP[answers.budget ?? ''] ?? '-'}${answers.previousFragrance ? `
-• בושם שאהב/לבש: ${answers.previousFragrance}` : ''}`;
+• תקציב לבקבוק מלא: ${BUDGET_MAP[answers.budget ?? ''] ?? '-'}${answers.gender ? `\n• כיוון מגדרי: ${answers.gender}` : ''}${answers.sillage ? `\n• הקרנה: ${answers.sillage}` : ''}${answers.previousFragrance ? `\n• בשמים שאוהב/לובש: ${answers.previousFragrance}` : ''}${radarSummary ? `\n• פרופיל ריחי (מהאוסף): ${radarSummary}` : ''}${sigNotes?.length ? `\n• תווים חוזרים באוסף: ${sigNotes.slice(0, 6).join(', ')}` : ''}${dislikeHe ? `\n• אסורים — מה לא לכלול: ${dislikeHe}` : ''}`;
 
     const prompt = `${profile}
 
-המאגר הזמין שלנו (כל הבשמים האלה נגישים לדגימה מיידית - תן להם עדיפות אם ההתאמה דומה):
+המאגר הזמין שלנו — ממוין לפי רלוונטיות אלגוריתמית (#1 = הכי דומה לטעם הלקוח):
 ${catalogList}
 
-המשימה: בחר 3 בשמים - אפשר מהמאגר ואפשר מכל בית בושם בעולם.
-תוודא שהשלישייה מגוונת (משפחה/עוצמה/אנרגיה - לא 3 ורסיות של אותו דבר).
+המשימה:
+בחר 3 בשמים. תן עדיפות לבשמים עם מספר #rank נמוך (אלה כבר סוננו ודורגו לפי פרופיל הלקוח).
+אם מישהו מה-top-10 אלגוריתמי עונה מצוין — העדף אותו על פני בושם חיצוני מפורסם.
+אם קיים בושם חיצוני שמתאים הרבה יותר — תמליץ עליו ותציין שאין לו ID במאגר.
+
+תוודא שהשלישייה מגוונת (משפחה/עוצמה/אנרגיה - לא 3 גרסאות של אותו דבר).
 לכל בושם, ה-reason חייב לכלול:
   (א) 2-3 תווים ספציפיים שיורגשו על העור
   (ב) פתיחה → מעבר → יבשה (איך הוא מתפתח)
-  (ג) "כשללבוש" - מתי/איפה/עם מי
-  (ד) קישור אישי לתשובות הלקוח (לא גנרי)
+  (ג) מתי/איפה/עם מי ללבוש אותו
+  (ד) קישור אישי לפרופיל הלקוח (לא גנרי)${dislikeHe ? `\n  (ה) ודא שאין בבושם: ${dislikeHe}` : ''}
 
 החזר JSON בלבד, ללא markdown, ללא טקסט מלפני/אחרי:
 {"recommendations":[

@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, X, Search, Check } from 'lucide-react';
 import Link from 'next/link';
 import { fragrances } from '@/data/fragrances';
+import { rankCandidates, buildTasteVector, signatureNotes } from '@/lib/fragrance-match';
 
 /* ─── Types ─────────────────────────────────────────────────────── */
 type SingleAnswer = string;
@@ -20,6 +21,7 @@ type Answers = {
   budget?:     SingleAnswer;
   gender?:     SingleAnswer;
   known?:      number[];   // fragrance IDs
+  dislikes?:   MultiAnswer; // disliked scent categories
 };
 
 interface Question {
@@ -145,28 +147,28 @@ const QUESTIONS: Question[] = [
     type: 'search',
     canSkip: true,
   },
+  {
+    id: 'dislikes',
+    label: 'אסורים עליי',
+    text: 'מה אתה ממש לא אוהב?',
+    sub: 'AI ידלג על כל הבשמים שמכילים אלה — אפשר לבחור כמה',
+    type: 'multi',
+    canSkip: true,
+    options: [
+      { value: 'sweet',     label: 'מתוק / גורמה',    sub: 'ונילה, קרמל, שוקולד' },
+      { value: 'oud',       label: 'עוד / קטרן',       sub: 'כבד, בוהק, Bakhoor' },
+      { value: 'smoky',     label: 'מעושן / טבק',      sub: 'עשן, עור שרוף, מוקטר' },
+      { value: 'fresh',     label: 'ים / אוזון',       sub: 'מרין, אלדהיד, נקי מדי' },
+      { value: 'floral',    label: 'פרחוני כבד',        sub: 'ורד, יסמין, אדמונית' },
+      { value: 'detergent', label: 'סבוני / כביסה',    sub: 'מוסק לבן, clean musk' },
+      { value: 'animalic',  label: 'אנימאלי',           sub: 'ציבט, מוסק חי, עור' },
+      { value: 'powdery',   label: 'פודרי / טאלק',     sub: 'איריס, סיגל, אבקה' },
+    ],
+  },
 ];
 
 const TOTAL = QUESTIONS.length;
 const SS_KEY = 'scentory-quiz-answers';
-
-/* ─── Candidate filter ───────────────────────────────────────────── */
-function buildCandidates(ans: Answers) {
-  return fragrances
-    .filter(f => {
-      // Budget filter
-      if (ans.budget === 'under500'  && f.price > 500)   return false;
-      if (ans.budget === '500-1000'  && f.price > 1000)  return false;
-      if (ans.budget === '1000-2000' && f.price > 2000)  return false;
-      // Gender filter (loose)
-      if (ans.gender === 'masculine' && f.gender === 'feminine')  return false;
-      if (ans.gender === 'feminine'  && f.gender === 'masculine') return false;
-      // Longevity
-      if (ans.longevity === '10h+' && f.longevity < 7) return false;
-      return true;
-    })
-    .slice(0, 80);
-}
 
 /* ─── Map new answers → API format ──────────────────────────────── */
 function mapAnswers(ans: Answers, knownNames: string[]) {
@@ -471,13 +473,23 @@ export default function QuizPage() {
         .filter(f => knownIds.includes(f.id))
         .map(f => `${f.name} (${f.house})`);
 
+      const dislikes  = (answers.dislikes ?? []) as string[];
+      const tasteVec  = buildTasteVector(knownIds, fragrances);
+      const sigNotes  = signatureNotes(knownIds, fragrances);
+      const candidates = rankCandidates(fragrances, tasteVec, dislikes, answers);
+
       const mapped    = mapAnswers(answers, knownNames);
-      const candidates = buildCandidates(answers);
 
       const res = await fetch('/api/quiz', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ answers: mapped, candidates }),
+        body: JSON.stringify({
+          answers: mapped,
+          candidates,
+          tasteVector: tasteVec,
+          sigNotes,
+          dislikes,
+        }),
       });
 
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
