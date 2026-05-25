@@ -1,5 +1,10 @@
+'use client';
+
+import { motion } from 'framer-motion';
 import { Check, X } from 'lucide-react';
 import EyebrowText from './shared/EyebrowText';
+
+const ease = [0.22, 1, 0.36, 1] as const;
 
 const ROWS = [
   {
@@ -56,7 +61,13 @@ export default function ComparisonTable() {
     >
       <div style={{ maxWidth: 900, margin: '0 auto' }}>
         {/* Header */}
-        <div style={{ textAlign: 'center', marginBottom: 32 }}>
+        <motion.div
+          initial={{ opacity: 0, y: 14 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-60px' }}
+          transition={{ duration: 0.5, ease }}
+          style={{ textAlign: 'center', marginBottom: 32 }}
+        >
           <EyebrowText>למה לא חנות?</EyebrowText>
           <h2
             style={{
@@ -70,10 +81,16 @@ export default function ComparisonTable() {
             SCENTORY מול האלטרנטיבות
             <span style={{ color: 'var(--gold)' }}>.</span>
           </h2>
-        </div>
+        </motion.div>
 
         {/* Table */}
-        <div style={{ overflowX: 'auto' }}>
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-40px' }}
+          transition={{ duration: 0.5, delay: 0.1, ease }}
+          style={{ overflowX: 'auto' }}
+        >
           <table
             style={{
               width: '100%',
@@ -212,7 +229,7 @@ export default function ComparisonTable() {
               ))}
             </tbody>
           </table>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

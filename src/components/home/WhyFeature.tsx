@@ -1,5 +1,16 @@
+'use client';
+
+import { motion } from 'framer-motion';
 import { Check, Sparkles } from 'lucide-react';
 import EyebrowText from './shared/EyebrowText';
+
+const ease = [0.22, 1, 0.36, 1] as const;
+const fadeUp = (delay = 0) => ({
+  initial: { opacity: 0, y: 16 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true, margin: '-60px' },
+  transition: { duration: 0.5, delay, ease },
+});
 
 const BOTTLE_SVG = (
   <svg width="20" height="34" viewBox="0 0 20 34" fill="none">
@@ -36,7 +47,7 @@ export default function WhyFeature() {
         }}
       >
         {/* Right col: Text */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+        <motion.div {...fadeUp(0)} style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
           <EyebrowText>הפיצ&#39;ר המוביל</EyebrowText>
 
           <h2
@@ -105,10 +116,10 @@ export default function WhyFeature() {
               </div>
             ))}
           </div>
-        </div>
+        </motion.div>
 
         {/* Left col: Card */}
-        <div>
+        <motion.div {...fadeUp(0.15)}>
           <div
             style={{
               background: 'var(--bg-card)',
@@ -259,7 +270,7 @@ export default function WhyFeature() {
               </span>
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

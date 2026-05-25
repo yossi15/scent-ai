@@ -1,5 +1,16 @@
+'use client';
+
+import { motion } from 'framer-motion';
 import EyebrowText from './shared/EyebrowText';
 import StepCard from './StepCard';
+
+const ease = [0.22, 1, 0.36, 1] as const;
+const fadeUp = (delay = 0) => ({
+  initial: { opacity: 0, y: 16 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true, margin: '-60px' },
+  transition: { duration: 0.5, delay, ease },
+});
 
 /* ─── Mockup: Step 1 - Quiz ─────────────────────────────────────── */
 function QuizMockup() {
@@ -148,7 +159,7 @@ function AnalysisMockup() {
             }}
           >
             <span style={{ fontSize: 8, color: row.done ? 'var(--gold)' : 'var(--text-muted)' }}>
-              {row.done ? '&#10003;' : '...'}
+              {row.done ? '✓' : '···'}
             </span>
             <span style={{ fontSize: 9, color: row.done ? 'var(--text-secondary)' : 'var(--text-muted)' }}>
               {row.label}
@@ -253,7 +264,7 @@ export default function HowItWorks() {
     >
       <div style={{ maxWidth: 1100, margin: '0 auto' }}>
         {/* Header */}
-        <div style={{ textAlign: 'center', marginBottom: 36 }}>
+        <motion.div {...fadeUp(0)} style={{ textAlign: 'center', marginBottom: 36 }}>
           <EyebrowText>איך זה עובד</EyebrowText>
           <h2
             style={{
@@ -267,7 +278,7 @@ export default function HowItWorks() {
             מתשע שאלות לבושם שלך
             <span style={{ color: 'var(--gold)' }}>.</span>
           </h2>
-        </div>
+        </motion.div>
 
         {/* 3 Cards */}
         <div
@@ -277,28 +288,34 @@ export default function HowItWorks() {
             gap: 14,
           }}
         >
-          <StepCard
-            number="01"
-            eyebrow="שאלון"
-            title="תשע שאלות מדויקות"
-            description="משפחת ריח, עוצמה, עונה, מחיר. כל תשובה משפרת את הדיוק."
-            mockup={<QuizMockup />}
-          />
-          <StepCard
-            number="02"
-            eyebrow="ניתוח"
-            title="AI מעבד בעשר שניות"
-            description="סורק מעל 1,000 בשמים, מחבר תשובות עם DNA ריחני ייחודי."
-            highlighted
-            mockup={<AnalysisMockup />}
-          />
-          <StepCard
-            number="03"
-            eyebrow="המלצות"
-            title="עשר התאמות אישיות"
-            description="כל המלצה עם הסבר אישי ומה שמתאים בדיוק לך."
-            mockup={<ResultsMockup />}
-          />
+          <motion.div {...fadeUp(0.1)}>
+            <StepCard
+              number="01"
+              eyebrow="שאלון"
+              title="תשע שאלות מדויקות"
+              description="משפחת ריח, עוצמה, עונה, מחיר. כל תשובה משפרת את הדיוק."
+              mockup={<QuizMockup />}
+            />
+          </motion.div>
+          <motion.div {...fadeUp(0.2)}>
+            <StepCard
+              number="02"
+              eyebrow="ניתוח"
+              title="AI מעבד בעשר שניות"
+              description="סורק מעל 1,000 בשמים, מחבר תשובות עם DNA ריחני ייחודי."
+              highlighted
+              mockup={<AnalysisMockup />}
+            />
+          </motion.div>
+          <motion.div {...fadeUp(0.3)}>
+            <StepCard
+              number="03"
+              eyebrow="המלצות"
+              title="עשר התאמות אישיות"
+              description="כל המלצה עם הסבר אישי ומה שמתאים בדיוק לך."
+              mockup={<ResultsMockup />}
+            />
+          </motion.div>
         </div>
       </div>
     </section>

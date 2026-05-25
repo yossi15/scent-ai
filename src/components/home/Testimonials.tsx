@@ -1,5 +1,10 @@
+'use client';
+
+import { motion } from 'framer-motion';
 import EyebrowText from './shared/EyebrowText';
 import TestimonialCard, { type Testimonial } from './TestimonialCard';
+
+const ease = [0.22, 1, 0.36, 1] as const;
 
 const TESTIMONIALS: Testimonial[] = [
   {
@@ -25,11 +30,7 @@ const TESTIMONIALS: Testimonial[] = [
   },
 ];
 
-const SHOW = process.env.NEXT_PUBLIC_SHOW_TESTIMONIALS === 'true';
-
 export default function Testimonials() {
-  if (!SHOW) return null;
-
   return (
     <section
       style={{
@@ -39,7 +40,13 @@ export default function Testimonials() {
     >
       <div style={{ maxWidth: 1100, margin: '0 auto' }}>
         {/* Header */}
-        <div style={{ textAlign: 'center', marginBottom: 32 }}>
+        <motion.div
+          initial={{ opacity: 0, y: 14 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-60px' }}
+          transition={{ duration: 0.5, ease }}
+          style={{ textAlign: 'center', marginBottom: 32 }}
+        >
           <EyebrowText>מה אספנים אומרים</EyebrowText>
           <h2
             style={{
@@ -53,7 +60,7 @@ export default function Testimonials() {
             מ-500 הראשונים
             <span style={{ color: 'var(--gold)' }}>.</span>
           </h2>
-        </div>
+        </motion.div>
 
         {/* Grid */}
         <div
@@ -63,8 +70,16 @@ export default function Testimonials() {
             gap: 14,
           }}
         >
-          {TESTIMONIALS.map((t) => (
-            <TestimonialCard key={t.name} testimonial={t} />
+          {TESTIMONIALS.map((t, i) => (
+            <motion.div
+              key={t.name}
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-40px' }}
+              transition={{ duration: 0.45, delay: i * 0.1, ease }}
+            >
+              <TestimonialCard testimonial={t} />
+            </motion.div>
           ))}
         </div>
       </div>
