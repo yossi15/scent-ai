@@ -8,6 +8,14 @@ import { motion } from 'framer-motion';
 import { RotateCcw, Share2, ExternalLink } from 'lucide-react';
 import { fragrances } from '@/data/fragrances';
 
+function toSlug(name: string): string {
+  return name
+    .toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, '')
+    .trim()
+    .replace(/\s+/g, '-');
+}
+
 interface Rec {
   id: number | null;
   name: string;
@@ -35,6 +43,7 @@ function RecCard({ rec, index }: { rec: Rec; index: number }) {
       initial={{ opacity: 0, y: 24 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, delay: 0.15 + index * 0.15, ease }}
+      className="rec-card"
       style={{
         background: 'var(--bg-card)',
         border: '1px solid var(--border)',
@@ -60,7 +69,7 @@ function RecCard({ rec, index }: { rec: Rec; index: number }) {
 
       {/* Image */}
       {!imgErr && image ? (
-        <div style={{ width: '80px', height: '100px', flexShrink: 0, position: 'relative', background: 'var(--bg-secondary)' }}>
+        <div className="rec-card-img" style={{ width: '80px', height: '100px', flexShrink: 0, position: 'relative', background: 'var(--bg-secondary)' }}>
           <Image
             src={image}
             alt={`${rec.name} מאת ${rec.house}`}
@@ -71,7 +80,7 @@ function RecCard({ rec, index }: { rec: Rec; index: number }) {
           />
         </div>
       ) : (
-        <div style={{
+        <div className="rec-card-img" style={{
           width: '80px', height: '100px', flexShrink: 0,
           background: 'var(--bg-secondary)',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -109,7 +118,7 @@ function RecCard({ rec, index }: { rec: Rec; index: number }) {
         <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
           {rec.inCatalog && rec.id && (
             <Link
-              href={`/fragrance/${rec.id}`}
+              href={`/fragrance/${toSlug(rec.name)}`}
               style={{
                 fontFamily: 'Inter, sans-serif', fontSize: '10px', letterSpacing: '1.5px',
                 textTransform: 'uppercase', color: 'var(--accent-gold)',
@@ -156,7 +165,7 @@ export default function QuizResults() {
   }, [router]);
 
   const handleShare = async () => {
-    const text = `גיליתי את ה-DNA הריחני שלי עם SCENTORY - ${data?.recommendations[0]?.name} היה ההמלצה הראשונה! 🎯\nscentory.co.il/quiz`;
+    const text = `גיליתי את ה-DNA הריחני שלי עם SCENTORY - ${data?.recommendations[0]?.name} היה ההמלצה הראשונה.\nscentory.co.il/quiz`;
     if (navigator.share) {
       await navigator.share({ text });
     } else {
@@ -166,7 +175,7 @@ export default function QuizResults() {
 
   const handleRetake = () => {
     sessionStorage.removeItem('scentory-quiz-results');
-    sessionStorage.removeItem('scentory-quiz-answers');
+    sessionStorage.removeItem('scentory-quiz-state');
     router.push('/quiz');
   };
 

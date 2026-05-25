@@ -1,28 +1,32 @@
-'use client';
-
-import Navbar from '@/components/Navbar';
-import Hero from '@/components/Hero';
-import ProblemSection from '@/components/ProblemSection';
-import HowItWorks from '@/components/HowItWorks';
-import WhyScentory from '@/components/WhyScentory';
-import FeaturedFragrances from '@/components/FeaturedFragrances';
-import Subscription from '@/components/Subscription';
-import Testimonials from '@/components/Testimonials';
-import FinalCTA from '@/components/FinalCTA';
-import Footer from '@/components/Footer';
+import Navigation from '@/components/home/Navigation';
+import Hero from '@/components/home/Hero';
+import PressStrip from '@/components/home/PressStrip';
+import HowItWorks from '@/components/home/HowItWorks';
+import WhyFeature from '@/components/home/WhyFeature';
+import Testimonials from '@/components/home/Testimonials';
+import ComparisonTable from '@/components/home/ComparisonTable';
+import PricingTable from '@/components/home/PricingTable';
+import FinalCTA from '@/components/home/FinalCTA';
+import Footer from '@/components/home/Footer';
 
 export default function Home() {
   return (
-    <main id="main-content" className="relative" style={{ background: 'var(--bg-primary)' }}>
-      <Navbar />
-      <div style={{ height: '72px' }} />
+    <main
+      id="main-content"
+      style={{ background: 'var(--bg-primary)', minHeight: '100vh' }}
+    >
+      <Navigation />
+
+      {/* Spacer for fixed nav */}
+      <div style={{ height: 57 }} />
+
       <Hero />
-      <ProblemSection />
+      <PressStrip />
       <HowItWorks />
-      <WhyScentory />
-      <FeaturedFragrances id="collection" />
-      <Subscription />
-      <Testimonials id="testimonials" />
+      <WhyFeature />
+      <Testimonials />
+      <ComparisonTable />
+      <PricingTable />
       <FinalCTA />
       <Footer />
     </main>

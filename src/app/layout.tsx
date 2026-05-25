@@ -7,7 +7,7 @@ import './globals.css';
 export const metadata: Metadata = {
   metadataBase: new URL('https://scentory.co.il'),
   title: 'SCENTORY | Know your scent.',
-  description: 'SCENTORY - פלטפורמת AI לגילוי בשמים. שמור את האוסף שלך, קבל המלצות חכמות, וקנה דרכנו.',
+  description: 'SCENTORY - פלטפורמת AI לגילוי בשמים. תשע שאלות. ניתוח מעל 1,000 בשמים. עשר התאמות אישיות עם הסבר למה.',
   alternates: { canonical: '/' },
   openGraph: {
     title: 'SCENTORY | Know your scent.',
@@ -29,12 +29,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <ClerkProvider
       appearance={{
         variables: {
-          colorPrimary: '#96793a',
-          colorText: '#1a1714',
-          colorBackground: '#faf8f5',
-          colorInputBackground: '#f3efe8',
-          borderRadius: '12px',
-          fontFamily: 'Heebo, Inter, system-ui, sans-serif',
+          colorPrimary: '#c9a961',
+          colorText: '#f5f5f5',
+          colorBackground: '#131313',
+          colorInputBackground: '#1a1a1a',
+          borderRadius: '8px',
+          fontFamily: 'Heebo, system-ui, sans-serif',
         },
         elements: {
           formButtonPrimary:
@@ -54,7 +54,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <script
             // Avoid FOUC: apply stored theme before React mounts (default = light)
             dangerouslySetInnerHTML={{
-              __html: `(function(){try{var t=localStorage.getItem('scent-ai-theme')||'light';if(t==='dark'){document.documentElement.classList.add('dark');}}catch(e){}})();`,
+              __html: `(function(){try{var t=localStorage.getItem('scent-ai-theme')||'dark';if(t==='dark'){document.documentElement.classList.add('dark');}}catch(e){}})();`,
             }}
           />
         </head>

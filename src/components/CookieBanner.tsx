@@ -2,35 +2,76 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { Cookie, X } from 'lucide-react';
 
-const LS_KEY = 'scentory-cookie-consent';
-const EXPIRY_MS = 365 * 24 * 60 * 60 * 1000;
+const LS_KEY = 'scent-cookie-consent';
 
-type Saved = { consent: 'all' | 'essential' | 'custom'; expiry: number; analytics: boolean; marketing: boolean };
+type ConsentData = {
+  essential: true;
+  analytics: boolean;
+  marketing: boolean;
+  timestamp: string;
+};
+
+function Toggle({ checked, onChange, disabled }: { checked: boolean; onChange: (v: boolean) => void; disabled?: boolean }) {
+  return (
+    <button
+      role="switch"
+      aria-checked={checked}
+      disabled={disabled}
+      onClick={() => !disabled && onChange(!checked)}
+      style={{
+        position: 'relative',
+        width: 36,
+        height: 20,
+        borderRadius: 10,
+        border: 'none',
+        background: checked ? 'var(--gold)' : 'rgba(255,255,255,0.12)',
+        cursor: disabled ? 'not-allowed' : 'pointer',
+        flexShrink: 0,
+        transition: 'background 0.2s',
+        padding: 0,
+        opacity: disabled ? 0.6 : 1,
+      }}
+    >
+      <span
+        style={{
+          position: 'absolute',
+          top: 3,
+          left: checked ? 19 : 3,
+          width: 14,
+          height: 14,
+          borderRadius: '50%',
+          background: '#fff',
+          transition: 'left 0.2s',
+        }}
+      />
+    </button>
+  );
+}
 
 export default function CookieBanner() {
-  const [visible, setVisible] = useState(false);
+  const [visible, setVisible]     = useState(false);
   const [showCustom, setShowCustom] = useState(false);
-  const [analytics, setAnalytics] = useState(true);
-  const [marketing, setMarketing] = useState(true);
+  const [analytics, setAnalytics] = useState(false);
+  const [marketing, setMarketing] = useState(false);
 
   useEffect(() => {
     try {
       const raw = localStorage.getItem(LS_KEY);
       if (!raw) { setVisible(true); return; }
-      const saved: Saved = JSON.parse(raw);
-      if (Date.now() > saved.expiry) setVisible(true);
+      JSON.parse(raw) as ConsentData;
     } catch {
       setVisible(true);
     }
   }, []);
 
-  const save = (consent: Saved['consent'], overrides?: { analytics: boolean; marketing: boolean }) => {
-    const data: Saved = {
-      consent,
-      expiry: Date.now() + EXPIRY_MS,
-      analytics: overrides?.analytics ?? (consent === 'all'),
-      marketing: overrides?.marketing ?? (consent === 'all'),
+  const save = (overrides: { analytics: boolean; marketing: boolean }) => {
+    const data: ConsentData = {
+      essential: true,
+      analytics: overrides.analytics,
+      marketing: overrides.marketing,
+      timestamp: new Date().toISOString(),
     };
     try { localStorage.setItem(LS_KEY, JSON.stringify(data)); } catch {}
     setVisible(false);
@@ -39,45 +80,6 @@ export default function CookieBanner() {
 
   if (!visible) return null;
 
-  const btnPrimary: React.CSSProperties = {
-    padding: '9px 20px',
-    borderRadius: '6px',
-    background: '#1A1A1A',
-    color: '#FFFFFF',
-    fontFamily: 'Heebo, sans-serif',
-    fontSize: '12px',
-    fontWeight: 500,
-    border: 'none',
-    cursor: 'pointer',
-    whiteSpace: 'nowrap',
-  };
-
-  const btnOutline: React.CSSProperties = {
-    padding: '9px 20px',
-    borderRadius: '6px',
-    background: 'transparent',
-    color: '#1A1A1A',
-    fontFamily: 'Heebo, sans-serif',
-    fontSize: '12px',
-    fontWeight: 500,
-    border: '1px solid #1A1A1A',
-    cursor: 'pointer',
-    whiteSpace: 'nowrap',
-  };
-
-  const btnGhost: React.CSSProperties = {
-    padding: '9px 20px',
-    borderRadius: '6px',
-    background: 'transparent',
-    color: '#6B6560',
-    fontFamily: 'Heebo, sans-serif',
-    fontSize: '12px',
-    fontWeight: 400,
-    border: '1px solid #E8E4DC',
-    cursor: 'pointer',
-    whiteSpace: 'nowrap',
-  };
-
   return (
     <div
       role="dialog"
@@ -85,79 +87,187 @@ export default function CookieBanner() {
       aria-modal="false"
       style={{
         position: 'fixed',
-        bottom: 0,
-        left: 0,
-        right: 0,
-        zIndex: 9998,
-        background: '#FFFFFF',
-        borderTop: '1px solid #E8E4DC',
-        boxShadow: '0 -4px 24px rgba(0,0,0,0.06)',
-        padding: '20px 24px',
+        bottom: 16,
+        right: 16,
+        left: 16,
+        zIndex: 100,
+        maxWidth: 480,
+        marginLeft: 'auto',
+        background: 'var(--bg-card)',
+        border: '1px solid var(--border-gold)',
+        borderRadius: 12,
+        padding: 16,
+        boxShadow: '0 20px 60px rgba(0,0,0,0.5)',
         direction: 'rtl',
       }}
     >
       {!showCustom ? (
-        <div
-          style={{
-            maxWidth: '1280px',
-            margin: '0 auto',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '20px',
-            flexWrap: 'wrap',
-          }}
-        >
-          <p style={{ fontFamily: 'Heebo, sans-serif', fontSize: '13px', color: '#3D3D3D', flex: 1, minWidth: '200px', lineHeight: 1.6 }}>
-            אנו משתמשים בעוגיות לשיפור החוויה. למידע נוסף —{' '}
-            <Link href="/privacy" style={{ color: '#1A1A1A', textDecoration: 'underline' }}>מדיניות פרטיות</Link>.
-          </p>
-          <div style={{ display: 'flex', gap: '8px', flexShrink: 0, flexWrap: 'wrap' }}>
-            <button onClick={() => save('all')} style={btnPrimary}>אשר הכל</button>
-            <button onClick={() => save('essential')} style={btnOutline}>רק חיוניות</button>
-            <button onClick={() => setShowCustom(true)} style={btnGhost}>מותאם אישית</button>
+        <>
+          {/* Header */}
+          <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 10, gap: 10 }}>
+            <div style={{ display: 'flex', alignItems: 'flex-start', gap: 10 }}>
+              <div style={{
+                width: 32, height: 32, borderRadius: 8,
+                background: 'rgba(201,169,97,0.1)',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                flexShrink: 0,
+              }}>
+                <Cookie size={15} color="var(--gold)" />
+              </div>
+              <div>
+                <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-primary)', marginBottom: 3 }}>
+                  עוגיות לשיפור החוויה
+                </p>
+                <p style={{ fontSize: 11, color: 'var(--text-tertiary)', lineHeight: 1.5 }}>
+                  הסכמה הופכת את ההמלצות לחכמות יותר.{' '}
+                  <Link href="/privacy" style={{ color: 'var(--gold)', textDecoration: 'none' }}>
+                    פרטים
+                  </Link>
+                </p>
+              </div>
+            </div>
+            <button
+              onClick={() => save({ analytics: false, marketing: false })}
+              aria-label="סגור"
+              style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-muted)', padding: 2, flexShrink: 0 }}
+            >
+              <X size={14} />
+            </button>
           </div>
-        </div>
+
+          {/* Buttons */}
+          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+            <button
+              onClick={() => save({ analytics: true, marketing: true })}
+              style={{
+                flex: 1, minWidth: 100,
+                padding: '9px 14px',
+                background: 'var(--gold)',
+                color: '#050505',
+                border: 'none',
+                borderRadius: 6,
+                fontSize: 12,
+                fontWeight: 600,
+                cursor: 'pointer',
+                whiteSpace: 'nowrap',
+              }}
+            >
+              מקבל הכל
+            </button>
+            <button
+              onClick={() => save({ analytics: false, marketing: false })}
+              style={{
+                flex: 1, minWidth: 100,
+                padding: '9px 14px',
+                background: 'transparent',
+                color: 'var(--text-secondary)',
+                border: '1px solid var(--border-default)',
+                borderRadius: 6,
+                fontSize: 12,
+                fontWeight: 500,
+                cursor: 'pointer',
+                whiteSpace: 'nowrap',
+              }}
+            >
+              חובה בלבד
+            </button>
+            <button
+              onClick={() => setShowCustom(true)}
+              style={{
+                padding: '9px 14px',
+                background: 'transparent',
+                color: 'var(--text-muted)',
+                border: '1px solid var(--border-subtle)',
+                borderRadius: 6,
+                fontSize: 12,
+                cursor: 'pointer',
+                whiteSpace: 'nowrap',
+              }}
+            >
+              התאמה אישית
+            </button>
+          </div>
+        </>
       ) : (
-        <div style={{ maxWidth: '1280px', margin: '0 auto' }}>
-          <p style={{ fontFamily: 'Heebo, sans-serif', fontWeight: 600, fontSize: '14px', color: '#1A1A1A', marginBottom: '12px' }}>
-            הגדרות עוגיות
-          </p>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '16px' }}>
+        <>
+          {/* Custom panel */}
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
+            <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-primary)' }}>
+              בחר אילו עוגיות מותר לנו לשמור
+            </p>
+            <button
+              onClick={() => setShowCustom(false)}
+              style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-muted)', padding: 2 }}
+            >
+              <X size={14} />
+            </button>
+          </div>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 16 }}>
             {([
-              { key: 'essential', label: 'עוגיות חיוניות', desc: 'נדרשות לתפקוד הבסיסי של האתר — תמיד פעילות', always: true, checked: true },
-              { key: 'analytics', label: 'ניתוח ביצועים', desc: 'Google Analytics — מאפשרות לנו לשפר את חוויית השימוש', always: false, checked: analytics },
-              { key: 'marketing', label: 'שיווק', desc: 'Meta Pixel — מאפשרות הצגת פרסומות מותאמות', always: false, checked: marketing },
-            ] as const).map(({ key, label, desc, always, checked }) => (
-              <label
-                key={key}
-                style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', cursor: always ? 'default' : 'pointer' }}
+              {
+                label: 'חובה',
+                desc: 'הכרחי לפעולת האתר',
+                checked: true,
+                disabled: true,
+                onChange: () => {},
+              },
+              {
+                label: 'אנליטיקס',
+                desc: 'עוזר לנו להבין איך משתמשים באתר',
+                checked: analytics,
+                disabled: false,
+                onChange: setAnalytics,
+              },
+              {
+                label: 'שיווק',
+                desc: 'מאפשר לנו לשלוח לך עדכונים רלוונטיים',
+                checked: marketing,
+                disabled: false,
+                onChange: setMarketing,
+              },
+            ] as const).map((item) => (
+              <div
+                key={item.label}
+                style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}
               >
-                <input
-                  type="checkbox"
-                  checked={checked}
-                  disabled={always}
-                  onChange={e => {
-                    if (key === 'analytics') setAnalytics(e.target.checked);
-                    if (key === 'marketing') setMarketing(e.target.checked);
-                  }}
-                  style={{ marginTop: '3px', accentColor: '#1A1A1A' }}
+                <div>
+                  <p style={{ fontSize: 12, fontWeight: 500, color: 'var(--text-primary)', marginBottom: 2 }}>
+                    {item.label}
+                    {item.disabled && (
+                      <span style={{ fontSize: 10, color: 'var(--gold)', marginRight: 6, fontWeight: 400 }}>
+                        תמיד פעיל
+                      </span>
+                    )}
+                  </p>
+                  <p style={{ fontSize: 11, color: 'var(--text-muted)' }}>{item.desc}</p>
+                </div>
+                <Toggle
+                  checked={item.checked}
+                  disabled={item.disabled}
+                  onChange={item.onChange as (v: boolean) => void}
                 />
-                <span>
-                  <span style={{ fontFamily: 'Heebo, sans-serif', fontSize: '13px', fontWeight: 500, color: '#1A1A1A' }}>
-                    {label}
-                    {always && <span style={{ marginRight: '6px', fontSize: '10px', color: '#6B6560', fontWeight: 400 }}>תמיד פעיל</span>}
-                  </span>
-                  <br />
-                  <span style={{ fontFamily: 'Heebo, sans-serif', fontSize: '11px', color: '#6B6560' }}>{desc}</span>
-                </span>
-              </label>
+              </div>
             ))}
           </div>
-          <div style={{ display: 'flex', gap: '8px' }}>
-            <button onClick={() => save('custom', { analytics, marketing })} style={btnPrimary}>שמור העדפות</button>
-            <button onClick={() => setShowCustom(false)} style={btnGhost}>חזרה</button>
-          </div>
-        </div>
+
+          <button
+            onClick={() => save({ analytics, marketing })}
+            style={{
+              width: '100%',
+              padding: '10px 0',
+              background: 'var(--gold)',
+              color: '#050505',
+              border: 'none',
+              borderRadius: 6,
+              fontSize: 12,
+              fontWeight: 600,
+              cursor: 'pointer',
+            }}
+          >
+            שמור את ההעדפות שלי
+          </button>
+        </>
       )}
     </div>
   );

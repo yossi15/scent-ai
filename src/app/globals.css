@@ -1,83 +1,109 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600&family=Heebo:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+/* ─── Design Tokens ─────────────────────────────────────────────── */
 :root {
-  /* SCENTORY palette — boutique luxury */
-  --bg-primary: #FAF8F4;
-  --bg-secondary: #F5F3EF;
-  --bg-card: #FFFFFF;
-  --bg-accent: #F5F3EF;
-  --ink: #1A1A1A;
-  --ink-secondary: #3D3D3D;
-  --ink-muted: #6B6867;
-  --ink-faint: #6B6560;
-  --gold: #8B7355;
-  --gold-hover: #7A6448;
-  --gold-light: #A8906E;
-  --gold-dark: #6B5840;
-  --gold-faint: rgba(139, 115, 85, 0.07);
-  --gold-border: rgba(139, 115, 85, 0.18);
-  --accent: #1A1A1A;
-  --border: #E8E4DC;
-  --shadow-sm: 0 1px 2px rgba(26,26,26,0.04);
-  --shadow-md: 0 2px 8px rgba(26,26,26,0.06);
-  --shadow-lg: 0 4px 20px rgba(26,26,26,0.07);
-  --shadow-gold: 0 2px 12px rgba(139, 115, 85, 0.12);
-  --accent-gold: #C9A961;
-  --bg-dark: #0F0F0E;
+  /* Brand */
+  --gold: #c9a961;
+  --gold-dark: #b89651;
+  --gold-light: #d4b873;
+
+  /* Dark theme (default) */
+  --bg-deepest: #030303;
+  --bg-primary: #050505;
+  --bg-secondary: #080808;
+  --bg-tertiary: #0a0a0a;
+  --bg-card: #131313;
+  --bg-elevated: #1a1a1a;
+
+  /* Text */
+  --text-primary: #f5f5f5;
+  --text-secondary: #d4d4d4;
+  --text-tertiary: #a0a0a0;
+  --text-muted: #888;
+  --text-faint: #555;
+
+  /* Borders */
+  --border-subtle: rgba(255,255,255,0.05);
+  --border-default: rgba(255,255,255,0.08);
+  --border-gold: rgba(201,169,97,0.2);
+  --border-gold-strong: rgba(201,169,97,0.4);
+
+  /* Legacy aliases - keep existing pages working */
+  --ink: var(--text-primary);
+  --ink-secondary: var(--text-secondary);
+  --ink-muted: var(--text-tertiary);
+  --ink-faint: var(--text-muted);
+  --border: var(--border-default);
+  --bg-accent: var(--bg-elevated);
+  --bg-dark: #030303;
+  --gold-faint: rgba(201,169,97,0.08);
+  --gold-border: rgba(201,169,97,0.2);
+  --gold-hover: var(--gold-light);
+  --accent-gold: var(--gold);
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.4);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.5);
+  --shadow-lg: 0 12px 40px rgba(0,0,0,0.55);
+  --shadow-gold: 0 8px 32px rgba(201,169,97,0.18);
 }
 
-.dark {
-  /* Warm soft dark - less eye-strain than pure black on long scroll */
-  --bg-primary: #1A1714;
-  --bg-secondary: #221F1B;
-  --bg-card: #2A2622;
-  --bg-accent: #2F2B26;
-  --ink: #EDE8DF;
-  --ink-secondary: #D4CEC2;
-  --ink-muted: #B8B1A6;
-  --ink-faint: #948D82;
-  --gold: #C4A882;
-  --gold-hover: #D6BE9C;
-  --gold-light: #EAD9BB;
-  --gold-dark: #B08F66;
-  --gold-faint: rgba(196, 168, 130, 0.12);
-  --gold-border: rgba(196, 168, 130, 0.30);
-  --accent: #4A2C1A;
-  --border: #38332D;
-  --shadow-sm: 0 1px 3px rgba(0,0,0,0.5), 0 1px 2px rgba(0,0,0,0.4);
-  --shadow-md: 0 4px 16px rgba(0,0,0,0.55), 0 2px 4px rgba(0,0,0,0.4);
-  --shadow-lg: 0 12px 40px rgba(0,0,0,0.6), 0 4px 12px rgba(0,0,0,0.45);
-  --shadow-gold: 0 8px 32px rgba(196, 168, 130, 0.20);
+/* Light theme override */
+html:not(.dark) {
+  --bg-deepest: #f8f8f8;
+  --bg-primary: #ffffff;
+  --bg-secondary: #fafafa;
+  --bg-tertiary: #f5f5f5;
+  --bg-card: #ffffff;
+  --bg-elevated: #f0f0f0;
+
+  --text-primary: #050505;
+  --text-secondary: #2a2a2a;
+  --text-tertiary: #555;
+  --text-muted: #777;
+  --text-faint: #999;
+
+  --border-subtle: rgba(0,0,0,0.05);
+  --border-default: rgba(0,0,0,0.08);
+  --border-gold: rgba(201,169,97,0.25);
+
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.1);
+  --shadow-lg: 0 12px 40px rgba(0,0,0,0.12);
 }
 
+/* ─── Tailwind Theme ─────────────────────────────────────────────── */
 @theme inline {
+  --color-gold: var(--gold);
+  --color-gold-dark: var(--gold-dark);
+  --color-gold-light: var(--gold-light);
+  --color-bg-deepest: var(--bg-deepest);
   --color-bg-primary: var(--bg-primary);
   --color-bg-secondary: var(--bg-secondary);
+  --color-bg-tertiary: var(--bg-tertiary);
   --color-bg-card: var(--bg-card);
-  --color-bg-accent: var(--bg-accent);
-  --color-ink: var(--ink);
-  --color-ink-secondary: var(--ink-secondary);
-  --color-ink-muted: var(--ink-muted);
-  --color-ink-faint: var(--ink-faint);
-  --color-gold: var(--gold);
-  --color-gold-hover: var(--gold-hover);
-  --color-gold-light: var(--gold-light);
-  --color-gold-faint: var(--gold-faint);
-  --color-gold-border: var(--gold-border);
-  --color-gold-dark: var(--gold-dark);
-  --color-accent: var(--accent);
-  --color-border: var(--border);
-  --font-serif: 'Cormorant Garamond', Georgia, serif;
-  --font-sans: 'Inter', system-ui, sans-serif;
-  --font-hebrew: 'Heebo', 'Inter', system-ui, sans-serif;
+  --color-bg-elevated: var(--bg-elevated);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-tertiary: var(--text-tertiary);
+  --color-text-muted: var(--text-muted);
+  --color-text-faint: var(--text-faint);
+  /* Legacy Tailwind aliases */
+  --color-ink: var(--text-primary);
+  --color-ink-secondary: var(--text-secondary);
+  --color-ink-muted: var(--text-tertiary);
+  --color-bg-accent: var(--bg-elevated);
+  --color-border: var(--border-default);
+  --font-sans: 'Heebo', 'Assistant', system-ui, sans-serif;
+  --font-serif: Georgia, 'Times New Roman', serif;
+  --font-hebrew: 'Heebo', 'Assistant', system-ui, sans-serif;
 }
 
+/* ─── Base Styles ────────────────────────────────────────────────── */
 * {
   scrollbar-width: thin;
-  scrollbar-color: var(--ink-faint) transparent;
+  scrollbar-color: var(--text-faint) transparent;
 }
 
 html {
@@ -86,178 +112,25 @@ html {
 
 body {
   background: var(--bg-primary);
-  color: var(--ink);
-  font-family: 'Heebo', 'Inter', system-ui, sans-serif;
+  color: var(--text-primary);
+  font-family: 'Heebo', 'Assistant', system-ui, sans-serif;
   direction: rtl;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Smooth theme switching for all themed elements */
 *, *::before, *::after {
-  transition-property: background-color, border-color, color, fill, stroke, box-shadow;
+  transition-property: background-color, border-color, color;
   transition-duration: 0.3s;
   transition-timing-function: ease;
 }
 
-/* ── Dark mode overrides for hardcoded hex colors ───────────────── */
-.dark .bg-white { background-color: #2A2622 !important; }
-.dark .bg-\[\#FFFFFF\] { background-color: #2A2622 !important; }
-.dark .bg-\[\#F5F3EE\] { background-color: #221F1B !important; }
-.dark .bg-\[\#ECEAE4\] { background-color: #2F2B26 !important; }
-.dark .bg-\[\#EFEDE7\] { background-color: #2F2B26 !important; }
-
-.dark .text-\[\#0D0D0D\] { color: #EDE8DF !important; }
-.dark .text-\[\#4A4A4A\] { color: #C9C2B6 !important; }
-.dark .text-\[\#9A9A9A\] { color: #948D82 !important; }
-
-.dark .border-\[\#E8E4DC\] { border-color: #38332D !important; }
-.dark .border-\[\#D4D0C8\] { border-color: #38332D !important; }
-
-.dark .bg-\[\#ECEAE4\].text-\[\#4A4A4A\],
-.dark .bg-\[\#ECEAE4\].text-\[\#0D0D0D\] { background-color: #2F2B26 !important; }
-
-/* Hero gradient - warm soft dark instead of black */
-.dark [data-hero-bg] {
-  background: linear-gradient(135deg, #1A1714 0%, #2A2622 100%) !important;
-}
-.dark [data-hero-cta],
-.dark [data-cta-dark] {
-  background: linear-gradient(135deg, #C4A882, #D6BE9C) !important;
-  color: #1A1714 !important;
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Heebo', 'Assistant', system-ui, sans-serif;
 }
 
-/* Subtle vignette to break monotony on long scroll in dark mode */
-.dark body {
-  background: radial-gradient(ellipse at top, #221F1B 0%, var(--bg-primary) 60%) fixed;
-}
-
-/* ── Typography hierarchy ───────────────────────────────────────── */
-h1, h2 {
-  font-family: 'Cormorant Garamond', Georgia, serif;
-  letter-spacing: -0.01em;
-}
-h3, h4, h5, h6 {
-  font-family: 'Heebo', 'Inter', system-ui, sans-serif;
-  letter-spacing: -0.005em;
-}
-p, li, span, label, button, a, input, textarea, select {
-  font-family: inherit;
-}
-
-/* Boutique card */
-.card {
-  background: var(--bg-card);
-  border: 0.5px solid var(--border);
-  transition: border-color 0.3s ease;
-}
-.card:hover {
-  border-color: var(--gold-border);
-}
-
-/* Gold accent card */
-.card-gold {
-  background: var(--bg-card);
-  border: 0.5px solid var(--gold-border);
-}
-
-/* Section heading: tight tracking, solid ink. The previous gold gradient
-   read too "AI-templated" — switching to a confident editorial look. */
-.gold-text {
-  color: var(--ink);
-  letter-spacing: -0.02em;
-  font-weight: 600;
-}
-.dark .gold-text { color: var(--ink); }
-
-/* Gold button — flat boutique style */
-.btn-gold {
-  background: var(--ink);
-  color: var(--bg-primary);
-  font-weight: 500;
-  border: none;
-  transition: opacity 0.2s ease;
-}
-.btn-gold:hover { opacity: 0.82; }
-
-/* Outline button */
-.btn-outline {
-  background: transparent;
-  color: var(--gold);
-  border: 1.5px solid var(--gold-border);
-  font-weight: 500;
-  transition: all 0.3s ease;
-}
-.btn-outline:hover {
-  background: var(--gold-faint);
-  border-color: var(--gold);
-}
-
-/* Section accent background */
-.section-accent {
-  background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
-}
-
-/* Divider */
-.divider {
-  height: 1px;
-  background: linear-gradient(to left, transparent 5%, var(--gold-border) 50%, transparent 95%);
-  max-width: 200px;
-  margin: 0 auto;
-}
-
-.gold-line {
-  height: 1px;
-  background: linear-gradient(to left, transparent 5%, var(--gold-border) 50%, transparent 95%);
-  margin: 0 auto;
-}
-
-/* Recharts */
-.recharts-polar-grid-concentric-circle {
-  stroke: rgba(150, 121, 58, 0.12) !important;
-}
-.recharts-polar-angle-axis-tick-value {
-  fill: var(--ink-muted) !important;
-  font-size: 11px !important;
-  font-family: 'Heebo', sans-serif !important;
-}
-
-/* Tag pill */
-.tag {
-  font-size: 10px;
-  letter-spacing: 0.05em;
-  padding: 3px 10px;
-  border-radius: 100px;
-  background: var(--gold-faint);
-  color: var(--gold);
-  font-weight: 500;
-  border: 1px solid transparent;
-}
-
-/* Stat badge */
-.stat-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  font-size: 11px;
-  color: var(--ink-muted);
-}
-
-/* Hero background pattern */
-.hero-pattern {
-  background-image: radial-gradient(circle at 25% 25%, rgba(150,121,58,0.04) 0%, transparent 50%),
-                     radial-gradient(circle at 75% 75%, rgba(150,121,58,0.03) 0%, transparent 50%);
-}
-
-/* Focus ring - inputs */
-input:focus, select:focus, textarea:focus {
-  outline: none;
-  border-color: var(--gold) !important;
-  box-shadow: 0 0 0 3px var(--gold-faint);
-}
-
-/* Focus ring - keyboard navigation (all interactive elements) */
+/* ─── Focus Rings ────────────────────────────────────────────────── */
 a:focus-visible,
 button:focus-visible,
 [role="button"]:focus-visible,
@@ -267,13 +140,12 @@ button:focus-visible,
   border-radius: 6px;
 }
 
-/* Hide focus ring on mouse-click, keep for keyboard */
 a:focus:not(:focus-visible),
 button:focus:not(:focus-visible) {
   outline: none;
 }
 
-/* Skip-to-content link */
+/* ─── Skip-to-content ───────────────────────────────────────────── */
 .skip-to-content {
   position: absolute;
   top: -100px;
@@ -281,7 +153,7 @@ button:focus:not(:focus-visible) {
   z-index: 100;
   padding: 10px 16px;
   background: var(--gold);
-  color: white;
+  color: #050505;
   border-radius: 8px;
   font-size: 14px;
   font-weight: 500;
@@ -291,31 +163,88 @@ button:focus:not(:focus-visible) {
   top: 16px;
 }
 
-/* ── Accessibility Widget ───────────────────────────────────────── */
-/* High contrast mode */
-html.a11y-contrast {
-  --ink: #000000;
-  --ink-secondary: #111111;
-  --ink-muted: #222222;
-  --ink-faint: #333333;
-  --bg-primary: #FFFFFF;
-  --bg-secondary: #F0F0F0;
-  --bg-card: #FFFFFF;
-  --border: #888888;
-  --gold: #4A3700;
-  --gold-border: rgba(74,55,0,0.4);
+/* ─── Inputs ─────────────────────────────────────────────────────── */
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: var(--gold) !important;
+  box-shadow: 0 0 0 3px rgba(201,169,97,0.1);
 }
-/* Link highlight mode */
+
+/* ─── Selection ─────────────────────────────────────────────────── */
+::selection {
+  background: rgba(201,169,97,0.2);
+  color: var(--text-primary);
+}
+
+/* ─── Card utilities (legacy) ───────────────────────────────────── */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-default);
+  transition: border-color 0.3s ease;
+}
+.card:hover { border-color: var(--border-gold); }
+
+.card-gold {
+  background: var(--bg-card);
+  border: 1px solid var(--border-gold);
+}
+
+.btn-gold {
+  background: var(--gold);
+  color: #050505;
+  font-weight: 500;
+  border: none;
+  transition: opacity 0.2s ease;
+}
+.btn-gold:hover { opacity: 0.85; }
+
+.btn-outline {
+  background: transparent;
+  color: var(--gold);
+  border: 1px solid var(--border-gold);
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+.btn-outline:hover {
+  background: rgba(201,169,97,0.08);
+  border-color: var(--gold);
+}
+
+.gold-text { color: var(--gold); }
+.divider {
+  height: 1px;
+  background: linear-gradient(to left, transparent 5%, var(--border-gold) 50%, transparent 95%);
+  max-width: 200px;
+  margin: 0 auto;
+}
+
+/* ─── Recharts overrides ─────────────────────────────────────────── */
+.recharts-polar-grid-concentric-circle {
+  stroke: rgba(201,169,97,0.12) !important;
+}
+.recharts-polar-angle-axis-tick-value {
+  fill: var(--text-muted) !important;
+  font-size: 11px !important;
+  font-family: 'Heebo', sans-serif !important;
+}
+
+/* ─── Accessibility ──────────────────────────────────────────────── */
+html.a11y-contrast {
+  --text-primary: #000;
+  --text-secondary: #111;
+  --bg-primary: #fff;
+  --bg-card: #fff;
+  --border-default: rgba(0,0,0,0.4);
+  --gold: #5c4000;
+}
 html.a11y-links a {
   text-decoration: underline !important;
   text-decoration-thickness: 2px !important;
   text-underline-offset: 3px !important;
 }
-/* Font boost levels */
 html.a11y-font-1 { font-size: 112.5%; }
 html.a11y-font-2 { font-size: 125%; }
 
-/* Respect reduced motion preferences */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
@@ -325,18 +254,12 @@ html.a11y-font-2 { font-size: 125%; }
   }
 }
 
-/* Selection */
-::selection {
-  background: rgba(150, 121, 58, 0.20);
-  color: var(--ink);
-}
-
-/* ── Skeleton loader ───────────────────────────────────────────── */
+/* ─── Skeleton Loader ────────────────────────────────────────────── */
 .skeleton {
   background: linear-gradient(
     90deg,
     var(--bg-secondary) 0%,
-    var(--bg-accent) 50%,
+    var(--bg-elevated) 50%,
     var(--bg-secondary) 100%
   );
   background-size: 200% 100%;
@@ -344,17 +267,52 @@ html.a11y-font-2 { font-size: 125%; }
   border-radius: 8px;
 }
 
-.dark .skeleton {
-  background: linear-gradient(
-    90deg,
-    rgba(255,255,255,0.04) 0%,
-    rgba(255,255,255,0.07) 50%,
-    rgba(255,255,255,0.04) 100%
-  );
-  background-size: 200% 100%;
-}
-
 @keyframes skeleton-shimmer {
   0%   { background-position: 100% 0; }
   100% { background-position: -100% 0; }
+}
+
+/* ─── Gold pulse animation ───────────────────────────────────────── */
+@keyframes gold-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+.animate-gold-pulse {
+  animation: gold-pulse 2s ease-in-out infinite;
+}
+
+/* ─── Spin animation ────────────────────────────────────────────── */
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.animate-spin-slow {
+  animation: spin-slow 3s linear infinite;
+}
+
+/* ─── Mobile responsive utilities ───────────────────────────────── */
+@media (max-width: 480px) {
+  /* Quiz & results RecCard: tighter padding, hide image */
+  .rec-card {
+    padding: 16px !important;
+    gap: 12px !important;
+  }
+  .rec-card-img {
+    display: none !important;
+  }
+
+  /* Price comparison table: hide secondary columns */
+  .price-col-secondary {
+    display: none !important;
+  }
+
+  /* Fragrance page: reduce heavy side margins on small phones */
+  .frag-section-outer {
+    margin-left: 16px !important;
+    margin-right: 16px !important;
+  }
+  .frag-section-pad {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
 }
