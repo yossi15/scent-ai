@@ -14,7 +14,6 @@ export default function PressStrip() {
     <div
       style={{
         background: '#070707',
-        borderTop: '1px solid rgba(255,255,255,0.05)',
         borderBottom: '1px solid rgba(255,255,255,0.05)',
         padding: 'clamp(20px, 3vw, 28px) clamp(20px, 4vw, 40px)',
       }}

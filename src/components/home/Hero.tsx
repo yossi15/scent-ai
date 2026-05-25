@@ -44,6 +44,15 @@ export default function Hero() {
           backgroundSize: '64px 64px',
         }}
       />
+      {/* Bottom fade — bridges into PressStrip */}
+      <div
+        aria-hidden="true"
+        style={{
+          position: 'absolute', bottom: 0, left: 0, right: 0,
+          height: 120, pointerEvents: 'none',
+          background: 'linear-gradient(to bottom, transparent 0%, rgba(7,7,7,0.6) 70%, #070707 100%)',
+        }}
+      />
 
       <div
         style={{
