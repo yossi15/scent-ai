@@ -60,7 +60,7 @@ export default function ComparisonTable() {
       }}
     >
       <div style={{ maxWidth: 900, margin: '0 auto' }}>
-        {/* Header */}
+
         <motion.div
           initial={{ opacity: 0, y: 14 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -83,7 +83,6 @@ export default function ComparisonTable() {
           </h2>
         </motion.div>
 
-        {/* Table */}
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -117,7 +116,6 @@ export default function ComparisonTable() {
                     borderBottom: '1px solid var(--border-default)',
                   }}
                 />
-                {/* SCENTORY - highlighted */}
                 <th
                   style={{
                     padding: '10px 16px',
@@ -168,16 +166,12 @@ export default function ComparisonTable() {
                       padding: '12px 16px',
                       fontSize: 12,
                       color: 'var(--text-secondary)',
-                      borderBottom:
-                        i < ROWS.length - 1
-                          ? '1px solid var(--border-subtle)'
-                          : 'none',
+                      borderBottom: i < ROWS.length - 1 ? '1px solid var(--border-subtle)' : 'none',
                     }}
                   >
                     {row.feature}
                   </td>
 
-                  {/* SCENTORY */}
                   <td
                     style={{
                       padding: '12px 16px',
@@ -185,10 +179,9 @@ export default function ComparisonTable() {
                       background: 'rgba(201,169,97,0.04)',
                       borderLeft: '1px solid rgba(201,169,97,0.1)',
                       borderRight: '1px solid rgba(201,169,97,0.1)',
-                      borderBottom:
-                        i < ROWS.length - 1
-                          ? '1px solid rgba(201,169,97,0.06)'
-                          : '1px solid rgba(201,169,97,0.1)',
+                      borderBottom: i < ROWS.length - 1
+                        ? '1px solid rgba(201,169,97,0.06)'
+                        : '1px solid rgba(201,169,97,0.1)',
                     }}
                   >
                     <div style={{ display: 'flex', justifyContent: 'center' }}>
@@ -200,10 +193,7 @@ export default function ComparisonTable() {
                     style={{
                       padding: '12px 16px',
                       textAlign: 'center',
-                      borderBottom:
-                        i < ROWS.length - 1
-                          ? '1px solid var(--border-subtle)'
-                          : 'none',
+                      borderBottom: i < ROWS.length - 1 ? '1px solid var(--border-subtle)' : 'none',
                     }}
                   >
                     <div style={{ display: 'flex', justifyContent: 'center' }}>
@@ -215,10 +205,7 @@ export default function ComparisonTable() {
                     style={{
                       padding: '12px 16px',
                       textAlign: 'center',
-                      borderBottom:
-                        i < ROWS.length - 1
-                          ? '1px solid var(--border-subtle)'
-                          : 'none',
+                      borderBottom: i < ROWS.length - 1 ? '1px solid var(--border-subtle)' : 'none',
                     }}
                   >
                     <div style={{ display: 'flex', justifyContent: 'center' }}>
@@ -230,6 +217,7 @@ export default function ComparisonTable() {
             </tbody>
           </table>
         </motion.div>
+
       </div>
     </section>
   );

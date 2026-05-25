@@ -29,7 +29,6 @@ export default function FinalCTA() {
           gap: 20,
         }}
       >
-        {/* Live counter - renders only when real data exists */}
         <LiveCounter />
 
         <h2
