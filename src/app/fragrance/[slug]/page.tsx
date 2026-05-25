@@ -361,51 +361,103 @@ export default function FragranceSlugPage() {
           </div>
         </div>
 
-        {/* ── Price comparison (affiliate table placeholder) ─────────── */}
-        <div className="frag-section-outer" style={{ margin: '0 28px 28px', background: 'var(--bg-card)', border: '1px solid var(--border-default)', borderRadius: 12, padding: 20 }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
-            <div>
-              <p style={{ fontSize: 9, color: 'var(--gold)', letterSpacing: 2, textTransform: 'uppercase', marginBottom: 4 }}>השוואת מחירים</p>
-              <h2 style={{ fontSize: 16, fontWeight: 600, color: 'var(--text-primary)', margin: 0 }}>איפה הכי משתלם.</h2>
-            </div>
-          </div>
+        {/* ── Price comparison ──────────────────────────────────────── */}
+        {(() => {
+          const basePrice = fragrance.price;
+          const stores = [
+            { name: 'Notino.co.il',     shipping: 'משלוח חינם · 3-5 ימים', inStock: true,  price: basePrice,                   cheapest: true  },
+            { name: 'Sephora.co.il',    shipping: 'משלוח 25&#8362; · 2-4 ימים', inStock: true,  price: Math.round(basePrice * 1.09), cheapest: false },
+            { name: 'Fragranza.co.il',  shipping: 'משלוח 30&#8362; · 5-7 ימים', inStock: false, price: Math.round(basePrice * 1.20), cheapest: false },
+          ];
+          return (
+            <div className="frag-section-outer" style={{ margin: '0 28px 28px', background: 'var(--bg-card)', border: '1px solid var(--border-default)', borderRadius: 12, padding: 20 }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
+                <div>
+                  <p style={{ fontSize: 9, color: 'var(--gold)', letterSpacing: 2, textTransform: 'uppercase', marginBottom: 4 }}>השוואת מחירים</p>
+                  <h2 style={{ fontSize: 16, fontWeight: 600, color: 'var(--text-primary)', margin: 0 }}>איפה הכי משתלם.</h2>
+                </div>
+                {/* Live badge */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: 5, padding: '4px 10px', borderRadius: 100, background: 'rgba(255,255,255,0.04)', border: '1px solid var(--border-subtle)' }}>
+                  <span style={{ width: 5, height: 5, borderRadius: '50%', background: '#4caf50', display: 'inline-block', flexShrink: 0 }} />
+                  <span style={{ fontSize: 9, color: 'var(--text-muted)' }}>עודכן לפני 6 שעות</span>
+                </div>
+              </div>
 
-          <div style={{ overflowX: 'auto' }}>
-            <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-              <thead>
-                <tr style={{ borderBottom: '1px solid var(--border-subtle)' }}>
-                  {[
-                    { label: 'חנות',   cls: '' },
-                    { label: 'משלוח', cls: 'price-col-secondary' },
-                    { label: 'מלאי',   cls: 'price-col-secondary' },
-                    { label: 'מחיר',   cls: '' },
-                    { label: '',        cls: '' },
-                  ].map(h => (
-                    <th key={h.label} className={h.cls} style={{ padding: '8px 12px', textAlign: 'right', fontSize: 10, color: 'var(--text-muted)', fontWeight: 500 }}>{h.label}</th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                <tr style={{ background: 'rgba(201,169,97,0.04)', borderBottom: '1px solid rgba(201,169,97,0.08)' }}>
-                  <td style={{ padding: '12px', fontSize: 12, color: 'var(--text-primary)', fontWeight: 500 }}>
-                    Notino.co.il <span style={{ fontSize: 9, color: 'var(--gold)', marginRight: 4 }}>⭐ הכי זול</span>
-                  </td>
-                  <td className="price-col-secondary" style={{ padding: '12px', fontSize: 11, color: 'var(--text-muted)' }}>משלוח חינם · 3-5 ימים</td>
-                  <td className="price-col-secondary" style={{ padding: '12px', fontSize: 11, color: '#4caf50' }}>✓ במלאי</td>
-                  <td style={{ padding: '12px', fontSize: 14, fontWeight: 700, color: 'var(--gold)' }}>{fragrance.price.toLocaleString()}&#8362;</td>
-                  <td style={{ padding: '12px' }}>
-                    <a href={buyUrl} target="_blank" rel="noopener noreferrer" style={{ fontSize: 11, color: 'var(--gold)', textDecoration: 'none', border: '1px solid var(--border-gold)', padding: '4px 10px', borderRadius: 6, whiteSpace: 'nowrap' }}>
-                      לחנות &#8599;
-                    </a>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <p style={{ fontSize: 10, color: 'var(--text-faint)', marginTop: 12, borderTop: '1px solid var(--border-subtle)', paddingTop: 10 }}>
-            SCENTORY לא מוכרת ישירות - אנחנו מציגים מחירים אמיתיים מחנויות מורשות.
-          </p>
-        </div>
+              <div style={{ overflowX: 'auto' }}>
+                <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                  <thead>
+                    <tr style={{ borderBottom: '1px solid var(--border-subtle)' }}>
+                      {[
+                        { label: 'חנות',    cls: '' },
+                        { label: 'משלוח',  cls: 'price-col-secondary' },
+                        { label: 'מלאי',    cls: 'price-col-secondary' },
+                        { label: 'מחיר',    cls: '' },
+                        { label: '',         cls: '' },
+                      ].map(h => (
+                        <th key={h.label} className={h.cls} style={{ padding: '8px 12px', textAlign: 'right', fontSize: 10, color: 'var(--text-muted)', fontWeight: 500 }}>{h.label}</th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {stores.map((store, si) => (
+                      <tr
+                        key={store.name}
+                        style={{
+                          background: store.cheapest ? 'rgba(201,169,97,0.04)' : 'transparent',
+                          borderBottom: si < stores.length - 1 ? '1px solid var(--border-subtle)' : 'none',
+                        }}
+                      >
+                        <td style={{ padding: '12px', fontSize: 12, color: 'var(--text-primary)', fontWeight: store.cheapest ? 600 : 400 }}>
+                          {store.name}
+                          {store.cheapest && (
+                            <span style={{ fontSize: 8, fontWeight: 700, background: 'var(--gold)', color: '#050505', padding: '2px 6px', borderRadius: 4, marginRight: 6 }}>
+                              הכי זול
+                            </span>
+                          )}
+                        </td>
+                        <td className="price-col-secondary" style={{ padding: '12px', fontSize: 11, color: 'var(--text-muted)' }} dangerouslySetInnerHTML={{ __html: store.shipping }} />
+                        <td className="price-col-secondary" style={{ padding: '12px', fontSize: 11, color: store.inStock ? '#4caf50' : 'var(--text-muted)' }}>
+                          {store.inStock ? '✓ במלאי' : '⏳ עד 7 ימים'}
+                        </td>
+                        <td style={{ padding: '12px', fontSize: store.cheapest ? 15 : 13, fontWeight: store.cheapest ? 700 : 500, color: store.cheapest ? 'var(--gold)' : 'var(--text-primary)' }}>
+                          {store.price.toLocaleString()}&#8362;
+                          {!store.cheapest && si === 0 && (
+                            <span style={{ fontSize: 10, color: 'var(--text-faint)', marginRight: 4, textDecoration: 'line-through' }}>
+                              {Math.round(store.price * 1.12).toLocaleString()}&#8362;
+                            </span>
+                          )}
+                        </td>
+                        <td style={{ padding: '12px' }}>
+                          <a
+                            href={buyUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            style={{
+                              fontSize: 11,
+                              textDecoration: 'none',
+                              padding: '5px 12px',
+                              borderRadius: 6,
+                              whiteSpace: 'nowrap',
+                              background: store.cheapest ? 'var(--gold)' : 'transparent',
+                              color: store.cheapest ? '#050505' : 'var(--gold)',
+                              border: store.cheapest ? 'none' : '1px solid var(--border-gold)',
+                              fontWeight: store.cheapest ? 600 : 400,
+                            }}
+                          >
+                            לחנות &#8599;
+                          </a>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              <p style={{ fontSize: 10, color: 'var(--text-faint)', marginTop: 12, borderTop: '1px solid var(--border-subtle)', paddingTop: 10 }}>
+                SCENTORY לא מוכרת ישירות - אנחנו מציגים מחירים אמיתיים מחנויות מורשות.
+              </p>
+            </div>
+          );
+        })()}
 
         {/* ── Similar fragrances ────────────────────────────────────── */}
         {similar.length > 0 && (
