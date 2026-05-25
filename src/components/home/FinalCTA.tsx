@@ -1,7 +1,10 @@
 'use client';
 
 import Link from 'next/link';
+import { motion } from 'framer-motion';
 import LiveCounter from './LiveCounter';
+
+const ease = [0.22, 1, 0.36, 1] as const;
 
 export default function FinalCTA() {
   return (
@@ -12,7 +15,11 @@ export default function FinalCTA() {
         background: 'linear-gradient(180deg, var(--bg-primary) 0%, #0f0a05 100%)',
       }}
     >
-      <div
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: '-60px' }}
+        transition={{ duration: 0.55, ease }}
         style={{
           maxWidth: 560,
           margin: '0 auto',
@@ -81,7 +88,7 @@ export default function FinalCTA() {
         >
           ללא כרטיס אשראי · 7 ימי ניסיון · ביטול בכל עת
         </p>
-      </div>
+      </motion.div>
     </section>
   );
 }

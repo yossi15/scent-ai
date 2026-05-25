@@ -1,6 +1,11 @@
+'use client';
+
 import Link from 'next/link';
+import { motion } from 'framer-motion';
 import { Check, X } from 'lucide-react';
 import EyebrowText from './shared/EyebrowText';
+
+const ease = [0.22, 1, 0.36, 1] as const;
 
 const ROWS = [
   {
@@ -72,7 +77,13 @@ export default function PricingTable() {
     >
       <div style={{ maxWidth: 900, margin: '0 auto' }}>
         {/* Header */}
-        <div style={{ textAlign: 'center', marginBottom: 12 }}>
+        <motion.div
+          initial={{ opacity: 0, y: 14 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-60px' }}
+          transition={{ duration: 0.5, ease }}
+          style={{ textAlign: 'center', marginBottom: 12 }}
+        >
           <EyebrowText>המסלולים</EyebrowText>
           <h2
             style={{
@@ -89,7 +100,7 @@ export default function PricingTable() {
           <p style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 8 }}>
             7 ימי ניסיון · ללא כרטיס אשראי · ביטול בכל עת
           </p>
-        </div>
+        </motion.div>
 
         {/* Desktop Table */}
         <div className="hidden md:block" style={{ overflowX: 'auto', marginTop: 28 }}>
