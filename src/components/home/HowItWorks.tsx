@@ -1,321 +1,200 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import EyebrowText from './shared/EyebrowText';
-import StepCard from './StepCard';
 
-const ease = [0.22, 1, 0.36, 1] as const;
-const fadeUp = (delay = 0) => ({
-  initial: { opacity: 0, y: 16 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, margin: '-60px' },
-  transition: { duration: 0.5, delay, ease },
-});
+/* ── Mini screen mockups ─────────────────────────────────────── */
 
-/* ─── Mockup: Step 1 - Quiz ─────────────────────────────────────── */
 function QuizMockup() {
   return (
-    <div style={{ width: '100%', maxWidth: 210 }}>
-      {/* Progress bar */}
-      <div
-        className="flex items-center gap-2"
-        style={{ marginBottom: 14 }}
-      >
-        <span style={{ fontSize: 8, color: 'var(--text-muted)', whiteSpace: 'nowrap' }}>
-          שאלה 3/9 · ~2 דקות
-        </span>
-        <div
-          style={{
-            flex: 1,
-            height: 3,
-            background: 'rgba(255,255,255,0.07)',
-            borderRadius: 4,
-            overflow: 'hidden',
-          }}
-        >
-          <div
-            style={{
-              width: '33%',
-              height: '100%',
-              background: 'linear-gradient(90deg, var(--gold-dark), var(--gold))',
-              borderRadius: 4,
-            }}
-          />
+    <div style={{ padding: '14px 12px', display: 'flex', flexDirection: 'column', gap: 10 }}>
+      {/* Progress */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+        <div style={{ flex: 1, height: 3, background: 'var(--border-default)', borderRadius: 2, overflow: 'hidden' }}>
+          <div style={{ width: '33%', height: '100%', background: 'var(--gold)', borderRadius: 2 }} />
         </div>
+        <span style={{ fontSize: 8, color: 'var(--text-faint)', whiteSpace: 'nowrap' }}>3 / 9</span>
       </div>
-
       {/* Question */}
-      <p
-        style={{
-          fontSize: 11,
-          fontWeight: 600,
-          color: 'var(--text-primary)',
-          marginBottom: 12,
-          lineHeight: 1.4,
-        }}
-      >
-        מה מרגיש לך הכי טבעי?
+      <p style={{ fontSize: 9, color: 'var(--text-secondary)', lineHeight: 1.4, margin: 0 }}>
+        איזה סיטואציה מתאר אותך הכי טוב?
       </p>
-
-      {/* Options */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-        {[
-          { label: 'חמים ועוטף', selected: true },
-          { label: 'רענן וקליל', selected: false },
-        ].map((opt) => (
-          <div
-            key={opt.label}
-            style={{
-              padding: '8px 12px',
-              borderRadius: 8,
-              border: opt.selected
-                ? '1px solid var(--gold)'
-                : '1px solid var(--border-default)',
-              background: opt.selected
-                ? 'rgba(201,169,97,0.07)'
-                : 'transparent',
-              fontSize: 10,
-              color: opt.selected ? 'var(--gold)' : 'var(--text-tertiary)',
-              cursor: 'pointer',
-            }}
-          >
-            {opt.label}
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-/* ─── Mockup: Step 2 - Analysis ─────────────────────────────────── */
-function AnalysisMockup() {
-  return (
-    <div style={{ width: '100%', maxWidth: 210, textAlign: 'center' }}>
-      {/* Spinner */}
-      <div
-        style={{
-          position: 'relative',
-          width: 54,
-          height: 54,
-          margin: '0 auto 14px',
-        }}
-      >
+      {/* Choices */}
+      {['חם ומחבק', 'נקי ורענן'].map((c, i) => (
         <div
+          key={c}
           style={{
-            position: 'absolute',
-            inset: 0,
-            border: '1.5px solid rgba(201,169,97,0.15)',
-            borderTopColor: 'var(--gold)',
-            borderRadius: '50%',
-            animation: 'spin 1.5s linear infinite',
-          }}
-        />
-        <div
-          style={{
-            position: 'absolute',
-            inset: 8,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            borderRadius: '50%',
-            background: 'rgba(201,169,97,0.06)',
+            fontSize: 9, padding: '6px 10px', borderRadius: 6, textAlign: 'center',
+            border: `1px solid ${i === 0 ? 'var(--gold)' : 'var(--border-default)'}`,
+            background: i === 0 ? 'rgba(201,169,97,0.08)' : 'transparent',
+            color: i === 0 ? 'var(--gold)' : 'var(--text-tertiary)',
           }}
         >
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96-.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 4.44-1.16Z"/>
-            <path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96-.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-4.44-1.16Z"/>
-          </svg>
-        </div>
-      </div>
-
-      <p
-        style={{
-          fontSize: 10,
-          color: 'var(--text-tertiary)',
-          marginBottom: 14,
-        }}
-      >
-        Claude סורק מעל 1,000 בשמים
-      </p>
-
-      {/* Status rows */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 6, textAlign: 'right' }}>
-        {[
-          { label: 'פרופיל הובן', done: true },
-          { label: 'חישוב 60%', done: false },
-        ].map((row) => (
-          <div
-            key={row.label}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: 6,
-              padding: '5px 10px',
-              borderRadius: 6,
-              background: row.done
-                ? 'rgba(201,169,97,0.06)'
-                : 'rgba(255,255,255,0.03)',
-              border: `1px solid ${row.done ? 'rgba(201,169,97,0.15)' : 'var(--border-subtle)'}`,
-            }}
-          >
-            <span style={{ fontSize: 8, color: row.done ? 'var(--gold)' : 'var(--text-muted)' }}>
-              {row.done ? '✓' : '···'}
-            </span>
-            <span style={{ fontSize: 9, color: row.done ? 'var(--text-secondary)' : 'var(--text-muted)' }}>
-              {row.label}
-            </span>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-/* ─── Mockup: Step 3 - Results ───────────────────────────────────── */
-function ResultsMockup() {
-  return (
-    <div style={{ width: '100%', maxWidth: 210 }}>
-      {/* Top match */}
-      <div
-        style={{
-          border: '1.5px solid var(--gold)',
-          borderRadius: 10,
-          padding: '8px 10px',
-          marginBottom: 6,
-          display: 'flex',
-          alignItems: 'center',
-          gap: 8,
-          background: 'rgba(201,169,97,0.04)',
-        }}
-      >
-        <div
-          style={{
-            width: 28,
-            height: 36,
-            borderRadius: 6,
-            background:
-              'linear-gradient(160deg, rgba(201,169,97,0.3), rgba(201,169,97,0.07))',
-            border: '1px solid rgba(201,169,97,0.2)',
-            flexShrink: 0,
-          }}
-        />
-        <div style={{ flex: 1 }}>
-          <p style={{ fontSize: 7, color: 'var(--text-muted)', marginBottom: 2 }}>MFK</p>
-          <p style={{ fontSize: 9, fontWeight: 600, color: 'var(--text-primary)', marginBottom: 3 }}>
-            Baccarat Rouge 540
-          </p>
-          <span
-            style={{
-              fontSize: 6,
-              fontWeight: 700,
-              background: 'var(--gold)',
-              color: '#050505',
-              padding: '2px 5px',
-              borderRadius: 4,
-            }}
-          >
-            96%
-          </span>
-        </div>
-        <span style={{ fontSize: 10, fontWeight: 700, color: 'var(--gold)', flexShrink: 0 }}>
-          1,580&#8362;
-        </span>
-      </div>
-
-      {/* Compact matches */}
-      {[
-        { name: 'Tobacco Vanille', pct: '94%' },
-        { name: 'Oud Wood', pct: '91%' },
-      ].map((item) => (
-        <div
-          key={item.name}
-          style={{
-            border: '1px solid var(--border-subtle)',
-            borderRadius: 8,
-            padding: '6px 10px',
-            marginBottom: 5,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            background: 'rgba(255,255,255,0.02)',
-          }}
-        >
-          <span style={{ fontSize: 9, color: 'var(--text-secondary)' }}>
-            {item.name}
-          </span>
-          <span style={{ fontSize: 8, fontWeight: 600, color: 'var(--gold)' }}>
-            {item.pct}
-          </span>
+          {c}
         </div>
       ))}
     </div>
   );
 }
 
-/* ─── Main Component ─────────────────────────────────────────────── */
-export default function HowItWorks() {
+function AIMockup() {
+  const steps = [
+    { label: 'העדפות שלך', done: true },
+    { label: 'סורק 1,000+ בשמים', done: false, active: true },
+    { label: 'מחשב התאמה', done: false },
+  ];
   return (
-    <section
-      id="how-it-works"
-      style={{
-        background: 'var(--bg-primary)',
-        padding: 'clamp(36px, 5vw, 52px) clamp(20px, 4vw, 32px)',
-      }}
-    >
-      <div style={{ maxWidth: 1100, margin: '0 auto' }}>
-        {/* Header */}
-        <motion.div {...fadeUp(0)} style={{ textAlign: 'center', marginBottom: 36 }}>
-          <EyebrowText>איך זה עובד</EyebrowText>
-          <h2
-            style={{
-              fontSize: 'clamp(20px, 3vw, 24px)',
-              fontWeight: 600,
-              color: 'var(--text-primary)',
-              marginTop: 10,
-              letterSpacing: '-0.3px',
-            }}
-          >
-            מתשע שאלות לבושם שלך
-            <span style={{ color: 'var(--gold)' }}>.</span>
-          </h2>
-        </motion.div>
+    <div style={{ padding: '14px 12px', display: 'flex', flexDirection: 'column', gap: 10, alignItems: 'center' }}>
+      {/* Spinner */}
+      <div style={{
+        width: 32, height: 32, borderRadius: '50%',
+        border: '2px solid rgba(201,169,97,0.2)',
+        borderTop: '2px solid var(--gold)',
+        animation: 'spin-slow 1.5s linear infinite',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+      }}>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M12 2a4 4 0 0 1 4 4 4 4 0 0 1-4 4 4 4 0 0 1-4-4 4 4 0 0 1 4-4" />
+          <path d="M12 14a8 8 0 0 1 8 8H4a8 8 0 0 1 8-8" />
+        </svg>
+      </div>
+      <p style={{ fontSize: 9, color: 'var(--gold)', margin: 0, fontWeight: 500 }}>Claude מנתח...</p>
+      <div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 5 }}>
+        {steps.map(s => (
+          <div key={s.label} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+            <span style={{
+              fontSize: 8,
+              color: s.done ? 'var(--gold)' : s.active ? 'var(--text-secondary)' : 'var(--text-faint)',
+            }}>
+              {s.done ? '✓' : s.active ? '⟳' : '·'}
+            </span>
+            <span style={{ fontSize: 8, color: s.done ? 'var(--text-secondary)' : s.active ? 'var(--text-secondary)' : 'var(--text-faint)' }}>
+              {s.label}
+            </span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
 
-        {/* 3 Cards */}
+function ResultsMockup() {
+  const matches = [
+    { pct: '96%', house: 'MFK', name: 'Baccarat Rouge 540' },
+    { pct: '94%', house: 'Tom Ford', name: 'Tobacco Vanille' },
+    { pct: '91%', house: 'Tom Ford', name: 'Oud Wood' },
+  ];
+  return (
+    <div style={{ padding: '10px 10px', display: 'flex', flexDirection: 'column', gap: 5 }}>
+      {matches.map((m, i) => (
         <div
+          key={m.name}
           style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
-            gap: 14,
+            display: 'flex', alignItems: 'center', gap: 8,
+            padding: '6px 8px', borderRadius: 6,
+            border: `1px solid ${i === 0 ? 'var(--gold)' : 'var(--border-subtle)'}`,
+            background: i === 0 ? 'rgba(201,169,97,0.05)' : 'transparent',
           }}
         >
-          <motion.div {...fadeUp(0.1)}>
-            <StepCard
-              number="01"
-              eyebrow="שאלון"
-              title="תשע שאלות מדויקות"
-              description="משפחת ריח, עוצמה, עונה, מחיר. כל תשובה משפרת את הדיוק."
-              mockup={<QuizMockup />}
-            />
-          </motion.div>
-          <motion.div {...fadeUp(0.2)}>
-            <StepCard
-              number="02"
-              eyebrow="ניתוח"
-              title="AI מעבד בעשר שניות"
-              description="סורק מעל 1,000 בשמים, מחבר תשובות עם DNA ריחני ייחודי."
-              highlighted
-              mockup={<AnalysisMockup />}
-            />
-          </motion.div>
-          <motion.div {...fadeUp(0.3)}>
-            <StepCard
-              number="03"
-              eyebrow="המלצות"
-              title="עשר התאמות אישיות"
-              description="כל המלצה עם הסבר אישי ומה שמתאים בדיוק לך."
-              mockup={<ResultsMockup />}
-            />
-          </motion.div>
+          <span style={{
+            fontSize: 8, fontWeight: 700,
+            color: i === 0 ? 'var(--gold)' : 'var(--text-faint)',
+            minWidth: 24,
+          }}>{m.pct}</span>
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <p style={{ fontSize: 7, color: 'var(--text-faint)', margin: 0 }}>{m.house}</p>
+            <p style={{ fontSize: 9, color: 'var(--text-secondary)', margin: 0, fontWeight: i === 0 ? 600 : 400, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+              {m.name}
+            </p>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+/* ── Step data ─────────────────────────────────────────────────── */
+const STEPS = [
+  {
+    num: '01', tag: 'שאלון', title: 'תשע שאלות מדויקות',
+    desc: 'שאלות שמבינות את הסגנון, האישיות, והסיטואציות שלך.',
+    Mockup: QuizMockup,
+  },
+  {
+    num: '02', tag: 'ניתוח', title: 'AI מעבד בעשר שניות',
+    desc: 'Claude סורק מעל 1,000 בשמים ומוצא את ההתאמות הטובות ביותר.',
+    Mockup: AIMockup,
+  },
+  {
+    num: '03', tag: 'המלצות', title: 'עשר התאמות אישיות',
+    desc: 'כל המלצה מגיעה עם הסבר מדוע היא מתאימה לך ספציפית.',
+    Mockup: ResultsMockup,
+  },
+];
+
+export default function HowItWorks() {
+  return (
+    <section id="how-it-works" className="section-pad" style={{ background: 'var(--bg-primary)' }}>
+      <div className="section-inner">
+
+        {/* Header */}
+        <div style={{ textAlign: 'center', marginBottom: 40 }}>
+          <p style={{ fontSize: 9, color: 'var(--gold)', letterSpacing: '3px', textTransform: 'uppercase', marginBottom: 12 }}>
+            איך זה עובד
+          </p>
+          <h2 style={{ fontSize: 24, fontWeight: 600, color: 'var(--text-primary)', margin: 0, lineHeight: 1.3 }}>
+            מתשע שאלות לבושם שלך<span style={{ color: 'var(--gold)' }}>.</span>
+          </h2>
+        </div>
+
+        {/* Cards grid */}
+        <div className="grid-3-cols">
+          {STEPS.map((step, i) => (
+            <motion.div
+              key={step.num}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
+              style={{
+                borderRadius: 12,
+                border: '1px solid var(--border-default)',
+                overflow: 'hidden',
+                background: 'var(--bg-tertiary)',
+              }}
+            >
+              {/* Top: screen mockup */}
+              <div style={{
+                background: 'var(--bg-card)',
+                borderBottom: '1px solid var(--border-subtle)',
+                minHeight: 130,
+              }}>
+                {/* Fake browser bar */}
+                <div style={{
+                  display: 'flex', alignItems: 'center', gap: 4,
+                  padding: '7px 10px',
+                  borderBottom: '1px solid var(--border-subtle)',
+                }}>
+                  {[0,1,2].map(d => (
+                    <div key={d} style={{ width: 5, height: 5, borderRadius: '50%', background: 'var(--border-default)' }} />
+                  ))}
+                </div>
+                <step.Mockup />
+              </div>
+
+              {/* Bottom: label */}
+              <div style={{ padding: '14px 16px' }}>
+                <p style={{ fontSize: 9, color: 'var(--gold)', letterSpacing: '0.05em', margin: '0 0 6px' }}>
+                  {step.num} · {step.tag}
+                </p>
+                <h3 style={{ fontSize: 14, fontWeight: 600, color: 'var(--text-primary)', margin: '0 0 6px', lineHeight: 1.3 }}>
+                  {step.title}
+                </h3>
+                <p style={{ fontSize: 12, color: 'var(--text-tertiary)', margin: 0, lineHeight: 1.5 }}>
+                  {step.desc}
+                </p>
+              </div>
+            </motion.div>
+          ))}
         </div>
       </div>
     </section>

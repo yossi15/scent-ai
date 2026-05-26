@@ -47,6 +47,18 @@
   --shadow-md: 0 4px 16px rgba(0,0,0,0.5);
   --shadow-lg: 0 12px 40px rgba(0,0,0,0.55);
   --shadow-gold: 0 8px 32px rgba(201,169,97,0.18);
+  --shadow-xl: 0 30px 80px rgba(0,0,0,0.5);
+
+  /* Nav */
+  --nav-bg: rgba(5,5,5,0.95);
+  --nav-bg-scrolled: rgba(5,5,5,0.97);
+
+  /* Hero mockup */
+  --hero-card-bg: #0a0a0a;
+  --hero-small-card-bg: #131313;
+  --hero-glow-opacity: rgba(201,169,97,0.10);
+  --dna-gradient-start: #1a1410;
+  --dna-gradient-end: #0f0a05;
 }
 
 /* Light theme override */
@@ -71,6 +83,18 @@ html:not(.dark) {
   --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
   --shadow-md: 0 4px 16px rgba(0,0,0,0.1);
   --shadow-lg: 0 12px 40px rgba(0,0,0,0.12);
+  --shadow-xl: 0 20px 60px rgba(0,0,0,0.1), 0 0 0 1px rgba(0,0,0,0.06);
+
+  /* Nav */
+  --nav-bg: rgba(255,255,255,0.95);
+  --nav-bg-scrolled: rgba(255,255,255,0.97);
+
+  /* Hero mockup */
+  --hero-card-bg: #ffffff;
+  --hero-small-card-bg: #f8f8f8;
+  --hero-glow-opacity: rgba(201,169,97,0.08);
+  --dna-gradient-start: #faf9f6;
+  --dna-gradient-end: #f5f2ec;
 }
 
 /* ─── Tailwind Theme ─────────────────────────────────────────────── */
@@ -291,6 +315,55 @@ html.a11y-font-2 { font-size: 125%; }
 }
 
 /* ─── Mobile responsive utilities ───────────────────────────────── */
+/* ─── Section / Layout helpers ──────────────────────────────────── */
+.section-pad   { padding: 72px 32px; }
+.section-inner { max-width: 1100px; margin: 0 auto; }
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+  align-items: center;
+}
+.grid-3-cols {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+.grid-2-cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+}
+
+/* Ghost button — auto dark/light */
+.btn-ghost {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.10);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+html:not(.dark) .btn-ghost {
+  background: rgba(0,0,0,0.04);
+  border-color: rgba(0,0,0,0.09);
+}
+.btn-ghost:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.18); }
+html:not(.dark) .btn-ghost:hover { background: rgba(0,0,0,0.07); border-color: rgba(0,0,0,0.14); }
+
+/* ─── Mobile breakpoint ─────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .section-pad { padding: 48px 20px; }
+  .hero-grid, .grid-3-cols, .grid-2-cols { grid-template-columns: 1fr; gap: 20px; }
+  .hide-mobile { display: none !important; }
+  .show-mobile { display: block !important; }
+  .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .footer-grid { grid-template-columns: 1fr 1fr !important; gap: 28px 20px !important; }
+}
+@media (min-width: 769px) {
+  .hide-desktop { display: none !important; }
+}
+
 @media (max-width: 480px) {
   /* Quiz & results RecCard: tighter padding, hide image */
   .rec-card {

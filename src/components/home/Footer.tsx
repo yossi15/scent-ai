@@ -3,144 +3,131 @@
 import Link from 'next/link';
 import Logo from './shared/Logo';
 
-const FOOTER_LINKS = {
-  מוצר: [
-    { label: 'קולקציה', href: '/collection' },
-    { label: 'איך זה עובד', href: '#how-it-works' },
-    { label: 'מסלולים', href: '#pricing' },
+const LINKS = {
+  product: [
+    { href: '/collection', label: 'קולקציה' },
+    { href: '#how-it-works', label: 'איך זה עובד' },
+    { href: '#pricing', label: 'מסלולים' },
   ],
-  חברה: [
-    { label: 'אודות', href: '/about' },
-    { label: 'בלוג', href: '/blog' },
-    { label: 'צור קשר', href: 'mailto:hello@scentory.co.il' },
+  company: [
+    { href: '/about', label: 'אודות' },
+    { href: '/blog', label: 'בלוג' },
+    { href: '/contact', label: 'צור קשר' },
   ],
-  משפטי: [
-    { label: 'פרטיות', href: '/privacy' },
-    { label: 'תנאי שימוש', href: '/terms' },
-    { label: 'עוגיות', href: '/cookies' },
+  legal: [
+    { href: '/privacy', label: 'פרטיות' },
+    { href: '/terms', label: 'תנאי שימוש' },
+    { href: '/cookies', label: 'עוגיות' },
   ],
 };
 
+const linkStyle = {
+  fontSize: 12,
+  color: 'var(--text-faint)',
+  textDecoration: 'none',
+  display: 'block',
+  padding: '3px 0',
+  transition: 'color 0.2s',
+} as const;
+
+function ColHeader({ children }: { children: React.ReactNode }) {
+  return (
+    <p style={{ fontSize: 10, fontWeight: 600, color: 'var(--text-muted)', letterSpacing: '0.08em', marginBottom: 12, textTransform: 'uppercase' }}>
+      {children}
+    </p>
+  );
+}
+
 export default function Footer() {
   return (
-    <footer
-      style={{
-        background: 'var(--bg-deepest)',
-        borderTop: '1px solid var(--border-subtle)',
-        padding: 'clamp(28px, 4vw, 36px) clamp(20px, 4vw, 32px) 16px',
-      }}
-    >
-      <div style={{ maxWidth: 1100, margin: '0 auto' }}>
-        {/* Main grid */}
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: '2fr 1fr 1fr 1fr',
-            gap: 'clamp(24px, 4vw, 48px)',
-            marginBottom: 32,
-          }}
-          className="max-sm:grid-cols-2 max-sm:gap-y-8"
+    <footer style={{ background: 'var(--bg-deepest)', borderTop: '1px solid var(--border-subtle)' }}>
+      <div
+        className="section-inner"
+        style={{ padding: '48px 32px 32px' }}
+      >
+        {/* Top grid: 2fr 1fr 1fr 1fr */}
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: '2fr 1fr 1fr 1fr',
+          gap: '32px 24px',
+          marginBottom: 40,
+        }}
+          className="footer-grid"
         >
-          {/* Brand col */}
+          {/* Col 1: Logo + description */}
           <div>
-            <Logo size="sm" />
-            <p
-              style={{
-                fontSize: 11,
-                color: 'var(--text-muted)',
-                lineHeight: 1.65,
-                marginTop: 14,
-                maxWidth: 200,
-              }}
-            >
-              פלטפורמת AI לגילוי בשמים.
-              <br />
-              עברית. מאז 2026.
+            <Link href="/" style={{ textDecoration: 'none', display: 'inline-block', marginBottom: 12 }}>
+              <Logo size="md" />
+            </Link>
+            <p style={{ fontSize: 12, color: 'var(--text-faint)', lineHeight: 1.6, maxWidth: 240, margin: 0 }}>
+              פלטפורמת AI לגילוי בשמים. תשע שאלות. ניתוח מעל 1,000 בשמים. עשר התאמות אישיות.
             </p>
           </div>
 
-          {/* Link cols */}
-          {Object.entries(FOOTER_LINKS).map(([section, links]) => (
-            <div key={section}>
-              <p
-                style={{
-                  fontSize: 10,
-                  fontWeight: 600,
-                  color: 'var(--text-muted)',
-                  letterSpacing: '0.06em',
-                  textTransform: 'uppercase',
-                  marginBottom: 14,
-                }}
+          {/* Col 2: מוצר */}
+          <div>
+            <ColHeader>מוצר</ColHeader>
+            {LINKS.product.map(l => (
+              <Link
+                key={l.href}
+                href={l.href}
+                style={linkStyle}
+                onMouseEnter={e => (e.currentTarget.style.color = 'var(--text-secondary)')}
+                onMouseLeave={e => (e.currentTarget.style.color = 'var(--text-faint)')}
               >
-                {section}
-              </p>
-              <ul
-                style={{
-                  listStyle: 'none',
-                  padding: 0,
-                  margin: 0,
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: 10,
-                }}
+                {l.label}
+              </Link>
+            ))}
+          </div>
+
+          {/* Col 3: חברה */}
+          <div>
+            <ColHeader>חברה</ColHeader>
+            {LINKS.company.map(l => (
+              <Link
+                key={l.href}
+                href={l.href}
+                style={linkStyle}
+                onMouseEnter={e => (e.currentTarget.style.color = 'var(--text-secondary)')}
+                onMouseLeave={e => (e.currentTarget.style.color = 'var(--text-faint)')}
               >
-                {links.map((link) => (
-                  <li key={link.label}>
-                    <Link
-                      href={link.href}
-                      style={{
-                        fontSize: 12,
-                        color: 'var(--text-tertiary)',
-                        textDecoration: 'none',
-                        transition: 'color 0.2s',
-                      }}
-                      onMouseEnter={(e) =>
-                        (e.currentTarget.style.color = 'var(--text-secondary)')
-                      }
-                      onMouseLeave={(e) =>
-                        (e.currentTarget.style.color = 'var(--text-tertiary)')
-                      }
-                    >
-                      {link.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+                {l.label}
+              </Link>
+            ))}
+          </div>
+
+          {/* Col 4: משפטי */}
+          <div>
+            <ColHeader>משפטי</ColHeader>
+            {LINKS.legal.map(l => (
+              <Link
+                key={l.href}
+                href={l.href}
+                style={linkStyle}
+                onMouseEnter={e => (e.currentTarget.style.color = 'var(--text-secondary)')}
+                onMouseLeave={e => (e.currentTarget.style.color = 'var(--text-faint)')}
+              >
+                {l.label}
+              </Link>
+            ))}
+          </div>
         </div>
 
-        {/* Bottom bar */}
-        <div
-          style={{
-            borderTop: '1px solid var(--border-subtle)',
-            paddingTop: 16,
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            flexWrap: 'wrap',
-            gap: 8,
-          }}
-        >
+        {/* Bottom row */}
+        <div style={{
+          borderTop: '1px solid var(--border-subtle)',
+          paddingTop: 20,
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+          flexWrap: 'wrap', gap: 8,
+        }}>
           <span style={{ fontSize: 11, color: 'var(--text-faint)' }}>
             &copy; 2026 SCENTORY
           </span>
           <a
             href="mailto:hello@scentory.co.il"
-            style={{
-              fontFamily: "Georgia, 'Times New Roman', serif",
-              fontStyle: 'italic',
-              fontSize: 11,
-              color: 'var(--text-muted)',
-              textDecoration: 'none',
-              transition: 'color 0.2s',
-            }}
-            onMouseEnter={(e) =>
-              (e.currentTarget.style.color = 'var(--gold)')
-            }
-            onMouseLeave={(e) =>
-              (e.currentTarget.style.color = 'var(--text-muted)')
-            }
+            style={{ fontSize: 11, color: 'var(--text-faint)', textDecoration: 'none', transition: 'color 0.2s' }}
+            onMouseEnter={e => (e.currentTarget.style.color = 'var(--text-secondary)')}
+            onMouseLeave={e => (e.currentTarget.style.color = 'var(--text-faint)')}
           >
             hello@scentory.co.il
           </a>

@@ -1,223 +1,97 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Check, X } from 'lucide-react';
-import EyebrowText from './shared/EyebrowText';
-
-const ease = [0.22, 1, 0.36, 1] as const;
 
 const ROWS = [
-  {
-    feature: 'המלצות מותאמות אישית',
-    scentory: true,
-    fragrantica: false,
-    store: 'דעת המוכר',
-  },
-  {
-    feature: 'הסבר "למה" לכל המלצה',
-    scentory: true,
-    fragrantica: false,
-    store: false,
-  },
-  {
-    feature: 'השוואת מחירים בין חנויות',
-    scentory: true,
-    fragrantica: false,
-    store: false,
-  },
-  {
-    feature: 'קטלוג מלא בעברית',
-    scentory: true,
-    fragrantica: false,
-    store: true,
-  },
-  {
-    feature: 'קולקציה אישית + יומן',
-    scentory: true,
-    fragrantica: true,
-    store: false,
-  },
+  { feature: 'המלצות מותאמות אישית', scentory: true,  fragrantica: false, store: 'דעת המוכר' },
+  { feature: 'הסבר "למה" לכל בושם',  scentory: true,  fragrantica: false, store: false },
+  { feature: 'השוואת מחירים',         scentory: true,  fragrantica: false, store: false },
+  { feature: 'קטלוג בעברית',          scentory: true,  fragrantica: false, store: true },
 ];
 
-function Cell({ value }: { value: boolean | string }) {
-  if (typeof value === 'string') {
-    return (
-      <span style={{ fontSize: 11, color: 'var(--text-muted)' }}>{value}</span>
-    );
+function Cell({ val }: { val: boolean | string }) {
+  if (typeof val === 'string') {
+    return <span style={{ fontSize: 11, color: 'var(--text-muted)' }}>{val}</span>;
   }
-  if (value) {
-    return <Check size={14} color="var(--gold)" strokeWidth={2.5} />;
-  }
-  return <X size={14} color="var(--text-faint)" strokeWidth={2} />;
+  return val
+    ? <span style={{ color: 'var(--gold)', fontSize: 14 }}>✓</span>
+    : <span style={{ color: 'var(--text-faint)', fontSize: 14 }}>✗</span>;
 }
+
+const TH = ({ children, gold }: { children: React.ReactNode; gold?: boolean }) => (
+  <th style={{
+    padding: '12px 16px', textAlign: 'center',
+    fontSize: 11, fontWeight: 600,
+    color: gold ? 'var(--gold)' : 'var(--text-tertiary)',
+    borderBottom: '1px solid var(--border-default)',
+    background: gold ? 'rgba(201,169,97,0.04)' : 'transparent',
+    whiteSpace: 'nowrap',
+  }}>
+    {children}
+  </th>
+);
 
 export default function ComparisonTable() {
   return (
-    <section
-      style={{
-        background: 'var(--bg-secondary)',
-        padding: 'clamp(36px, 5vw, 52px) clamp(20px, 4vw, 32px)',
-      }}
-    >
-      <div style={{ maxWidth: 900, margin: '0 auto' }}>
+    <section className="section-pad" style={{ background: 'var(--bg-primary)' }}>
+      <div className="section-inner">
 
-        <motion.div
-          initial={{ opacity: 0, y: 14 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-60px' }}
-          transition={{ duration: 0.5, ease }}
-          style={{ textAlign: 'center', marginBottom: 32 }}
-        >
-          <EyebrowText>למה לא חנות?</EyebrowText>
-          <h2
-            style={{
-              fontSize: 'clamp(20px, 3vw, 24px)',
-              fontWeight: 600,
-              color: 'var(--text-primary)',
-              marginTop: 10,
-              letterSpacing: '-0.3px',
-            }}
-          >
-            SCENTORY מול האלטרנטיבות
-            <span style={{ color: 'var(--gold)' }}>.</span>
+        <div style={{ textAlign: 'center', marginBottom: 32 }}>
+          <h2 style={{ fontSize: 22, fontWeight: 600, color: 'var(--text-primary)', margin: 0 }}>
+            SCENTORY מול האלטרנטיבות<span style={{ color: 'var(--gold)' }}>.</span>
           </h2>
-        </motion.div>
+        </div>
 
+        {/* Scrollable on mobile */}
         <motion.div
-          initial={{ opacity: 0, y: 12 }}
+          initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-40px' }}
-          transition={{ duration: 0.5, delay: 0.1, ease }}
-          style={{ overflowX: 'auto' }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          className="table-wrap"
         >
-          <table
-            style={{
-              width: '100%',
-              borderCollapse: 'collapse',
-              tableLayout: 'fixed',
-            }}
-          >
-            <colgroup>
-              <col style={{ width: '40%' }} />
-              <col style={{ width: '20%' }} />
-              <col style={{ width: '20%' }} />
-              <col style={{ width: '20%' }} />
-            </colgroup>
-
+          <table style={{
+            width: '100%', minWidth: 480,
+            borderCollapse: 'collapse',
+            borderRadius: 12, overflow: 'hidden',
+            border: '1px solid var(--border-default)',
+            background: 'var(--bg-card)',
+          }}>
             <thead>
               <tr>
-                <th
-                  style={{
-                    padding: '10px 16px',
-                    textAlign: 'right',
-                    fontSize: 10,
-                    fontWeight: 500,
-                    color: 'var(--text-muted)',
-                    borderBottom: '1px solid var(--border-default)',
-                  }}
-                />
-                <th
-                  style={{
-                    padding: '10px 16px',
-                    textAlign: 'center',
-                    fontSize: 11,
-                    fontWeight: 600,
-                    color: 'var(--gold)',
-                    background: 'rgba(201,169,97,0.04)',
-                    border: '1px solid rgba(201,169,97,0.1)',
-                    borderBottom: 'none',
-                    borderRadius: '8px 8px 0 0',
-                  }}
-                >
-                  SCENTORY
-                </th>
-                <th
-                  style={{
-                    padding: '10px 16px',
-                    textAlign: 'center',
-                    fontSize: 11,
-                    fontWeight: 500,
-                    color: 'var(--text-muted)',
-                    borderBottom: '1px solid var(--border-default)',
-                  }}
-                >
-                  Fragrantica
-                </th>
-                <th
-                  style={{
-                    padding: '10px 16px',
-                    textAlign: 'center',
-                    fontSize: 11,
-                    fontWeight: 500,
-                    color: 'var(--text-muted)',
-                    borderBottom: '1px solid var(--border-default)',
-                  }}
-                >
-                  חנות בקניון
-                </th>
+                <TH>פיצ׳ר</TH>
+                <TH gold>SCENTORY</TH>
+                <TH>Fragrantica</TH>
+                <TH>חנות בקניון</TH>
               </tr>
             </thead>
-
             <tbody>
               {ROWS.map((row, i) => (
-                <tr key={row.feature}>
-                  <td
-                    style={{
-                      padding: '12px 16px',
-                      fontSize: 12,
-                      color: 'var(--text-secondary)',
-                      borderBottom: i < ROWS.length - 1 ? '1px solid var(--border-subtle)' : 'none',
-                    }}
-                  >
+                <tr key={row.feature} style={{ borderTop: '1px solid var(--border-subtle)' }}>
+                  <td style={{
+                    padding: '12px 16px', fontSize: 12,
+                    color: 'var(--text-secondary)',
+                    background: i % 2 === 0 ? 'transparent' : 'rgba(255,255,255,0.01)',
+                  }}>
                     {row.feature}
                   </td>
-
-                  <td
-                    style={{
-                      padding: '12px 16px',
-                      textAlign: 'center',
-                      background: 'rgba(201,169,97,0.04)',
-                      borderLeft: '1px solid rgba(201,169,97,0.1)',
-                      borderRight: '1px solid rgba(201,169,97,0.1)',
-                      borderBottom: i < ROWS.length - 1
-                        ? '1px solid rgba(201,169,97,0.06)'
-                        : '1px solid rgba(201,169,97,0.1)',
-                    }}
-                  >
-                    <div style={{ display: 'flex', justifyContent: 'center' }}>
-                      <Cell value={row.scentory} />
-                    </div>
+                  <td style={{
+                    padding: '12px 16px', textAlign: 'center',
+                    background: 'rgba(201,169,97,0.04)',
+                  }}>
+                    <Cell val={row.scentory} />
                   </td>
-
-                  <td
-                    style={{
-                      padding: '12px 16px',
-                      textAlign: 'center',
-                      borderBottom: i < ROWS.length - 1 ? '1px solid var(--border-subtle)' : 'none',
-                    }}
-                  >
-                    <div style={{ display: 'flex', justifyContent: 'center' }}>
-                      <Cell value={row.fragrantica} />
-                    </div>
+                  <td style={{ padding: '12px 16px', textAlign: 'center' }}>
+                    <Cell val={row.fragrantica} />
                   </td>
-
-                  <td
-                    style={{
-                      padding: '12px 16px',
-                      textAlign: 'center',
-                      borderBottom: i < ROWS.length - 1 ? '1px solid var(--border-subtle)' : 'none',
-                    }}
-                  >
-                    <div style={{ display: 'flex', justifyContent: 'center' }}>
-                      <Cell value={row.store} />
-                    </div>
+                  <td style={{ padding: '12px 16px', textAlign: 'center' }}>
+                    <Cell val={row.store} />
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
         </motion.div>
-
       </div>
     </section>
   );

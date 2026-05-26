@@ -1,276 +1,150 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Check, Sparkles } from 'lucide-react';
-import EyebrowText from './shared/EyebrowText';
 
-const ease = [0.22, 1, 0.36, 1] as const;
-const fadeUp = (delay = 0) => ({
-  initial: { opacity: 0, y: 16 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, margin: '-60px' },
-  transition: { duration: 0.5, delay, ease },
-});
+const FEATURES = [
+  'ניתוח אישיות ריחנית מעמיק',
+  'השוואת מחירים מ-3 חנויות',
+  'עדכון ממאגר של 1,000+ בשמים',
+];
 
-const BOTTLE_SVG = (
-  <svg width="20" height="34" viewBox="0 0 20 34" fill="none">
-    <rect x="7" y="0" width="6" height="4" rx="1" fill="rgba(201,169,97,0.55)" />
-    <rect x="2" y="4" width="16" height="27" rx="3" fill="rgba(201,169,97,0.28)" />
-    <rect x="5" y="7" width="10" height="4" rx="1.5" fill="rgba(201,169,97,0.45)" />
-    <rect x="6" y="14" width="8" height="0.8" rx="0.4" fill="rgba(201,169,97,0.2)" />
-    <rect x="6" y="17" width="8" height="0.8" rx="0.4" fill="rgba(201,169,97,0.15)" />
+/* ── Small bottle SVG ─────────────────────────────────────────── */
+const Bottle = () => (
+  <svg width="32" height="46" viewBox="0 0 32 46" fill="none" aria-hidden="true">
+    <rect x="11" y="0" width="10" height="5" rx="1.5" fill="rgba(201,169,97,0.5)" />
+    <rect x="7" y="4.5" width="18" height="1.5" rx="0.75" fill="rgba(201,169,97,0.28)" />
+    <rect x="2" y="6" width="28" height="37" rx="4" fill="rgba(201,169,97,0.13)" />
+    <rect x="2" y="6" width="28" height="37" rx="4" stroke="rgba(201,169,97,0.25)" strokeWidth="0.8" />
+    <rect x="7" y="10" width="18" height="4" rx="1.5" fill="rgba(201,169,97,0.32)" />
   </svg>
 );
 
-const PERKS = [
-  'הסבר מבוסס על תשובות שלך',
-  'השוואה לאוסף הקיים',
-  'השוואת מחירים בין חנויות',
-];
-
 export default function WhyFeature() {
   return (
-    <section
-      style={{
-        background: 'var(--bg-secondary)',
-        padding: 'clamp(36px, 5vw, 52px) clamp(20px, 4vw, 32px)',
-      }}
-    >
-      <div
-        style={{
-          maxWidth: 1100,
-          margin: '0 auto',
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-          gap: 'clamp(32px, 5vw, 48px)',
-          alignItems: 'center',
-        }}
-      >
-        {/* Right col: Text */}
-        <motion.div {...fadeUp(0)} style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
-          <EyebrowText>הפיצ&#39;ר המוביל</EyebrowText>
+    <section className="section-pad" style={{ background: 'var(--bg-secondary)' }}>
+      <div className="section-inner">
+        <div className="grid-2-cols" style={{ alignItems: 'center' }}>
 
-          <h2
+          {/* ── Left (RTL second): Product card ─────────────────── */}
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
             style={{
-              fontSize: 'clamp(20px, 3vw, 26px)',
-              fontWeight: 600,
-              color: 'var(--text-primary)',
-              lineHeight: 1.3,
-              margin: 0,
-              letterSpacing: '-0.3px',
-            }}
-          >
-            לא רק{' '}
-            <span style={{ color: 'var(--gold)' }}>מה</span>.
-            <br />
-            גם{' '}
-            <span style={{ color: 'var(--gold)' }}>למה</span>.
-          </h2>
-
-          <p
-            style={{
-              fontSize: 14,
-              color: 'var(--text-tertiary)',
-              lineHeight: 1.65,
-              margin: 0,
-              maxWidth: 340,
-            }}
-          >
-            כל המלצה באה עם הסבר אישי שמתייחס לתשובות שלך ולאוסף
-            הקיים. לא המלצה סתמית. סיבה.
-          </p>
-
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-            {PERKS.map((perk) => (
-              <div
-                key={perk}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 10,
-                }}
-              >
-                <div
-                  style={{
-                    width: 20,
-                    height: 20,
-                    borderRadius: '50%',
-                    background: 'rgba(201,169,97,0.1)',
-                    border: '1px solid rgba(201,169,97,0.25)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    flexShrink: 0,
-                  }}
-                >
-                  <Check size={10} color="var(--gold)" strokeWidth={2.5} />
-                </div>
-                <span
-                  style={{
-                    fontSize: 13,
-                    color: 'var(--text-secondary)',
-                  }}
-                >
-                  {perk}
-                </span>
-              </div>
-            ))}
-          </div>
-        </motion.div>
-
-        {/* Left col: Card */}
-        <motion.div {...fadeUp(0.15)}>
-          <div
-            style={{
+              borderRadius: 14,
               background: 'var(--bg-card)',
               border: '1px solid var(--border-default)',
-              borderRadius: 16,
-              padding: 18,
-              maxWidth: 340,
+              overflow: 'hidden',
+              boxShadow: 'var(--shadow-md)',
             }}
           >
-            {/* Fragrance card */}
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: 14,
-                marginBottom: 14,
-                paddingBottom: 14,
-                borderBottom: '1px solid var(--border-subtle)',
-              }}
-            >
-              <div
-                style={{
-                  width: 48,
-                  height: 64,
-                  borderRadius: 10,
-                  background:
-                    'linear-gradient(160deg, rgba(201,169,97,0.3), rgba(201,169,97,0.07))',
-                  border: '1px solid rgba(201,169,97,0.2)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  flexShrink: 0,
-                }}
-              >
-                {BOTTLE_SVG}
-              </div>
-
-              <div style={{ flex: 1 }}>
-                <p style={{ fontSize: 9, color: 'var(--text-muted)', marginBottom: 3 }}>
-                  MFK
-                </p>
-                <p
-                  style={{
-                    fontSize: 13,
-                    fontWeight: 600,
-                    color: 'var(--text-primary)',
-                    marginBottom: 5,
-                    lineHeight: 1.3,
-                  }}
-                >
-                  Baccarat Rouge 540
-                </p>
-                <span
-                  style={{
-                    fontSize: 9,
-                    fontWeight: 700,
-                    background: 'var(--gold)',
-                    color: '#050505',
-                    padding: '3px 8px',
-                    borderRadius: 100,
-                  }}
-                >
-                  96% התאמה
-                </span>
+            {/* Perfume card top */}
+            <div style={{
+              padding: '16px',
+              borderBottom: '1px solid var(--border-subtle)',
+              background: 'linear-gradient(135deg, var(--dna-gradient-start), var(--dna-gradient-end))',
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+                <div style={{
+                  width: 48, height: 64, borderRadius: 8, flexShrink: 0,
+                  background: 'linear-gradient(155deg, rgba(201,169,97,0.28), rgba(139,90,43,0.16))',
+                  border: '1px solid rgba(201,169,97,0.22)',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                }}>
+                  <Bottle />
+                </div>
+                <div style={{ flex: 1 }}>
+                  <div style={{
+                    display: 'inline-flex', alignItems: 'center',
+                    background: 'var(--gold)', color: '#050505',
+                    fontSize: 8, fontWeight: 700,
+                    padding: '2px 7px', borderRadius: 100, marginBottom: 6,
+                  }}>
+                    96% התאמה
+                  </div>
+                  <p style={{ fontSize: 9, color: 'var(--text-faint)', margin: '0 0 3px' }}>MFK</p>
+                  <p style={{ fontSize: 13, fontWeight: 700, color: 'var(--text-primary)', margin: '0 0 6px' }}>
+                    Baccarat Rouge 540
+                  </p>
+                  <div style={{ display: 'flex', alignItems: 'baseline', gap: 6 }}>
+                    <span style={{ fontSize: 14, fontWeight: 700, color: 'var(--gold)' }}>1,580&#8362;</span>
+                    <span style={{ fontSize: 9, color: 'var(--text-faint)', textDecoration: 'line-through' }}>1,890&#8362;</span>
+                  </div>
+                </div>
               </div>
             </div>
 
-            {/* "Why" card */}
-            <div
-              style={{
-                background: 'rgba(201,169,97,0.05)',
-                borderRight: '2px solid var(--gold)',
-                borderRadius: 8,
-                padding: '12px 14px',
-                marginBottom: 14,
-              }}
-            >
-              <div
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 6,
-                  marginBottom: 8,
-                }}
-              >
-                <Sparkles size={11} color="var(--gold)" />
-                <span
-                  style={{
-                    fontSize: 10,
-                    color: 'var(--gold)',
-                    fontWeight: 600,
-                    letterSpacing: '0.03em',
-                  }}
-                >
-                  למה זה אתה
-                </span>
-              </div>
-              <p
-                style={{
-                  fontSize: 11,
-                  color: 'var(--text-tertiary)',
-                  lineHeight: 1.65,
-                  margin: 0,
-                }}
-              >
-                בחרת ב&quot;חמים ועוטף&quot; עם אמברה. דומה ל-Tobacco Vanille
-                שכבר באוסף שלך, אבל יותר אוורירי. עמידות 10+ שעות שביקשת.
+            {/* "למה זה אתה" explanation card */}
+            <div style={{
+              padding: '14px 16px',
+              borderRight: '2px solid var(--gold)',
+              margin: '12px',
+              background: 'rgba(201,169,97,0.04)',
+              borderRadius: '0 8px 8px 0',
+            }}>
+              <p style={{ fontSize: 9, color: 'var(--gold)', fontWeight: 600, margin: '0 0 6px', letterSpacing: '0.03em' }}>
+                למה זה אתה
+              </p>
+              <p style={{ fontSize: 11, color: 'var(--text-tertiary)', margin: 0, lineHeight: 1.6 }}>
+                הפרופיל הריחני שלך מראה העדפה חזקה לאמברה חמה (92%) עם גוונים עצים. Baccarat Rouge 540 מביא בדיוק את השילוב הזה.
               </p>
             </div>
 
-            {/* Price row */}
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-              }}
-            >
-              <div>
-                <span
-                  style={{
-                    fontSize: 10,
-                    color: 'var(--text-muted)',
-                    marginLeft: 4,
-                  }}
-                >
-                  החל מ-
-                </span>
-                <span
-                  style={{
-                    fontSize: 20,
-                    fontWeight: 700,
-                    color: 'var(--gold)',
-                  }}
-                >
-                  1,580&#8362;
-                </span>
-              </div>
-              <span
-                style={{
-                  fontSize: 10,
-                  color: 'var(--text-tertiary)',
-                  cursor: 'pointer',
-                  borderBottom: '1px solid var(--border-gold)',
-                }}
+            {/* Price comparison row */}
+            <div style={{
+              padding: '12px 16px',
+              display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+              borderTop: '1px solid var(--border-subtle)',
+            }}>
+              <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--gold)' }}>1,580&#8362;</span>
+              <button
+                className="btn-ghost"
+                style={{ fontSize: 11, padding: '5px 10px', borderRadius: 6, display: 'flex', alignItems: 'center', gap: 4 }}
               >
-                3 חנויות הושוו &#8592;
-              </span>
+                3 חנויות הושוו ←
+              </button>
             </div>
-          </div>
-        </motion.div>
+          </motion.div>
+
+          {/* ── Right (RTL first): Text ──────────────────────────── */}
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+            style={{ display: 'flex', flexDirection: 'column', gap: 20 }}
+          >
+            <p style={{ fontSize: 9, color: 'var(--gold)', letterSpacing: '3px', textTransform: 'uppercase', margin: 0 }}>
+              הפיצ׳ר המוביל
+            </p>
+            <h2 style={{ fontSize: 26, fontWeight: 600, color: 'var(--text-primary)', margin: 0, lineHeight: 1.3 }}>
+              לא רק{' '}
+              <span style={{ color: 'var(--gold)' }}>מה</span>
+              {'. גם '}
+              <span style={{ color: 'var(--gold)' }}>למה</span>.
+            </h2>
+            <p style={{ fontSize: 14, color: 'var(--text-tertiary)', margin: 0, lineHeight: 1.7, maxWidth: 380 }}>
+              כל המלצה מגיעה עם הסבר מפורט מדוע היא מתאימה לפרופיל הריחני שלך — לא רק רשימה של בשמים.
+            </p>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+              {FEATURES.map(f => (
+                <div key={f} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                  <span style={{
+                    width: 18, height: 18, borderRadius: '50%', flexShrink: 0,
+                    background: 'rgba(201,169,97,0.1)',
+                    border: '1px solid rgba(201,169,97,0.25)',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    fontSize: 10, color: 'var(--gold)',
+                  }}>✓</span>
+                  <span style={{ fontSize: 13, color: 'var(--text-secondary)' }}>{f}</span>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+
+        </div>
       </div>
     </section>
   );
