@@ -21,7 +21,7 @@ export default function Hero() {
       style={{
         position: 'relative',
         overflow: 'hidden',
-        minHeight: 'calc(100vh - 57px)',
+        minHeight: 'clamp(480px, calc(100vh - 160px), 660px)',
         display: 'flex',
         alignItems: 'center',
       }}
