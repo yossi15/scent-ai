@@ -24,7 +24,7 @@ function QuizMockup() {
           key={c}
           style={{
             fontSize: 9, padding: '6px 10px', borderRadius: 6, textAlign: 'center',
-            border: `1px solid ${i === 0 ? 'var(--gold)' : 'var(--border-default)'}`,
+            border: `1px solid ${i === 0 ? 'var(--gold-text)' : 'var(--border-default)'}`,
             background: i === 0 ? 'rgba(201,169,97,0.08)' : 'transparent',
             color: i === 0 ? 'var(--gold)' : 'var(--text-tertiary)',
           }}
@@ -57,7 +57,7 @@ function AIMockup() {
           <path d="M12 14a8 8 0 0 1 8 8H4a8 8 0 0 1 8-8" />
         </svg>
       </div>
-      <p style={{ fontSize: 9, color: 'var(--gold)', margin: 0, fontWeight: 500 }}>Claude מנתח...</p>
+      <p style={{ fontSize: 9, color: 'var(--gold-text)', margin: 0, fontWeight: 500 }}>Claude מנתח...</p>
       <div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 5 }}>
         {steps.map(s => (
           <div key={s.label} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
@@ -91,7 +91,7 @@ function ResultsMockup() {
           style={{
             display: 'flex', alignItems: 'center', gap: 8,
             padding: '6px 8px', borderRadius: 6,
-            border: `1px solid ${i === 0 ? 'var(--gold)' : 'var(--border-subtle)'}`,
+            border: `1px solid ${i === 0 ? 'var(--gold-text)' : 'var(--border-subtle)'}`,
             background: i === 0 ? 'rgba(201,169,97,0.05)' : 'transparent',
           }}
         >
@@ -138,11 +138,11 @@ export default function HowItWorks() {
 
         {/* Header */}
         <div style={{ textAlign: 'center', marginBottom: 40 }}>
-          <p style={{ fontSize: 9, color: 'var(--gold)', letterSpacing: '3px', textTransform: 'uppercase', marginBottom: 12 }}>
+          <p style={{ fontSize: 9, color: 'var(--gold-text)', letterSpacing: '3px', textTransform: 'uppercase', marginBottom: 12 }}>
             איך זה עובד
           </p>
           <h2 style={{ fontSize: 24, fontWeight: 600, color: 'var(--text-primary)', margin: 0, lineHeight: 1.3 }}>
-            מתשע שאלות לבושם שלך<span style={{ color: 'var(--gold)' }}>.</span>
+            מתשע שאלות לבושם שלך<span style={{ color: 'var(--gold-text)' }}>.</span>
           </h2>
         </div>
 
@@ -183,7 +183,7 @@ export default function HowItWorks() {
 
               {/* Bottom: label */}
               <div style={{ padding: '14px 16px' }}>
-                <p style={{ fontSize: 9, color: 'var(--gold)', letterSpacing: '0.05em', margin: '0 0 6px' }}>
+                <p style={{ fontSize: 9, color: 'var(--gold-text)', letterSpacing: '0.05em', margin: '0 0 6px' }}>
                   {step.num} · {step.tag}
                 </p>
                 <h3 style={{ fontSize: 14, fontWeight: 600, color: 'var(--text-primary)', margin: '0 0 6px', lineHeight: 1.3 }}>

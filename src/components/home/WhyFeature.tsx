@@ -68,7 +68,7 @@ export default function WhyFeature() {
                     Baccarat Rouge 540
                   </p>
                   <div style={{ display: 'flex', alignItems: 'baseline', gap: 6 }}>
-                    <span style={{ fontSize: 14, fontWeight: 700, color: 'var(--gold)' }}>1,580&#8362;</span>
+                    <span style={{ fontSize: 14, fontWeight: 700, color: 'var(--gold-text)' }}>1,580&#8362;</span>
                     <span style={{ fontSize: 9, color: 'var(--text-faint)', textDecoration: 'line-through' }}>1,890&#8362;</span>
                   </div>
                 </div>
@@ -83,7 +83,7 @@ export default function WhyFeature() {
               background: 'rgba(201,169,97,0.04)',
               borderRadius: '0 8px 8px 0',
             }}>
-              <p style={{ fontSize: 9, color: 'var(--gold)', fontWeight: 600, margin: '0 0 6px', letterSpacing: '0.03em' }}>
+              <p style={{ fontSize: 9, color: 'var(--gold-text)', fontWeight: 600, margin: '0 0 6px', letterSpacing: '0.03em' }}>
                 למה זה אתה
               </p>
               <p style={{ fontSize: 11, color: 'var(--text-tertiary)', margin: 0, lineHeight: 1.6 }}>
@@ -97,7 +97,7 @@ export default function WhyFeature() {
               display: 'flex', alignItems: 'center', justifyContent: 'space-between',
               borderTop: '1px solid var(--border-subtle)',
             }}>
-              <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--gold)' }}>1,580&#8362;</span>
+              <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--gold-text)' }}>1,580&#8362;</span>
               <button
                 className="btn-ghost"
                 style={{ fontSize: 11, padding: '5px 10px', borderRadius: 6, display: 'flex', alignItems: 'center', gap: 4 }}
@@ -115,14 +115,14 @@ export default function WhyFeature() {
             transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
             style={{ display: 'flex', flexDirection: 'column', gap: 20 }}
           >
-            <p style={{ fontSize: 9, color: 'var(--gold)', letterSpacing: '3px', textTransform: 'uppercase', margin: 0 }}>
+            <p style={{ fontSize: 9, color: 'var(--gold-text)', letterSpacing: '3px', textTransform: 'uppercase', margin: 0 }}>
               הפיצ׳ר המוביל
             </p>
             <h2 style={{ fontSize: 26, fontWeight: 600, color: 'var(--text-primary)', margin: 0, lineHeight: 1.3 }}>
               לא רק{' '}
-              <span style={{ color: 'var(--gold)' }}>מה</span>
+              <span style={{ color: 'var(--gold-text)' }}>מה</span>
               {'. גם '}
-              <span style={{ color: 'var(--gold)' }}>למה</span>.
+              <span style={{ color: 'var(--gold-text)' }}>למה</span>.
             </h2>
             <p style={{ fontSize: 14, color: 'var(--text-tertiary)', margin: 0, lineHeight: 1.7, maxWidth: 380 }}>
               כל המלצה מגיעה עם הסבר מפורט מדוע היא מתאימה לפרופיל הריחני שלך — לא רק רשימה של בשמים.
@@ -136,7 +136,7 @@ export default function WhyFeature() {
                     background: 'rgba(201,169,97,0.1)',
                     border: '1px solid rgba(201,169,97,0.25)',
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    fontSize: 10, color: 'var(--gold)',
+                    fontSize: 10, color: 'var(--gold-text)',
                   }}>✓</span>
                   <span style={{ fontSize: 13, color: 'var(--text-secondary)' }}>{f}</span>
                 </div>

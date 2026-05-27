@@ -14,7 +14,7 @@ function Cell({ val }: { val: boolean | string }) {
     return <span style={{ fontSize: 11, color: 'var(--text-muted)' }}>{val}</span>;
   }
   return val
-    ? <span style={{ color: 'var(--gold)', fontSize: 14 }}>✓</span>
+    ? <span style={{ color: 'var(--gold-text)', fontSize: 14 }}>✓</span>
     : <span style={{ color: 'var(--text-faint)', fontSize: 14 }}>✗</span>;
 }
 
@@ -38,7 +38,7 @@ export default function ComparisonTable() {
 
         <div style={{ textAlign: 'center', marginBottom: 32 }}>
           <h2 style={{ fontSize: 22, fontWeight: 600, color: 'var(--text-primary)', margin: 0 }}>
-            SCENTORY מול האלטרנטיבות<span style={{ color: 'var(--gold)' }}>.</span>
+            SCENTORY מול האלטרנטיבות<span style={{ color: 'var(--gold-text)' }}>.</span>
           </h2>
         </div>
 

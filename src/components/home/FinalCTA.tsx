@@ -36,7 +36,7 @@ export default function FinalCTA() {
             <div style={{
               display: 'inline-flex', alignItems: 'center', gap: 7,
               background: 'rgba(201,169,97,0.08)',
-              border: '1px solid rgba(201,169,97,0.25)',
+              border: '1px solid var(--border-gold-strong)',
               padding: '6px 14px', borderRadius: 100,
             }}>
               <span
@@ -54,7 +54,7 @@ export default function FinalCTA() {
             fontWeight: 600, letterSpacing: '-0.5px',
             color: 'var(--text-primary)', margin: 0, lineHeight: 1.25,
           }}>
-            מצא את הריח שלך ב-3 דקות<span style={{ color: 'var(--gold)' }}>.</span>
+            מצא את הריח שלך ב-3 דקות<span style={{ color: 'var(--gold-text)' }}>.</span>
           </h2>
 
           <p style={{ fontSize: 13, color: 'var(--text-tertiary)', margin: 0 }}>

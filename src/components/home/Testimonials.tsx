@@ -32,7 +32,7 @@ function Stars() {
   return (
     <div style={{ display: 'flex', gap: 2 }}>
       {[1,2,3,4,5].map(i => (
-        <svg key={i} width="12" height="12" viewBox="0 0 12 12" fill="var(--gold)" aria-hidden="true">
+        <svg key={i} width="12" height="12" viewBox="0 0 12 12" fill="var(--gold-text)" aria-hidden="true">
           <path d="M6 1l1.3 2.6L10.2 4l-2.1 2 .5 2.9L6 7.6 3.4 8.9l.5-2.9L2 4l2.9-.4L6 1z"/>
         </svg>
       ))}
@@ -103,8 +103,8 @@ export default function Testimonials() {
                     </p>
                   </div>
                   <div style={{
-                    fontSize: 9, color: 'var(--gold)',
-                    border: '1px solid rgba(201,169,97,0.3)',
+                    fontSize: 9, color: 'var(--gold-text)',
+                    border: '1px solid var(--border-gold-strong)',
                     borderRadius: 100, padding: '2px 7px',
                     whiteSpace: 'nowrap',
                   }}>

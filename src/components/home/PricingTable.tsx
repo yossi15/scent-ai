@@ -89,7 +89,7 @@ function DesktopTable() {
                   background: p.highlight ? 'rgba(201,169,97,0.04)' : 'transparent',
                 }}>
                   {p.features[fi]
-                    ? <span style={{ color: 'var(--gold)', fontSize: 14 }}>✓</span>
+                    ? <span style={{ color: 'var(--gold-text)', fontSize: 14 }}>✓</span>
                     : <span style={{ color: 'var(--text-faint)', fontSize: 14 }}>✗</span>
                   }
                 </td>
@@ -168,7 +168,7 @@ function MobileCards() {
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 16 }}>
             {FEATURES.map((f, fi) => p.features[fi] && (
               <div key={f} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                <span style={{ color: 'var(--gold)', fontSize: 11, flexShrink: 0 }}>✓</span>
+                <span style={{ color: 'var(--gold-text)', fontSize: 11, flexShrink: 0 }}>✓</span>
                 <span style={{ fontSize: 12, color: 'var(--text-secondary)' }}>{f}</span>
               </div>
             ))}
@@ -200,7 +200,7 @@ export default function PricingTable() {
 
         <div style={{ textAlign: 'center', marginBottom: 32 }}>
           <h2 style={{ fontSize: 22, fontWeight: 600, color: 'var(--text-primary)', margin: '0 0 8px' }}>
-            בחר את הרמה שלך<span style={{ color: 'var(--gold)' }}>.</span>
+            בחר את הרמה שלך<span style={{ color: 'var(--gold-text)' }}>.</span>
           </h2>
           <p style={{ fontSize: 12, color: 'var(--text-faint)', margin: 0 }}>
             7 ימי ניסיון · ללא כרטיס אשראי
