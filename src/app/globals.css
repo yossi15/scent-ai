@@ -100,7 +100,7 @@ html:not(.dark) {
   /* Hero mockup — stays dark (it's a dark-themed app UI) */
   --hero-card-bg: #0f0f0f;
   --hero-small-card-bg: #1c1c1c;
-  --hero-glow-opacity: rgba(201,169,97,0.10);
+  --hero-glow-opacity: rgba(201,169,97,0.0); /* glow removed in light mode */
   --dna-gradient-start: #1a1410;
   --dna-gradient-end: #0f0a05;
 }
@@ -360,12 +360,13 @@ html:not(.dark) .btn-ghost {
 .btn-ghost:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.18); }
 html:not(.dark) .btn-ghost:hover { background: rgba(0,0,0,0.07); border-color: rgba(0,0,0,0.22); }
 
-/* Hero mockup container — warm beige shelf in light mode */
+/* Hero mockup container — elevated card in light mode */
 html:not(.dark) .hero-mockup-wrap {
-  background: #f0ede8;
-  border-radius: 20px;
-  padding: 24px;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.07), 0 0 0 1px rgba(0,0,0,0.04);
+  background: #f4f1ec;
+  border-radius: 24px;
+  padding: 28px 24px;
+  border: 1px solid rgba(0,0,0,0.07);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.04), 0 16px 48px rgba(0,0,0,0.12);
 }
 
 /* ─── Mobile breakpoint ─────────────────────────────────────────── */
