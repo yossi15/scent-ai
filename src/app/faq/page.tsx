@@ -1,6 +1,6 @@
 import FAQ from '@/components/FAQ';
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
+import Navigation from '@/components/home/Navigation';
+import Footer from '@/components/home/Footer';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -11,8 +11,8 @@ export const metadata: Metadata = {
 export default function FAQPage() {
   return (
     <main style={{ background: 'var(--bg-primary)' }}>
-      <Navbar />
-      <div style={{ height: '72px' }} />
+      <Navigation />
+      <div style={{ height: 57 }} />
       <FAQ />
       <Footer />
     </main>

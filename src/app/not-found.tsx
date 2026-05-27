@@ -4,8 +4,8 @@ import { useMemo } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Mail, ArrowRight, BookOpen, FlaskConical } from 'lucide-react';
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
+import Navigation from '@/components/home/Navigation';
+import Footer from '@/components/home/Footer';
 import { fragrances } from '@/data/fragrances';
 
 const ease: [number, number, number, number] = [0.22, 1, 0.36, 1];
@@ -21,11 +21,11 @@ export default function NotFound() {
 
   return (
     <div style={{ minHeight: '100dvh', background: 'var(--bg-primary)', display: 'flex', flexDirection: 'column' }}>
-      <Navbar />
+      <Navigation />
 
       {/* ── Main ─────────────────────────────────────────────────── */}
       <main
-        style={{ flex: 1, paddingTop: '72px' }}
+        style={{ flex: 1, paddingTop: '57px' }}
         dir="rtl"
         aria-label="דף שגיאה 404"
       >

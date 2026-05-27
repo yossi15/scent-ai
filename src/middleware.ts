@@ -4,7 +4,10 @@ import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server';
 // Stripe webhooks stay public because Stripe authenticates with its signature header.
 const isPublicRoute = createRouteMatcher([
   '/',
+  '/collection(.*)',
   '/fragrance/(.*)',
+  '/quiz(.*)',
+  '/faq(.*)',
   '/sign-in(.*)',
   '/sign-up(.*)',
   '/api/recommend(.*)',

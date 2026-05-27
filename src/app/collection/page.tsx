@@ -1,14 +1,14 @@
 'use client';
 
-import Navbar from '@/components/Navbar';
+import Navigation from '@/components/home/Navigation';
 import Collection from '@/components/Collection';
-import Footer from '@/components/Footer';
+import Footer from '@/components/home/Footer';
 
 export default function CollectionPage() {
   return (
     <main id="main-content" style={{ background: 'var(--bg-primary)' }}>
-      <Navbar />
-      <div style={{ height: '72px' }} />
+      <Navigation />
+      <div style={{ height: 57 }} />
       <Collection />
       <Footer />
     </main>
