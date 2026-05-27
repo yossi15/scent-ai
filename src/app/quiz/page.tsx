@@ -335,7 +335,7 @@ function IntroScreen({ onStart }: { onStart: () => void }) {
           בוא נכיר את הריח שלך.
         </h1>
         <p style={{ fontSize: 14, color: 'var(--text-tertiary)', lineHeight: 1.65, maxWidth: 340, margin: '0 auto' }}>
-          9 שאלות מדויקות. ניתוח AI. עשר התאמות אישיות מתוך מעל 1,000 בשמים.
+          9 שאלות מדויקות. ניתוח AI. 5 התאמות אישיות מ-70+ בשמים מובחרים.
         </p>
       </div>
 
@@ -397,10 +397,10 @@ function EmailGate({ onSubmit, onSkip }: { onSubmit: (email: string, marketing: 
           הניתוח שלך מוכן
         </p>
         <h2 style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontSize: 'clamp(22px, 4vw, 28px)', fontWeight: 400, color: 'var(--text-primary)', lineHeight: 1.2, marginBottom: 10 }}>
-          10 התאמות מחכות לך.
+          5 ההתאמות שלך מוכנות.
         </h2>
         <p style={{ fontSize: 13, color: 'var(--text-tertiary)', lineHeight: 1.6 }}>
-          96% התאמה ראשונה. השאר את האימייל שלך כדי לראות את כל ה-DNA הריחני שלך.
+          ניתוח ה-DNA הריחני שלך הושלם. השאר אימייל לקבלת כל 5 ההמלצות האישיות.
         </p>
       </div>
 

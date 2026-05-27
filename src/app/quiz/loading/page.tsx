@@ -125,7 +125,7 @@ export default function QuizLoading() {
       </div>
 
       <p style={{ fontSize: 13, color: 'var(--text-tertiary)', marginBottom: 28, textAlign: 'center' }}>
-        Claude סורק מעל 1,000 בשמים
+        SCENTORY AI סורק 70+ בשמים מובחרים
       </p>
 
       {/* Steps */}
