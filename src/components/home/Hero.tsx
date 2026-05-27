@@ -44,14 +44,14 @@ export default function Hero() {
             <div style={{
               display: 'inline-flex', alignItems: 'center', gap: 6,
               background: 'rgba(201,169,97,0.08)',
-              border: '1px solid rgba(201,169,97,0.25)',
+              border: '1px solid var(--border-gold-strong)',
               padding: '5px 11px', borderRadius: 20,
             }}>
               <span
                 className="animate-gold-pulse"
-                style={{ width: 5, height: 5, borderRadius: '50%', background: 'var(--gold)', flexShrink: 0 }}
+                style={{ width: 5, height: 5, borderRadius: '50%', background: 'var(--gold-text)', flexShrink: 0 }}
               />
-              <span style={{ fontSize: 10, color: 'var(--gold)' }}>
+              <span style={{ fontSize: 10, color: 'var(--gold-text)' }}>
                 מקבל את 500 הראשונים
               </span>
             </div>
@@ -68,7 +68,7 @@ export default function Hero() {
           >
             בושם שמתאים לך באמת.
             <br />
-            <span style={{ color: 'var(--gold)' }}>בפעם הראשונה.</span>
+            <span style={{ color: 'var(--gold-text)' }}>בפעם הראשונה.</span>
           </motion.h1>
 
           {/* Description */}
@@ -97,6 +97,8 @@ export default function Hero() {
                 background: 'var(--gold)', color: '#050505',
                 textDecoration: 'none', whiteSpace: 'nowrap',
                 transition: 'opacity 0.2s, transform 0.15s',
+                border: '1px solid var(--gold-dark)',
+                boxShadow: 'var(--shadow-gold)',
               }}
               onMouseEnter={e => { e.currentTarget.style.opacity = '0.88'; e.currentTarget.style.transform = 'translateY(-1px)'; }}
               onMouseLeave={e => { e.currentTarget.style.opacity = '1'; e.currentTarget.style.transform = 'translateY(0)'; }}
@@ -121,9 +123,9 @@ export default function Hero() {
             {TRUST.map(item => (
               <span
                 key={item}
-                style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: 10, color: '#888' }}
+                style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: 10, color: 'var(--text-muted)' }}
               >
-                <span style={{ color: 'var(--gold)', fontSize: 11 }}>✓</span>
+                <span style={{ color: 'var(--gold-text)', fontSize: 11 }}>✓</span>
                 {item}
               </span>
             ))}

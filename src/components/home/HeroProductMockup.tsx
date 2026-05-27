@@ -58,7 +58,8 @@ function DnaBar({ label, pct, delay }: { label: string; pct: number; delay: numb
 /* ─── Main component ─────────────────────────────────────────────── */
 export default function HeroProductMockup() {
   return (
-    <div style={{ position: 'relative', userSelect: 'none', width: '100%', maxWidth: 320 }}>
+    <div className="hero-mockup-wrap" style={{ width: '100%', maxWidth: 320 }}>
+    <div style={{ position: 'relative', userSelect: 'none', width: '100%' }}>
 
       {/* Ambient glow — absolute inset -30px, blur 20px */}
       <div
@@ -254,6 +255,7 @@ export default function HeroProductMockup() {
           </motion.div>
         ))}
       </motion.div>
+    </div>
     </div>
   );
 }

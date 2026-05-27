@@ -31,6 +31,9 @@
   --border-gold: rgba(201,169,97,0.2);
   --border-gold-strong: rgba(201,169,97,0.4);
 
+  /* Gold text — readable on dark bg */
+  --gold-text: #c9a961;
+
   /* Legacy aliases - keep existing pages working */
   --ink: var(--text-primary);
   --ink-secondary: var(--text-secondary);
@@ -63,12 +66,12 @@
 
 /* Light theme override */
 html:not(.dark) {
-  --bg-deepest: #f8f8f8;
-  --bg-primary: #ffffff;
-  --bg-secondary: #fafafa;
-  --bg-tertiary: #f5f5f5;
+  --bg-deepest: #f3f1ee;
+  --bg-primary: #faf9f7;   /* warm cream, not pure white */
+  --bg-secondary: #f5f3f0;
+  --bg-tertiary: #f0ede8;
   --bg-card: #ffffff;
-  --bg-elevated: #f0f0f0;
+  --bg-elevated: #f0ede8;
 
   --text-primary: #050505;
   --text-secondary: #2a2a2a;
@@ -79,22 +82,27 @@ html:not(.dark) {
   --border-subtle: rgba(0,0,0,0.05);
   --border-default: rgba(0,0,0,0.08);
   --border-gold: rgba(201,169,97,0.25);
+  --border-gold-strong: rgba(139,117,53,0.4); /* darker for light bg */
+
+  /* Gold text — darker for contrast on light bg */
+  --gold-text: #8b7535;
 
   --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
   --shadow-md: 0 4px 16px rgba(0,0,0,0.1);
   --shadow-lg: 0 12px 40px rgba(0,0,0,0.12);
   --shadow-xl: 0 20px 60px rgba(0,0,0,0.1), 0 0 0 1px rgba(0,0,0,0.06);
+  --shadow-gold: 0 2px 10px rgba(139,117,53,0.3);
 
   /* Nav */
-  --nav-bg: rgba(255,255,255,0.95);
-  --nav-bg-scrolled: rgba(255,255,255,0.97);
+  --nav-bg: rgba(250,249,247,0.95);
+  --nav-bg-scrolled: rgba(250,249,247,0.97);
 
-  /* Hero mockup */
-  --hero-card-bg: #ffffff;
-  --hero-small-card-bg: #f8f8f8;
-  --hero-glow-opacity: rgba(201,169,97,0.08);
-  --dna-gradient-start: #faf9f6;
-  --dna-gradient-end: #f5f2ec;
+  /* Hero mockup — stays dark (it's a dark-themed app UI) */
+  --hero-card-bg: #0f0f0f;
+  --hero-small-card-bg: #1c1c1c;
+  --hero-glow-opacity: rgba(201,169,97,0.10);
+  --dna-gradient-start: #1a1410;
+  --dna-gradient-end: #0f0a05;
 }
 
 /* ─── Tailwind Theme ─────────────────────────────────────────────── */
@@ -345,11 +353,20 @@ html.a11y-font-2 { font-size: 125%; }
   transition: background 0.2s, border-color 0.2s;
 }
 html:not(.dark) .btn-ghost {
-  background: rgba(0,0,0,0.04);
-  border-color: rgba(0,0,0,0.09);
+  background: rgba(0,0,0,0.03);
+  border-color: rgba(0,0,0,0.15);
+  color: #333;
 }
 .btn-ghost:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.18); }
-html:not(.dark) .btn-ghost:hover { background: rgba(0,0,0,0.07); border-color: rgba(0,0,0,0.14); }
+html:not(.dark) .btn-ghost:hover { background: rgba(0,0,0,0.07); border-color: rgba(0,0,0,0.22); }
+
+/* Hero mockup container — warm beige shelf in light mode */
+html:not(.dark) .hero-mockup-wrap {
+  background: #f0ede8;
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.07), 0 0 0 1px rgba(0,0,0,0.04);
+}
 
 /* ─── Mobile breakpoint ─────────────────────────────────────────── */
 @media (max-width: 768px) {
