@@ -124,7 +124,7 @@ function PerformanceBars({ longevity, sillage }: { longevity: number; sillage: n
                 key={seg}
                 style={{
                   flex: 1, height: 8, borderRadius: 4,
-                  background: seg <= bar.value ? 'var(--gold)' : 'rgba(255,255,255,0.06)',
+                  background: seg <= bar.value ? 'var(--gold)' : 'var(--border-default)',
                   transition: 'background 0.3s',
                 }}
               />
@@ -220,8 +220,8 @@ export default function FragranceSlugPage() {
       <div style={{ height: 57 }} />
 
       {/* Breadcrumb */}
-      <div style={{ background: '#080808', padding: '10px 24px', borderBottom: '1px solid var(--border-subtle)' }}>
-        <p style={{ fontSize: 10, color: '#888', margin: 0 }}>
+      <div style={{ background: 'var(--bg-secondary)', padding: '10px 24px', borderBottom: '1px solid var(--border-subtle)' }}>
+        <p style={{ fontSize: 10, color: 'var(--text-muted)', margin: 0 }}>
           קולקציה
           <span style={{ margin: '0 6px' }}>/</span>
           {fragrance.house}
@@ -259,7 +259,7 @@ export default function FragranceSlugPage() {
 
           {/* Info side */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: 16, justifyContent: 'center' }}>
-            <p style={{ fontSize: 9, letterSpacing: 3, color: 'var(--gold)', textTransform: 'uppercase', margin: 0 }}>
+            <p style={{ fontSize: 9, letterSpacing: 3, color: 'var(--gold-text)', textTransform: 'uppercase', margin: 0 }}>
               {fragrance.house}
             </p>
 
@@ -270,7 +270,7 @@ export default function FragranceSlugPage() {
             {/* Meta chips */}
             <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
               {[fragrance.year, fragrance.concentration, fragrance.gender, fragrance.size].filter(Boolean).map(chip => (
-                <span key={chip} style={{ fontSize: 9, padding: '3px 8px', background: 'rgba(255,255,255,0.04)', border: '1px solid var(--border-subtle)', borderRadius: 100, color: 'var(--text-muted)' }}>
+                <span key={chip} style={{ fontSize: 9, padding: '3px 8px', background: 'var(--bg-tertiary)', border: '1px solid var(--border-default)', borderRadius: 100, color: 'var(--text-muted)' }}>
                   {chip}
                 </span>
               ))}
@@ -280,7 +280,7 @@ export default function FragranceSlugPage() {
             <div>
               <p style={{ fontSize: 9, color: 'var(--text-muted)', marginBottom: 4 }}>החל מ-</p>
               <div style={{ display: 'flex', alignItems: 'baseline', gap: 8 }}>
-                <span style={{ fontSize: 28, fontWeight: 700, color: 'var(--gold)' }}>
+                <span style={{ fontSize: 28, fontWeight: 700, color: 'var(--gold-text)' }}>
                   {fragrance.price.toLocaleString()}&#8362;
                 </span>
                 <span style={{ fontSize: 12, color: 'var(--text-faint)' }}>/ {fragrance.size}</span>
@@ -324,13 +324,13 @@ export default function FragranceSlugPage() {
 
         {/* ── "למה זה אתה" (only when logged in + quiz done) ────────── */}
         {isSignedIn && (
-          <div className="frag-section-outer" style={{ margin: '0 28px 8px', background: 'linear-gradient(135deg, #1a1410, #0f0a05)', border: '1px solid rgba(201,169,97,0.2)', borderRadius: 12, padding: 18 }}>
+          <div className="frag-section-outer" style={{ margin: '0 28px 8px', background: 'var(--bg-card)', border: '1px solid var(--border-gold)', borderRadius: 12, padding: 18 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
               <div style={{ width: 32, height: 32, borderRadius: '50%', background: 'rgba(201,169,97,0.1)', border: '1px solid var(--border-gold)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <Sparkles size={14} color="var(--gold)" />
               </div>
               <div>
-                <p style={{ fontSize: 9, color: 'var(--gold)', letterSpacing: 2, textTransform: 'uppercase', marginBottom: 2 }}>הניתוח האישי שלך</p>
+                <p style={{ fontSize: 9, color: 'var(--gold-text)', letterSpacing: 2, textTransform: 'uppercase', marginBottom: 2 }}>הניתוח האישי שלך</p>
                 <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-primary)' }}>למה זה אתה</p>
               </div>
             </div>
@@ -341,7 +341,7 @@ export default function FragranceSlugPage() {
             </p>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
               {[`✓ ${fragrance.family}`, `✓ עמידות ${fragrance.longevity}/10`, `✓ הקרנה ${fragrance.sillage}/10`].map(chip => (
-                <span key={chip} style={{ fontSize: 10, padding: '4px 10px', background: 'rgba(201,169,97,0.08)', border: '1px solid rgba(201,169,97,0.2)', borderRadius: 100, color: 'var(--gold)' }}>
+                <span key={chip} style={{ fontSize: 10, padding: '4px 10px', background: 'var(--gold-faint)', border: '1px solid var(--border-gold)', borderRadius: 100, color: 'var(--gold-text)' }}>
                   {chip}
                 </span>
               ))}
@@ -373,11 +373,11 @@ export default function FragranceSlugPage() {
             <div className="frag-section-outer" style={{ margin: '0 28px 28px', background: 'var(--bg-card)', border: '1px solid var(--border-default)', borderRadius: 12, padding: 20 }}>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
                 <div>
-                  <p style={{ fontSize: 9, color: 'var(--gold)', letterSpacing: 2, textTransform: 'uppercase', marginBottom: 4 }}>השוואת מחירים</p>
+                  <p style={{ fontSize: 9, color: 'var(--gold-text)', letterSpacing: 2, textTransform: 'uppercase', marginBottom: 4 }}>השוואת מחירים</p>
                   <h2 style={{ fontSize: 16, fontWeight: 600, color: 'var(--text-primary)', margin: 0 }}>איפה הכי משתלם.</h2>
                 </div>
                 {/* Live badge */}
-                <div style={{ display: 'flex', alignItems: 'center', gap: 5, padding: '4px 10px', borderRadius: 100, background: 'rgba(255,255,255,0.04)', border: '1px solid var(--border-subtle)' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 5, padding: '4px 10px', borderRadius: 100, background: 'var(--bg-tertiary)', border: '1px solid var(--border-default)' }}>
                   <span style={{ width: 5, height: 5, borderRadius: '50%', background: '#4caf50', display: 'inline-block', flexShrink: 0 }} />
                   <span style={{ fontSize: 9, color: 'var(--text-muted)' }}>עודכן לפני 6 שעות</span>
                 </div>
@@ -419,7 +419,7 @@ export default function FragranceSlugPage() {
                         <td className="price-col-secondary" style={{ padding: '12px', fontSize: 11, color: store.inStock ? '#4caf50' : 'var(--text-muted)' }}>
                           {store.inStock ? '✓ במלאי' : '⏳ עד 7 ימים'}
                         </td>
-                        <td style={{ padding: '12px', fontSize: store.cheapest ? 15 : 13, fontWeight: store.cheapest ? 700 : 500, color: store.cheapest ? 'var(--gold)' : 'var(--text-primary)' }}>
+                        <td style={{ padding: '12px', fontSize: store.cheapest ? 15 : 13, fontWeight: store.cheapest ? 700 : 500, color: store.cheapest ? 'var(--gold-text)' : 'var(--text-primary)' }}>
                           {store.price.toLocaleString()}&#8362;
                           {!store.cheapest && si === 0 && (
                             <span style={{ fontSize: 10, color: 'var(--text-faint)', marginRight: 4, textDecoration: 'line-through' }}>
@@ -462,7 +462,7 @@ export default function FragranceSlugPage() {
         {/* ── Similar fragrances ────────────────────────────────────── */}
         {similar.length > 0 && (
           <section className="frag-section-pad" style={{ padding: '0 28px 48px' }}>
-            <p style={{ fontSize: 9, color: 'var(--gold)', letterSpacing: 2, textTransform: 'uppercase', marginBottom: 6 }}>באותו DNA</p>
+            <p style={{ fontSize: 9, color: 'var(--gold-text)', letterSpacing: 2, textTransform: 'uppercase', marginBottom: 6 }}>באותו DNA</p>
             <h2 style={{ fontSize: 20, fontWeight: 600, color: 'var(--text-primary)', marginBottom: 20 }}>בשמים דומים</h2>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 14 }}>
               {similar.map((f, i) => (
@@ -485,7 +485,7 @@ export default function FragranceSlugPage() {
                     <p style={{ fontSize: 9, color: 'var(--text-muted)', marginBottom: 3, textAlign: 'center' }} dir="ltr">{f.house}</p>
                     <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-primary)', textAlign: 'center', marginBottom: 8 }} dir="ltr">{f.name}</p>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                      <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--gold)' }}>{f.price.toLocaleString()}&#8362;</span>
+                      <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--gold-text)' }}>{f.price.toLocaleString()}&#8362;</span>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 3 }}>
                         <Star size={10} color="var(--gold)" fill="var(--gold)" />
                         <span style={{ fontSize: 10, color: 'var(--text-muted)' }}>{f.rating}</span>
