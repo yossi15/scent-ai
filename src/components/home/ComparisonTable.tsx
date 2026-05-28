@@ -3,89 +3,168 @@
 import { motion } from 'framer-motion';
 
 const ROWS = [
-  { feature: 'המלצות מותאמות אישית', scentory: true,  fragrantica: false, store: 'דעת המוכר' },
-  { feature: 'הסבר "למה" לכל בושם',  scentory: true,  fragrantica: false, store: false },
-  { feature: 'השוואת מחירים',         scentory: true,  fragrantica: false, store: false },
-  { feature: 'קטלוג בעברית',          scentory: true,  fragrantica: false, store: true },
+  {
+    feature: 'המלצות מותאמות אישית',
+    scentory: { yes: true,  note: 'AI אישי' },
+    fragrantica: { yes: false, note: 'דירוגי קהל' },
+    store: { partial: true, note: 'ניסיון מוכר' },
+  },
+  {
+    feature: 'הסבר "למה זה אתה"',
+    scentory: { yes: true,  note: 'לכל המלצה' },
+    fragrantica: { yes: false, note: '' },
+    store: { yes: false, note: '' },
+  },
+  {
+    feature: 'השוואת מחירים בין ספקים',
+    scentory: { yes: true,  note: 'זמן אמת' },
+    fragrantica: { partial: true, note: 'חלקי' },
+    store: { yes: false, note: '' },
+  },
+  {
+    feature: 'קטלוג בעברית מלא',
+    scentory: { yes: true,  note: '' },
+    fragrantica: { yes: false, note: 'אנגלית' },
+    store: { partial: true, note: 'חלקי' },
+  },
+  {
+    feature: 'זיכרון פרופיל לאורך זמן',
+    scentory: { yes: true,  note: 'לומד אותך' },
+    fragrantica: { partial: true, note: 'ידני' },
+    store: { yes: false, note: '' },
+  },
+  {
+    feature: 'זמן עד להמלצה',
+    scentory: { text: '3 דקות' },
+    fragrantica: { text: 'שעות של גלילה' },
+    store: { text: 'נסיעה לקניון' },
+  },
 ];
 
-function Cell({ val }: { val: boolean | string }) {
-  if (typeof val === 'string') {
-    return <span style={{ fontSize: 11, color: 'var(--text-muted)' }}>{val}</span>;
-  }
-  return val
-    ? <span style={{ color: 'var(--gold-text)', fontSize: 14 }}>✓</span>
-    : <span style={{ color: 'var(--text-faint)', fontSize: 14 }}>✗</span>;
-}
+type CellVal = { yes?: boolean; partial?: boolean; note?: string; text?: string };
 
-const TH = ({ children, gold }: { children: React.ReactNode; gold?: boolean }) => (
-  <th style={{
-    padding: '12px 16px', textAlign: 'center',
-    fontSize: 11, fontWeight: 600,
-    color: gold ? 'var(--gold)' : 'var(--text-tertiary)',
-    borderBottom: '1px solid var(--border-default)',
-    background: gold ? 'rgba(201,169,97,0.04)' : 'transparent',
-    whiteSpace: 'nowrap',
-  }}>
-    {children}
-  </th>
-);
+function Cell({ val }: { val: CellVal }) {
+  if (val.text) {
+    return (
+      <span style={{ fontSize: 12.5, color: 'var(--text-secondary)', fontWeight: 500 }}>
+        {val.text}
+      </span>
+    );
+  }
+  if (val.partial) {
+    return (
+      <span style={{ fontSize: 13, color: 'var(--text-muted)' }}>
+        ◐{val.note ? <span style={{ fontSize: 11, color: 'var(--text-muted)', marginRight: 4 }}> {val.note}</span> : null}
+      </span>
+    );
+  }
+  return val.yes
+    ? (
+      <span>
+        <span style={{ color: 'var(--gold)', fontSize: 14, fontWeight: 600 }}>✓</span>
+        {val.note && <span style={{ fontSize: 11, color: 'var(--text-muted)', marginRight: 6 }}> {val.note}</span>}
+      </span>
+    )
+    : <span style={{ color: 'var(--text-dim, var(--text-faint))', fontSize: 14 }}>✗</span>;
+}
 
 export default function ComparisonTable() {
   return (
-    <section className="section-pad" style={{ background: 'var(--bg-primary)' }}>
-      <div className="section-inner">
+    <section
+      style={{
+        padding: 'var(--s10) var(--s3)',
+        background: 'var(--bg-elev, var(--bg-secondary))',
+        borderTop: '1px solid var(--border-subtle)',
+        borderBottom: '1px solid var(--border-subtle)',
+      }}
+    >
+      <div style={{ maxWidth: 'var(--maxw)', margin: '0 auto' }}>
 
-        <div style={{ textAlign: 'center', marginBottom: 32 }}>
-          <h2 style={{ fontSize: 22, fontWeight: 600, color: 'var(--text-primary)', margin: 0 }}>
-            SCENTORY מול האלטרנטיבות<span style={{ color: 'var(--gold-text)' }}>.</span>
+        {/* Section head */}
+        <div style={{ textAlign: 'center', marginBottom: 'var(--s7)', display: 'flex', flexDirection: 'column', gap: 14, alignItems: 'center' }}>
+          <span style={{
+            fontSize: 10.5, letterSpacing: '0.24em', textTransform: 'uppercase',
+            color: 'var(--gold)', fontWeight: 600,
+            display: 'inline-flex', alignItems: 'center', gap: 8,
+          }}>
+            <span style={{ width: 18, height: 1, background: 'var(--gold)', display: 'inline-block' }} />
+            השוואה
+          </span>
+          <h2 style={{
+            fontWeight: 700, fontSize: 'clamp(26px, 3vw, 40px)',
+            lineHeight: 1.15, letterSpacing: '-0.025em', margin: 0,
+            color: 'var(--text-primary)',
+          }}>
+            SCENTORY מול האלטרנטיבות.
           </h2>
+          <p style={{ color: 'var(--text-muted)', fontSize: 15.5, maxWidth: 540, margin: 0, lineHeight: 1.65 }}>
+            ההבדל בין המלצות שלוקחות אותך ברצינות, לבין דירוג של 800 אנשים שלא מכירים אותך.
+          </p>
         </div>
 
-        {/* Scrollable on mobile */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          style={{
+            background: 'var(--bg-card)',
+            border: '1px solid var(--border-2, var(--border-default))',
+            borderRadius: 16, overflow: 'hidden',
+            boxShadow: 'var(--shadow-card)',
+          }}
           className="table-wrap"
         >
-          <table style={{
-            width: '100%', minWidth: 480,
-            borderCollapse: 'collapse',
-            borderRadius: 12, overflow: 'hidden',
-            border: '1px solid var(--border-default)',
-            background: 'var(--bg-card)',
-          }}>
+          <table style={{ width: '100%', borderCollapse: 'collapse', tableLayout: 'fixed' }}>
             <thead>
               <tr>
-                <TH>פיצ׳ר</TH>
-                <TH gold>SCENTORY</TH>
-                <TH>Fragrantica</TH>
-                <TH>חנות בקניון</TH>
+                <th style={{
+                  padding: '18px 20px', textAlign: 'right',
+                  fontSize: 10.5, letterSpacing: '0.16em', textTransform: 'uppercase',
+                  color: 'var(--text-muted)', fontWeight: 500,
+                  borderBottom: '1px solid var(--border-subtle)',
+                  paddingTop: 'var(--s3)', paddingBottom: 'var(--s3)',
+                }}>תכונה</th>
+                {[
+                  { label: 'SCENTORY', gold: true },
+                  { label: 'Fragrantica', gold: false },
+                  { label: 'חנות בקניון', gold: false },
+                ].map(col => (
+                  <th key={col.label} style={{
+                    padding: '18px 20px', textAlign: 'center',
+                    borderBottom: '1px solid var(--border-subtle)',
+                    background: col.gold ? 'var(--gold-faint)' : 'transparent',
+                    paddingTop: 'var(--s3)', paddingBottom: 'var(--s3)',
+                    ...(col.gold ? {
+                      color: 'var(--gold)',
+                      fontFamily: 'var(--serif, Georgia, serif)',
+                      fontSize: 15, letterSpacing: '0.22em', fontWeight: 400,
+                    } : {
+                      fontSize: 10.5, letterSpacing: '0.16em', textTransform: 'uppercase',
+                      color: 'var(--text-muted)', fontWeight: 500,
+                    }),
+                  }}>
+                    {col.label}
+                  </th>
+                ))}
               </tr>
             </thead>
             <tbody>
               {ROWS.map((row, i) => (
-                <tr key={row.feature} style={{ borderTop: '1px solid var(--border-subtle)' }}>
+                <tr key={row.feature} style={{ borderBottom: i < ROWS.length - 1 ? '1px solid var(--border-subtle)' : 'none' }}>
                   <td style={{
-                    padding: '12px 16px', fontSize: 12,
-                    color: 'var(--text-secondary)',
-                    background: i % 2 === 0 ? 'transparent' : 'rgba(255,255,255,0.01)',
-                  }}>
-                    {row.feature}
+                    padding: '18px 20px', fontSize: 14,
+                    color: 'var(--text-primary)', fontWeight: 500,
+                    verticalAlign: 'middle',
+                  }}>{row.feature}</td>
+                  <td style={{ padding: '18px 20px', textAlign: 'center', background: 'var(--gold-faint)', verticalAlign: 'middle' }}>
+                    <Cell val={row.scentory as CellVal} />
                   </td>
-                  <td style={{
-                    padding: '12px 16px', textAlign: 'center',
-                    background: 'rgba(201,169,97,0.04)',
-                  }}>
-                    <Cell val={row.scentory} />
+                  <td style={{ padding: '18px 20px', textAlign: 'center', verticalAlign: 'middle' }}>
+                    <Cell val={row.fragrantica as CellVal} />
                   </td>
-                  <td style={{ padding: '12px 16px', textAlign: 'center' }}>
-                    <Cell val={row.fragrantica} />
-                  </td>
-                  <td style={{ padding: '12px 16px', textAlign: 'center' }}>
-                    <Cell val={row.store} />
+                  <td style={{ padding: '18px 20px', textAlign: 'center', verticalAlign: 'middle' }}>
+                    <Cell val={row.store as CellVal} />
                   </td>
                 </tr>
               ))}

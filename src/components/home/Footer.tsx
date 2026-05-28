@@ -5,34 +5,41 @@ import Logo from './shared/Logo';
 
 const LINKS = {
   product: [
-    { href: '/collection', label: 'קולקציה' },
     { href: '#how-it-works', label: 'איך זה עובד' },
-    { href: '#pricing', label: 'מסלולים' },
+    { href: '/collection',    label: 'קטלוג' },
+    { href: '#pricing',       label: 'מסלולים' },
+    { href: '/collection',    label: 'השוואת מחירים' },
   ],
   company: [
-    { href: '/about', label: 'אודות' },
-    { href: '/blog', label: 'בלוג' },
+    { href: '/about',   label: 'אודות' },
+    { href: '/blog',    label: 'בלוג' },
+    { href: '/careers', label: 'קריירה' },
     { href: '/contact', label: 'צור קשר' },
   ],
   legal: [
-    { href: '/privacy', label: 'פרטיות' },
-    { href: '/terms', label: 'תנאי שימוש' },
-    { href: '/cookies', label: 'עוגיות' },
+    { href: '/terms',        label: 'תנאי שימוש' },
+    { href: '/privacy',      label: 'פרטיות' },
+    { href: '/cookies',      label: 'Cookies' },
+    { href: '/accessibility',label: 'נגישות' },
   ],
 };
 
-const linkStyle = {
-  fontSize: 12,
-  color: 'var(--text-faint)',
+const linkStyle: React.CSSProperties = {
+  fontSize: 13,
+  color: 'var(--text-secondary)',
   textDecoration: 'none',
   display: 'block',
   padding: '3px 0',
-  transition: 'color 0.2s',
-} as const;
+  transition: 'color 160ms',
+};
 
 function ColHeader({ children }: { children: React.ReactNode }) {
   return (
-    <p style={{ fontSize: 10, fontWeight: 600, color: 'var(--text-muted)', letterSpacing: '0.08em', marginBottom: 12, textTransform: 'uppercase' }}>
+    <p style={{
+      fontSize: 10.5, fontWeight: 600, letterSpacing: '0.22em',
+      textTransform: 'uppercase', color: 'var(--text-muted)',
+      margin: '0 0 16px',
+    }}>
       {children}
     </p>
   );
@@ -40,40 +47,48 @@ function ColHeader({ children }: { children: React.ReactNode }) {
 
 export default function Footer() {
   return (
-    <footer style={{ background: 'var(--bg-deepest)', borderTop: '1px solid var(--border-subtle)' }}>
-      <div
-        className="section-inner"
-        style={{ padding: '48px 32px 32px' }}
-      >
-        {/* Top grid: 2fr 1fr 1fr 1fr */}
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: '2fr 1fr 1fr 1fr',
-          gap: '32px 24px',
-          marginBottom: 40,
-        }}
+    <footer style={{
+      background: 'var(--bg-elev, var(--bg-secondary))',
+      borderTop: '1px solid var(--border-subtle)',
+      padding: 'var(--s7) var(--s3) var(--s4)',
+    }}>
+      <div style={{ maxWidth: 'var(--maxw)', margin: '0 auto' }}>
+
+        {/* Top grid */}
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: '1.6fr 1fr 1fr 1fr',
+            gap: 'var(--s5)',
+            paddingBottom: 'var(--s4)',
+            borderBottom: '1px solid var(--border-subtle)',
+          }}
           className="footer-grid"
         >
-          {/* Col 1: Logo + description */}
-          <div>
-            <Link href="/" style={{ textDecoration: 'none', display: 'inline-block', marginBottom: 12 }}>
+          {/* Col 1: Brand */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+            <Link href="/" style={{ textDecoration: 'none', display: 'inline-block' }}>
               <Logo size="md" />
             </Link>
-            <p style={{ fontSize: 12, color: 'var(--text-faint)', lineHeight: 1.6, maxWidth: 240, margin: 0 }}>
-              פלטפורמת AI לגילוי בשמים. תשע שאלות. ניתוח מעל 1,000 בשמים. עשר התאמות אישיות.
+            <p style={{
+              fontSize: 12.5, color: 'var(--text-muted)',
+              lineHeight: 1.65, maxWidth: 320, margin: '8px 0 0',
+            }}>
+              פלטפורמת גילוי הניחוחות הראשונה בישראל המשלבת ניתוח AI
+              עם קטלוג של מעל 1,000 בשמים מכל העולם.
             </p>
           </div>
 
           {/* Col 2: מוצר */}
-          <div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
             <ColHeader>מוצר</ColHeader>
             {LINKS.product.map(l => (
               <Link
-                key={l.href}
+                key={l.label}
                 href={l.href}
                 style={linkStyle}
-                onMouseEnter={e => (e.currentTarget.style.color = 'var(--text-secondary)')}
-                onMouseLeave={e => (e.currentTarget.style.color = 'var(--text-faint)')}
+                onMouseEnter={e => (e.currentTarget.style.color = 'var(--gold-text)')}
+                onMouseLeave={e => (e.currentTarget.style.color = 'var(--text-secondary)')}
               >
                 {l.label}
               </Link>
@@ -81,15 +96,15 @@ export default function Footer() {
           </div>
 
           {/* Col 3: חברה */}
-          <div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
             <ColHeader>חברה</ColHeader>
             {LINKS.company.map(l => (
               <Link
-                key={l.href}
+                key={l.label}
                 href={l.href}
                 style={linkStyle}
-                onMouseEnter={e => (e.currentTarget.style.color = 'var(--text-secondary)')}
-                onMouseLeave={e => (e.currentTarget.style.color = 'var(--text-faint)')}
+                onMouseEnter={e => (e.currentTarget.style.color = 'var(--gold-text)')}
+                onMouseLeave={e => (e.currentTarget.style.color = 'var(--text-secondary)')}
               >
                 {l.label}
               </Link>
@@ -97,15 +112,15 @@ export default function Footer() {
           </div>
 
           {/* Col 4: משפטי */}
-          <div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
             <ColHeader>משפטי</ColHeader>
             {LINKS.legal.map(l => (
               <Link
-                key={l.href}
+                key={l.label}
                 href={l.href}
                 style={linkStyle}
-                onMouseEnter={e => (e.currentTarget.style.color = 'var(--text-secondary)')}
-                onMouseLeave={e => (e.currentTarget.style.color = 'var(--text-faint)')}
+                onMouseEnter={e => (e.currentTarget.style.color = 'var(--gold-text)')}
+                onMouseLeave={e => (e.currentTarget.style.color = 'var(--text-secondary)')}
               >
                 {l.label}
               </Link>
@@ -115,19 +130,16 @@ export default function Footer() {
 
         {/* Bottom row */}
         <div style={{
-          borderTop: '1px solid var(--border-subtle)',
-          paddingTop: 20,
-          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-          flexWrap: 'wrap', gap: 8,
+          display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+          paddingTop: 'var(--s3)', flexWrap: 'wrap', gap: 12,
+          fontSize: 12, color: 'var(--text-muted)',
         }}>
-          <span style={{ fontSize: 11, color: 'var(--text-faint)' }}>
-            &copy; 2026 SCENTORY
-          </span>
+          <span>&copy; 2026 SCENTORY · כל הזכויות שמורות</span>
           <a
             href="mailto:hello@scentory.co.il"
-            style={{ fontSize: 11, color: 'var(--text-faint)', textDecoration: 'none', transition: 'color 0.2s' }}
+            style={{ color: 'var(--text-muted)', textDecoration: 'none', transition: 'color 160ms' }}
             onMouseEnter={e => (e.currentTarget.style.color = 'var(--text-secondary)')}
-            onMouseLeave={e => (e.currentTarget.style.color = 'var(--text-faint)')}
+            onMouseLeave={e => (e.currentTarget.style.color = 'var(--text-muted)')}
           >
             hello@scentory.co.il
           </a>

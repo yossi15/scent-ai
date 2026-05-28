@@ -1,41 +1,38 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { Avatar1, Avatar2, Avatar3 } from '@/components/svg/Avatars';
 
-const SHOW_TESTIMONIALS = process.env.NEXT_PUBLIC_SHOW_TESTIMONIALS !== 'false';
+const SHOW_TESTIMONIALS = process.env.NEXT_PUBLIC_SHOW_TESTIMONIALS === 'true';
 
 const REVIEWS = [
   {
-    quote: 'SCENTORY מצא לי את Oud Wood של Tom Ford — בדיוק ה-DNA שלי. לא האמנתי שאפשר לעשות את זה דיגיטלית.',
-    name: 'דניאל כ.',
+    quote: 'אחרי שנים של ניחושים בקניון ובקבוקים שנשארו עומדים - סוף סוף בושם שהוא באמת אני. ההסבר על למה הוא מתאים זה מה ששינה הכל.',
+    name: 'דניאל ל.',
     city: 'תל אביב',
-    count: 12,
-    initial: 'ד',
+    detail: '14 בשמים בספרייה',
+    Avatar: Avatar1,
   },
   {
-    quote: 'ההסברים למה כל בושם מתאים לי שינו הכל. עכשיו אני קונה בביטחון ולא בהגרלה.',
-    name: 'מיכל ר.',
-    city: 'ירושלים',
-    count: 8,
-    initial: 'מ',
-  },
-  {
-    quote: 'Baccarat Rouge 540 — SCENTORY הציע לי אותו ראשון. עכשיו זה הבושם היומיומי שלי.',
-    name: 'איתי מ.',
+    quote: 'שאלות מדויקות, תוצאות מפתיעות. הבושם הראשון שקניתי דרך סנטורי הפך לחתימה שלי. אנשים עוצרים אותי ברחוב לשאול מה אני שמה.',
+    name: 'עידן ש.',
     city: 'חיפה',
-    count: 5,
-    initial: 'א',
+    detail: '8 בשמים בספרייה',
+    Avatar: Avatar2,
+  },
+  {
+    quote: 'הסבר ברור על למה כל בושם מתאים - הרבה יותר מועיל מהמלצות אקראיות של חברה או מוכרת בקניון. סוף סוף קונים בלי לפחד מטעות.',
+    name: 'מיכל ב.',
+    city: 'רעננה',
+    detail: '5 בשמים בספרייה',
+    Avatar: Avatar3,
   },
 ];
 
 function Stars() {
   return (
-    <div style={{ display: 'flex', gap: 2 }}>
-      {[1,2,3,4,5].map(i => (
-        <svg key={i} width="12" height="12" viewBox="0 0 12 12" fill="var(--gold-text)" aria-hidden="true">
-          <path d="M6 1l1.3 2.6L10.2 4l-2.1 2 .5 2.9L6 7.6 3.4 8.9l.5-2.9L2 4l2.9-.4L6 1z"/>
-        </svg>
-      ))}
+    <div style={{ display: 'flex', gap: 2, color: 'var(--gold)', letterSpacing: 2, fontSize: 13 }}>
+      {'★★★★★'}
     </div>
   );
 }
@@ -44,21 +41,33 @@ export default function Testimonials() {
   if (!SHOW_TESTIMONIALS) return null;
 
   return (
-    <section className="section-pad" style={{ background: 'var(--bg-tertiary)' }}>
-      <div className="section-inner">
+    <section style={{ padding: 'var(--s10) var(--s3)', background: 'var(--bg-primary)' }}>
+      <div style={{ maxWidth: 'var(--maxw)', margin: '0 auto' }}>
 
-        {/* Header */}
-        <div style={{ textAlign: 'center', marginBottom: 36 }}>
-          <h2 style={{ fontSize: 22, fontWeight: 600, color: 'var(--text-primary)', margin: '0 0 6px' }}>
-            מה אספנים אומרים
+        {/* Section head */}
+        <div style={{ textAlign: 'center', marginBottom: 'var(--s7)', display: 'flex', flexDirection: 'column', gap: 14, alignItems: 'center' }}>
+          <span style={{
+            fontSize: 10.5, letterSpacing: '0.24em', textTransform: 'uppercase',
+            color: 'var(--gold)', fontWeight: 600,
+            display: 'inline-flex', alignItems: 'center', gap: 8,
+          }}>
+            <span style={{ width: 18, height: 1, background: 'var(--gold)', display: 'inline-block' }} />
+            קהילה מ-500 הראשונים
+          </span>
+          <h2 style={{
+            fontWeight: 700, fontSize: 'clamp(24px, 3vw, 40px)',
+            lineHeight: 1.15, letterSpacing: '-0.025em', margin: 0,
+            color: 'var(--text-primary)',
+          }}>
+            דברים שאמרו לנו אחרי שמצאו את הניחוח שלהם.
           </h2>
-          <p style={{ fontSize: 12, color: 'var(--text-faint)', margin: 0 }}>
-            מ-500 הראשונים.
-          </p>
         </div>
 
         {/* Cards */}
-        <div className="grid-3-cols">
+        <div
+          style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 'var(--s3)' }}
+          className="testi-grid-responsive"
+        >
           {REVIEWS.map((r, i) => (
             <motion.div
               key={r.name}
@@ -67,55 +76,68 @@ export default function Testimonials() {
               viewport={{ once: true }}
               transition={{ duration: 0.45, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
               style={{
-                borderRadius: 12,
                 background: 'var(--bg-card)',
-                border: '1px solid var(--border-default)',
-                padding: '20px',
-                display: 'flex', flexDirection: 'column', gap: 14,
+                border: '1px solid var(--border-2, var(--border-default))',
+                borderRadius: 16, padding: 'var(--s3)',
+                display: 'flex', flexDirection: 'column', gap: 16,
+                boxShadow: 'var(--shadow-card)',
+                transition: 'transform 280ms, border-color 280ms',
               }}
+              whileHover={{ y: -3 }}
             >
               <Stars />
 
               <p style={{
-                fontSize: 13, color: 'var(--text-secondary)',
-                lineHeight: 1.6, margin: 0, flex: 1,
+                fontFamily: 'var(--serif, Georgia, serif)',
+                fontSize: 15, lineHeight: 1.65,
+                color: 'var(--text-primary)', margin: 0, flex: 1,
+                fontStyle: 'italic', letterSpacing: '0.005em',
               }}>
                 &ldquo;{r.quote}&rdquo;
               </p>
 
-              <div style={{ borderTop: '1px solid var(--border-subtle)', paddingTop: 14 }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                  {/* Avatar */}
+              <div style={{ borderTop: '1px solid var(--border-subtle)', paddingTop: 16 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                  {/* Photographic avatar */}
                   <div style={{
-                    width: 28, height: 28, borderRadius: '50%', flexShrink: 0,
-                    background: 'linear-gradient(135deg, var(--gold), #8b5c1a)',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    fontSize: 11, fontWeight: 700, color: '#050505',
+                    width: 42, height: 42, borderRadius: '50%',
+                    overflow: 'hidden', flexShrink: 0, position: 'relative',
                   }}>
-                    {r.initial}
+                    <r.Avatar size={42} />
                   </div>
+
                   <div style={{ flex: 1, minWidth: 0 }}>
-                    <p style={{ fontSize: 12, fontWeight: 600, color: 'var(--text-primary)', margin: 0 }}>
+                    <p style={{ fontSize: 13.5, fontWeight: 600, color: 'var(--text-primary)', margin: 0 }}>
                       {r.name}
                     </p>
-                    <p style={{ fontSize: 10, color: 'var(--text-faint)', margin: 0 }}>
-                      {r.city} · {r.count} בשמים
+                    <p style={{ fontSize: 11.5, color: 'var(--text-muted)', margin: '2px 0 0' }}>
+                      {r.city} · {r.detail}
                     </p>
                   </div>
-                  <div style={{
-                    fontSize: 9, color: 'var(--gold-text)',
-                    border: '1px solid var(--border-gold-strong)',
-                    borderRadius: 100, padding: '2px 7px',
+
+                  <span style={{
+                    fontSize: 10, color: 'var(--gold)', fontWeight: 600,
+                    letterSpacing: '0.04em', textTransform: 'uppercase',
+                    padding: '3px 8px', borderRadius: 999,
+                    background: 'var(--gold-faint)',
+                    border: '1px solid var(--gold-soft)',
                     whiteSpace: 'nowrap',
+                    display: 'inline-flex', alignItems: 'center', gap: 4,
                   }}>
                     ✓ מאומת
-                  </div>
+                  </span>
                 </div>
               </div>
             </motion.div>
           ))}
         </div>
       </div>
+
+      <style>{`
+        @media (max-width: 768px) {
+          .testi-grid-responsive { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
     </section>
   );
 }

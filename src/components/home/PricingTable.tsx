@@ -4,74 +4,117 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 
 const FEATURES = [
-  'שאלון טעמים מלא',
-  'ניתוח AI מתוך 1,000+ בשמים',
-  'עשר המלצות אישיות',
-  'השוואת מחירים',
-  'היסטוריית חיפושים',
+  { label: 'שאלון התאמה',              discovery: 'בסיסי',          collector: 'מעמיק · 9 שאלות',    expert: 'מותאם יד' },
+  { label: 'התאמות לחודש',             discovery: '5',              collector: '20',                  expert: 'ללא הגבלה' },
+  { label: 'הסברי "למה זה אתה"',        discovery: false,            collector: true,                  expert: 'מורחבים' },
+  { label: 'השוואת מחירים',            discovery: false,            collector: true,                  expert: true },
+  { label: 'חיפוש בקטלוג',             discovery: true,             collector: true,                  expert: true },
+  { label: 'מעקב מלאי וטרום-שחרור',   discovery: false,            collector: 'בסיסי',               expert: 'מלא' },
+  { label: 'ייעוץ אישי עם מומחה',     discovery: false,            collector: false,                  expert: 'שיחה חודשית' },
 ];
 
 const PLANS = [
-  {
-    id: 'discovery', name: 'גילוי', price: 49,
-    features: [true, true, false, false, false],
-    highlight: false,
-    cta: 'התחל',
-  },
-  {
-    id: 'collector', name: 'אספן', price: 99,
-    features: [true, true, true, true, false],
-    highlight: true,
-    badge: 'פופולרי',
-    cta: 'בחר אספן',
-  },
-  {
-    id: 'expert', name: 'מומחה', price: 199,
-    features: [true, true, true, true, true],
-    highlight: false,
-    cta: 'בחר מומחה',
-  },
+  { id: 'discovery', name: 'גילוי',   price: 49,  highlight: false, badge: null,      cta: 'התחל ניסיון', key: 'discovery' },
+  { id: 'collector', name: 'אספן',   price: 99,  highlight: true,  badge: 'פופולרי', cta: 'התחל ניסיון', key: 'collector' },
+  { id: 'expert',    name: 'מומחה',  price: 199, highlight: false, badge: null,      cta: 'התחל ניסיון', key: 'expert' },
 ];
 
-/* ── Desktop table layout ────────────────────────────────────── */
+type FeatureVal = boolean | string;
+
+function FeatureCell({ val, highlight }: { val: FeatureVal; highlight: boolean }) {
+  const base: React.CSSProperties = {
+    padding: '18px 20px', textAlign: 'center',
+    background: highlight ? 'var(--gold-faint)' : 'transparent',
+    verticalAlign: 'middle', fontSize: 13.5,
+  };
+
+  if (val === true) return (
+    <td style={base}>
+      <span style={{ color: 'var(--gold)', fontWeight: 600 }}>✓</span>
+    </td>
+  );
+  if (val === false) return (
+    <td style={base}>
+      <span style={{ color: 'var(--text-dim, var(--text-faint))' }}>-</span>
+    </td>
+  );
+  return (
+    <td style={base}>
+      <span style={{ fontSize: 12.5, color: highlight ? 'var(--gold)' : 'var(--text-secondary)', fontWeight: highlight ? 600 : 400 }}>
+        {val}
+      </span>
+    </td>
+  );
+}
+
+/* ── Desktop table ──────────────────────────────────────────── */
 function DesktopTable() {
   return (
-    <div className="table-wrap">
-      <table style={{
-        width: '100%', minWidth: 540,
-        borderCollapse: 'collapse', borderRadius: 12,
-        border: '1px solid var(--border-default)',
-        background: 'var(--bg-card)', overflow: 'hidden',
-      }}>
+    <div
+      style={{
+        background: 'var(--bg-card)',
+        border: '1px solid var(--border-2, var(--border-default))',
+        borderRadius: 16, overflow: 'hidden',
+        boxShadow: 'var(--shadow-card)',
+      }}
+      className="table-wrap"
+    >
+      <table style={{ width: '100%', borderCollapse: 'collapse', tableLayout: 'fixed' }}>
         <thead>
           <tr>
-            <th style={{ padding: '14px 16px', fontSize: 11, color: 'var(--text-faint)', fontWeight: 400, borderBottom: '1px solid var(--border-default)', textAlign: 'right' }}>
-              פיצ׳ר
-            </th>
+            <th style={{
+              padding: 'var(--s3) 20px', textAlign: 'right',
+              fontSize: 13.5, color: 'var(--text-muted)', fontWeight: 400,
+              borderBottom: '1px solid var(--border-default)',
+            }}>תכונה</th>
             {PLANS.map(p => (
               <th key={p.id} style={{
-                padding: '14px 16px', textAlign: 'center',
+                padding: 'var(--s3) 20px', textAlign: 'center',
                 borderBottom: '1px solid var(--border-default)',
-                background: p.highlight ? 'rgba(201,169,97,0.06)' : 'transparent',
+                background: p.highlight ? 'var(--gold-faint)' : 'transparent',
                 position: 'relative',
               }}>
                 {p.badge && (
-                  <div style={{
-                    position: 'absolute', top: 6, left: '50%', transform: 'translateX(-50%)',
-                    background: 'var(--gold)', color: '#050505',
-                    fontSize: 8, fontWeight: 700, padding: '2px 8px', borderRadius: 100,
+                  <span style={{
+                    display: 'inline-block', marginBottom: 6,
+                    fontSize: 9, letterSpacing: '0.2em', padding: '3px 8px',
+                    background: 'var(--gold)', color: '#1a1410', borderRadius: 4, fontWeight: 700,
                   }}>
                     {p.badge}
-                  </div>
+                  </span>
                 )}
-                <div style={{ paddingTop: p.badge ? 8 : 0 }}>
-                  <p style={{ fontSize: 13, fontWeight: 600, color: p.highlight ? 'var(--gold)' : 'var(--text-primary)', margin: '0 0 2px' }}>
-                    {p.name}
+                <div style={{ paddingTop: p.badge ? 0 : 8 }}>
+                  <p style={{
+                    fontFamily: 'var(--serif, Georgia, serif)',
+                    fontSize: 14, letterSpacing: '0.22em', textTransform: 'uppercase',
+                    color: 'var(--text-primary)', margin: '0 0 10px',
+                  }}>{p.name}</p>
+                  <p style={{
+                    fontSize: 30, fontWeight: 700, color: 'var(--text-primary)',
+                    margin: 0, lineHeight: 1, letterSpacing: '-0.02em',
+                  }}>
+                    {p.price}
+                    <span style={{ fontSize: 12, fontWeight: 400, color: 'var(--text-muted)', marginRight: 2 }}>
+                      &#8362;/חודש
+                    </span>
                   </p>
-                  <p style={{ fontSize: 18, fontWeight: 700, color: p.highlight ? 'var(--gold)' : 'var(--text-primary)', margin: 0 }}>
-                    {p.price}&#8362;
-                    <span style={{ fontSize: 10, fontWeight: 400, color: 'var(--text-faint)' }}>/חודש</span>
-                  </p>
+                  <div style={{ marginTop: 'var(--s2)' }}>
+                    <Link
+                      href="/quiz"
+                      style={{
+                        display: 'inline-block',
+                        fontSize: 13, fontWeight: 500,
+                        padding: '10px 18px', borderRadius: 10,
+                        background: p.highlight ? 'var(--gold)' : 'transparent',
+                        color: p.highlight ? '#1a1410' : 'var(--text-secondary)',
+                        border: p.highlight ? '1px solid var(--gold)' : '1px solid var(--border-strong, var(--border-default))',
+                        textDecoration: 'none',
+                        transition: 'all 200ms',
+                      }}
+                    >
+                      {p.cta}
+                    </Link>
+                  </div>
                 </div>
               </th>
             ))}
@@ -79,56 +122,34 @@ function DesktopTable() {
         </thead>
         <tbody>
           {FEATURES.map((feat, fi) => (
-            <tr key={feat} style={{ borderTop: '1px solid var(--border-subtle)' }}>
-              <td style={{ padding: '11px 16px', fontSize: 12, color: 'var(--text-secondary)' }}>
-                {feat}
+            <tr key={feat.label} style={{ borderTop: '1px solid var(--border-subtle)' }}>
+              <td style={{ padding: '18px 20px', fontSize: 13.5, color: 'var(--text-primary)', fontWeight: 500 }}>
+                {feat.label}
               </td>
-              {PLANS.map(p => (
-                <td key={p.id} style={{
-                  padding: '11px 16px', textAlign: 'center',
-                  background: p.highlight ? 'rgba(201,169,97,0.04)' : 'transparent',
-                }}>
-                  {p.features[fi]
-                    ? <span style={{ color: 'var(--gold-text)', fontSize: 14 }}>✓</span>
-                    : <span style={{ color: 'var(--text-faint)', fontSize: 14 }}>✗</span>
-                  }
-                </td>
-              ))}
+              <FeatureCell val={feat.discovery} highlight={false} />
+              <FeatureCell val={feat.collector} highlight={true} />
+              <FeatureCell val={feat.expert}    highlight={false} />
             </tr>
           ))}
-          {/* CTA row */}
-          <tr style={{ borderTop: '1px solid var(--border-default)' }}>
-            <td style={{ padding: '14px 16px' }} />
-            {PLANS.map(p => (
-              <td key={p.id} style={{
-                padding: '14px 16px', textAlign: 'center',
-                background: p.highlight ? 'rgba(201,169,97,0.04)' : 'transparent',
-              }}>
-                <Link
-                  href="/quiz"
-                  style={{
-                    display: 'inline-block',
-                    fontSize: 12, fontWeight: 500,
-                    padding: '8px 16px', borderRadius: 6,
-                    background: p.highlight ? 'var(--gold)' : 'transparent',
-                    color: p.highlight ? '#050505' : 'var(--text-secondary)',
-                    border: p.highlight ? 'none' : '1px solid var(--border-default)',
-                    textDecoration: 'none',
-                    transition: 'opacity 0.2s',
-                  }}
-                >
-                  {p.cta}
-                </Link>
-              </td>
-            ))}
-          </tr>
         </tbody>
       </table>
+
+      {/* Trial row */}
+      <div style={{
+        textAlign: 'center', padding: 18,
+        fontSize: 12.5, color: 'var(--text-muted)',
+        background: 'var(--bg-card-2, var(--bg-elevated))',
+        letterSpacing: '0.01em',
+        borderTop: '1px solid var(--border-subtle)',
+      }}>
+        <strong style={{ color: 'var(--text-primary)', fontWeight: 600 }}>7 ימי ניסיון חינם.</strong>
+        {' '}בלי כרטיס אשראי. בלי התחייבות.
+      </div>
     </div>
   );
 }
 
-/* ── Mobile card layout ──────────────────────────────────────── */
+/* ── Mobile cards ───────────────────────────────────────────── */
 function MobileCards() {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
@@ -136,52 +157,58 @@ function MobileCards() {
         <div
           key={p.id}
           style={{
-            borderRadius: 12, padding: '20px',
-            border: p.highlight ? '1.5px solid var(--gold)' : '1px solid var(--border-default)',
-            background: p.highlight ? 'rgba(201,169,97,0.04)' : 'var(--bg-card)',
+            borderRadius: 16, padding: 20,
+            border: p.highlight ? '1.5px solid var(--gold-soft)' : '1px solid var(--border-2, var(--border-default))',
+            background: p.highlight ? 'var(--gold-faint)' : 'var(--bg-card)',
             position: 'relative',
           }}
         >
           {p.badge && (
-            <div style={{
+            <span style={{
               position: 'absolute', top: -10, right: 16,
-              background: 'var(--gold)', color: '#050505',
+              background: 'var(--gold)', color: '#1a1410',
               fontSize: 9, fontWeight: 700, padding: '3px 10px', borderRadius: 100,
             }}>
               {p.badge}
-            </div>
+            </span>
           )}
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 14 }}>
             <div>
-              <p style={{ fontSize: 15, fontWeight: 600, color: p.highlight ? 'var(--gold)' : 'var(--text-primary)', margin: '0 0 2px' }}>
-                {p.name}
-              </p>
-              <p style={{ fontSize: 11, color: 'var(--text-faint)', margin: 0 }}>7 ימי ניסיון חינם</p>
+              <p style={{
+                fontFamily: 'var(--serif)', fontSize: 15,
+                letterSpacing: '0.22em', textTransform: 'uppercase',
+                color: 'var(--text-primary)', margin: '0 0 4px',
+              }}>{p.name}</p>
+              <p style={{ fontSize: 11, color: 'var(--text-muted)', margin: 0 }}>7 ימי ניסיון חינם</p>
             </div>
             <div style={{ textAlign: 'left' }}>
-              <span style={{ fontSize: 22, fontWeight: 700, color: p.highlight ? 'var(--gold)' : 'var(--text-primary)' }}>
-                {p.price}&#8362;
-              </span>
-              <span style={{ fontSize: 10, color: 'var(--text-faint)' }}>/חודש</span>
+              <span style={{ fontSize: 28, fontWeight: 700, color: 'var(--text-primary)' }}>{p.price}&#8362;</span>
+              <span style={{ fontSize: 11, color: 'var(--text-muted)' }}>/חודש</span>
             </div>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 16 }}>
-            {FEATURES.map((f, fi) => p.features[fi] && (
-              <div key={f} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                <span style={{ color: 'var(--gold-text)', fontSize: 11, flexShrink: 0 }}>✓</span>
-                <span style={{ fontSize: 12, color: 'var(--text-secondary)' }}>{f}</span>
-              </div>
-            ))}
+            {FEATURES.map(f => {
+              const val = f[p.key as keyof typeof f] as FeatureVal;
+              if (val === false) return null;
+              return (
+                <div key={f.label} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                  <span style={{ color: 'var(--gold)', fontSize: 11, flexShrink: 0 }}>✓</span>
+                  <span style={{ fontSize: 12.5, color: 'var(--text-secondary)' }}>
+                    {f.label}{val !== true ? `: ${val}` : ''}
+                  </span>
+                </div>
+              );
+            })}
           </div>
           <Link
             href="/quiz"
             style={{
               display: 'block', textAlign: 'center',
               fontSize: 13, fontWeight: 500,
-              padding: '11px 0', borderRadius: 8,
+              padding: '11px 0', borderRadius: 10,
               background: p.highlight ? 'var(--gold)' : 'transparent',
-              color: p.highlight ? '#050505' : 'var(--text-secondary)',
-              border: p.highlight ? 'none' : '1px solid var(--border-default)',
+              color: p.highlight ? '#1a1410' : 'var(--text-secondary)',
+              border: p.highlight ? 'none' : '1px solid var(--border-2, var(--border-default))',
               textDecoration: 'none',
             }}
           >
@@ -195,15 +222,31 @@ function MobileCards() {
 
 export default function PricingTable() {
   return (
-    <section id="pricing" className="section-pad" style={{ background: 'var(--bg-secondary)' }}>
-      <div className="section-inner">
+    <section
+      id="pricing"
+      style={{ padding: 'var(--s10) var(--s3)', background: 'var(--bg-primary)' }}
+    >
+      <div style={{ maxWidth: 'var(--maxw)', margin: '0 auto' }}>
 
-        <div style={{ textAlign: 'center', marginBottom: 32 }}>
-          <h2 style={{ fontSize: 22, fontWeight: 600, color: 'var(--text-primary)', margin: '0 0 8px' }}>
-            בחר את הרמה שלך<span style={{ color: 'var(--gold-text)' }}>.</span>
+        {/* Section head */}
+        <div style={{ textAlign: 'center', marginBottom: 'var(--s7)', display: 'flex', flexDirection: 'column', gap: 14, alignItems: 'center' }}>
+          <span style={{
+            fontSize: 10.5, letterSpacing: '0.24em', textTransform: 'uppercase',
+            color: 'var(--gold)', fontWeight: 600,
+            display: 'inline-flex', alignItems: 'center', gap: 8,
+          }}>
+            <span style={{ width: 18, height: 1, background: 'var(--gold)', display: 'inline-block' }} />
+            מסלולים
+          </span>
+          <h2 style={{
+            fontWeight: 700, fontSize: 'clamp(26px, 3vw, 40px)',
+            lineHeight: 1.15, letterSpacing: '-0.025em', margin: 0,
+            color: 'var(--text-primary)',
+          }}>
+            בחר את הרמה שלך.
           </h2>
-          <p style={{ fontSize: 12, color: 'var(--text-faint)', margin: 0 }}>
-            7 ימי ניסיון · ללא כרטיס אשראי
+          <p style={{ color: 'var(--text-muted)', fontSize: 15.5, maxWidth: 540, margin: 0, lineHeight: 1.65 }}>
+            7 ימי ניסיון חינם. ללא כרטיס אשראי. ניתן לבטל בכל רגע.
           </p>
         </div>
 

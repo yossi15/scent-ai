@@ -2,85 +2,78 @@
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-
-const SHOW_COUNT = process.env.NEXT_PUBLIC_SHOW_CTA_COUNT !== 'false';
-const COUNT = 217;
+import LiveCounter from '@/components/home/LiveCounter';
 
 export default function FinalCTA() {
   return (
     <section
-      className="section-pad"
+      id="start"
       style={{
-        background: 'var(--bg-primary)',
-        textAlign: 'center',
         position: 'relative',
+        padding: 'var(--s10) var(--s3)',
+        textAlign: 'center',
+        background: `radial-gradient(60% 60% at 50% 50%, var(--gold-soft) 0%, transparent 70%)`,
         overflow: 'hidden',
       }}
     >
-      {/* Subtle background glow */}
-      <div aria-hidden="true" style={{
-        position: 'absolute', inset: 0, pointerEvents: 'none',
-        background: 'radial-gradient(ellipse 60% 50% at 50% 50%, rgba(201,169,97,0.05), transparent 70%)',
-      }} />
-
-      <div className="section-inner" style={{ position: 'relative' }}>
+      <div
+        style={{
+          position: 'relative',
+          maxWidth: 720, margin: '0 auto',
+          display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 'var(--s3)',
+        }}
+      >
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 20 }}
+          style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 'var(--s3)', width: '100%' }}
         >
-          {/* Live badge */}
-          {SHOW_COUNT && (
-            <div style={{
-              display: 'inline-flex', alignItems: 'center', gap: 7,
-              background: 'rgba(201,169,97,0.08)',
-              border: '1px solid var(--border-gold-strong)',
-              padding: '6px 14px', borderRadius: 100,
-            }}>
-              <span
-                className="animate-gold-pulse"
-                style={{ width: 6, height: 6, borderRadius: '50%', background: '#4ade80', flexShrink: 0 }}
-              />
-              <span style={{ fontSize: 11, color: 'var(--text-secondary)' }}>
-                {COUNT} הצטרפו השבוע
-              </span>
-            </div>
-          )}
+          {/* Live counter badge — shows only if count ≥ 10 */}
+          <LiveCounter />
 
+          {/* Headline */}
           <h2 style={{
-            fontSize: 'clamp(22px, 4vw, 28px)',
-            fontWeight: 600, letterSpacing: '-0.5px',
-            color: 'var(--text-primary)', margin: 0, lineHeight: 1.25,
+            fontWeight: 700,
+            fontSize: 'clamp(32px, 5vw, 56px)',
+            lineHeight: 1.1, letterSpacing: '-0.035em', margin: 0,
+            color: 'var(--text-primary)', maxWidth: 620,
           }}>
-            מצא את הריח שלך ב-3 דקות<span style={{ color: 'var(--gold-text)' }}>.</span>
+            מצא את הריח שלך
+            <span style={{ color: 'var(--gold-text)' }}> ב-3 דקות</span>.
           </h2>
 
-          <p style={{ fontSize: 13, color: 'var(--text-tertiary)', margin: 0 }}>
-            תשע שאלות. ניתוח AI. עשר התאמות.
+          {/* Sub */}
+          <p style={{ fontSize: 15.5, color: 'var(--text-secondary)', margin: 0, lineHeight: 1.6 }}>
+            ללא כרטיס אשראי. ללא התחייבות. תוצאות מיידיות.
           </p>
 
+          {/* CTA */}
           <Link
             href="/quiz"
             style={{
               display: 'inline-flex', alignItems: 'center', gap: 8,
-              fontSize: 14, fontWeight: 600,
-              padding: '13px 28px', borderRadius: 8,
-              background: 'var(--gold)', color: '#050505',
+              fontSize: 16, fontWeight: 600,
+              padding: '18px 36px', borderRadius: 12,
+              background: 'var(--gold)', color: '#1a1410',
               textDecoration: 'none',
-              boxShadow: '0 4px 24px rgba(201,169,97,0.28)',
-              transition: 'opacity 0.2s, transform 0.15s',
+              border: '1px solid var(--gold)',
+              boxShadow: '0 1px 0 rgba(255,255,255,0.2) inset, 0 16px 40px -12px var(--gold-soft)',
+              transition: 'all 200ms cubic-bezier(.4,0,.2,1)',
+              marginTop: 'var(--s1)',
             }}
-            onMouseEnter={e => { e.currentTarget.style.opacity = '0.88'; e.currentTarget.style.transform = 'translateY(-1px)'; }}
-            onMouseLeave={e => { e.currentTarget.style.opacity = '1'; e.currentTarget.style.transform = 'translateY(0)'; }}
+            onMouseEnter={e => {
+              e.currentTarget.style.background = 'var(--gold-strong)';
+              e.currentTarget.style.transform = 'translateY(-2px)';
+            }}
+            onMouseLeave={e => {
+              e.currentTarget.style.background = 'var(--gold)';
+              e.currentTarget.style.transform = 'translateY(0)';
+            }}
           >
             התחל את השאלון ←
           </Link>
-
-          <p style={{ fontSize: 11, color: 'var(--text-faint)', margin: 0 }}>
-            ללא כרטיס אשראי · 7 ימי ניסיון · ביטול בכל עת
-          </p>
         </motion.div>
       </div>
     </section>

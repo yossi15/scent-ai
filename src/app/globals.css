@@ -10,6 +10,27 @@
   --gold-dark: #b89651;
   --gold-light: #d4b873;
 
+  /* ── Homepage v2 design system (matches standalone HTML) ── */
+  --bg: #050505;
+  --bg-elev: #0a0a0a;
+  --bg-card-2: #131313;
+  --bg-card-3: #1a1a1a;
+  --text: #f5f5f5;
+  --text-2: #b8b8b8;
+  --text-dim: #4a4a4a;
+  --border-2: rgba(255,255,255,0.10);
+  --border-strong: rgba(255,255,255,0.18);
+  --gold-strong: #d4b56e;
+  --gold-soft: rgba(201,169,97,0.22);
+  --shadow-mockup: 0 60px 120px -20px rgba(201,169,97,0.12), 0 40px 80px -40px rgba(0,0,0,0.7);
+  --shadow-card: 0 1px 0 rgba(255,255,255,0.03) inset, 0 20px 40px -30px rgba(0,0,0,0.5);
+  --grain-opacity: 0.04;
+  --serif: Georgia, 'Frank Ruhl Libre', serif;
+  --sans: 'Heebo', system-ui, -apple-system, sans-serif;
+  --maxw: 1240px;
+  --s1: 8px; --s2: 16px; --s3: 24px; --s4: 32px; --s5: 40px;
+  --s6: 48px; --s7: 64px; --s8: 80px; --s9: 96px; --s10: 120px;
+
   /* Dark theme (default) */
   --bg-deepest: #030303;
   --bg-primary: #050505;
@@ -72,6 +93,22 @@ html:not(.dark) {
   --bg-tertiary: #f0ede8;
   --bg-card: #ffffff;
   --bg-elevated: #f0ede8;
+
+  /* ── Homepage v2 light mode overrides ── */
+  --bg: #faf9f7;
+  --bg-elev: #ffffff;
+  --bg-card-2: #f0ede8;
+  --bg-card-3: #e8e4dc;
+  --text: #0a0a0a;
+  --text-2: #2a2a2a;
+  --text-dim: #aaa4a0;
+  --border-2: rgba(0,0,0,0.10);
+  --border-strong: rgba(0,0,0,0.18);
+  --gold-strong: #a08a45;
+  --gold-soft: rgba(139,117,53,0.14);
+  --shadow-mockup: 0 60px 120px -30px rgba(139,117,53,0.22), 0 40px 80px -40px rgba(40,30,15,0.15);
+  --shadow-card: 0 1px 0 rgba(255,255,255,1) inset, 0 20px 40px -30px rgba(40,30,15,0.10);
+  --grain-opacity: 0;
 
   --text-primary: #050505;
   --text-secondary: #2a2a2a;

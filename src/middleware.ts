@@ -14,6 +14,7 @@ const isPublicRoute = createRouteMatcher([
   '/api/quiz(.*)',
   '/api/sample-request(.*)',
   '/api/stripe-webhook(.*)',
+  '/api/stats/(.*)',
   // dashboard redirects to sign-in itself if not authenticated
   '/dashboard(.*)',
 ]);

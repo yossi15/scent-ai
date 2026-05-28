@@ -9,26 +9,29 @@ import PricingTable from '@/components/home/PricingTable';
 import FinalCTA from '@/components/home/FinalCTA';
 import Footer from '@/components/home/Footer';
 
+// Feature flags — set in .env.local or Vercel env vars
+// NEXT_PUBLIC_SHOW_PRESS=true       → shows press strip
+// NEXT_PUBLIC_SHOW_TESTIMONIALS=true → shows testimonials
+
 export default function Home() {
   return (
-    <main
-      id="main-content"
-      style={{ background: 'var(--bg-primary)', minHeight: '100vh' }}
-    >
+    <>
       <Navigation />
 
-      {/* Spacer for fixed nav */}
+      {/* Spacer for fixed nav (57px height) */}
       <div style={{ height: 57 }} />
 
-      <Hero />
-      <PressStrip />
-      <HowItWorks />
-      <WhyFeature />
-      <Testimonials />
-      <ComparisonTable />
-      <PricingTable />
-      <FinalCTA />
-      <Footer />
-    </main>
+      <main id="main-content">
+        <Hero />
+        <PressStrip />
+        <HowItWorks />
+        <WhyFeature />
+        <Testimonials />
+        <ComparisonTable />
+        <PricingTable />
+        <FinalCTA />
+        <Footer />
+      </main>
+    </>
   );
 }

@@ -5,125 +5,190 @@ import { motion } from 'framer-motion';
 import HeroProductMockup from './HeroProductMockup';
 
 const ease = [0.22, 1, 0.36, 1] as const;
-
 const fadeUp = (delay: number) => ({
   initial: { opacity: 0, y: 20 },
   animate: { opacity: 1, y: 0 },
   transition: { duration: 0.6, delay, ease },
 });
 
-const TRUST = ['ללא כרטיס אשראי', 'תוצאות מיידיות', 'עברית'];
+const TRUST = ['ללא כרטיס אשראי', 'תוצאות מיידיות', 'ממשק בעברית'];
+
+const FAMILY_CHIPS = [
+  { label: 'אמברה',       color: '#c9a961' },
+  { label: 'גורמה',       color: '#9b7a3c' },
+  { label: 'ירוקים',      color: '#6b9b5a' },
+  { label: 'פרחי לבן',    color: '#c9b8a1' },
+  { label: 'הדרים',       color: '#e8a84a' },
+];
 
 export default function Hero() {
   return (
     <section
-      className="section-pad"
       style={{
         position: 'relative',
         overflow: 'hidden',
-        minHeight: 'clamp(480px, calc(100vh - 160px), 660px)',
-        display: 'flex',
-        alignItems: 'center',
+        padding: 'var(--s9) var(--s3) var(--s10)',
       }}
     >
-      {/* Background radial — ellipse 80% 60% at 20% 30% */}
+      {/* Background glows */}
       <div
         aria-hidden="true"
         style={{
           position: 'absolute', inset: 0, pointerEvents: 'none',
-          background: 'radial-gradient(ellipse 80% 60% at 20% 30%, rgba(201,169,97,0.06), transparent 60%)',
+          background: `
+            radial-gradient(50% 60% at 70% 25%, var(--gold-soft) 0%, transparent 65%),
+            radial-gradient(40% 50% at 15% 75%, var(--gold-faint) 0%, transparent 60%)
+          `,
+        }}
+      />
+      {/* Grid lines */}
+      <div
+        aria-hidden="true"
+        style={{
+          position: 'absolute', inset: 0, pointerEvents: 'none',
+          backgroundImage: `
+            linear-gradient(to right, var(--border-subtle) 1px, transparent 1px),
+            linear-gradient(to bottom, var(--border-subtle) 1px, transparent 1px)
+          `,
+          backgroundSize: '80px 80px',
+          WebkitMaskImage: 'radial-gradient(80% 70% at 50% 40%, black 0%, transparent 75%)',
+          maskImage: 'radial-gradient(80% 70% at 50% 40%, black 0%, transparent 75%)',
+          opacity: 0.5,
         }}
       />
 
-      <div className="hero-grid section-inner" style={{ position: 'relative', width: '100%' }}>
-        {/* ── Right column (RTL first): Text ─────────────────────── */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+      <div
+        style={{
+          position: 'relative',
+          maxWidth: 'var(--maxw)', margin: '0 auto',
+          display: 'grid',
+          gridTemplateColumns: '1.05fr 1fr',
+          gap: 'var(--s8)',
+          alignItems: 'center',
+        }}
+        className="hero-inner-grid"
+      >
+        {/* ── Text column ─────────────────────────────────── */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s3)' }}>
 
-          {/* Live badge */}
+          {/* Badge */}
           <motion.div {...fadeUp(0.1)} style={{ display: 'inline-flex' }}>
             <div style={{
-              display: 'inline-flex', alignItems: 'center', gap: 6,
-              background: 'rgba(201,169,97,0.08)',
-              border: '1px solid var(--border-gold-strong)',
-              padding: '5px 11px', borderRadius: 20,
+              display: 'inline-flex', alignItems: 'center', gap: 8,
+              alignSelf: 'flex-start',
+              padding: '7px 13px', borderRadius: 999,
+              background: 'var(--gold-faint)',
+              border: '1px solid var(--gold-soft)',
+              fontSize: 12, color: 'var(--gold)',
+              fontWeight: 500, letterSpacing: '0.01em',
             }}>
               <span
                 className="animate-gold-pulse"
-                style={{ width: 5, height: 5, borderRadius: '50%', background: 'var(--gold-text)', flexShrink: 0 }}
+                style={{ width: 5, height: 5, borderRadius: '50%', background: 'var(--gold)', flexShrink: 0 }}
               />
-              <span style={{ fontSize: 10, color: 'var(--gold-text)' }}>
-                מקבל את 500 הראשונים
-              </span>
+              מקבל את 500 הראשונים
             </div>
           </motion.div>
 
-          {/* Headline */}
+          {/* H1 */}
           <motion.h1
             {...fadeUp(0.2)}
             style={{
-              fontSize: 36, fontWeight: 600,
-              letterSpacing: '-0.8px', lineHeight: 1.2,
-              color: 'var(--text-primary)', margin: 0,
+              fontWeight: 700,
+              fontSize: 'clamp(38px, 5vw, 56px)',
+              lineHeight: 1.05,
+              letterSpacing: '-0.035em',
+              color: 'var(--text-primary)',
+              margin: 0,
             }}
           >
             בושם שמתאים לך באמת.
-            <br />
-            <span style={{ color: 'var(--gold-text)' }}>בפעם הראשונה.</span>
+            <span style={{ color: 'var(--gold-text)', display: 'block', fontWeight: 600 }}>
+              בפעם הראשונה.
+            </span>
           </motion.h1>
 
           {/* Description */}
           <motion.p
             {...fadeUp(0.3)}
             style={{
-              fontSize: 14, color: 'var(--text-tertiary)',
-              lineHeight: 1.6, maxWidth: 320, margin: 0,
+              fontSize: 16, lineHeight: 1.7,
+              color: 'var(--text-secondary)', maxWidth: 500, margin: 0,
             }}
           >
-            תשע שאלות. ניתוח AI מתוך מעל 1,000 בשמים. עשר התאמות
-            עם הסבר למה כל אחת מתאימה לך.
+            תשע שאלות. ניתוח AI מתוך מעל 1,000 בשמים. עשר התאמות עם הסבר ריחני מדויק
+            למה כל אחת מתאימה לך - לא ניחושים, לא מלל שיווקי.
           </motion.p>
+
+          {/* Family chips */}
+          <motion.div
+            {...fadeUp(0.35)}
+            style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}
+          >
+            {FAMILY_CHIPS.map(chip => (
+              <span
+                key={chip.label}
+                style={{
+                  display: 'inline-flex', alignItems: 'center', gap: 6,
+                  padding: '5px 10px 5px 8px', borderRadius: 999,
+                  background: 'var(--bg-card-2)', border: '1px solid var(--border-subtle)',
+                  fontSize: 11.5, color: 'var(--text-secondary)',
+                  fontFamily: 'var(--serif)', fontStyle: 'italic',
+                }}
+              >
+                <span style={{ width: 5, height: 5, borderRadius: '50%', background: chip.color, flexShrink: 0 }} />
+                {chip.label}
+              </span>
+            ))}
+          </motion.div>
 
           {/* CTAs */}
           <motion.div
             {...fadeUp(0.4)}
-            style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'center' }}
+            style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginTop: 'var(--s1)' }}
           >
             <Link
               href="/quiz"
               style={{
-                display: 'inline-flex', alignItems: 'center',
-                fontSize: 13, fontWeight: 500,
-                padding: '11px 20px', borderRadius: 6,
-                background: 'var(--gold)', color: '#050505',
+                display: 'inline-flex', alignItems: 'center', gap: 8,
+                fontSize: 14.5, fontWeight: 500,
+                padding: '14px 24px', borderRadius: 10,
+                background: 'var(--gold)', color: '#1a1410',
                 textDecoration: 'none', whiteSpace: 'nowrap',
-                transition: 'opacity 0.2s, transform 0.15s',
-                border: '1px solid var(--gold-dark)',
-                boxShadow: 'var(--shadow-gold)',
+                border: '1px solid var(--gold)',
+                boxShadow: '0 1px 0 rgba(255,255,255,0.2) inset, 0 10px 30px -10px var(--gold-soft)',
+                transition: 'all 200ms cubic-bezier(.4,0,.2,1)',
               }}
-              onMouseEnter={e => { e.currentTarget.style.opacity = '0.88'; e.currentTarget.style.transform = 'translateY(-1px)'; }}
-              onMouseLeave={e => { e.currentTarget.style.opacity = '1'; e.currentTarget.style.transform = 'translateY(0)'; }}
+              onMouseEnter={e => {
+                e.currentTarget.style.background = 'var(--gold-strong)';
+                e.currentTarget.style.transform = 'translateY(-1px)';
+              }}
+              onMouseLeave={e => {
+                e.currentTarget.style.background = 'var(--gold)';
+                e.currentTarget.style.transform = 'translateY(0)';
+              }}
             >
               התחל שאלון · 3 דקות
             </Link>
 
             <button
               className="btn-ghost"
-              style={{ fontSize: 13, padding: '11px 20px', borderRadius: 6, whiteSpace: 'nowrap' }}
+              style={{ fontSize: 14.5, padding: '14px 24px', borderRadius: 10, whiteSpace: 'nowrap' }}
               onClick={() => document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' })}
             >
-              צפה בדמו ↗
+              צפה בדמו
             </button>
           </motion.div>
 
-          {/* Trust pills */}
+          {/* Trust */}
           <motion.div
             {...fadeUp(0.5)}
-            style={{ display: 'flex', gap: 18, flexWrap: 'wrap' }}
+            style={{ display: 'flex', gap: 'var(--s3)', flexWrap: 'wrap', marginTop: 'var(--s1)' }}
           >
             {TRUST.map(item => (
               <span
                 key={item}
-                style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: 10, color: 'var(--text-muted)' }}
+                style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 12.5, color: 'var(--text-muted)' }}
               >
                 <span style={{ color: 'var(--gold-text)', fontSize: 11 }}>✓</span>
                 {item}
@@ -132,11 +197,20 @@ export default function Hero() {
           </motion.div>
         </div>
 
-        {/* ── Left column (RTL second): Product Mockup ────────────── */}
+        {/* ── Mockup column ────────────────────────────────── */}
         <div style={{ display: 'flex', justifyContent: 'center', paddingTop: 8 }}>
           <HeroProductMockup />
         </div>
       </div>
+
+      <style>{`
+        @media (max-width: 768px) {
+          .hero-inner-grid {
+            grid-template-columns: 1fr !important;
+            gap: var(--s7) !important;
+          }
+        }
+      `}</style>
     </section>
   );
 }
