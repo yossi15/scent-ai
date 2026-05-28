@@ -58,6 +58,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             html:not(.dark){--bg-primary:#faf9f7;--nav-bg:rgba(250,249,247,.95);--nav-bg-scrolled:rgba(250,249,247,.97);}
             html,body{background:#050505;}
             html:not(.dark),html:not(.dark) body{background:#faf9f7;}
+            .nav-header{background:rgba(5,5,5,.95);border-bottom:1px solid rgba(255,255,255,.06);}
+            .nav-header.nav-scrolled{background:rgba(5,5,5,.97);}
+            html:not(.dark) .nav-header{background:rgba(250,249,247,.95);border-bottom:1px solid rgba(0,0,0,.06);}
+            html:not(.dark) .nav-header.nav-scrolled{background:rgba(250,249,247,.97);}
           ` }} />
           <script
             // Avoid FOUC: apply stored theme before React mounts (default = dark)

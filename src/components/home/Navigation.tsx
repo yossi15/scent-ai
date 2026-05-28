@@ -40,14 +40,10 @@ export default function Navigation() {
   return (
     <>
       <header
-        className="fixed top-0 inset-x-0 z-50"
+        className={`fixed top-0 inset-x-0 z-50 nav-header${scrolled ? ' nav-scrolled' : ''}`}
         style={{
-          background: scrolled
-            ? (isDark ? 'rgba(5,5,5,0.97)' : 'rgba(250,249,247,0.97)')
-            : (isDark ? 'rgba(5,5,5,0.95)' : 'rgba(250,249,247,0.95)'),
           backdropFilter: 'blur(12px)',
           WebkitBackdropFilter: 'blur(12px)',
-          borderBottom: isDark ? '1px solid rgba(255,255,255,0.06)' : '1px solid rgba(0,0,0,0.06)',
           height: 57,
           display: 'flex',
           alignItems: 'center',
@@ -165,10 +161,9 @@ export default function Navigation() {
       {/* Mobile dropdown */}
       {mobileOpen && (
         <div
-          className="md:hidden fixed inset-x-0 z-40"
+          className="md:hidden fixed inset-x-0 z-40 nav-mobile-dropdown"
           style={{
             top: 57,
-            background: isDark ? 'rgba(3,3,3,0.98)' : 'rgba(255,255,255,0.98)',
             backdropFilter: 'blur(12px)',
             borderBottom: '1px solid var(--border-subtle)',
           }}
