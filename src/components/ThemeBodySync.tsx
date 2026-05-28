@@ -3,15 +3,17 @@
 import { useEffect } from 'react';
 
 /**
- * Sets document.body.style.backgroundColor directly via JS so it always
- * matches the theme, regardless of CSS custom-property loading issues.
- * Inline styles have higher priority than stylesheet rules.
+ * Sets background colour on both <html> and <body> directly via inline-style JS
+ * so it always matches the active theme regardless of CSS variable issues.
+ * Inline styles beat any stylesheet rule (highest cascade priority).
  */
 export default function ThemeBodySync() {
   useEffect(() => {
     const update = () => {
       const dark = document.documentElement.classList.contains('dark');
-      document.body.style.backgroundColor = dark ? '#050505' : '#faf9f7';
+      const colour = dark ? '#050505' : '#faf9f7';
+      document.documentElement.style.backgroundColor = colour;
+      document.body.style.backgroundColor = colour;
     };
 
     update();

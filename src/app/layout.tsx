@@ -56,6 +56,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <style dangerouslySetInnerHTML={{ __html: `
             :root{--bg-primary:#050505;--nav-bg:rgba(5,5,5,.95);--nav-bg-scrolled:rgba(5,5,5,.97);}
             html:not(.dark){--bg-primary:#faf9f7;--nav-bg:rgba(250,249,247,.95);--nav-bg-scrolled:rgba(250,249,247,.97);}
+            html,body{background:#050505;}
+            html:not(.dark),html:not(.dark) body{background:#faf9f7;}
           ` }} />
           <script
             // Avoid FOUC: apply stored theme before React mounts (default = dark)

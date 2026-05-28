@@ -160,16 +160,28 @@ html:not(.dark) {
 
 html {
   scroll-behavior: smooth;
+  /* Hardcoded dark default for html element — prevents bleed-through behind body */
+  background: #050505;
+}
+
+html:not(.dark) {
+  background: #faf9f7;
 }
 
 body {
-  background: var(--bg-primary);
+  /* Hardcoded dark default — avoids CSS-variable resolution failures in Tailwind v4 */
+  background: #050505;
   color: var(--text-primary);
   font-family: 'Heebo', 'Assistant', system-ui, sans-serif;
   direction: rtl;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Light mode — hardcoded, no CSS variables */
+html:not(.dark) body {
+  background: #faf9f7;
 }
 
 *, *::before, *::after {
