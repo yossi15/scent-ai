@@ -27,7 +27,7 @@ export default function Hero() {
       style={{
         position: 'relative',
         overflow: 'hidden',
-        padding: 'var(--s5) var(--s3) var(--s7)',
+        padding: 'var(--s5) var(--s3) var(--s4)',
       }}
     >
       {/* Background glows */}
