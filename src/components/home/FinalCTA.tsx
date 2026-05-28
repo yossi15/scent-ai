@@ -10,7 +10,7 @@ export default function FinalCTA() {
       id="start"
       style={{
         position: 'relative',
-        padding: 'var(--s10) var(--s3)',
+        padding: 'var(--s7) var(--s3)',
         textAlign: 'center',
         background: `radial-gradient(60% 60% at 50% 50%, var(--gold-soft) 0%, transparent 70%)`,
         overflow: 'hidden',

@@ -224,7 +224,7 @@ export default function PricingTable() {
   return (
     <section
       id="pricing"
-      style={{ padding: 'var(--s10) var(--s3)', background: 'var(--bg-primary)' }}
+      style={{ padding: 'var(--s7) var(--s3)', background: 'var(--bg-primary)' }}
     >
       <div style={{ maxWidth: 'var(--maxw)', margin: '0 auto' }}>
 

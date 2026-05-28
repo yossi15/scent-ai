@@ -72,7 +72,7 @@ export default function ComparisonTable() {
   return (
     <section
       style={{
-        padding: 'var(--s10) var(--s3)',
+        padding: 'var(--s7) var(--s3)',
         background: 'var(--bg-elev, var(--bg-secondary))',
         borderTop: '1px solid var(--border-subtle)',
         borderBottom: '1px solid var(--border-subtle)',
