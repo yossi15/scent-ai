@@ -100,10 +100,10 @@ export default function AccessibilityWidget() {
             bottom: '56px',
             right: 0,
             width: '224px',
-            background: '#FFFFFF',
-            border: '1px solid var(--border)',
+            background: 'var(--bg-card)',
+            border: '1px solid var(--border-default)',
             borderRadius: '12px',
-            boxShadow: '0 8px 32px rgba(0,0,0,0.12)',
+            boxShadow: 'var(--shadow-lg)',
             padding: '16px',
             direction: 'rtl',
           }}
