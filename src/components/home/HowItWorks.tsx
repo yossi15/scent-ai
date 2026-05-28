@@ -75,7 +75,7 @@ function AIMockup() {
         }} />
       </div>
       <p style={{ fontSize: 12, color: 'var(--text-primary)', fontWeight: 500, margin: 0, textAlign: 'center' }}>
-        Claude מנתח<span style={{ color: 'var(--gold)' }}>...</span>
+        מנתח<span style={{ color: 'var(--gold)' }}>...</span>
       </p>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 5, textAlign: 'center' }}>
         {[

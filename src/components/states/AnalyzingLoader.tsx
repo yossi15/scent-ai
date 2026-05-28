@@ -9,7 +9,7 @@ const ease: [number, number, number, number] = [0.22, 1, 0.36, 1];
 const STEPS = [
   {
     label: 'ממפה את הפרופיל הריחי שלך',
-    detail: 'קוסינוס-דמיון מול 1,019 בשמים',
+    detail: 'קוסינוס-דמיון מול מעל 1,000 בשמים',
   },
   {
     label: 'מסנן לפי טעם, עמידות ותקציב',
@@ -17,7 +17,7 @@ const STEPS = [
   },
   {
     label: 'מייעץ עם ה-Master Perfumer',
-    detail: 'Claude Sonnet מנתח את הפרופיל',
+    detail: 'מנתח את הפרופיל הריחי',
   },
   {
     label: 'מכין את ההמלצות הסופיות',
