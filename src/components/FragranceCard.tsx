@@ -93,14 +93,14 @@ export default function FragranceCard({ fragrance: f, onClick, inCollection, onT
         ) : (
           <div
             className="absolute inset-0 flex items-center justify-center"
-            style={{ background: '#FAF8F3' }}
+            style={{ background: 'var(--bg-tertiary)' }}
           >
             <span
               style={{
                 fontFamily: '"Cormorant Garamond", Georgia, serif',
                 fontSize: '60px',
                 fontWeight: 400,
-                color: '#6B6560',
+                color: 'var(--text-faint)',
                 lineHeight: 1,
                 userSelect: 'none',
               }}

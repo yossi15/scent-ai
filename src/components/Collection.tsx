@@ -86,11 +86,19 @@ function Pill({
     <button
       onClick={onClick}
       aria-pressed={active}
-      className={`whitespace-nowrap shrink-0 px-3.5 py-1.5 text-xs font-sans border rounded-full transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold ${
-        active
-          ? 'bg-gold text-white border-gold shadow-sm'
-          : 'bg-bg-card border-black/[0.06] text-ink-muted hover:border-gold-border hover:text-gold'
-      }`}
+      className="whitespace-nowrap shrink-0 px-3.5 py-1.5 text-xs font-sans rounded-full transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+      style={active ? {
+        background: 'var(--gold)',
+        color: '#050505',
+        border: '1px solid var(--gold-dark)',
+        boxShadow: 'var(--shadow-sm)',
+      } : {
+        background: 'var(--bg-card)',
+        border: '1px solid var(--border-default)',
+        color: 'var(--text-muted)',
+      }}
+      onMouseEnter={e => { if (!active) { (e.currentTarget as HTMLElement).style.borderColor = 'var(--border-gold-strong)'; (e.currentTarget as HTMLElement).style.color = 'var(--gold-text)'; } }}
+      onMouseLeave={e => { if (!active) { (e.currentTarget as HTMLElement).style.borderColor = 'var(--border-default)'; (e.currentTarget as HTMLElement).style.color = 'var(--text-muted)'; } }}
     >
       {label}
     </button>
@@ -269,7 +277,7 @@ export default function Collection() {
   const activeFilterCount = Object.values(filters).flat().length + (houseFilter !== 'הכל' ? 1 : 0);
 
   return (
-    <section id="collection" className="py-32 px-6" style={{ background: '#FFFFFF' }}>
+    <section id="collection" className="py-32 px-6" style={{ background: 'var(--bg-primary)' }}>
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <motion.div
@@ -279,9 +287,9 @@ export default function Collection() {
           transition={{ duration: 0.8 }}
           className="text-center mb-12"
         >
-          <p className="mb-4" style={{ fontFamily: 'Inter, sans-serif', fontWeight: 400, fontSize: '11px', letterSpacing: '3px', textTransform: 'uppercase', color: '#999' }}>הקולקציה</p>
-          <h2 className="mb-4" style={{ fontFamily: '"Cormorant Garamond", Georgia, serif', fontWeight: 600, fontSize: 'clamp(32px, 5vw, 48px)', lineHeight: 1.1, letterSpacing: '-0.01em', color: '#000' }}>הקולקציה המלאה</h2>
-          <p style={{ fontFamily: 'Inter, sans-serif', fontWeight: 300, fontSize: '14px', lineHeight: 1.7, color: '#666' }}>
+          <p className="mb-4" style={{ fontFamily: 'Heebo, sans-serif', fontWeight: 400, fontSize: '11px', letterSpacing: '3px', textTransform: 'uppercase', color: 'var(--text-muted)' }}>הקולקציה</p>
+          <h2 className="mb-4" style={{ fontFamily: 'Heebo, sans-serif', fontWeight: 700, fontSize: 'clamp(28px, 4vw, 40px)', lineHeight: 1.15, letterSpacing: '-0.5px', color: 'var(--text-primary)' }}>הקולקציה המלאה</h2>
+          <p style={{ fontFamily: 'Heebo, sans-serif', fontWeight: 300, fontSize: '14px', lineHeight: 1.7, color: 'var(--text-secondary)' }}>
             {fragrances.length} בשמים נישתיים מ-{houses.length - 1} בתי בושם
           </p>
         </motion.div>
@@ -337,11 +345,20 @@ export default function Collection() {
                 <FilterRow label="מחיר" options={PRICE_OPTIONS} active={filters.price} onToggle={v => toggleFilter('price', v)} />
 
                 {/* House filter toggle inside smart panel */}
-                <div className="flex items-center gap-3 pt-1 border-t border-black/[0.05]">
-                  <span className="shrink-0 text-[10px] font-hebrew text-ink-faint uppercase tracking-wider w-12 text-left">בית</span>
+                <div className="flex items-center gap-3 pt-1" style={{ borderTop: '1px solid var(--border-subtle)' }}>
+                  <span className="shrink-0 text-[10px] font-hebrew uppercase tracking-wider w-12 text-left" style={{ color: 'var(--text-faint)' }}>בית</span>
                   <button
                     onClick={() => setShowHouseFilters(v => !v)}
-                    className={`text-xs font-sans px-3 py-1.5 border rounded-full transition-all duration-200 ${showHouseFilters ? 'bg-gold-faint text-gold border-gold-border' : 'bg-bg-card border-black/[0.06] text-ink-muted hover:border-gold-border hover:text-gold'}`}
+                    className="text-xs font-sans px-3 py-1.5 rounded-full transition-all duration-200"
+                    style={showHouseFilters ? {
+                      background: 'var(--gold-faint)',
+                      color: 'var(--gold-text)',
+                      border: '1px solid var(--border-gold)',
+                    } : {
+                      background: 'var(--bg-card)',
+                      border: '1px solid var(--border-default)',
+                      color: 'var(--text-muted)',
+                    }}
                   >
                     {houseFilter === 'הכל' ? 'כל הבתים' : houseFilter}
                   </button>
@@ -363,9 +380,17 @@ export default function Collection() {
         <div className="flex items-center justify-center gap-3 mb-6 flex-wrap">
           <button
             onClick={() => { setShowMyCollection(!showMyCollection); setVisibleCount(12); }}
-            className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-hebrew font-medium transition-all duration-200 ${
-              showMyCollection ? 'bg-gold text-white shadow-sm' : 'bg-bg-card border border-black/[0.06] text-ink-muted hover:border-gold-border hover:text-gold'
-            }`}
+            className="flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-hebrew font-medium transition-all duration-200"
+            style={showMyCollection ? {
+              background: 'var(--gold)',
+              color: '#050505',
+              border: '1px solid var(--gold-dark)',
+              boxShadow: 'var(--shadow-sm)',
+            } : {
+              background: 'var(--bg-card)',
+              border: '1px solid var(--border-default)',
+              color: 'var(--text-muted)',
+            }}
           >
             <Heart className={`w-4 h-4 ${showMyCollection ? 'fill-white' : ''}`} aria-hidden="true" />
             האוסף שלי {collection.size > 0 && `(${collection.size})`}
@@ -374,7 +399,10 @@ export default function Collection() {
           {hasActiveFilters && (
             <button
               onClick={clearAllFilters}
-              className="flex items-center gap-1.5 px-4 py-2.5 rounded-full text-sm font-hebrew font-medium border border-red-200 text-red-500 hover:bg-red-50 transition-all duration-200"
+              className="flex items-center gap-1.5 px-4 py-2.5 rounded-full text-sm font-hebrew font-medium transition-all duration-200"
+              style={{ border: '1px solid var(--border-default)', color: 'var(--text-muted)' }}
+              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255,100,100,0.4)'; (e.currentTarget as HTMLElement).style.color = 'rgb(220,80,80)'; }}
+              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = 'var(--border-default)'; (e.currentTarget as HTMLElement).style.color = 'var(--text-muted)'; }}
             >
               <X className="w-3.5 h-3.5" aria-hidden="true" />
               נקה הכל
@@ -383,9 +411,9 @@ export default function Collection() {
         </div>
 
         {/* Results count */}
-        <p className="text-center text-ink-faint text-xs font-hebrew mb-6">
-          מציג <span className="text-gold font-semibold">{Math.min(visibleCount, filtered.length)}</span> מתוך <span className="text-ink font-semibold">{filtered.length}</span> בשמים
-          {hasActiveFilters && <span className="text-ink-faint"> (מסונן מתוך {fragrances.length})</span>}
+        <p className="text-center text-xs font-hebrew mb-6" style={{ color: 'var(--text-muted)' }}>
+          מציג <span style={{ color: 'var(--gold-text)', fontWeight: 600 }}>{Math.min(visibleCount, filtered.length)}</span> מתוך <span style={{ color: 'var(--text-primary)', fontWeight: 600 }}>{filtered.length}</span> בשמים
+          {hasActiveFilters && <span style={{ color: 'var(--text-muted)' }}> (מסונן מתוך {fragrances.length})</span>}
         </p>
 
         {/* Grid */}
@@ -406,19 +434,18 @@ export default function Collection() {
           <div className="text-center mt-20">
             <button
               onClick={() => setVisibleCount(v => v + 12)}
-              className="hover:opacity-60 transition-opacity"
+              className="transition-opacity hover:opacity-60"
               style={{
-                fontFamily: 'Inter, sans-serif',
+                fontFamily: 'Heebo, sans-serif',
                 fontWeight: 400,
                 fontSize: '12px',
                 letterSpacing: '2px',
-                textTransform: 'uppercase',
-                color: '#000',
-                borderBottom: '1px solid #000',
+                color: 'var(--text-primary)',
+                borderBottom: '1px solid var(--border-default)',
                 paddingBottom: '4px',
               }}
             >
-              Load more ({filtered.length - visibleCount})
+              טען עוד ({filtered.length - visibleCount})
             </button>
           </div>
         )}
