@@ -51,8 +51,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     >
       <html lang="he" dir="rtl" className="h-full antialiased" suppressHydrationWarning>
         <head>
+          {/* Critical theme variables — defined early so they're never missing */}
+          <style dangerouslySetInnerHTML={{ __html: `
+            :root{--bg-primary:#050505;--nav-bg:rgba(5,5,5,.95);--nav-bg-scrolled:rgba(5,5,5,.97);}
+            html:not(.dark){--bg-primary:#faf9f7;--nav-bg:rgba(250,249,247,.95);--nav-bg-scrolled:rgba(250,249,247,.97);}
+          ` }} />
           <script
-            // Avoid FOUC: apply stored theme before React mounts (default = light)
+            // Avoid FOUC: apply stored theme before React mounts (default = dark)
             dangerouslySetInnerHTML={{
               __html: `(function(){try{var t=localStorage.getItem('scent-ai-theme')||'dark';if(t==='dark'){document.documentElement.classList.add('dark');}}catch(e){}})();`,
             }}

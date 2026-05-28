@@ -42,10 +42,12 @@ export default function Navigation() {
       <header
         className="fixed top-0 inset-x-0 z-50"
         style={{
-          background: scrolled ? 'var(--nav-bg-scrolled)' : 'var(--nav-bg)',
+          background: scrolled
+            ? (isDark ? 'rgba(5,5,5,0.97)' : 'rgba(250,249,247,0.97)')
+            : (isDark ? 'rgba(5,5,5,0.95)' : 'rgba(250,249,247,0.95)'),
           backdropFilter: 'blur(12px)',
           WebkitBackdropFilter: 'blur(12px)',
-          borderBottom: '1px solid var(--border-subtle)',
+          borderBottom: isDark ? '1px solid rgba(255,255,255,0.06)' : '1px solid rgba(0,0,0,0.06)',
           height: 57,
           display: 'flex',
           alignItems: 'center',
