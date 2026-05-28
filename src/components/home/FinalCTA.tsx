@@ -12,10 +12,15 @@ export default function FinalCTA() {
         position: 'relative',
         padding: 'var(--s7) var(--s3)',
         textAlign: 'center',
-        background: `radial-gradient(60% 60% at 50% 50%, var(--gold-soft) 0%, transparent 70%)`,
+        backgroundColor: 'var(--bg-primary)',
         overflow: 'hidden',
       }}
     >
+      {/* Gold glow — separate from section bg so it composites correctly over any theme */}
+      <div aria-hidden="true" style={{
+        position: 'absolute', inset: 0, pointerEvents: 'none',
+        background: 'radial-gradient(60% 60% at 50% 50%, var(--gold-soft) 0%, transparent 70%)',
+      }} />
       <div
         style={{
           position: 'relative',

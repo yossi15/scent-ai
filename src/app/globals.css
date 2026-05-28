@@ -301,10 +301,23 @@ input:focus, select:focus, textarea:focus {
 html.a11y-contrast {
   --text-primary: #000;
   --text-secondary: #111;
+  --text-tertiary: #222;
+  --text-muted: #333;
   --bg-primary: #fff;
+  --bg-secondary: #f4f4f4;
   --bg-card: #fff;
+  --bg-elevated: #f4f4f4;
+  --bg-elev: #f4f4f4;
   --border-default: rgba(0,0,0,0.4);
+  --border-subtle: rgba(0,0,0,0.15);
   --gold: #5c4000;
+  /* Nav must match bg-primary so it doesn't appear dark on white body */
+  --nav-bg: rgba(255,255,255,0.98);
+  --nav-bg-scrolled: rgba(255,255,255,0.99);
+  /* Legacy aliases */
+  --ink: #000;
+  --ink-secondary: #111;
+  --ink-muted: #333;
 }
 html.a11y-links a {
   text-decoration: underline !important;
