@@ -163,7 +163,7 @@ export default function HowItWorks() {
   return (
     <section
       id="how-it-works"
-      style={{ padding: 'var(--s7) var(--s3)', position: 'relative', background: 'var(--bg-primary)' }}
+      style={{ padding: 'var(--s7) var(--s3)', position: 'relative' }}
     >
       <div style={{ maxWidth: 'var(--maxw)', margin: '0 auto' }}>
 

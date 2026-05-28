@@ -12,7 +12,6 @@ export default function FinalCTA() {
         position: 'relative',
         padding: 'var(--s7) var(--s3)',
         textAlign: 'center',
-        backgroundColor: 'var(--bg-primary)',
         overflow: 'hidden',
       }}
     >

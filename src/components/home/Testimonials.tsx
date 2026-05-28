@@ -41,7 +41,7 @@ export default function Testimonials() {
   if (!SHOW_TESTIMONIALS) return null;
 
   return (
-    <section style={{ padding: 'var(--s7) var(--s3)', background: 'var(--bg-primary)' }}>
+    <section style={{ padding: 'var(--s7) var(--s3)' }}>
       <div style={{ maxWidth: 'var(--maxw)', margin: '0 auto' }}>
 
         {/* Section head */}
