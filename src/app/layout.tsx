@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { ClerkProvider } from '@clerk/nextjs';
 import CookieBanner from '@/components/CookieBanner';
 import AccessibilityWidget from '@/components/AccessibilityWidget';
+import ThemeBodySync from '@/components/ThemeBodySync';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -64,6 +65,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           />
         </head>
         <body className="min-h-full flex flex-col">
+          <ThemeBodySync />
           <a href="#main-content" className="skip-to-content">דלג לתוכן הראשי</a>
           {children}
           <CookieBanner />

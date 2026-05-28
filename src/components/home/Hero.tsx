@@ -1,5 +1,6 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import HeroProductMockup from './HeroProductMockup';
@@ -13,6 +14,18 @@ const fadeUp = (delay: number) => ({
 
 const TRUST = ['ללא כרטיס אשראי', 'תוצאות מיידיות', 'ממשק בעברית'];
 
+function useIsDark() {
+  const [isDark, setIsDark] = useState(true);
+  useEffect(() => {
+    const update = () => setIsDark(document.documentElement.classList.contains('dark'));
+    update();
+    const obs = new MutationObserver(update);
+    obs.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+    return () => obs.disconnect();
+  }, []);
+  return isDark;
+}
+
 const FAMILY_CHIPS = [
   { label: 'אמברה',       color: '#c9a961' },
   { label: 'גורמה',       color: '#9b7a3c' },
@@ -22,12 +35,15 @@ const FAMILY_CHIPS = [
 ];
 
 export default function Hero() {
+  const isDark = useIsDark();
+  const bg = isDark ? '#050505' : '#faf9f7';
+
   return (
     <section
       style={{
         position: 'relative',
         overflow: 'hidden',
-        background: 'var(--bg-primary)',
+        background: bg,
         padding: 'var(--s5) var(--s3) var(--s4)',
       }}
     >
