@@ -143,27 +143,10 @@ html:not(.dark) {
 }
 
 /* ─── Tailwind Theme ─────────────────────────────────────────────── */
+/* NOTE: @theme inline must use static values — Tailwind v4 resolves var()
+   at build time (returning #fff as fallback) which corrupts our runtime CSS
+   variables. Only fonts (which are static) are safe here. */
 @theme inline {
-  --color-gold: var(--gold);
-  --color-gold-dark: var(--gold-dark);
-  --color-gold-light: var(--gold-light);
-  --color-bg-deepest: var(--bg-deepest);
-  --color-bg-primary: var(--bg-primary);
-  --color-bg-secondary: var(--bg-secondary);
-  --color-bg-tertiary: var(--bg-tertiary);
-  --color-bg-card: var(--bg-card);
-  --color-bg-elevated: var(--bg-elevated);
-  --color-text-primary: var(--text-primary);
-  --color-text-secondary: var(--text-secondary);
-  --color-text-tertiary: var(--text-tertiary);
-  --color-text-muted: var(--text-muted);
-  --color-text-faint: var(--text-faint);
-  /* Legacy Tailwind aliases */
-  --color-ink: var(--text-primary);
-  --color-ink-secondary: var(--text-secondary);
-  --color-ink-muted: var(--text-tertiary);
-  --color-bg-accent: var(--bg-elevated);
-  --color-border: var(--border-default);
   --font-sans: 'Heebo', 'Assistant', system-ui, sans-serif;
   --font-serif: Georgia, 'Times New Roman', serif;
   --font-hebrew: 'Heebo', 'Assistant', system-ui, sans-serif;
