@@ -20,10 +20,10 @@ export default function Navigation() {
   const { isSignedIn } = useUser();
 
   useEffect(() => {
-    const saved = localStorage.getItem('scent-ai-theme') || 'dark';
+    const saved = localStorage.getItem('scentory-theme') || 'dark';
     const dark = saved !== 'light';
     setIsDark(dark);
-    document.documentElement.classList.toggle('dark', dark);
+    document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
 
     const onScroll = () => setScrolled(window.scrollY > 10);
     window.addEventListener('scroll', onScroll, { passive: true });
@@ -33,8 +33,8 @@ export default function Navigation() {
   const toggleTheme = () => {
     const newDark = !isDark;
     setIsDark(newDark);
-    document.documentElement.classList.toggle('dark', newDark);
-    localStorage.setItem('scent-ai-theme', newDark ? 'dark' : 'light');
+    document.documentElement.setAttribute('data-theme', newDark ? 'dark' : 'light');
+    localStorage.setItem('scentory-theme', newDark ? 'dark' : 'light');
   };
 
   return (
@@ -60,6 +60,7 @@ export default function Navigation() {
           <div className="flex items-center gap-3">
             <button
               onClick={toggleTheme}
+              data-theme-toggle
               aria-label={isDark ? 'עבור למצב בהיר' : 'עבור למצב כהה'}
               style={{
                 width: 28, height: 28, display: 'flex',

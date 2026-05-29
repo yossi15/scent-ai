@@ -55,18 +55,18 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           {/* Critical theme variables — defined early so they're never missing */}
           <style dangerouslySetInnerHTML={{ __html: `
             :root{--bg-primary:#050505;--nav-bg:rgba(5,5,5,.95);--nav-bg-scrolled:rgba(5,5,5,.97);}
-            html:not(.dark){--bg-primary:#faf9f7;--nav-bg:rgba(250,249,247,.95);--nav-bg-scrolled:rgba(250,249,247,.97);}
+            html[data-theme="light"]{--bg-primary:#faf9f7;--nav-bg:rgba(250,249,247,.95);--nav-bg-scrolled:rgba(250,249,247,.97);}
             html,body{background:#050505;}
-            html:not(.dark),html:not(.dark) body{background:#faf9f7;}
+            html[data-theme="light"],html[data-theme="light"] body{background:#faf9f7;}
             .nav-header{background:rgba(5,5,5,.95);border-bottom:1px solid rgba(255,255,255,.06);}
             .nav-header.nav-scrolled{background:rgba(5,5,5,.97);}
-            html:not(.dark) .nav-header{background:rgba(250,249,247,.95);border-bottom:1px solid rgba(0,0,0,.06);}
-            html:not(.dark) .nav-header.nav-scrolled{background:rgba(250,249,247,.97);}
+            html[data-theme="light"] .nav-header{background:rgba(250,249,247,.95);border-bottom:1px solid rgba(0,0,0,.06);}
+            html[data-theme="light"] .nav-header.nav-scrolled{background:rgba(250,249,247,.97);}
           ` }} />
           <script
             // Avoid FOUC: apply stored theme before React mounts (default = dark)
             dangerouslySetInnerHTML={{
-              __html: `(function(){try{var t=localStorage.getItem('scent-ai-theme')||'dark';if(t==='dark'){document.documentElement.classList.add('dark');}}catch(e){}})();`,
+              __html: `(function(){try{var t=localStorage.getItem('scentory-theme')||'dark';document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();`,
             }}
           />
         </head>

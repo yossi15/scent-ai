@@ -10,7 +10,7 @@ import { useEffect } from 'react';
 export default function ThemeBodySync() {
   useEffect(() => {
     const update = () => {
-      const dark = document.documentElement.classList.contains('dark');
+      const dark = document.documentElement.getAttribute('data-theme') !== 'light';
       const colour = dark ? '#050505' : '#faf9f7';
       document.documentElement.style.backgroundColor = colour;
       document.body.style.backgroundColor = colour;
@@ -19,7 +19,7 @@ export default function ThemeBodySync() {
     update();
 
     const obs = new MutationObserver(update);
-    obs.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+    obs.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
     return () => obs.disconnect();
   }, []);
 

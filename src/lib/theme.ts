@@ -5,23 +5,18 @@
 
 export type Theme = 'light' | 'dark';
 
-const KEY = 'scent-ai-theme';
+const KEY = 'scentory-theme';
 const EVENT = 'scent-theme-change';
 
 export function getTheme(): Theme {
-  if (typeof window === 'undefined') return 'light';
-  return (localStorage.getItem(KEY) as Theme | null) ?? 'light';
+  if (typeof window === 'undefined') return 'dark';
+  return (localStorage.getItem(KEY) as Theme | null) ?? 'dark';
 }
 
 export function setTheme(theme: Theme): void {
   if (typeof window === 'undefined') return;
   localStorage.setItem(KEY, theme);
-  const html = document.documentElement;
-  if (theme === 'dark') {
-    html.classList.add('dark');
-  } else {
-    html.classList.remove('dark');
-  }
+  document.documentElement.setAttribute('data-theme', theme);
   // Broadcast to other components on the same page
   window.dispatchEvent(new CustomEvent(EVENT, { detail: theme }));
 }
