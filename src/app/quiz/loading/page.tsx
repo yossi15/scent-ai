@@ -1,21 +1,25 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const STEPS = [
-  'הבנת הפרופיל שלך',
-  'טעינת קולקציה',
-  'חישוב התאמות',
-  'יצירת הסבר אישי',
+  'הפרופיל הריחני שלך הובן',
+  'בשמים שציינת נותחו',
+  'מחשב התאמות...',
+  'כותב הסבר אישי',
 ];
+
+const MIN_DISPLAY_MS = 4000;
 
 export default function QuizLoading() {
   const router = useRouter();
   const [currentStep, setCurrentStep] = useState(0);
+  const [progress, setProgress]       = useState(0);
   const [secondsLeft, setSecondsLeft] = useState(8);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError]             = useState<string | null>(null);
+  const startRef = useRef(Date.now());
 
   useEffect(() => {
     const countdown = setInterval(() => {
@@ -24,7 +28,11 @@ export default function QuizLoading() {
 
     const stepTimer = setInterval(() => {
       setCurrentStep(s => Math.min(s + 1, STEPS.length - 1));
-    }, 1800);
+    }, 1700);
+
+    const progressTimer = setInterval(() => {
+      setProgress(p => Math.min(p + Math.random() * 8, 92));
+    }, 300);
 
     let payload: Record<string, unknown> | null = null;
     try {
@@ -37,9 +45,18 @@ export default function QuizLoading() {
       return;
     }
 
-    const hasEmail = !!payload.email;
+    const { email, previewMode } = payload as { email: string | null; previewMode?: boolean };
 
-    fetch('/api/quiz', {
+    // Fire submit in background (non-blocking)
+    if (email) {
+      fetch('/api/quiz/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ answers: payload.answers, email, marketingConsent: payload.marketing }),
+      }).catch(() => {});
+    }
+
+    fetch('/api/quiz/recommend', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -55,30 +72,48 @@ export default function QuizLoading() {
         return res.json();
       })
       .then(data => {
-        sessionStorage.setItem('scentory-quiz-results', JSON.stringify({
-          recommendations: data.recommendations,
-          knownNames:      payload?.knownNames ?? [],
-          email:           payload?.email ?? null,
-        }));
-        sessionStorage.removeItem('scentory-quiz-state');
-        sessionStorage.removeItem('scentory-quiz-payload');
+        const elapsed = Date.now() - startRef.current;
+        const remaining = Math.max(0, MIN_DISPLAY_MS - elapsed);
 
+        setTimeout(() => {
+          setProgress(100);
+          setCurrentStep(STEPS.length - 1);
+
+          sessionStorage.setItem('scentory-quiz-results', JSON.stringify({
+            profile_summary:  data.profile_summary,
+            dna_bars:         data.dna_bars,
+            recommendations:  data.recommendations,
+            knownNames:       (payload as Record<string, unknown>).knownNames ?? [],
+            email:            email ?? null,
+            previewMode:      previewMode ?? false,
+          }));
+          sessionStorage.removeItem('scentory-quiz-payload');
+
+          clearInterval(countdown);
+          clearInterval(stepTimer);
+          clearInterval(progressTimer);
+
+          setTimeout(() => {
+            if (previewMode) {
+              router.replace('/quiz/results/preview');
+            } else {
+              router.replace('/quiz/results');
+            }
+          }, 600);
+        }, remaining);
+      })
+      .catch(err => {
+        console.error('[loading] API error:', err);
+        setError('אירעה שגיאה בניתוח. נסה שוב.');
         clearInterval(countdown);
         clearInterval(stepTimer);
-
-        if (hasEmail) {
-          router.replace('/quiz/results');
-        } else {
-          router.replace('/quiz/results/preview');
-        }
-      })
-      .catch(() => {
-        setError('אירעה שגיאה בניתוח. נסה שוב.');
+        clearInterval(progressTimer);
       });
 
     return () => {
       clearInterval(countdown);
       clearInterval(stepTimer);
+      clearInterval(progressTimer);
     };
   }, [router]);
 
@@ -101,8 +136,8 @@ export default function QuizLoading() {
       style={{ minHeight: '100dvh', background: 'var(--bg-primary)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '40px 24px' }}
       dir="rtl"
     >
-      {/* Spinner */}
-      <div style={{ position: 'relative', width: 80, height: 80, marginBottom: 28 }}>
+      {/* Spinner with brain icon */}
+      <div style={{ position: 'relative', width: 72, height: 72, marginBottom: 28 }}>
         <div
           className="animate-spin-slow"
           style={{
@@ -113,26 +148,33 @@ export default function QuizLoading() {
           }}
         />
         <div style={{
-          position: 'absolute', inset: 12,
+          position: 'absolute', inset: 10,
           display: 'flex', alignItems: 'center', justifyContent: 'center',
-          borderRadius: '50%', background: 'rgba(201,169,97,0.06)',
+          borderRadius: '50%',
+          background: 'rgba(201,169,97,0.06)',
+          boxShadow: '0 0 20px rgba(201,169,97,0.15)',
         }}>
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+          {/* Brain-like icon */}
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
             <path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96-.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 4.44-1.16Z"/>
             <path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96-.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-4.44-1.16Z"/>
           </svg>
         </div>
       </div>
 
-      <p style={{ fontSize: 13, color: 'var(--text-tertiary)', marginBottom: 28, textAlign: 'center' }}>
-        SCENTORY AI סורק 70+ בשמים מובחרים
+      <h1 style={{ fontSize: 16, fontWeight: 500, color: 'var(--text-primary)', marginBottom: 6, textAlign: 'center' }}>
+        Claude מנתח את הטעם שלך
+      </h1>
+      <p style={{ fontSize: 13, color: 'var(--text-tertiary)', marginBottom: 32, textAlign: 'center' }}>
+        סורק מעל 1,000 בשמים...
       </p>
 
       {/* Steps */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 8, width: '100%', maxWidth: 320, marginBottom: 28 }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 8, width: '100%', maxWidth: 340, marginBottom: 28 }}>
         {STEPS.map((label, i) => {
           const done    = i < currentStep;
           const current = i === currentStep;
+          const isProgress = i === 2 && current;
           return (
             <div
               key={label}
@@ -144,14 +186,20 @@ export default function QuizLoading() {
                 transition: 'all 0.4s',
               }}
             >
-              <span style={{ fontSize: 13, color: done ? 'var(--gold)' : current ? 'var(--text-muted)' : 'var(--text-faint)', width: 16, textAlign: 'center', flexShrink: 0 }}>
+              <span style={{
+                fontSize: 13,
+                color: done ? 'var(--gold)' : current ? 'var(--text-muted)' : 'var(--text-faint)',
+                width: 16, textAlign: 'center', flexShrink: 0,
+              }}>
                 {done ? '✓' : current ? '⟳' : '◯'}
               </span>
-              <span style={{ fontSize: 12, color: done ? 'var(--text-secondary)' : current ? 'var(--text-tertiary)' : 'var(--text-faint)' }}>
+              <span style={{ fontSize: 12, color: done ? 'var(--text-secondary)' : current ? 'var(--text-tertiary)' : 'var(--text-faint)', flex: 1 }}>
                 {label}
               </span>
-              {i === 2 && current && (
-                <span style={{ fontSize: 11, color: 'var(--gold)', marginRight: 'auto' }}>60%</span>
+              {isProgress && (
+                <span style={{ fontSize: 11, color: 'var(--gold)', flexShrink: 0 }}>
+                  {Math.round(progress)}%
+                </span>
               )}
             </div>
           );
