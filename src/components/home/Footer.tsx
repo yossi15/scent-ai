@@ -36,7 +36,7 @@ const linkStyle: React.CSSProperties = {
 function ColHeader({ children }: { children: React.ReactNode }) {
   return (
     <p style={{
-      fontSize: 10.5, fontWeight: 600, letterSpacing: '0.22em',
+      fontSize: 12, fontWeight: 600, letterSpacing: '0.22em',
       textTransform: 'uppercase', color: 'var(--text-muted)',
       margin: '0 0 16px',
     }}>

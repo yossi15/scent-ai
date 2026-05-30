@@ -47,11 +47,11 @@ export default function Testimonials() {
         {/* Section head */}
         <div style={{ textAlign: 'center', marginBottom: 'var(--s7)', display: 'flex', flexDirection: 'column', gap: 14, alignItems: 'center' }}>
           <span style={{
-            fontSize: 10.5, letterSpacing: '0.24em', textTransform: 'uppercase',
+            fontSize: 12, letterSpacing: '0.24em', textTransform: 'uppercase',
             color: 'var(--gold)', fontWeight: 600,
             display: 'inline-flex', alignItems: 'center', gap: 8,
           }}>
-            <span style={{ width: 18, height: 1, background: 'var(--gold)', display: 'inline-block' }} />
+            <span aria-hidden="true" style={{ width: 18, height: 1, background: 'var(--gold)', display: 'inline-block' }} />
             קהילה מ-500 הראשונים
           </span>
           <h2 style={{
@@ -110,13 +110,13 @@ export default function Testimonials() {
                     <p style={{ fontSize: 13.5, fontWeight: 600, color: 'var(--text-primary)', margin: 0 }}>
                       {r.name}
                     </p>
-                    <p style={{ fontSize: 11.5, color: 'var(--text-muted)', margin: '2px 0 0' }}>
+                    <p style={{ fontSize: 12, color: 'var(--text-muted)', margin: '2px 0 0' }}>
                       {r.city} · {r.detail}
                     </p>
                   </div>
 
                   <span style={{
-                    fontSize: 10, color: 'var(--gold)', fontWeight: 600,
+                    fontSize: 12, color: 'var(--gold)', fontWeight: 600,
                     letterSpacing: '0.04em', textTransform: 'uppercase',
                     padding: '3px 8px', borderRadius: 999,
                     background: 'var(--gold-faint)',

@@ -5,6 +5,12 @@ import AccessibilityWidget from '@/components/AccessibilityWidget';
 import ThemeBodySync from '@/components/ThemeBodySync';
 import './globals.css';
 
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+};
+
 export const metadata: Metadata = {
   metadataBase: new URL('https://scentory.co.il'),
   title: 'SCENTORY | Know your scent.',

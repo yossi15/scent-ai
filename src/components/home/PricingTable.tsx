@@ -77,7 +77,7 @@ function DesktopTable() {
                 {p.badge && (
                   <span style={{
                     display: 'inline-block', marginBottom: 6,
-                    fontSize: 9, letterSpacing: '0.2em', padding: '3px 8px',
+                    fontSize: 12, letterSpacing: '0.2em', padding: '3px 8px',
                     background: 'var(--gold)', color: '#1a1410', borderRadius: 4, fontWeight: 700,
                   }}>
                     {p.badge}
@@ -167,7 +167,7 @@ function MobileCards() {
             <span style={{
               position: 'absolute', top: -10, right: 16,
               background: 'var(--gold)', color: '#1a1410',
-              fontSize: 9, fontWeight: 700, padding: '3px 10px', borderRadius: 100,
+              fontSize: 12, fontWeight: 700, padding: '3px 10px', borderRadius: 100,
             }}>
               {p.badge}
             </span>
@@ -179,11 +179,11 @@ function MobileCards() {
                 letterSpacing: '0.22em', textTransform: 'uppercase',
                 color: 'var(--text-primary)', margin: '0 0 4px',
               }}>{p.name}</p>
-              <p style={{ fontSize: 11, color: 'var(--text-muted)', margin: 0 }}>7 ימי ניסיון חינם</p>
+              <p style={{ fontSize: 12, color: 'var(--text-muted)', margin: 0 }}>7 ימי ניסיון חינם</p>
             </div>
             <div style={{ textAlign: 'left' }}>
               <span style={{ fontSize: 28, fontWeight: 700, color: 'var(--text-primary)' }}>{p.price}&#8362;</span>
-              <span style={{ fontSize: 11, color: 'var(--text-muted)' }}>/חודש</span>
+              <span style={{ fontSize: 12, color: 'var(--text-muted)' }}>/חודש</span>
             </div>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 16 }}>
@@ -192,7 +192,7 @@ function MobileCards() {
               if (val === false) return null;
               return (
                 <div key={f.label} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                  <span style={{ color: 'var(--gold)', fontSize: 11, flexShrink: 0 }}>✓</span>
+                  <span aria-hidden="true" style={{ color: 'var(--gold)', fontSize: 12, flexShrink: 0 }}>✓</span>
                   <span style={{ fontSize: 12.5, color: 'var(--text-secondary)' }}>
                     {f.label}{val !== true ? `: ${val}` : ''}
                   </span>
@@ -231,11 +231,11 @@ export default function PricingTable() {
         {/* Section head */}
         <div style={{ textAlign: 'center', marginBottom: 'var(--s7)', display: 'flex', flexDirection: 'column', gap: 14, alignItems: 'center' }}>
           <span style={{
-            fontSize: 10.5, letterSpacing: '0.24em', textTransform: 'uppercase',
+            fontSize: 12, letterSpacing: '0.24em', textTransform: 'uppercase',
             color: 'var(--gold)', fontWeight: 600,
             display: 'inline-flex', alignItems: 'center', gap: 8,
           }}>
-            <span style={{ width: 18, height: 1, background: 'var(--gold)', display: 'inline-block' }} />
+            <span aria-hidden="true" style={{ width: 18, height: 1, background: 'var(--gold)', display: 'inline-block' }} />
             מסלולים
           </span>
           <h2 style={{

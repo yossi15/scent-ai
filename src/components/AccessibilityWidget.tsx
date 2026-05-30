@@ -108,7 +108,7 @@ export default function AccessibilityWidget() {
             direction: 'rtl',
           }}
         >
-          <p style={{ fontFamily: 'Heebo, sans-serif', fontWeight: 600, fontSize: '13px', color: 'var(--ink)', marginBottom: '14px' }}>
+          <p style={{ fontFamily: 'Heebo, sans-serif', fontWeight: 600, fontSize: '14px', color: 'var(--ink)', marginBottom: '14px' }}>
             הגדרות נגישות
           </p>
 
@@ -116,7 +116,7 @@ export default function AccessibilityWidget() {
           <ThemeToggle variant="row" />
 
           {/* Font size */}
-          <p style={{ fontFamily: 'Heebo, sans-serif', fontSize: '11px', color: 'var(--ink-faint)', marginBottom: '6px' }}>גודל טקסט</p>
+          <p style={{ fontFamily: 'Heebo, sans-serif', fontSize: '12px', color: 'var(--ink-faint)', marginBottom: '6px' }}>גודל טקסט</p>
           <div style={{ display: 'flex', gap: '6px', marginBottom: '12px' }}>
             {(['רגיל', 'גדול', 'גדול מאוד'] as const).map((label, i) => (
               <button
@@ -132,7 +132,7 @@ export default function AccessibilityWidget() {
                   background: prefs.fontSize === i ? 'var(--ink)' : 'transparent',
                   color: prefs.fontSize === i ? '#FFFFFF' : 'var(--ink-secondary)',
                   fontFamily: 'Heebo, sans-serif',
-                  fontSize: '10px',
+                  fontSize: '12px',
                   cursor: 'pointer',
                 }}
               >
@@ -152,7 +152,7 @@ export default function AccessibilityWidget() {
             }}
           >
             <span>ניגודיות גבוהה</span>
-            <span style={{ fontSize: '10px', opacity: 0.55 }}>{prefs.highContrast ? 'פעיל' : 'כבוי'}</span>
+            <span style={{ fontSize: '12px', opacity: 0.55 }}>{prefs.highContrast ? 'פעיל' : 'כבוי'}</span>
           </button>
 
           {/* Highlight links */}
@@ -166,7 +166,7 @@ export default function AccessibilityWidget() {
             }}
           >
             <span>הדגש קישורים</span>
-            <span style={{ fontSize: '10px', opacity: 0.55 }}>{prefs.highlightLinks ? 'פעיל' : 'כבוי'}</span>
+            <span style={{ fontSize: '12px', opacity: 0.55 }}>{prefs.highlightLinks ? 'פעיל' : 'כבוי'}</span>
           </button>
 
           {/* Reset */}
@@ -180,7 +180,7 @@ export default function AccessibilityWidget() {
               background: 'transparent',
               color: 'var(--ink-faint)',
               fontFamily: 'Heebo, sans-serif',
-              fontSize: '11px',
+              fontSize: '12px',
               letterSpacing: '0.5px',
               cursor: 'pointer',
             }}

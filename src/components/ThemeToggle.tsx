@@ -63,8 +63,8 @@ export default function ThemeToggle({ variant = 'icon' }: Props) {
       aria-label={isDark ? 'עבור למצב בהיר' : 'עבור למצב כהה'}
       title={isDark ? 'מצב בהיר' : 'מצב כהה'}
       style={{
-        width: '36px',
-        height: '36px',
+        width: '44px',
+        height: '44px',
         borderRadius: '50%',
         border: '1px solid var(--border)',
         background: 'transparent',

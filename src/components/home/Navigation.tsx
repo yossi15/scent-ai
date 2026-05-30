@@ -63,11 +63,11 @@ export default function Navigation() {
               data-theme-toggle
               aria-label={isDark ? 'עבור למצב בהיר' : 'עבור למצב כהה'}
               style={{
-                width: 28, height: 28, display: 'flex',
+                width: 44, height: 44, display: 'flex',
                 alignItems: 'center', justifyContent: 'center',
                 background: 'transparent', border: 'none',
                 cursor: 'pointer', color: 'var(--text-muted)',
-                borderRadius: 6, transition: 'color 0.2s',
+                borderRadius: 8, transition: 'color 0.2s',
               }}
               onMouseEnter={e => (e.currentTarget.style.color = 'var(--text-primary)')}
               onMouseLeave={e => (e.currentTarget.style.color = 'var(--text-muted)')}
@@ -146,8 +146,11 @@ export default function Navigation() {
             {isSignedIn && <UserButton />}
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
+              aria-label={mobileOpen ? 'סגור תפריט' : 'פתח תפריט'}
+              aria-expanded={mobileOpen}
+              aria-controls="mobile-nav-dropdown"
               style={{
-                width: 32, height: 32, display: 'flex',
+                width: 44, height: 44, display: 'flex',
                 alignItems: 'center', justifyContent: 'center',
                 color: 'var(--text-primary)', background: 'transparent',
                 border: 'none', cursor: 'pointer',
@@ -162,6 +165,7 @@ export default function Navigation() {
       {/* Mobile dropdown */}
       {mobileOpen && (
         <div
+          id="mobile-nav-dropdown"
           className="md:hidden fixed inset-x-0 z-40 nav-mobile-dropdown"
           style={{
             top: 57,
@@ -202,10 +206,11 @@ export default function Navigation() {
             {!isSignedIn && (
               <SignInButton mode="modal">
                 <button
+                  aria-label="כניסה לחשבון"
                   style={{
                     fontSize: 13, color: 'var(--text-tertiary)',
                     background: 'transparent', border: 'none',
-                    cursor: 'pointer', padding: '10px 0',
+                    cursor: 'pointer', padding: '12px 0', minHeight: 44,
                     textAlign: 'center', width: '100%',
                   }}
                 >
@@ -216,11 +221,13 @@ export default function Navigation() {
 
             <button
               onClick={() => { toggleTheme(); setMobileOpen(false); }}
+              aria-label={isDark ? 'עבור למצב בהיר' : 'עבור למצב כהה'}
               style={{
                 fontSize: 13, color: 'var(--text-tertiary)',
                 background: 'transparent', border: 'none',
-                cursor: 'pointer', padding: '10px 0',
+                cursor: 'pointer', padding: '12px 0', minHeight: 44,
                 display: 'flex', alignItems: 'center', gap: 8,
+                width: '100%',
               }}
             >
               {isDark ? <Moon size={14} /> : <Sun size={14} />}

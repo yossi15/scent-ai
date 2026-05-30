@@ -15,7 +15,7 @@ const STEPS = [
     num: '2',
     icon: Brain,
     title: 'AI מנתח',
-    desc: 'האלגוריתם סורק 1,019 בשמים ולומד את ה-DNA הריחני שלך — עמוק מכל שאלון סגנון.',
+    desc: 'האלגוריתם סורק מעל 1,000 בשמים ולומד את ה-DNA הריחני שלך - עמוק מכל שאלון סגנון.',
   },
   {
     num: '3',
@@ -47,7 +47,7 @@ export default function HowItWorks() {
           <p
             style={{
               fontFamily: 'Inter, sans-serif',
-              fontSize: '9px',
+              fontSize: '12px',
               fontWeight: 400,
               letterSpacing: '4px',
               textTransform: 'uppercase',
@@ -176,7 +176,7 @@ export default function HowItWorks() {
               color: 'var(--accent-gold)',
               fontFamily: 'Inter, sans-serif',
               fontWeight: 400,
-              fontSize: '10px',
+              fontSize: '12px',
               letterSpacing: '2.5px',
               textTransform: 'uppercase',
               transition: 'all 0.2s',

@@ -54,7 +54,7 @@ function Cell({ val }: { val: CellVal }) {
   if (val.partial) {
     return (
       <span style={{ fontSize: 13, color: 'var(--text-muted)' }}>
-        ◐{val.note ? <span style={{ fontSize: 11, color: 'var(--text-muted)', marginRight: 4 }}> {val.note}</span> : null}
+        ◐{val.note ? <span style={{ fontSize: 12, color: 'var(--text-muted)', marginRight: 4 }}> {val.note}</span> : null}
       </span>
     );
   }
@@ -62,7 +62,7 @@ function Cell({ val }: { val: CellVal }) {
     ? (
       <span>
         <span style={{ color: 'var(--gold)', fontSize: 14, fontWeight: 600 }}>✓</span>
-        {val.note && <span style={{ fontSize: 11, color: 'var(--text-muted)', marginRight: 6 }}> {val.note}</span>}
+        {val.note && <span style={{ fontSize: 12, color: 'var(--text-muted)', marginRight: 6 }}> {val.note}</span>}
       </span>
     )
     : <span style={{ color: 'var(--text-dim, var(--text-faint))', fontSize: 14 }}>✗</span>;
@@ -83,7 +83,7 @@ export default function ComparisonTable() {
         {/* Section head */}
         <div style={{ textAlign: 'center', marginBottom: 'var(--s7)', display: 'flex', flexDirection: 'column', gap: 14, alignItems: 'center' }}>
           <span style={{
-            fontSize: 10.5, letterSpacing: '0.24em', textTransform: 'uppercase',
+            fontSize: 12, letterSpacing: '0.24em', textTransform: 'uppercase',
             color: 'var(--gold)', fontWeight: 600,
             display: 'inline-flex', alignItems: 'center', gap: 8,
           }}>
@@ -120,7 +120,7 @@ export default function ComparisonTable() {
               <tr>
                 <th style={{
                   padding: '18px 20px', textAlign: 'right',
-                  fontSize: 10.5, letterSpacing: '0.16em', textTransform: 'uppercase',
+                  fontSize: 12, letterSpacing: '0.16em', textTransform: 'uppercase',
                   color: 'var(--text-muted)', fontWeight: 500,
                   borderBottom: '1px solid var(--border-subtle)',
                   paddingTop: 'var(--s3)', paddingBottom: 'var(--s3)',
@@ -140,7 +140,7 @@ export default function ComparisonTable() {
                       fontFamily: 'var(--serif, Georgia, serif)',
                       fontSize: 15, letterSpacing: '0.22em', fontWeight: 400,
                     } : {
-                      fontSize: 10.5, letterSpacing: '0.16em', textTransform: 'uppercase',
+                      fontSize: 12, letterSpacing: '0.16em', textTransform: 'uppercase',
                       color: 'var(--text-muted)', fontWeight: 500,
                     }),
                   }}>

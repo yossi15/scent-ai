@@ -17,10 +17,10 @@ const TRUST = ['ללא כרטיס אשראי', 'תוצאות מיידיות', '�
 function useIsDark() {
   const [isDark, setIsDark] = useState(true);
   useEffect(() => {
-    const update = () => setIsDark(document.documentElement.classList.contains('dark'));
+    const update = () => setIsDark(document.documentElement.getAttribute('data-theme') !== 'light');
     update();
     const obs = new MutationObserver(update);
-    obs.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+    obs.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
     return () => obs.disconnect();
   }, []);
   return isDark;
@@ -214,8 +214,8 @@ export default function Hero() {
           </motion.div>
         </div>
 
-        {/* ── Mockup column ────────────────────────────────── */}
-        <div style={{ display: 'flex', justifyContent: 'center', paddingTop: 8 }}>
+        {/* ── Mockup column — decorative visual only ───────── */}
+        <div aria-hidden="true" style={{ display: 'flex', justifyContent: 'center', paddingTop: 8 }}>
           <HeroProductMockup />
         </div>
       </div>

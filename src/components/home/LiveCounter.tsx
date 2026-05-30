@@ -39,7 +39,7 @@ export default function LiveCounter() {
           flexShrink: 0,
         }}
       />
-      <span style={{ fontSize: 10, color: 'var(--gold)', fontWeight: 500 }}>
+      <span style={{ fontSize: 12, color: 'var(--gold)', fontWeight: 500 }}>
         {data.count.toLocaleString('he-IL')} הצטרפו השבוע
       </span>
     </div>

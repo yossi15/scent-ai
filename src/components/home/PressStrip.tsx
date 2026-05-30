@@ -26,7 +26,7 @@ export default function PressStrip() {
           flexWrap: 'wrap', justifyContent: 'center',
         }}
       >
-        <span style={{ fontSize: 9, color: 'var(--text-faint)', letterSpacing: '0.08em', whiteSpace: 'nowrap' }}>
+        <span style={{ fontSize: 12, color: 'var(--text-faint)', letterSpacing: '0.08em', whiteSpace: 'nowrap' }}>
           מוזכר ב:
         </span>
         {PRESS.map(p => (

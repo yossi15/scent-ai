@@ -118,9 +118,9 @@ export default function CookieBanner() {
                 <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-primary)', marginBottom: 3 }}>
                   עוגיות לשיפור החוויה
                 </p>
-                <p style={{ fontSize: 11, color: 'var(--text-tertiary)', lineHeight: 1.5 }}>
+                <p style={{ fontSize: 12, color: 'var(--text-tertiary)', lineHeight: 1.5 }}>
                   הסכמה הופכת את ההמלצות לחכמות יותר.{' '}
-                  <Link href="/privacy" style={{ color: 'var(--gold)', textDecoration: 'none' }}>
+                  <Link href="/privacy" style={{ color: 'var(--gold)', textDecoration: 'underline', textUnderlineOffset: '2px' }}>
                     פרטים
                   </Link>
                 </p>
@@ -129,7 +129,7 @@ export default function CookieBanner() {
             <button
               onClick={() => save({ analytics: false, marketing: false })}
               aria-label="סגור"
-              style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-muted)', padding: 2, flexShrink: 0 }}
+              style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-muted)', padding: 2, flexShrink: 0, minWidth: 44, minHeight: 44 }}
             >
               <X size={14} />
             </button>
@@ -197,7 +197,8 @@ export default function CookieBanner() {
             </p>
             <button
               onClick={() => setShowCustom(false)}
-              style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-muted)', padding: 2 }}
+              aria-label="חזור"
+              style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-muted)', padding: 2, minWidth: 44, minHeight: 44 }}
             >
               <X size={14} />
             </button>
@@ -235,12 +236,12 @@ export default function CookieBanner() {
                   <p style={{ fontSize: 12, fontWeight: 500, color: 'var(--text-primary)', marginBottom: 2 }}>
                     {item.label}
                     {item.disabled && (
-                      <span style={{ fontSize: 10, color: 'var(--gold)', marginRight: 6, fontWeight: 400 }}>
+                      <span style={{ fontSize: 12, color: 'var(--gold)', marginRight: 6, fontWeight: 400 }}>
                         תמיד פעיל
                       </span>
                     )}
                   </p>
-                  <p style={{ fontSize: 11, color: 'var(--text-muted)' }}>{item.desc}</p>
+                  <p style={{ fontSize: 12, color: 'var(--text-muted)' }}>{item.desc}</p>
                 </div>
                 <Toggle
                   checked={item.checked}

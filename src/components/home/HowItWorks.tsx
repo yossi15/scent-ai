@@ -170,11 +170,11 @@ export default function HowItWorks() {
         {/* Section head */}
         <div style={{ textAlign: 'center', marginBottom: 'var(--s7)', display: 'flex', flexDirection: 'column', gap: 14, alignItems: 'center' }}>
           <span style={{
-            fontSize: 10.5, letterSpacing: '0.24em', textTransform: 'uppercase',
+            fontSize: 12, letterSpacing: '0.24em', textTransform: 'uppercase',
             color: 'var(--gold)', fontWeight: 600,
             display: 'inline-flex', alignItems: 'center', gap: 8,
           }}>
-            <span style={{ width: 18, height: 1, background: 'var(--gold)', display: 'inline-block' }} />
+            <span aria-hidden="true" style={{ width: 18, height: 1, background: 'var(--gold)', display: 'inline-block' }} />
             איך זה עובד
           </span>
           <h2 style={{
@@ -211,14 +211,17 @@ export default function HowItWorks() {
               }}
               whileHover={{ y: -3 }}
             >
-              {/* Screen area */}
-              <div style={{
-                background: 'var(--bg-card-2, var(--bg-elevated))',
-                borderBottom: '1px solid var(--border-subtle)',
-                minHeight: 250,
-                display: 'flex', flexDirection: 'column',
-                position: 'relative',
-              }}>
+              {/* Screen area — decorative UI preview, hidden from screen readers */}
+              <div
+                aria-hidden="true"
+                style={{
+                  background: 'var(--bg-card-2, var(--bg-elevated))',
+                  borderBottom: '1px solid var(--border-subtle)',
+                  minHeight: 250,
+                  display: 'flex', flexDirection: 'column',
+                  position: 'relative',
+                }}
+              >
                 {/* Browser dots */}
                 <div style={{
                   display: 'flex', gap: 4, padding: '8px 10px',

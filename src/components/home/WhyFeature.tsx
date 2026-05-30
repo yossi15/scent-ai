@@ -33,11 +33,11 @@ export default function WhyFeature() {
           style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s2)' }}
         >
           <span style={{
-            fontSize: 10.5, letterSpacing: '0.24em', textTransform: 'uppercase',
+            fontSize: 12, letterSpacing: '0.24em', textTransform: 'uppercase',
             color: 'var(--gold)', fontWeight: 600,
             display: 'inline-flex', alignItems: 'center', gap: 8,
           }}>
-            <span style={{ width: 18, height: 1, background: 'var(--gold)', display: 'inline-block' }} />
+            <span aria-hidden="true" style={{ width: 18, height: 1, background: 'var(--gold)', display: 'inline-block' }} />
             השכבה החסרה
           </span>
 
@@ -69,8 +69,9 @@ export default function WhyFeature() {
           </div>
         </motion.div>
 
-        {/* ── Why card (RTL: left column second) ──────────── */}
+        {/* ── Why card — decorative UI mockup ─────────────── */}
         <motion.div
+          aria-hidden="true"
           initial={{ opacity: 0, x: -20 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
