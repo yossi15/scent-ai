@@ -1,12 +1,23 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { checkRateLimit, getClientIp, rateLimitResponse } from '@/lib/rate-limit';
+
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export async function POST(req: NextRequest) {
   try {
+    const ip = getClientIp(req);
+    const limited = checkRateLimit({ key: `quiz-submit:ip:${ip}`, limit: 10, windowMs: 60 * 60 * 1000 });
+    if (!limited.ok) return rateLimitResponse(limited.resetAt);
+
     const body = await req.json() as {
       answers: Record<string, unknown>;
       email?: string;
       marketingConsent?: boolean;
     };
+
+    if (body.email && !EMAIL_RE.test(body.email)) {
+      return NextResponse.json({ error: 'Invalid email' }, { status: 400 });
+    }
 
     // Save to Supabase when available; skip gracefully in dev
     try {

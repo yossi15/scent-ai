@@ -4,7 +4,7 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  ArrowRight, X, Search, Check, Ban, Lock, Sparkles,
+  ArrowLeft, X, Search, Check, Ban, Lock, Sparkles,
   Trees, Droplets, Flame, Flower2, Candy, Waves,
 } from 'lucide-react';
 import Link from 'next/link';
@@ -187,12 +187,12 @@ function AvoidedGrid({ selected, onChange }: { selected: string[]; onChange: (v:
             onClick={() => toggle(opt.id)}
             aria-pressed={isSel}
             style={{
-              width: '100%', textAlign: 'right', padding: '14px 18px',
+              width: '100%', textAlign: 'right', padding: '10px 16px',
               border: isSel ? '1.5px solid #c0392b' : '1px solid var(--border-default)',
               background: isSel ? 'rgba(192,57,43,0.07)' : 'var(--bg-card)',
               cursor: 'pointer', transition: 'all 0.15s',
               display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12,
-              borderRadius: 8, minHeight: 48,
+              borderRadius: 8, minHeight: 44,
             }}
           >
             <div style={{ flex: 1 }}>
@@ -744,9 +744,10 @@ export default function QuizPage() {
             <button
               onClick={() => { setDir(-1); back(); }}
               aria-label="חזור"
+              dir="ltr"
               style={{ display: 'flex', alignItems: 'center', gap: 6, background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-muted)', fontSize: 12 }}
             >
-              <ArrowRight size={16} />
+              <ArrowLeft size={16} />
               חזור
             </button>
             <Link href="/" aria-label="סגור שאלון" style={{ color: 'var(--text-muted)', display: 'flex' }}>
@@ -781,12 +782,13 @@ export default function QuizPage() {
           <button
             onClick={goBack}
             aria-label="חזור"
+            dir="ltr"
             style={{ display: 'flex', alignItems: 'center', gap: 6, background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-muted)', fontSize: 12, minHeight: 44, minWidth: 44 }}
           >
-            <ArrowRight size={16} />
+            <ArrowLeft size={16} />
             חזור
           </button>
-          <span style={{ fontSize: 11, color: 'var(--text-muted)', letterSpacing: 1 }}>{step} / {TOTAL_QUESTIONS}</span>
+          <span dir="ltr" style={{ fontSize: 11, color: 'var(--text-muted)', letterSpacing: 1 }}>{step} / {TOTAL_QUESTIONS}</span>
           <Link href="/" aria-label="סגור שאלון" style={{ color: 'var(--text-muted)', display: 'flex', minHeight: 44, minWidth: 44, alignItems: 'center', justifyContent: 'center' }}>
             <X size={18} />
           </Link>
@@ -795,7 +797,7 @@ export default function QuizPage() {
 
       {/* Body */}
       <div
-        style={{ flex: 1, display: 'flex', flexDirection: 'column', maxWidth: 600, width: '100%', margin: '0 auto', padding: '40px 20px 160px' }}
+        style={{ flex: 1, display: 'flex', flexDirection: 'column', maxWidth: 600, width: '100%', margin: '0 auto', padding: '28px 20px 140px' }}
         dir="rtl"
       >
         <AnimatePresence mode="wait" custom={direction}>
