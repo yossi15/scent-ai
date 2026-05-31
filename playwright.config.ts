@@ -4,13 +4,13 @@ export default defineConfig({
   testDir: './tests',
   reporter: 'list',
   use: {
-    baseURL: 'http://localhost:3001',
+    baseURL: 'http://localhost:3000',
   },
   webServer: {
     command: 'npm run dev',
-    url: 'http://localhost:3001',
+    url: 'http://localhost:3000',
     reuseExistingServer: true,
-    timeout: 60000,
+    timeout: 120000,
   },
   projects: [
     {

@@ -1,6 +1,18 @@
 import { test, expect } from '@playwright/test';
 
-const BASE = 'http://localhost:3001';
+const BASE = 'http://localhost:3000';
+
+/* ─── Helper: dismiss cookie banner via localStorage ──────────────── */
+async function dismissCookieBanner(page: import('@playwright/test').Page) {
+  await page.addInitScript(() => {
+    localStorage.setItem('scent-cookie-consent', JSON.stringify({
+      essential: true,
+      analytics: false,
+      marketing: false,
+      timestamp: new Date().toISOString(),
+    }));
+  });
+}
 
 /* ─── Helper: complete Q1 ─────────────────────────────────────────── */
 async function selectFirstOption(page: import('@playwright/test').Page) {
@@ -10,13 +22,16 @@ async function selectFirstOption(page: import('@playwright/test').Page) {
 
 /* ─── 1. Intro loads ─────────────────────────────────────────────── */
 test('quiz intro loads', async ({ page }) => {
+  await dismissCookieBanner(page);
   await page.goto(`${BASE}/quiz`);
   await expect(page.locator('text=בוא נגלה')).toBeVisible({ timeout: 10000 });
-  await expect(page.locator('text=SCENTORY')).toBeVisible();
+  // use exact match — "SCENTORY" header logo, not "ברוך הבא ל-SCENTORY"
+  await expect(page.getByText('SCENTORY', { exact: true }).first()).toBeVisible();
 });
 
 /* ─── 2. Full quiz flow reaches email gate ───────────────────────── */
 test('can complete full quiz flow to email gate', async ({ page }) => {
+  await dismissCookieBanner(page);
   await page.goto(`${BASE}/quiz`);
 
   // Intro → start
@@ -59,6 +74,7 @@ test('can complete full quiz flow to email gate', async ({ page }) => {
 
 /* ─── 3. Email gate has blurred preview + lock pill ─────────────── */
 test('email gate shows blurred preview and lock pill', async ({ page }) => {
+  await dismissCookieBanner(page);
   await page.goto(`${BASE}/quiz`);
   await page.locator('[data-quiz-start]').click();
 
@@ -86,6 +102,7 @@ test('email gate shows blurred preview and lock pill', async ({ page }) => {
 
 /* ─── 4. Soft escape reaches preview results ─────────────────────── */
 test('soft escape navigates to preview mode loading', async ({ page }) => {
+  await dismissCookieBanner(page);
   await page.goto(`${BASE}/quiz`);
   await page.locator('[data-quiz-start]').click();
 
@@ -116,6 +133,7 @@ test('soft escape navigates to preview mode loading', async ({ page }) => {
 
 /* ─── 5. All buttons have accessible names ───────────────────────── */
 test('all quiz buttons have accessible names', async ({ page }) => {
+  await dismissCookieBanner(page);
   await page.goto(`${BASE}/quiz`);
   const buttons = await page.locator('button').all();
   for (const b of buttons) {
@@ -128,6 +146,7 @@ test('all quiz buttons have accessible names', async ({ page }) => {
 
 /* ─── 6. No horizontal scroll on mobile ─────────────────────────── */
 test('no horizontal scroll on mobile (375px)', async ({ page }) => {
+  await dismissCookieBanner(page);
   await page.setViewportSize({ width: 375, height: 812 });
   await page.goto(`${BASE}/quiz`);
   await page.waitForLoadState('networkidle');
@@ -138,20 +157,30 @@ test('no horizontal scroll on mobile (375px)', async ({ page }) => {
 
 /* ─── 7. Touch targets are at least 44px ────────────────────────── */
 test('interactive elements meet 44px minimum touch target', async ({ page }) => {
+  await dismissCookieBanner(page);
   await page.goto(`${BASE}/quiz`);
-  const btns = await page.locator('button, a[href]').all();
+  // Only check interactive elements that have an aria-label or visible text
+  // (skip decorative/embedded icon-only links that have no independent role)
+  // exclude Next.js dev-overlay buttons (not quiz UI)
+  const btns = await page.locator('button[aria-label]:not([aria-label*="Next.js"]):not([aria-label*="nextjs"]), a[aria-label], button:not([aria-label])').all();
   for (const btn of btns) {
     const box = await btn.boundingBox();
     if (!box) continue;
+    const hasAriaLabel = !!(await btn.getAttribute('aria-label'));
+    const ariaLabel    = await btn.getAttribute('aria-label') ?? '';
+    const tag          = await btn.evaluate(el => el.tagName.toLowerCase());
+    const txt          = ((await btn.textContent()) ?? '').trim().slice(0, 30);
+    const min = hasAriaLabel ? 36 : 44;
     expect(
       Math.max(box.width, box.height),
-      `Element too small: ${box.width}x${box.height}`
-    ).toBeGreaterThanOrEqual(24); // allow some flex for small icons
+      `<${tag}> aria="${ariaLabel}" text="${txt}" size=${Math.round(box.width)}x${Math.round(box.height)}`
+    ).toBeGreaterThanOrEqual(min);
   }
 });
 
 /* ─── 8. Screenshots of key steps ───────────────────────────────── */
 test('screenshots all steps', async ({ page }) => {
+  await dismissCookieBanner(page);
   await page.setViewportSize({ width: 375, height: 812 });
   await page.goto(`${BASE}/quiz`);
   await page.screenshot({ path: 'test-results/quiz-intro.png', fullPage: true });

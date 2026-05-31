@@ -9,7 +9,7 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import { fragrances } from '@/data/fragrances';
-import { useQuizStore } from '@/stores/quizStore';
+import { useQuizStore, type QuizAnswers } from '@/stores/quizStore';
 import { rankCandidates, buildTasteVector, signatureNotes } from '@/lib/fragrance-match';
 
 /* ─── Constants ─────────────────────────────────────────────────────── */
@@ -379,9 +379,32 @@ function CollectionSearch({ selected, onChange }: { selected: string[]; onChange
 }
 
 /* ─── Email Gate ─────────────────────────────────────────────────────── */
-function EmailGate({ onSubmit, onSkip }: {
+function computeTopCandidate(answers: QuizAnswers): { name: string; house: string; score: number } {
+  const knownIds = answers.collection.map(Number).filter(Boolean);
+  const tasteVec = buildTasteVector(knownIds, fragrances);
+  const lonMap: Record<string, string> = { light: '4-6h', medium: '6-10h', long: '10h+' };
+  const silMap: Record<string, string> = { intimate: 'discrete', moderate: 'moderate', strong: 'strong' };
+  const budMap: Record<string, string> = { under400: 'under500', '400-800': '500-1000', '800-1500': '1000-2000' };
+  const avoidedIds = answers.avoidedNotes.map(note => {
+    const map: Record<string, string> = { oud: 'oud', patchouli: 'fresh', musk: 'animalic', floral: 'floral', gourmand: 'sweet', alcohol: 'fresh' };
+    return map[note] ?? note;
+  });
+  const candidates = rankCandidates(fragrances, tasteVec, avoidedIds, {
+    budget: budMap[answers.budget ?? ''] ?? '',
+    longevity: lonMap[answers.longevity ?? ''] ?? '',
+    sillage: silMap[answers.projection ?? ''] ?? '',
+    seasons: answers.seasons,
+    occasions: answers.occasions,
+  }, 1);
+  if (!candidates.length) return { name: 'Baccarat Rouge 540', house: 'Maison Francis Kurkdjian', score: 96 };
+  const top = candidates[0];
+  return { name: top.name, house: top.house, score: Math.min(97, Math.round(60 + top.similarityScore * 40)) };
+}
+
+function EmailGate({ onSubmit, onSkip, topFragrance }: {
   onSubmit: (email: string, marketing: boolean) => void;
   onSkip: () => void;
+  topFragrance?: { name: string; house: string; score: number };
 }) {
   const [email, setEmail] = useState('');
   const [marketing, setMarketing] = useState(false);
@@ -394,7 +417,7 @@ function EmailGate({ onSubmit, onSkip }: {
     onSubmit(email, marketing);
   };
 
-  const FAKE_TOP = { name: 'Baccarat Rouge 540', house: 'Maison Francis Kurkdjian', score: 96 };
+  const displayTop = topFragrance ?? { name: 'Baccarat Rouge 540', house: 'Maison Francis Kurkdjian', score: 96 };
 
   return (
     <div style={{ flex: 1, padding: '32px 20px 80px', maxWidth: 480, margin: '0 auto', width: '100%' }} dir="rtl">
@@ -422,15 +445,15 @@ function EmailGate({ onSubmit, onSkip }: {
           flexShrink: 0,
         }}>
           <span style={{ fontFamily: 'Georgia, serif', fontWeight: 400, fontSize: 13, color: 'var(--gold)' }}>
-            {FAKE_TOP.score}%
+            {displayTop.score}%
           </span>
         </div>
         <div style={{ flex: 1, minWidth: 0 }}>
           <p style={{ fontSize: 9, letterSpacing: 2, textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: 3 }}>
-            {FAKE_TOP.house}
+            {displayTop.house}
           </p>
           <p style={{ fontSize: 15, fontWeight: 500, color: 'var(--text-primary)', fontFamily: 'Georgia, serif' }}>
-            {FAKE_TOP.name}
+            {displayTop.name}
           </p>
         </div>
       </div>
@@ -700,7 +723,7 @@ export default function QuizPage() {
           padding: '14px 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
         }}>
           <span style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontSize: 10, letterSpacing: 4, color: 'var(--gold)' }}>SCENTORY</span>
-          <Link href="/" aria-label="חזור לדף הבית" style={{ color: 'var(--text-muted)', display: 'flex' }}>
+          <Link href="/" aria-label="חזור לדף הבית" style={{ color: 'var(--text-muted)', display: 'flex', minHeight: 44, minWidth: 44, alignItems: 'center', justifyContent: 'center' }}>
             <X size={18} />
           </Link>
         </header>
@@ -732,7 +755,7 @@ export default function QuizPage() {
           </div>
         </header>
         <div style={{ flex: 1, overflowY: 'auto' }}>
-          <EmailGate onSubmit={handleEmailSubmit} onSkip={handleSkip} />
+          <EmailGate onSubmit={handleEmailSubmit} onSkip={handleSkip} topFragrance={computeTopCandidate(answers)} />
         </div>
       </div>
     );
