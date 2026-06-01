@@ -189,7 +189,7 @@ export default function QuizResultsPreview() {
         <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, ease }}
           style={{ marginBottom: 28, textAlign: 'center' }}>
           <p style={{ fontSize: 9, letterSpacing: 4, textTransform: 'uppercase', color: 'var(--gold)', marginBottom: 10 }}>
-            ה-DNA הריחני שלך
+            הפרופיל הריחני שלך
           </p>
           <h1 style={{ fontFamily: 'Georgia, serif', fontSize: 'clamp(22px, 4vw, 30px)', fontWeight: 400, color: 'var(--text-primary)', marginBottom: 8, lineHeight: 1.15 }}>
             {data.profile_summary || '3 התאמות לתחילת הדרך'}

@@ -225,7 +225,7 @@ export default function QuizResults() {
   }, [router]);
 
   const handleShare = async () => {
-    const text = `גיליתי את ה-DNA הריחני שלי עם SCENTORY — ${data?.recommendations[0]?.name} הייתה ההמלצה הראשונה.\nscentory.co.il/quiz`;
+    const text = `מצאתי את הבושם שלי עם SCENTORY — ${data?.recommendations[0]?.name} הייתה ההמלצה הראשונה.\nscentory.co.il/quiz`;
     if (navigator.share) await navigator.share({ text });
     else try { await navigator.clipboard.writeText(text); } catch {}
   };
@@ -299,7 +299,7 @@ export default function QuizResults() {
             marginBottom: 16,
           }}>
             <span style={{ width: 5, height: 5, borderRadius: '50%', background: 'var(--gold)', display: 'inline-block' }} className="animate-gold-pulse" />
-            <span style={{ fontSize: 10, color: 'var(--gold)', letterSpacing: 1.5 }}>ה-DNA הריחני שלך</span>
+            <span style={{ fontSize: 10, color: 'var(--gold)', letterSpacing: 1.5 }}>הפרופיל הריחני שלך</span>
           </div>
           <h1 style={{
             fontFamily: 'Georgia, serif', fontWeight: 400,
@@ -337,7 +337,7 @@ export default function QuizResults() {
 
         {/* Top match header */}
         <p style={{ fontSize: 11, letterSpacing: 2, textTransform: 'uppercase', color: 'var(--gold)', marginBottom: 16, textAlign: 'center' }}>
-          10 ההתאמות שלך
+          הבשמים שנבחרו עבורך
         </p>
 
         {/* Recommendations */}

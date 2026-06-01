@@ -423,13 +423,13 @@ function EmailGate({ onSubmit, onSkip, topFragrance }: {
     <div style={{ flex: 1, padding: '32px 20px 80px', maxWidth: 480, margin: '0 auto', width: '100%' }} dir="rtl">
       {/* Eyebrow */}
       <p style={{ fontSize: 10, letterSpacing: 3, textTransform: 'uppercase', color: 'var(--gold)', textAlign: 'center', marginBottom: 10 }}>
-        הניתוח הושלם
+        ההתאמות שלך מוכנות
       </p>
       <h1 style={{
         fontFamily: "Georgia, 'Times New Roman', serif", fontSize: 'clamp(24px, 5vw, 32px)',
         fontWeight: 400, color: 'var(--text-primary)', textAlign: 'center', lineHeight: 1.2, marginBottom: 24,
       }}>
-        10 התאמות מחכות לך.
+        10 בשמים שנבחרו בשבילך.
       </h1>
 
       {/* Preview card - #1 visible */}
@@ -580,10 +580,10 @@ function IntroScreen({ onStart }: { onStart: () => void }) {
           fontSize: 'clamp(24px, 5vw, 34px)', fontWeight: 400,
           color: 'var(--text-primary)', lineHeight: 1.2, marginBottom: 14,
         }}>
-          בוא נגלה את ה-DNA הריחני שלך.
+          נמצא את הבושם שנולד בשבילך.
         </h1>
         <p style={{ fontSize: 14, color: 'var(--text-tertiary)', lineHeight: 1.65, maxWidth: 340, margin: '0 auto' }}>
-          תשע שאלות קצרות. ללא תשובות נכונות או שגויות - רק אתה, הטעם שלך, ו-AI שמקשיב.
+          תשע שאלות קצרות. ללא תשובות נכונות או שגויות — רק אתה, הטעם שלך, ויועץ שמקשיב.
         </p>
       </div>
 

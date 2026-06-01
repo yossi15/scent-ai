@@ -5,10 +5,10 @@ import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const STEPS = [
-  'הפרופיל הריחני שלך הובן',
-  'בשמים שציינת נותחו',
-  'מחשב התאמות...',
-  'כותב הסבר אישי',
+  'הטעם שלך הובן',
+  'הבשמים שאהבת נלמדו',
+  'בוחר את ההתאמות שלך...',
+  'מכין את ההמלצות האישיות',
 ];
 
 const MIN_DISPLAY_MS = 4000;
@@ -163,10 +163,10 @@ export default function QuizLoading() {
       </div>
 
       <h1 style={{ fontSize: 16, fontWeight: 500, color: 'var(--text-primary)', marginBottom: 6, textAlign: 'center' }}>
-        Claude מנתח את הטעם שלך
+        מגלה את הפרופיל הריחני שלך
       </h1>
       <p style={{ fontSize: 13, color: 'var(--text-tertiary)', marginBottom: 32, textAlign: 'center' }}>
-        סורק מעל 1,000 בשמים...
+        מאות בשמים עוברים לפני עינינו...
       </p>
 
       {/* Steps */}
