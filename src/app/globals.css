@@ -132,12 +132,12 @@ html[data-theme="light"] {
   --nav-bg: rgba(250,249,247,0.95);
   --nav-bg-scrolled: rgba(250,249,247,0.97);
 
-  /* Hero mockup — stays dark (it's a dark-themed app UI) */
-  --hero-card-bg: #0f0f0f;
-  --hero-small-card-bg: #1c1c1c;
-  --hero-glow-opacity: rgba(201,169,97,0.0); /* glow removed in light mode */
-  --dna-gradient-start: #1a1410;
-  --dna-gradient-end: #0f0a05;
+  /* Hero mockup — adapts to light theme */
+  --hero-card-bg: #ffffff;
+  --hero-small-card-bg: #f5f3f0;
+  --hero-glow-opacity: rgba(201,169,97,0.08);
+  --dna-gradient-start: #fdf9f4;
+  --dna-gradient-end: #f5f0e8;
 }
 
 /* ─── Tailwind Theme ─────────────────────────────────────────────── */
@@ -442,25 +442,7 @@ html[data-theme="light"] .hero-mockup-wrap {
   box-shadow: 0 4px 8px rgba(0,0,0,0.06), 0 20px 56px rgba(0,0,0,0.14);
 }
 
-/* Mockup inner cards always stay dark — it's a "screenshot of the app" */
-html[data-theme="light"] .hero-mockup-wrap .hero-mockup-inner {
-  --bg-card: #0a0a0a;
-  --bg-card-2: #131313;
-  --bg-elevated: #1a1a1a;
-  --bg-elev: #0a0a0a;
-  --bg-secondary: #080808;
-  --border-subtle: rgba(255,255,255,0.05);
-  --border-default: rgba(255,255,255,0.08);
-  --border-2: rgba(255,255,255,0.10);
-  --border-strong: rgba(255,255,255,0.18);
-  --text-primary: #f5f5f5;
-  --text-secondary: #d4d4d4;
-  --text-tertiary: #a0a0a0;
-  --text-muted: #888;
-  --text-faint: #555;
-  --gold-faint: rgba(201,169,97,0.08);
-  --gold-soft: rgba(201,169,97,0.22);
-}
+/* Mockup inner cards inherit light theme — no dark override */
 
 /* ─── Mobile breakpoint ─────────────────────────────────────────── */
 @media (max-width: 768px) {
