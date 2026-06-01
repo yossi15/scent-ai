@@ -74,7 +74,7 @@ export default function Footer() {
               fontSize: 12.5, color: 'var(--text-muted)',
               lineHeight: 1.65, maxWidth: 320, margin: '8px 0 0',
             }}>
-              פלטפורמת גילוי הניחוחות הראשונה בישראל המשלבת ניתוח AI
+              פלטפורמת גילוי הניחוחות הראשונה בישראל המשלבת ניתוח <bdi>AI</bdi>
               עם קטלוג של מעל 1,000 בשמים מכל העולם.
             </p>
           </div>

@@ -102,6 +102,8 @@ export default function ComparisonTable() {
           </p>
         </div>
 
+        {/* Outer wrapper handles mobile scroll; inner card handles border-radius */}
+        <div className="table-wrap">
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -112,8 +114,8 @@ export default function ComparisonTable() {
             border: '1px solid var(--border-2, var(--border-default))',
             borderRadius: 16, overflow: 'hidden',
             boxShadow: 'var(--shadow-card)',
+            minWidth: 480,
           }}
-          className="table-wrap"
         >
           <table style={{ width: '100%', borderCollapse: 'collapse', tableLayout: 'fixed' }}>
             <thead>
@@ -171,7 +173,8 @@ export default function ComparisonTable() {
             </tbody>
           </table>
         </motion.div>
-      </div>
+        </div>{/* /table-wrap */}
+      </div>{/* /maxWidth */}
     </section>
   );
 }

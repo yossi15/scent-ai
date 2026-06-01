@@ -52,6 +52,7 @@ export default function HeroProductMockup() {
       {/* Floating top pill */}
       <motion.div
         {...fadeUp(0.15)}
+        className="hero-mockup-inner"
         style={{
           position: 'absolute', top: -16, right: 24, zIndex: 10,
           display: 'inline-flex', alignItems: 'center', gap: 7,
@@ -63,7 +64,7 @@ export default function HeroProductMockup() {
         }}
       >
         <Sparkles size={10} color="var(--gold)" />
-        ניתוח AI הושלם
+        ניתוח <bdi>AI</bdi> הושלם
       </motion.div>
 
       {/* Main card */}
@@ -71,6 +72,7 @@ export default function HeroProductMockup() {
         initial={{ opacity: 0, y: 24, scale: 0.97 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         transition={{ duration: 0.6, ease }}
+        className="hero-mockup-inner"
         style={{
           position: 'relative', zIndex: 1,
           borderRadius: 20,
@@ -125,7 +127,7 @@ export default function HeroProductMockup() {
         >
           <div>
             <p style={{ fontSize: 10, color: 'var(--text-muted)', letterSpacing: '0.14em', textTransform: 'uppercase', margin: '0 0 4px', fontFamily: 'var(--sans)' }}>
-              ה-DNA הריחני שלך
+              ה-<bdi>DNA</bdi> הריחני שלך
             </p>
             <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--text-primary)', margin: 0 }}>
               אספן של ניחוחות חמים
@@ -148,9 +150,9 @@ export default function HeroProductMockup() {
             overflow: 'hidden',
           }}
         >
-          {/* Match badge */}
+          {/* Match badge — inside the card bounds (top: 8 avoids overflow:hidden clip) */}
           <div style={{
-            position: 'absolute', top: -10, right: 14,
+            position: 'absolute', top: 8, right: 14,
             background: 'var(--gold)', color: '#1a1410',
             padding: '4px 11px', borderRadius: 999,
             fontSize: 11, fontWeight: 700, letterSpacing: '0.04em',
@@ -159,7 +161,7 @@ export default function HeroProductMockup() {
             96% התאמה
           </div>
 
-          <div style={{ display: 'flex', gap: 14, alignItems: 'center', marginTop: 4 }}>
+          <div style={{ display: 'flex', gap: 14, alignItems: 'center', marginTop: 26 }}>
             <div style={{ flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <BottleFlacon width={38} height={52} />
             </div>

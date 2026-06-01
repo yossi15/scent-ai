@@ -1,6 +1,5 @@
 'use client';
 
-import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import HeroProductMockup from './HeroProductMockup';
@@ -14,17 +13,6 @@ const fadeUp = (delay: number) => ({
 
 const TRUST = ['ללא כרטיס אשראי', 'תוצאות מיידיות', 'ממשק בעברית'];
 
-function useIsDark() {
-  const [isDark, setIsDark] = useState(true);
-  useEffect(() => {
-    const update = () => setIsDark(document.documentElement.getAttribute('data-theme') !== 'light');
-    update();
-    const obs = new MutationObserver(update);
-    obs.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
-    return () => obs.disconnect();
-  }, []);
-  return isDark;
-}
 
 const FAMILY_CHIPS = [
   { label: 'אמברה',       color: '#c9a961' },
@@ -35,15 +23,12 @@ const FAMILY_CHIPS = [
 ];
 
 export default function Hero() {
-  const isDark = useIsDark();
-  const bg = isDark ? '#050505' : '#faf9f7';
-
   return (
     <section
       style={{
         position: 'relative',
         overflow: 'hidden',
-        background: bg,
+        background: 'var(--bg)',
         padding: 'var(--s5) var(--s3) var(--s4)',
       }}
     >
@@ -133,7 +118,7 @@ export default function Hero() {
               color: 'var(--text-secondary)', maxWidth: 500, margin: 0,
             }}
           >
-            תשע שאלות. ניתוח AI מתוך מעל 1,000 בשמים. עשר התאמות עם הסבר ריחני מדויק
+            תשע שאלות. ניתוח <bdi>AI</bdi> מתוך מעל 1,000 בשמים. עשר התאמות עם הסבר ריחני מדויק
             למה כל אחת מתאימה לך - לא ניחושים, לא מלל שיווקי.
           </motion.p>
 

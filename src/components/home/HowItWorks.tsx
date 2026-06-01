@@ -243,7 +243,7 @@ export default function HowItWorks() {
                   fontFamily: 'var(--serif, Georgia, serif)', fontSize: 10,
                   color: 'var(--gold)', letterSpacing: '0.22em', margin: '0 0 2px',
                 }}>
-                  {step.num} · {step.tag}
+                  {step.num} · <bdi>{step.tag}</bdi>
                 </p>
                 <h3 style={{ fontSize: 15, fontWeight: 600, color: 'var(--text-primary)', margin: 0 }}>
                   {step.title}

@@ -65,7 +65,7 @@ export default function AccessibilityWidget() {
   };
 
   return (
-    <div style={{ position: 'fixed', bottom: '24px', right: '24px', zIndex: 9999 }}>
+    <div className="a11y-widget-root" style={{ position: 'fixed', bottom: '24px', right: '24px', zIndex: 9999 }}>
       {/* Floating button */}
       <button
         onClick={() => setOpen(o => !o)}
