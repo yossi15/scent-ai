@@ -35,9 +35,32 @@ function DnaBar({ label, pct, delay }: { label: string; pct: number; delay: numb
   );
 }
 
+// Dark-theme CSS variables — declared inline so they win over any light-theme
+// override. This mockup represents a dark-mode app UI and must stay dark always.
+const MOCKUP_DARK_VARS: React.CSSProperties = {
+  '--bg-card':        '#0a0a0a',
+  '--bg-card-2':      '#131313',
+  '--bg-elevated':    '#1a1a1a',
+  '--bg-elev':        '#0a0a0a',
+  '--bg-secondary':   '#080808',
+  '--border-subtle':  'rgba(255,255,255,0.05)',
+  '--border-default': 'rgba(255,255,255,0.08)',
+  '--border-2':       'rgba(255,255,255,0.10)',
+  '--border-strong':  'rgba(255,255,255,0.18)',
+  '--text-primary':   '#f5f5f5',
+  '--text-secondary': '#d4d4d4',
+  '--text-muted':     '#888',
+  '--text-faint':     '#555',
+  '--gold-faint':     'rgba(201,169,97,0.08)',
+  '--gold-soft':      'rgba(201,169,97,0.22)',
+} as React.CSSProperties;
+
 export default function HeroProductMockup() {
   return (
-    <div className="hero-mockup-wrap" style={{ width: '100%', maxWidth: 340, position: 'relative' }}>
+    <div
+      className="hero-mockup-wrap"
+      style={{ width: '100%', maxWidth: 340, position: 'relative', ...MOCKUP_DARK_VARS }}
+    >
 
       {/* Ambient glow */}
       <div
@@ -52,7 +75,7 @@ export default function HeroProductMockup() {
       {/* Floating top pill */}
       <motion.div
         {...fadeUp(0.15)}
-        className="hero-mockup-inner"
+
         style={{
           position: 'absolute', top: -16, right: 24, zIndex: 10,
           display: 'inline-flex', alignItems: 'center', gap: 7,
@@ -64,7 +87,7 @@ export default function HeroProductMockup() {
         }}
       >
         <Sparkles size={10} color="var(--gold)" />
-        ניתוח <bdi>AI</bdi> הושלם
+        ההתאמות שלך מוכנות
       </motion.div>
 
       {/* Main card */}
@@ -72,7 +95,7 @@ export default function HeroProductMockup() {
         initial={{ opacity: 0, y: 24, scale: 0.97 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         transition={{ duration: 0.6, ease }}
-        className="hero-mockup-inner"
+
         style={{
           position: 'relative', zIndex: 1,
           borderRadius: 20,
@@ -127,7 +150,7 @@ export default function HeroProductMockup() {
         >
           <div>
             <p style={{ fontSize: 10, color: 'var(--text-muted)', letterSpacing: '0.14em', textTransform: 'uppercase', margin: '0 0 4px', fontFamily: 'var(--sans)' }}>
-              ה-<bdi>DNA</bdi> הריחני שלך
+              הפרופיל הריחני שלך
             </p>
             <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--text-primary)', margin: 0 }}>
               אספן של ניחוחות חמים
