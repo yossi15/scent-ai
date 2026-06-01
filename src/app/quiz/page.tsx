@@ -124,12 +124,12 @@ function DirectionGrid({ selected, onSelect }: { selected: string; onSelect: (v:
               display: 'flex', flexDirection: 'column', gap: 8, minHeight: 90,
             }}
           >
-            <span style={{ color: isSel ? 'var(--gold)' : 'var(--text-muted)' }}>{opt.icon}</span>
-            <div>
-              <p style={{ fontSize: 13, fontWeight: 600, color: isSel ? 'var(--gold)' : 'var(--text-primary)', marginBottom: 3 }}>
+            <span aria-hidden="true" style={{ color: isSel ? 'var(--gold)' : 'var(--text-muted)', display: 'flex', lineHeight: 0 }}>{opt.icon}</span>
+            <div style={{ color: 'inherit' }}>
+              <p style={{ margin: '0 0 3px', fontSize: 13, fontWeight: 600, color: isSel ? 'var(--gold)' : 'var(--text-primary)' }}>
                 {opt.label}
               </p>
-              <p style={{ fontSize: 10, color: 'var(--text-muted)', lineHeight: 1.4 }}>{opt.desc}</p>
+              <p style={{ margin: 0, fontSize: 10, color: 'var(--text-tertiary)', lineHeight: 1.4 }}>{opt.desc}</p>
             </div>
           </button>
         );
