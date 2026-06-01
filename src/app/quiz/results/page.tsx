@@ -83,7 +83,9 @@ function RecCard({ rec, index }: { rec: Rec; index: number }) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.55, delay: 0.1 + index * 0.08, ease }}
       style={{
-        background: isTop ? 'linear-gradient(135deg, #1a1410, #131310)' : 'var(--bg-card)',
+        background: isTop
+          ? 'linear-gradient(135deg, var(--top-rec-bg-start, #1a1410), var(--top-rec-bg-end, #131310))'
+          : 'var(--bg-card)',
         border: isTop ? '1px solid rgba(201,169,97,0.4)' : '1px solid var(--border-default)',
         borderRadius: 14, padding: 20, position: 'relative', overflow: 'hidden',
         boxShadow: isTop ? '0 0 40px rgba(201,169,97,0.08)' : 'none',

@@ -140,6 +140,18 @@ html[data-theme="light"] {
   --dna-gradient-end: #f5f0e8;
 }
 
+/* ─── Quiz results — top recommendation card ────────────────────── */
+/* Dark (default): premium dark-gold feel */
+:root {
+  --top-rec-bg-start: #1a1410;
+  --top-rec-bg-end:   #131310;
+}
+/* Light: warm gold-tinted cream */
+html[data-theme="light"] {
+  --top-rec-bg-start: #fdf7ec;
+  --top-rec-bg-end:   #f5eedf;
+}
+
 /* ─── Tailwind Theme ─────────────────────────────────────────────── */
 /* NOTE: @theme inline must use static values — Tailwind v4 resolves var()
    at build time (returning #fff as fallback) which corrupts our runtime CSS

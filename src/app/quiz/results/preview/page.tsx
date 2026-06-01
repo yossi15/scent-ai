@@ -33,7 +33,9 @@ function RecCard({ rec, index }: { rec: Rec; index: number }) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.1 + index * 0.12, ease }}
       style={{
-        background: isTop ? 'linear-gradient(135deg, #1a1410, #131310)' : 'var(--bg-card)',
+        background: isTop
+          ? 'linear-gradient(135deg, var(--top-rec-bg-start, #1a1410), var(--top-rec-bg-end, #131310))'
+          : 'var(--bg-card)',
         border: isTop ? '1px solid rgba(201,169,97,0.4)' : '1px solid var(--border-default)',
         borderRadius: 12, padding: 20, display: 'flex', gap: 14, alignItems: 'flex-start',
       }}
@@ -90,7 +92,7 @@ function LockedCards({ count }: { count: number }) {
       ))}
       <div style={{
         position: 'absolute', inset: 0,
-        background: 'linear-gradient(to bottom, rgba(5,5,5,0.25) 0%, rgba(5,5,5,0.88) 45%, rgba(5,5,5,0.97) 100%)',
+        background: 'linear-gradient(to bottom, transparent 0%, var(--bg-primary) 65%, var(--bg-primary) 100%)',
         display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-end',
         padding: '24px 20px', textAlign: 'center',
       }}>

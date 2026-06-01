@@ -24,7 +24,7 @@ async function selectFirstOption(page: import('@playwright/test').Page) {
 test('quiz intro loads', async ({ page }) => {
   await dismissCookieBanner(page);
   await page.goto(`${BASE}/quiz`);
-  await expect(page.locator('text=בוא נגלה')).toBeVisible({ timeout: 10000 });
+  await expect(page.locator('text=נמצא את הבושם שנולד בשבילך')).toBeVisible({ timeout: 10000 });
   // use exact match — "SCENTORY" header logo, not "ברוך הבא ל-SCENTORY"
   await expect(page.getByText('SCENTORY', { exact: true }).first()).toBeVisible();
 });
@@ -69,7 +69,7 @@ test('can complete full quiz flow to email gate', async ({ page }) => {
   await page.locator('[data-quiz-next]').click();
 
   // Should now be on email gate
-  await expect(page.locator('text=מחכות לך')).toBeVisible({ timeout: 15000 });
+  await expect(page.locator('text=נעולות').first()).toBeVisible({ timeout: 15000 });
 });
 
 /* ─── 3. Email gate has blurred preview + lock pill ─────────────── */
@@ -96,7 +96,7 @@ test('email gate shows blurred preview and lock pill', async ({ page }) => {
   await page.locator('[data-quiz-next]').click();
 
   // Email gate
-  await expect(page.locator('text=מחכות לך')).toBeVisible({ timeout: 15000 });
+  await expect(page.locator('text=נעולות').first()).toBeVisible({ timeout: 15000 });
   await expect(page.locator('text=נעולות')).toBeVisible();
 });
 
