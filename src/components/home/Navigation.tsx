@@ -56,24 +56,45 @@ export default function Navigation() {
           className="hidden md:grid w-full mx-auto items-center"
           style={{ maxWidth: 1100, gridTemplateColumns: 'auto 1fr auto', gap: 16 }}
         >
-          {/* Col 1 → visual RIGHT in RTL: Moon + Auth + CTA */}
+          {/* Col 1 → visual RIGHT: Logo */}
+          <Link href="/" style={{ textDecoration: 'none' }}>
+            <Logo size="md" />
+          </Link>
+
+          {/* Col 2 → CENTER: Nav links */}
+          <nav className="flex items-center justify-center gap-6">
+            {NAV_LINKS.map(link => (
+              <Link
+                key={link.href}
+                href={link.href}
+                style={{
+                  fontSize: 11, color: 'var(--text-tertiary)',
+                  textDecoration: 'none', transition: 'color 0.2s',
+                }}
+                onMouseEnter={e => (e.currentTarget.style.color = 'var(--text-primary)')}
+                onMouseLeave={e => (e.currentTarget.style.color = 'var(--text-tertiary)')}
+              >
+                {link.label}
+              </Link>
+            ))}
+          </nav>
+
+          {/* Col 3 → visual LEFT: Moon + Auth + CTA */}
           <div className="flex items-center gap-3">
-            <button
-              onClick={toggleTheme}
-              data-theme-toggle
-              aria-label={isDark ? 'עבור למצב בהיר' : 'עבור למצב כהה'}
+            <Link
+              href="/quiz"
               style={{
-                width: 44, height: 44, display: 'flex',
-                alignItems: 'center', justifyContent: 'center',
-                background: 'transparent', border: 'none',
-                cursor: 'pointer', color: 'var(--text-muted)',
-                borderRadius: 8, transition: 'color 0.2s',
+                fontSize: 11, fontWeight: 500,
+                padding: '7px 14px', borderRadius: 5,
+                background: 'var(--gold)', color: '#000',
+                textDecoration: 'none', whiteSpace: 'nowrap',
+                transition: 'opacity 0.2s',
               }}
-              onMouseEnter={e => (e.currentTarget.style.color = 'var(--text-primary)')}
-              onMouseLeave={e => (e.currentTarget.style.color = 'var(--text-muted)')}
+              onMouseEnter={e => (e.currentTarget.style.opacity = '0.85')}
+              onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
             >
-              {isDark ? <Moon size={14} /> : <Sun size={14} />}
-            </button>
+              התחל חינם
+            </Link>
 
             {isSignedIn ? (
               <UserButton />
@@ -94,54 +115,30 @@ export default function Navigation() {
               </SignInButton>
             )}
 
-            <Link
-              href="/quiz"
+            <button
+              onClick={toggleTheme}
+              data-theme-toggle
+              aria-label={isDark ? 'עבור למצב בהיר' : 'עבור למצב כהה'}
               style={{
-                fontSize: 11, fontWeight: 500,
-                padding: '7px 14px', borderRadius: 5,
-                background: 'var(--gold)', color: '#000',
-                textDecoration: 'none', whiteSpace: 'nowrap',
-                transition: 'opacity 0.2s',
+                width: 44, height: 44, display: 'flex',
+                alignItems: 'center', justifyContent: 'center',
+                background: 'transparent', border: 'none',
+                cursor: 'pointer', color: 'var(--text-muted)',
+                borderRadius: 8, transition: 'color 0.2s',
               }}
-              onMouseEnter={e => (e.currentTarget.style.opacity = '0.85')}
-              onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
+              onMouseEnter={e => (e.currentTarget.style.color = 'var(--text-primary)')}
+              onMouseLeave={e => (e.currentTarget.style.color = 'var(--text-muted)')}
             >
-              התחל חינם
-            </Link>
+              {isDark ? <Moon size={14} /> : <Sun size={14} />}
+            </button>
           </div>
-
-          {/* Col 2 → CENTER: Nav links */}
-          <nav className="flex items-center justify-center gap-6">
-            {NAV_LINKS.map(link => (
-              <Link
-                key={link.href}
-                href={link.href}
-                style={{
-                  fontSize: 11, color: 'var(--text-tertiary)',
-                  textDecoration: 'none', transition: 'color 0.2s',
-                }}
-                onMouseEnter={e => (e.currentTarget.style.color = 'var(--text-primary)')}
-                onMouseLeave={e => (e.currentTarget.style.color = 'var(--text-tertiary)')}
-              >
-                {link.label}
-              </Link>
-            ))}
-          </nav>
-
-          {/* Col 3 → visual LEFT in RTL: Logo */}
-          <Link href="/" style={{ textDecoration: 'none' }}>
-            <Logo size="md" />
-          </Link>
         </div>
 
-        {/* Mobile: logo right (RTL start), hamburger left (RTL end) */}
+        {/* Mobile: hamburger left (RTL end), logo right (RTL start) */}
         <div
           className="md:hidden w-full mx-auto flex items-center justify-between"
           style={{ maxWidth: 1100 }}
         >
-          <Link href="/" style={{ textDecoration: 'none' }}>
-            <Logo size="md" />
-          </Link>
           <div className="flex items-center gap-2">
             {isSignedIn && <UserButton />}
             <button
@@ -159,6 +156,9 @@ export default function Navigation() {
               {mobileOpen ? <X size={18} /> : <Menu size={18} />}
             </button>
           </div>
+          <Link href="/" style={{ textDecoration: 'none' }}>
+            <Logo size="md" />
+          </Link>
         </div>
       </header>
 
