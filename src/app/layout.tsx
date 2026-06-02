@@ -4,6 +4,7 @@ import CookieBanner from '@/components/CookieBanner';
 import AccessibilityWidget from '@/components/AccessibilityWidget';
 import ThemeBodySync from '@/components/ThemeBodySync';
 import './globals.css';
+import './editorial.css';
 
 export const viewport = {
   width: 'device-width',

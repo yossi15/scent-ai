@@ -1,0 +1,574 @@
+﻿
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   EDITORIAL HOMEPAGE â€” luxury fragrance aesthetic
+   All classes prefixed ed- / flow- / note- / hero-consult
+   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+
+/* Shared display heading â€” serif, regular weight, large */
+.ed-h {
+  font-family: Georgia, 'Frank Ruhl Libre', serif;
+  font-weight: 400;
+  font-size: 56px;
+  line-height: 1.06;
+  letter-spacing: -0.02em;
+  margin: 0;
+  color: var(--text-primary);
+  text-wrap: balance;
+}
+
+/* â”€â”€ Hero Â· The Consultation â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+.hero-consult-section {
+  position: relative;
+  overflow: hidden;
+  min-height: 88vh;
+  display: flex;
+  align-items: center;
+  padding: 96px 24px 120px;
+  background: var(--bg);
+}
+.hero-consult-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(120% 75% at 74% -12%, var(--gold-faint) 0%, transparent 52%);
+}
+.hero-rail-label {
+  position: absolute;
+  inset-inline-end: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+  writing-mode: vertical-rl;
+  font-size: 9.5px;
+  letter-spacing: 0.42em;
+  text-transform: uppercase;
+  color: var(--text-dim, #4a4a4a);
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  pointer-events: none;
+}
+.hero-rail-label::after {
+  content: "";
+  width: 1px;
+  height: 64px;
+  background: var(--border-default);
+}
+.hero-consult-inner {
+  position: relative;
+  width: 100%;
+  max-width: 1240px;
+  margin: 0 auto;
+}
+.hero-consult-block {
+  max-width: 760px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+.hero-folio {
+  font-size: 11px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 13px;
+}
+.hero-folio::before {
+  content: "";
+  width: 30px;
+  height: 1px;
+  background: var(--gold);
+  display: inline-block;
+}
+.hero-invite {
+  font-family: Georgia, 'Frank Ruhl Libre', serif;
+  font-weight: 400;
+  font-size: clamp(40px, 6vw, 74px);
+  line-height: 1.03;
+  letter-spacing: -0.022em;
+  margin: 0;
+  color: var(--text-primary);
+  text-wrap: balance;
+  max-width: 15ch;
+}
+.hero-invite .hero-invite-soft { color: var(--text-muted); }
+.hero-step { display: flex; flex-direction: column; gap: 16px; max-width: 580px; }
+.hero-field {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  border-bottom: 1px solid var(--border-strong, rgba(255,255,255,0.18));
+  padding: 14px 2px;
+  transition: border-color 240ms;
+}
+.hero-field:focus-within { border-color: var(--gold); }
+.hero-field input {
+  flex: 1;
+  min-width: 0;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--text-primary);
+  font-family: Georgia, 'Frank Ruhl Libre', serif;
+  font-size: 23px;
+  letter-spacing: 0.01em;
+}
+.hero-field input::placeholder { color: var(--text-muted); font-style: italic; }
+.hero-field-btn {
+  flex-shrink: 0;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 1px solid var(--border-strong, rgba(255,255,255,0.18));
+  background: transparent;
+  color: var(--text-secondary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 200ms;
+}
+.hero-field-btn:hover { border-color: var(--gold); color: var(--gold); transform: translateX(-2px); }
+.hero-suggest {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+}
+.hero-suggest-lead {
+  font-size: 9.5px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.hero-suggest-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  font-family: Georgia, serif;
+  font-style: italic;
+  font-size: 16px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: color 180ms;
+}
+.hero-suggest-btn:hover { color: var(--gold); }
+.hero-meta-label {
+  font-size: 11px;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.hero-ack {
+  font-family: Georgia, serif;
+  font-style: italic;
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--gold);
+  max-width: 560px;
+  margin: 0;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: opacity 360ms ease, max-height 360ms ease;
+}
+.hero-ack.show { opacity: 1; max-height: 120px; }
+
+/* â”€â”€ Section A Â· What is Scentory â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+.ed-intro-grid {
+  max-width: 1240px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: 96px;
+  align-items: start;
+}
+.ed-intro-lead { display: flex; flex-direction: column; gap: 24px; }
+.ed-intro-body { padding-top: 48px; }
+.ed-intro-body p {
+  font-size: 18px;
+  line-height: 1.85;
+  color: var(--text-secondary);
+  margin: 0;
+  max-width: 46ch;
+  text-wrap: pretty;
+}
+.ed-pillars {
+  list-style: none;
+  margin: 96px auto 0;
+  padding: 0;
+  max-width: 1240px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border-top: 1px solid var(--border-default);
+}
+.ed-pillar {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 32px 40px 0;
+  border-inline-start: 1px solid var(--border-default);
+}
+.ed-pillar:first-child { border-inline-start: none; padding-inline-start: 0; }
+.ed-pillar-num {
+  font-family: Georgia, serif;
+  font-size: 12px;
+  letter-spacing: 0.24em;
+  color: var(--gold);
+}
+.ed-pillar-label {
+  font-family: Georgia, serif;
+  font-weight: 400;
+  font-size: 23px;
+  color: var(--text-primary);
+}
+
+/* â”€â”€ Section B Â· The Pain â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+.ed-pain {
+  position: relative;
+  overflow: hidden;
+  padding: 120px 24px;
+  background: #060606;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.ed-pain::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(120% 78% at 50% -12%, rgba(255,255,255,0.05) 0%, transparent 54%);
+}
+/* .ed-pain::after grain removed â€” relies on body::before grain */
+.ed-pain-inner {
+  position: relative;
+  max-width: 1240px;
+  margin: 0 auto;
+}
+.ed-pain-lead {
+  max-width: 680px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.ed-pain-eyebrow {
+  font-size: 10.5px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: #c9a961;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.ed-pain-eyebrow::before { content: ""; width: 18px; height: 1px; background: #c9a961; display: inline-block; }
+.ed-pain-h {
+  font-family: Georgia, serif;
+  font-weight: 400;
+  font-size: clamp(36px, 5vw, 64px);
+  line-height: 1.04;
+  letter-spacing: -0.02em;
+  margin: 0;
+  color: #f3f0ea;
+  text-wrap: balance;
+}
+.ed-pain-body {
+  font-size: 18px;
+  line-height: 1.85;
+  color: #9a9a9a;
+  margin: 0;
+  max-width: 52ch;
+  text-wrap: pretty;
+}
+.ed-pain-bottles {
+  display: flex;
+  align-items: flex-end;
+  gap: 20px;
+  justify-content: flex-end;
+  margin-top: 64px;
+  opacity: 0.22;
+  filter: grayscale(1);
+}
+.ed-pullquote {
+  position: relative;
+  max-width: 860px;
+  margin: 96px auto 0;
+  padding-top: 48px;
+  text-align: center;
+  border-top: 1px solid rgba(201,169,97,0.28);
+}
+.ed-pullquote p {
+  font-family: Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(22px, 2.8vw, 33px);
+  line-height: 1.42;
+  color: #c9a961;
+  margin: 0;
+  text-wrap: balance;
+}
+
+/* â”€â”€ Section C Â· AI vs salesperson â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+.ed-vs-head {
+  max-width: 1240px;
+  margin: 0 auto 64px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+  text-align: right;
+}
+.ed-vs-head .ed-h { font-size: 46px; }
+.ed-vs-sub {
+  color: var(--text-muted);
+  font-size: 16px;
+  max-width: 52ch;
+  margin: 0;
+  line-height: 1.7;
+}
+.ed-vs-grid {
+  max-width: 1000px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1px 1fr;
+  align-items: start;
+}
+.ed-vs-rule { align-self: stretch; background: var(--border-default); }
+.ed-vs-col { padding: 0 48px; }
+.ed-vs-col:first-child { padding-inline-start: 0; }
+.ed-vs-col:last-child  { padding-inline-end: 0; }
+.ed-vs-tag {
+  font-size: 10px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  font-weight: 600;
+  margin-bottom: 14px;
+}
+.ed-vs-col--us .ed-vs-tag { color: var(--gold); }
+.ed-vs-name {
+  font-family: Georgia, serif;
+  font-weight: 400;
+  font-size: 30px;
+  margin: 0 0 16px;
+  color: var(--text-muted);
+  letter-spacing: 0.02em;
+}
+.ed-vs-col--us .ed-vs-name { color: var(--text-primary); letter-spacing: 0.14em; }
+.ed-vs-list { list-style: none; margin: 0; padding: 0; }
+.ed-vs-list li {
+  display: flex;
+  gap: 14px;
+  align-items: baseline;
+  padding: 20px 0;
+  border-top: 1px solid var(--border-default);
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--text-muted);
+}
+.ed-vs-list li:last-child { border-bottom: 1px solid var(--border-default); }
+.ed-vs-col--us .ed-vs-list li { color: var(--text-secondary); }
+.ed-vs-list li::before {
+  content: "";
+  flex: 0 0 16px;
+  height: 1px;
+  margin-top: 12px;
+  background: var(--text-muted);
+}
+.ed-vs-col--us .ed-vs-list li::before { background: var(--gold); }
+.ed-vs-list em { font-family: Georgia, serif; font-style: italic; color: var(--text-primary); }
+.ed-vs-col--us .ed-vs-list em { color: var(--gold); }
+
+/* â”€â”€ How It Works Â· editorial numbered flow â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+.flow { max-width: 1000px; margin: 0 auto; }
+.flow-row {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 64px;
+  align-items: start;
+  padding: 64px 0;
+  border-top: 1px solid var(--border-default);
+}
+.flow-row:last-child { border-bottom: 1px solid var(--border-default); }
+.flow-num {
+  font-family: Georgia, serif;
+  font-weight: 400;
+  font-size: 96px;
+  line-height: 0.78;
+  color: var(--gold);
+  letter-spacing: -0.02em;
+}
+.flow-num small {
+  display: block;
+  margin-top: 18px;
+  font-size: 10.5px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  font-family: 'Heebo', system-ui, sans-serif;
+  font-weight: 600;
+}
+.flow-body {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-top: 8px;
+  max-width: 600px;
+}
+.flow-title {
+  font-family: Georgia, serif;
+  font-weight: 400;
+  font-size: 36px;
+  line-height: 1.08;
+  color: var(--text-primary);
+  margin: 0;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+.flow-desc {
+  font-size: 17px;
+  line-height: 1.78;
+  color: var(--text-secondary);
+  margin: 0;
+  max-width: 54ch;
+  text-wrap: pretty;
+}
+.flow-desc .flow-gold { color: var(--gold); }
+
+/* â”€â”€ The Note Â· boutique consultant's card â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+.note-grid {
+  max-width: 1240px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+.note-lede { display: flex; flex-direction: column; gap: 24px; align-items: flex-start; }
+.note-lede .ed-h { font-size: 46px; }
+.note-lede p {
+  font-size: 17px;
+  line-height: 1.8;
+  color: var(--text-secondary);
+  margin: 0;
+  max-width: 46ch;
+  text-wrap: pretty;
+}
+.note-points { list-style: none; margin: 8px 0 0; padding: 0; width: 100%; }
+.note-points li {
+  display: flex;
+  gap: 15px;
+  align-items: baseline;
+  padding: 18px 0;
+  border-top: 1px solid var(--border-default);
+  font-size: 15.5px;
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+.note-points li:last-child { border-bottom: 1px solid var(--border-default); }
+.note-points li::before {
+  content: "";
+  flex: 0 0 16px;
+  height: 1px;
+  margin-top: 12px;
+  background: var(--gold);
+}
+/* the boutique note card */
+.note-card {
+  position: relative;
+  background: var(--bg-elev, #0a0a0a);
+  border: 1px solid var(--border-default);
+  padding: 40px 40px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.note-card::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  inset-inline: 40px;
+  height: 1px;
+  background: var(--gold);
+}
+.note-corner {
+  font-size: 10px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 8px;
+}
+.note-bottle-wrap { display: flex; justify-content: center; padding: 8px 0; }
+.note-brand-label {
+  text-align: center;
+  font-size: 10.5px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.note-name-label {
+  font-family: Georgia, serif;
+  font-size: 28px;
+  color: var(--text-primary);
+  text-align: center;
+  margin-top: 4px;
+}
+.note-rule { height: 1px; background: var(--border-default); margin: 16px 0; }
+.note-quote {
+  font-family: Georgia, serif;
+  font-style: italic;
+  font-size: 20px;
+  line-height: 1.62;
+  color: var(--text-primary);
+  margin: 0;
+  text-wrap: pretty;
+}
+.note-quote .note-gold { color: var(--gold); font-style: normal; }
+.note-sign {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 16px;
+}
+.note-sign-name {
+  font-family: Georgia, serif;
+  font-style: italic;
+  font-size: 15px;
+  color: var(--gold);
+}
+.note-sign-meta {
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+/* â”€â”€ Responsive overrides for editorial sections â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+@media (max-width: 960px) {
+  .hero-consult-section { min-height: 0; padding: 80px 24px 96px; }
+  .hero-invite { font-size: 40px; max-width: 18ch; }
+  .hero-field input { font-size: 19px; }
+  .hero-rail-label { display: none; }
+  .ed-h { font-size: 38px; }
+  .ed-intro-grid { grid-template-columns: 1fr; gap: 32px; }
+  .ed-intro-body { padding-top: 0; }
+  .ed-pillars { grid-template-columns: 1fr; border-top: none; margin-top: 48px; }
+  .ed-pillar { border-inline-start: none; border-top: 1px solid var(--border-default); padding: 24px 0 0; }
+  .ed-pillar:first-child { border-top: 1px solid var(--border-default); }
+  .ed-pain-h { font-size: 38px; }
+  .ed-pain-bottles { justify-content: flex-start; margin-top: 40px; }
+  .ed-pullquote p { font-size: 22px; }
+  .ed-vs-head .ed-h { font-size: 32px; }
+  .ed-vs-grid { grid-template-columns: 1fr; gap: 40px; }
+  .ed-vs-rule { display: none; }
+  .ed-vs-col { padding: 0; }
+  .flow-row { grid-template-columns: 1fr; gap: 16px; padding: 40px 0; }
+  .flow-num { font-size: 64px; }
+  .flow-num small { display: inline-block; margin: 0 0 0 14px; }
+  .flow-title { font-size: 28px; }
+  .note-grid { grid-template-columns: 1fr; gap: 40px; }
+  .note-lede .ed-h { font-size: 32px; }
+}

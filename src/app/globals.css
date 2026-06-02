@@ -1,14 +1,14 @@
-@import url('https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&display=swap');
+﻿@import url('https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 
-/* ─── Design Tokens ─────────────────────────────────────────────── */
+/* â”€â”€â”€ Design Tokens â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 :root {
   /* Brand */
   --gold: #c9a961;
   --gold-dark: #b89651;
   --gold-light: #d4b873;
 
-  /* ── Homepage v2 design system (matches standalone HTML) ── */
+  /* â”€â”€ Homepage v2 design system (matches standalone HTML) â”€â”€ */
   --bg: #050505;
   --bg-elev: #0a0a0a;
   --bg-card-2: #131313;
@@ -50,7 +50,7 @@
   --border-gold: rgba(201,169,97,0.2);
   --border-gold-strong: rgba(201,169,97,0.4);
 
-  /* Gold text — readable on dark bg */
+  /* Gold text â€” readable on dark bg */
   --gold-text: #c9a961;
 
   /* Legacy aliases - keep existing pages working */
@@ -92,7 +92,7 @@ html[data-theme="light"] {
   --bg-card: #ffffff;
   --bg-elevated: #f0ede8;
 
-  /* ── Homepage v2 light mode overrides ── */
+  /* â”€â”€ Homepage v2 light mode overrides â”€â”€ */
   --bg: #faf9f7;
   --bg-elev: #ffffff;
   --bg-card-2: #f0ede8;
@@ -119,7 +119,7 @@ html[data-theme="light"] {
   --border-gold: rgba(201,169,97,0.25);
   --border-gold-strong: rgba(139,117,53,0.4); /* darker for light bg */
 
-  /* Gold text — darker for contrast on light bg */
+  /* Gold text â€” darker for contrast on light bg */
   --gold-text: #8b7535;
 
   --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
@@ -132,7 +132,7 @@ html[data-theme="light"] {
   --nav-bg: rgba(250,249,247,0.95);
   --nav-bg-scrolled: rgba(250,249,247,0.97);
 
-  /* Hero mockup — adapts to light theme */
+  /* Hero mockup â€” adapts to light theme */
   --hero-card-bg: #ffffff;
   --hero-small-card-bg: #f5f3f0;
   --hero-glow-opacity: rgba(201,169,97,0.08);
@@ -140,20 +140,24 @@ html[data-theme="light"] {
   --dna-gradient-end: #f5f0e8;
 }
 
-/* ─── Quiz results — top recommendation card ────────────────────── */
+/* â”€â”€â”€ Quiz results â€” top recommendation card â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 /* Dark (default): premium dark-gold feel */
 :root {
   --top-rec-bg-start: #1a1410;
   --top-rec-bg-end:   #131310;
+  /* Semantic red for Q3 "avoid" notes â€” same in both themes */
+  --color-reject:    #e74c3c;
+  --color-reject-bg: rgba(192,57,43,0.07);
 }
 /* Light: warm gold-tinted cream */
 html[data-theme="light"] {
   --top-rec-bg-start: #fdf7ec;
   --top-rec-bg-end:   #f5eedf;
+  --top-rec-why-text: rgba(40, 30, 20, 0.82);  /* dark text on light card */
 }
 
-/* ─── Tailwind Theme ─────────────────────────────────────────────── */
-/* NOTE: @theme inline must use static values — Tailwind v4 resolves var()
+/* â”€â”€â”€ Tailwind Theme â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* NOTE: @theme inline must use static values â€” Tailwind v4 resolves var()
    at build time (returning #fff as fallback) which corrupts our runtime CSS
    variables. Only fonts (which are static) are safe here. */
 @theme inline {
@@ -162,7 +166,7 @@ html[data-theme="light"] {
   --font-hebrew: 'Heebo', 'Assistant', system-ui, sans-serif;
 }
 
-/* ─── Navigation (CSS-driven theme — no React state needed) ─────── */
+/* â”€â”€â”€ Navigation (CSS-driven theme â€” no React state needed) â”€â”€â”€â”€â”€â”€â”€ */
 /* Dark default */
 .nav-header {
   background: rgba(5,5,5,0.95);
@@ -187,7 +191,7 @@ html[data-theme="light"] .nav-mobile-dropdown {
   background: rgba(255,255,255,0.98);
 }
 
-/* ─── Base Styles ────────────────────────────────────────────────── */
+/* â”€â”€â”€ Base Styles â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 * {
   scrollbar-width: thin;
   scrollbar-color: var(--text-faint) transparent;
@@ -195,7 +199,7 @@ html[data-theme="light"] .nav-mobile-dropdown {
 
 html {
   scroll-behavior: smooth;
-  /* Hardcoded dark default for html element — prevents bleed-through behind body */
+  /* Hardcoded dark default for html element â€” prevents bleed-through behind body */
   background: #050505;
   /* Prevent horizontal scroll on mobile (WCAG 1.4.10) */
   overflow-x: hidden;
@@ -207,7 +211,7 @@ html[data-theme="light"] {
 }
 
 body {
-  /* Hardcoded dark default — avoids CSS-variable resolution failures in Tailwind v4 */
+  /* Hardcoded dark default â€” avoids CSS-variable resolution failures in Tailwind v4 */
   background: #050505;
   color: var(--text-primary);
   font-family: 'Heebo', 'Assistant', system-ui, sans-serif;
@@ -219,7 +223,7 @@ body {
   max-width: 100vw;
 }
 
-/* Light mode — hardcoded, no CSS variables */
+/* Light mode â€” hardcoded, no CSS variables */
 html[data-theme="light"] body {
   background: #faf9f7;
 }
@@ -234,7 +238,7 @@ h1, h2, h3, h4, h5, h6 {
   font-family: 'Heebo', 'Assistant', system-ui, sans-serif;
 }
 
-/* ─── Focus Rings ────────────────────────────────────────────────── */
+/* â”€â”€â”€ Focus Rings â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 a:focus-visible,
 button:focus-visible,
 [role="button"]:focus-visible,
@@ -249,7 +253,7 @@ button:focus:not(:focus-visible) {
   outline: none;
 }
 
-/* ─── Skip-to-content ───────────────────────────────────────────── */
+/* â”€â”€â”€ Skip-to-content â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .skip-to-content {
   position: absolute;
   top: -100px;
@@ -267,20 +271,20 @@ button:focus:not(:focus-visible) {
   top: 16px;
 }
 
-/* ─── Inputs ─────────────────────────────────────────────────────── */
+/* â”€â”€â”€ Inputs â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 input:focus, select:focus, textarea:focus {
   outline: none;
   border-color: var(--gold) !important;
   box-shadow: 0 0 0 3px rgba(201,169,97,0.1);
 }
 
-/* ─── Selection ─────────────────────────────────────────────────── */
+/* â”€â”€â”€ Selection â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 ::selection {
   background: rgba(201,169,97,0.2);
   color: var(--text-primary);
 }
 
-/* ─── Card utilities (legacy) ───────────────────────────────────── */
+/* â”€â”€â”€ Card utilities (legacy) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .card {
   background: var(--bg-card);
   border: 1px solid var(--border-default);
@@ -322,7 +326,7 @@ input:focus, select:focus, textarea:focus {
   margin: 0 auto;
 }
 
-/* ─── Recharts overrides ─────────────────────────────────────────── */
+/* â”€â”€â”€ Recharts overrides â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .recharts-polar-grid-concentric-circle {
   stroke: rgba(201,169,97,0.12) !important;
 }
@@ -332,7 +336,7 @@ input:focus, select:focus, textarea:focus {
   font-family: 'Heebo', sans-serif !important;
 }
 
-/* ─── Accessibility ──────────────────────────────────────────────── */
+/* â”€â”€â”€ Accessibility â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 html.a11y-contrast {
   --text-primary: #000;
   --text-secondary: #111;
@@ -371,7 +375,7 @@ html.a11y-font-2 { font-size: 125%; }
   }
 }
 
-/* ─── Skeleton Loader ────────────────────────────────────────────── */
+/* â”€â”€â”€ Skeleton Loader â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .skeleton {
   background: linear-gradient(
     90deg,
@@ -389,7 +393,7 @@ html.a11y-font-2 { font-size: 125%; }
   100% { background-position: -100% 0; }
 }
 
-/* ─── Gold pulse animation ───────────────────────────────────────── */
+/* â”€â”€â”€ Gold pulse animation â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 @keyframes gold-pulse {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.4; }
@@ -398,7 +402,7 @@ html.a11y-font-2 { font-size: 125%; }
   animation: gold-pulse 2s ease-in-out infinite;
 }
 
-/* ─── Spin animation ────────────────────────────────────────────── */
+/* â”€â”€â”€ Spin animation â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 @keyframes spin-slow {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
@@ -407,8 +411,8 @@ html.a11y-font-2 { font-size: 125%; }
   animation: spin-slow 3s linear infinite;
 }
 
-/* ─── Mobile responsive utilities ───────────────────────────────── */
-/* ─── Section / Layout helpers ──────────────────────────────────── */
+/* â”€â”€â”€ Mobile responsive utilities â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* â”€â”€â”€ Section / Layout helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .section-pad   { padding: 72px 32px; }
 .section-inner { max-width: 1100px; margin: 0 auto; }
 
@@ -429,7 +433,7 @@ html.a11y-font-2 { font-size: 125%; }
   gap: 30px;
 }
 
-/* Ghost button — auto dark/light */
+/* Ghost button â€” auto dark/light */
 .btn-ghost {
   background: rgba(255,255,255,0.04);
   border: 1px solid rgba(255,255,255,0.10);
@@ -445,7 +449,7 @@ html[data-theme="light"] .btn-ghost {
 .btn-ghost:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.18); }
 html[data-theme="light"] .btn-ghost:hover { background: rgba(0,0,0,0.07); border-color: rgba(0,0,0,0.22); }
 
-/* Hero mockup container — elevated card in light mode */
+/* Hero mockup container â€” elevated card in light mode */
 html[data-theme="light"] .hero-mockup-wrap {
   background: #ede9e2;
   border-radius: 24px;
@@ -454,9 +458,9 @@ html[data-theme="light"] .hero-mockup-wrap {
   box-shadow: 0 4px 8px rgba(0,0,0,0.06), 0 20px 56px rgba(0,0,0,0.14);
 }
 
-/* Mockup inner cards inherit light theme — no dark override */
+/* Mockup inner cards inherit light theme â€” no dark override */
 
-/* ─── Mobile breakpoint ─────────────────────────────────────────── */
+/* â”€â”€â”€ Mobile breakpoint â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 @media (max-width: 768px) {
   .section-pad { padding: 48px 20px; }
   .hero-grid, .grid-3-cols, .grid-2-cols { grid-template-columns: 1fr; gap: 20px; }
@@ -497,3 +501,4 @@ html[data-theme="light"] .hero-mockup-wrap {
     padding-right: 16px !important;
   }
 }
+/* editorial styles → see editorial.css */
