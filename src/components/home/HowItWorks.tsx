@@ -75,13 +75,14 @@ function AIMockup() {
         }} />
       </div>
       <p style={{ fontSize: 12, color: 'var(--text-primary)', fontWeight: 500, margin: 0, textAlign: 'center' }}>
-        מנתח<span style={{ color: 'var(--gold)' }}>...</span>
+        <span style={{ color: 'var(--gold)' }}>AI</span> מנתח מעל 1,000 בשמים
       </p>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 5, textAlign: 'center' }}>
         {[
-          { label: 'חילוץ פרופיל ארומטי', done: true },
-          { label: 'סורק 1,000+ בשמים',  done: false, active: true },
-          { label: 'מחשב התאמה',          done: false },
+          { label: 'חילוץ פרופיל ארומטי',    done: true },
+          { label: 'סינון לפי משפחות ריח',    done: true },
+          { label: 'השוואת תווי לב ובסיס',    done: false, active: true },
+          { label: 'דירוג סופי',              done: false },
         ].map(s => (
           <span key={s.label} style={{
             fontSize: 10.5,
