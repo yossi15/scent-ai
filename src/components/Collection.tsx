@@ -86,19 +86,8 @@ function Pill({
     <button
       onClick={onClick}
       aria-pressed={active}
-      className="whitespace-nowrap shrink-0 px-3.5 py-1.5 text-xs font-sans rounded-full transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold"
-      style={active ? {
-        background: 'var(--gold)',
-        color: '#050505',
-        border: '1px solid var(--gold-dark)',
-        boxShadow: 'var(--shadow-sm)',
-      } : {
-        background: 'var(--bg-card)',
-        border: '1px solid var(--border-default)',
-        color: 'var(--text-muted)',
-      }}
-      onMouseEnter={e => { if (!active) { (e.currentTarget as HTMLElement).style.borderColor = 'var(--border-gold-strong)'; (e.currentTarget as HTMLElement).style.color = 'var(--gold-text)'; } }}
-      onMouseLeave={e => { if (!active) { (e.currentTarget as HTMLElement).style.borderColor = 'var(--border-default)'; (e.currentTarget as HTMLElement).style.color = 'var(--text-muted)'; } }}
+      className={`quiz-chip${active ? ' quiz-chip--selected' : ''}`}
+      style={{ whiteSpace: 'nowrap', flexShrink: 0, minHeight: 'auto', padding: '7px 16px' }}
     >
       {label}
     </button>
@@ -287,8 +276,8 @@ export default function Collection() {
           transition={{ duration: 0.8 }}
           className="text-center mb-12"
         >
-          <p className="mb-4" style={{ fontFamily: 'Heebo, sans-serif', fontWeight: 400, fontSize: '11px', letterSpacing: '3px', textTransform: 'uppercase', color: 'var(--text-muted)' }}>הקולקציה</p>
-          <h2 className="mb-4" style={{ fontFamily: 'Heebo, sans-serif', fontWeight: 700, fontSize: 'clamp(28px, 4vw, 40px)', lineHeight: 1.15, letterSpacing: '-0.5px', color: 'var(--text-primary)' }}>הקולקציה המלאה</h2>
+          <p className="results-eyebrow" style={{ marginBottom: 16 }}>הקולקציה</p>
+          <h2 className="mb-4" style={{ fontFamily: "Georgia, 'Frank Ruhl Libre', serif", fontWeight: 400, fontSize: 'clamp(28px, 4vw, 40px)', lineHeight: 1.15, letterSpacing: '-0.02em', color: 'var(--text-primary)' }}>הקולקציה המלאה</h2>
           <p style={{ fontFamily: 'Heebo, sans-serif', fontWeight: 300, fontSize: '14px', lineHeight: 1.7, color: 'var(--text-secondary)' }}>
             {fragrances.length} בשמים נישתיים מ-{houses.length - 1} בתי בושם
           </p>
@@ -296,8 +285,8 @@ export default function Collection() {
 
         {/* Search bar */}
         <div className="max-w-2xl mx-auto mb-4">
-          <div className="card p-2 flex items-center gap-2 !shadow-md">
-            <Search className="w-4 h-4 text-ink-faint mr-1 shrink-0" aria-hidden="true" />
+          <div className="quiz-search-field" style={{ marginBottom: 0 }}>
+            <Search className="w-4 h-4 shrink-0" style={{ color: 'var(--text-muted)' }} aria-hidden="true" />
             <label htmlFor="fragrance-search" className="sr-only">חיפוש בשמים</label>
             <input
               id="fragrance-search"
@@ -305,10 +294,10 @@ export default function Collection() {
               placeholder="חיפוש: Aventus, Creed, Oud, Vanilla..."
               value={search}
               onChange={(e) => { setSearch(e.target.value); setVisibleCount(12); }}
-              className="flex-1 bg-transparent text-ink text-sm font-hebrew placeholder:text-ink-faint/60 focus:outline-none py-2"
+              className="font-hebrew"
             />
             {search && (
-              <button onClick={() => setSearch('')} aria-label="נקה חיפוש" className="text-ink-faint hover:text-ink p-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded">
+              <button onClick={() => setSearch('')} aria-label="נקה חיפוש" className="quiz-search-clear">
                 <X className="w-3.5 h-3.5" aria-hidden="true" />
               </button>
             )}
@@ -316,11 +305,15 @@ export default function Collection() {
               onClick={() => { setShowSmartFilters(v => !v); setShowHouseFilters(false); }}
               aria-label={showSmartFilters ? 'הסתר פילטרים' : 'הצג פילטרים'}
               aria-expanded={showSmartFilters}
-              className={`relative p-2 rounded-lg transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-gold ${showSmartFilters ? 'bg-gold-faint text-gold' : 'text-ink-faint hover:text-gold'}`}
+              className="relative flex focus:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+              style={{ color: showSmartFilters ? 'var(--gold)' : 'var(--text-muted)' }}
             >
               <SlidersHorizontal className="w-4 h-4" aria-hidden="true" />
               {activeFilterCount > 0 && (
-                <span className="absolute -top-0.5 -right-0.5 w-4 h-4 bg-gold text-white text-[9px] font-sans font-bold rounded-full flex items-center justify-center">
+                <span
+                  className="absolute -top-1.5 -right-1.5 flex items-center justify-center text-[9px] font-sans font-bold"
+                  style={{ width: 14, height: 14, borderRadius: '50%', background: 'var(--gold)', color: '#050505' }}
+                >
                   {activeFilterCount}
                 </span>
               )}
@@ -338,7 +331,7 @@ export default function Collection() {
               transition={{ duration: 0.25 }}
               className="max-w-2xl mx-auto overflow-hidden mb-4"
             >
-              <div className="card !p-4 space-y-3">
+              <div className="space-y-3" style={{ borderTop: '1px solid var(--border-default)', borderBottom: '1px solid var(--border-default)', padding: '16px 4px' }}>
                 <FilterRow label="עונה" options={SEASON_OPTIONS} active={filters.season} onToggle={v => toggleFilter('season', v)} />
                 <FilterRow label="אירוע" options={OCCASION_OPTIONS} active={filters.occasion} onToggle={v => toggleFilter('occasion', v)} />
                 <FilterRow label="מגדר" options={GENDER_OPTIONS} active={filters.gender} onToggle={v => toggleFilter('gender', v)} />
@@ -349,16 +342,8 @@ export default function Collection() {
                   <span className="shrink-0 text-[10px] font-hebrew uppercase tracking-wider w-12 text-left" style={{ color: 'var(--text-faint)' }}>בית</span>
                   <button
                     onClick={() => setShowHouseFilters(v => !v)}
-                    className="text-xs font-sans px-3 py-1.5 rounded-full transition-all duration-200"
-                    style={showHouseFilters ? {
-                      background: 'var(--gold-faint)',
-                      color: 'var(--gold-text)',
-                      border: '1px solid var(--border-gold)',
-                    } : {
-                      background: 'var(--bg-card)',
-                      border: '1px solid var(--border-default)',
-                      color: 'var(--text-muted)',
-                    }}
+                    className={`quiz-chip${showHouseFilters ? ' quiz-chip--selected' : ''}`}
+                    style={{ minHeight: 'auto', padding: '7px 16px' }}
                   >
                     {houseFilter === 'הכל' ? 'כל הבתים' : houseFilter}
                   </button>
@@ -380,31 +365,16 @@ export default function Collection() {
         <div className="flex items-center justify-center gap-3 mb-6 flex-wrap">
           <button
             onClick={() => { setShowMyCollection(!showMyCollection); setVisibleCount(12); }}
-            className="flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-hebrew font-medium transition-all duration-200"
-            style={showMyCollection ? {
-              background: 'var(--gold)',
-              color: '#050505',
-              border: '1px solid var(--gold-dark)',
-              boxShadow: 'var(--shadow-sm)',
-            } : {
-              background: 'var(--bg-card)',
-              border: '1px solid var(--border-default)',
-              color: 'var(--text-muted)',
-            }}
+            className={`quiz-chip${showMyCollection ? ' quiz-chip--selected' : ''}`}
+            style={{ padding: '9px 20px' }}
           >
-            <Heart className={`w-4 h-4 ${showMyCollection ? 'fill-white' : ''}`} aria-hidden="true" />
+            <Heart size={14} fill={showMyCollection ? 'currentColor' : 'none'} aria-hidden="true" />
             האוסף שלי {collection.size > 0 && `(${collection.size})`}
           </button>
 
           {hasActiveFilters && (
-            <button
-              onClick={clearAllFilters}
-              className="flex items-center gap-1.5 px-4 py-2.5 rounded-full text-sm font-hebrew font-medium transition-all duration-200"
-              style={{ border: '1px solid var(--border-default)', color: 'var(--text-muted)' }}
-              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255,100,100,0.4)'; (e.currentTarget as HTMLElement).style.color = 'rgb(220,80,80)'; }}
-              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = 'var(--border-default)'; (e.currentTarget as HTMLElement).style.color = 'var(--text-muted)'; }}
-            >
-              <X className="w-3.5 h-3.5" aria-hidden="true" />
+            <button onClick={clearAllFilters} className="quiz-chip" style={{ padding: '9px 20px' }}>
+              <X size={14} aria-hidden="true" />
               נקה הכל
             </button>
           )}

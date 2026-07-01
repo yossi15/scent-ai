@@ -21,11 +21,11 @@ export default function LiveCounter() {
 
   return (
     <div
-      className="inline-flex items-center gap-2 rounded-full"
+      className="inline-flex items-center gap-2"
       style={{
-        background: 'rgba(201,169,97,0.08)',
-        border: '1px solid rgba(201,169,97,0.25)',
-        padding: '6px 12px',
+        border: '1px solid var(--border-default)',
+        borderTop: '1px solid var(--gold)',
+        padding: '6px 14px',
       }}
     >
       <span

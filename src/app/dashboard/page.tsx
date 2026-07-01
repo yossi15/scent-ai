@@ -53,12 +53,10 @@ function StatCard({
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay, ease: [0.16, 1, 0.3, 1] }}
-      className="card p-5"
+      style={{ borderTop: '1px solid var(--border-default)', paddingTop: 16 }}
     >
-      <div className="w-9 h-9 rounded-xl bg-gold-faint flex items-center justify-center mb-3">
-        <Icon className="w-4 h-4 text-gold" />
-      </div>
-      <p className="font-serif text-3xl text-ink font-bold leading-none mb-1">{value}</p>
+      <Icon className="w-4 h-4 text-gold mb-3" />
+      <p className="font-serif text-3xl text-ink leading-none mb-1" style={{ fontWeight: 400 }}>{value}</p>
       <p className="text-ink-muted text-xs font-hebrew font-medium">{label}</p>
       {sub && <p className="text-ink-faint text-[10px] font-sans mt-0.5" dir="ltr">{sub}</p>}
     </motion.div>
@@ -93,7 +91,7 @@ function MiniCard({ frag, i }: { frag: Fragrance; i: number }) {
           </div>
           <div className="p-3">
             <p className="text-gold text-[8px] tracking-[0.15em] uppercase font-sans truncate" dir="ltr">{frag.house}</p>
-            <p className="font-serif text-sm text-ink font-semibold leading-tight truncate" dir="ltr">{frag.name}</p>
+            <p className="font-serif text-sm text-ink leading-tight truncate" style={{ fontWeight: 500 }} dir="ltr">{frag.name}</p>
             <div className="flex items-center gap-1 mt-1">
               <Star className="w-2.5 h-2.5 text-gold fill-gold" />
               <span className="text-ink-faint text-[10px] font-sans">{frag.rating}</span>
@@ -158,10 +156,8 @@ export default function Dashboard() {
       <header className="border-b border-black/[0.05] bg-bg-primary/90 backdrop-blur-md sticky top-0 z-30">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <div className="w-7 h-7 rounded-lg bg-gold-faint flex items-center justify-center">
-              <LayoutDashboard className="w-3.5 h-3.5 text-gold" />
-            </div>
-            <span className="font-serif text-base text-ink font-semibold">הדשבורד שלי</span>
+            <LayoutDashboard className="w-4 h-4 text-gold" />
+            <span className="font-serif text-base text-ink" style={{ fontWeight: 400 }}>הדשבורד שלי</span>
           </div>
           <Link
             href="/#collection"
@@ -185,8 +181,8 @@ export default function Dashboard() {
           <p className="text-gold text-[11px] tracking-[0.22em] uppercase font-sans font-medium mb-1">
             PERSONAL DASHBOARD
           </p>
-          <h1 className="font-serif text-3xl md:text-4xl text-ink font-bold">
-            שלום, {firstName} 👋
+          <h1 className="font-serif text-3xl md:text-4xl text-ink" style={{ fontWeight: 400 }}>
+            שלום, {firstName}.
           </h1>
           <p className="text-ink-muted text-sm font-hebrew mt-1">
             הנה הזהות הריחנית שלך - {collectionFrags.length} בשמים,{' '}
@@ -208,7 +204,7 @@ export default function Dashboard() {
           {/* Collection (2 cols wide) */}
           <div className="lg:col-span-2">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="font-serif text-xl text-ink font-semibold">האוסף שלי</h2>
+              <h2 className="font-serif text-xl text-ink" style={{ fontWeight: 400 }}>האוסף שלי</h2>
               <Link href="/#collection" className="text-gold text-xs font-hebrew hover:underline flex items-center gap-1">
                 <Plus className="w-3 h-3" />
                 הוסף בשמים
@@ -222,14 +218,12 @@ export default function Dashboard() {
                 ))}
               </div>
             ) : collectionFrags.length === 0 ? (
-              <div className="card p-10 text-center">
-                <div className="w-14 h-14 rounded-2xl bg-gold-faint flex items-center justify-center mx-auto mb-4">
-                  <Droplets className="w-7 h-7 text-gold/40" />
-                </div>
+              <div className="card p-10 text-center" style={{ borderRadius: 3 }}>
+                <Droplets className="w-7 h-7 text-gold/40 mx-auto mb-4" />
                 <p className="text-ink-muted text-sm font-hebrew font-light mb-4">
                   האוסף שלך ריק עדיין
                 </p>
-                <Link href="/#collection" className="btn-gold inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-hebrew text-sm">
+                <Link href="/#collection" className="quiz-cta" style={{ textDecoration: 'none' }}>
                   <Plus className="w-4 h-4" />
                   גלה בשמים
                 </Link>
@@ -249,7 +243,7 @@ export default function Dashboard() {
             {/* Diary preview */}
             <div>
               <div className="flex items-center justify-between mb-4">
-                <h2 className="font-serif text-xl text-ink font-semibold">יומן אחרון</h2>
+                <h2 className="font-serif text-xl text-ink" style={{ fontWeight: 400 }}>יומן אחרון</h2>
                 <Link href="/#diary" className="text-gold text-xs font-hebrew hover:underline">
                   כל הרשומות
                 </Link>
@@ -315,7 +309,7 @@ export default function Dashboard() {
                 transition={{ duration: 0.5, delay: 0.4 }}
                 className="card p-5"
               >
-                <h3 className="font-serif text-base text-ink font-semibold mb-4">בתי הבושם שלי</h3>
+                <h3 className="font-serif text-base text-ink mb-4" style={{ fontWeight: 400 }}>בתי הבושם שלי</h3>
                 <div className="space-y-3">
                   {topHouses.map(([house, count], i) => (
                     <div key={house}>
@@ -323,9 +317,9 @@ export default function Dashboard() {
                         <span className="text-[11px] font-sans text-ink-secondary" dir="ltr">{house}</span>
                         <span className="text-[10px] font-sans text-gold font-semibold">{count}</span>
                       </div>
-                      <div className="h-1 bg-bg-secondary rounded-full overflow-hidden">
+                      <div className="h-1 bg-bg-secondary overflow-hidden">
                         <motion.div
-                          className="h-full rounded-full"
+                          className="h-full"
                           style={{ background: 'linear-gradient(to right, #96793a, #c9a85c)' }}
                           initial={{ width: 0 }}
                           animate={{ width: `${(count / collectionFrags.length) * 100}%` }}
@@ -346,7 +340,7 @@ export default function Dashboard() {
                 transition={{ duration: 0.5, delay: 0.5 }}
                 className="card p-5"
               >
-                <h3 className="font-serif text-base text-ink font-semibold mb-4">ממוצעי ביצועים</h3>
+                <h3 className="font-serif text-base text-ink mb-4" style={{ fontWeight: 400 }}>ממוצעי ביצועים</h3>
                 <div className="space-y-3">
                   {[
                     { label: 'עמידות ממוצעת', icon: Clock, value: avgLongevity },

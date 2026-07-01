@@ -33,14 +33,14 @@ function formatDate(iso: string | null): string {
   } catch { return '-'; }
 }
 
-const statusLabel: Record<string, { text: string; color: string }> = {
-  active:               { text: 'פעיל',          color: 'text-emerald-600 bg-emerald-50 border-emerald-200' },
-  trialing:             { text: 'תקופת ניסיון',   color: 'text-blue-600 bg-blue-50 border-blue-200' },
-  past_due:             { text: 'תשלום נכשל',     color: 'text-amber-600 bg-amber-50 border-amber-200' },
-  canceled:             { text: 'בוטל',           color: 'text-red-600 bg-red-50 border-red-200' },
-  incomplete:           { text: 'לא הושלם',       color: 'text-amber-600 bg-amber-50 border-amber-200' },
-  incomplete_expired:   { text: 'פג תוקף',        color: 'text-red-600 bg-red-50 border-red-200' },
-  unpaid:               { text: 'לא שולם',        color: 'text-red-600 bg-red-50 border-red-200' },
+const statusLabel: Record<string, { text: string }> = {
+  active:               { text: 'פעיל' },
+  trialing:             { text: 'תקופת ניסיון' },
+  past_due:             { text: 'תשלום נכשל' },
+  canceled:             { text: 'בוטל' },
+  incomplete:           { text: 'לא הושלם' },
+  incomplete_expired:   { text: 'פג תוקף' },
+  unpaid:               { text: 'לא שולם' },
 };
 
 export default function AccountPage() {
@@ -113,7 +113,7 @@ export default function AccountPage() {
   const tierIdx = sub?.tier ? subscriptionTiers.findIndex(t => t.id === sub.tier) : -1;
   const tierData = tierIdx >= 0 ? subscriptionTiers[tierIdx] : null;
   const tierHe   = sub?.tier ? tierHebrewName[sub.tier] : '-';
-  const statusInfo = sub?.status ? statusLabel[sub.status] ?? { text: sub.status, color: 'text-ink-muted bg-bg-secondary border-black/10' } : null;
+  const statusInfo = sub?.status ? statusLabel[sub.status] ?? { text: sub.status } : null;
   const isActive = sub?.status === 'active' || sub?.status === 'trialing';
 
   return (
@@ -129,11 +129,9 @@ export default function AccountPage() {
             <ArrowLeft className="w-3.5 h-3.5" /> חזרה לדף הבית
           </Link>
           <div className="flex items-center gap-3 mb-2">
-            <div className="w-12 h-12 rounded-xl bg-gold-faint flex items-center justify-center">
-              <User className="w-6 h-6 text-gold" />
-            </div>
+            <User className="w-6 h-6 text-gold" />
             <div>
-              <h1 className="font-serif text-3xl text-ink font-bold">החשבון שלי</h1>
+              <h1 className="font-serif text-3xl text-ink" style={{ fontWeight: 400 }}>החשבון שלי</h1>
               {user?.primaryEmailAddress?.emailAddress && (
                 <p className="text-ink-muted text-sm font-sans" dir="ltr">
                   {user.primaryEmailAddress.emailAddress}
@@ -144,7 +142,7 @@ export default function AccountPage() {
         </motion.div>
 
         {error && (
-          <div className="bg-red-50 border border-red-200 text-red-700 text-sm font-hebrew rounded-lg p-3 mb-6 flex items-center gap-2">
+          <div style={{ borderTop: '2px solid var(--color-reject, #e74c3c)', background: 'var(--color-reject-bg, rgba(192,57,43,0.07))', color: 'var(--color-reject, #e74c3c)' }} className="text-sm font-hebrew p-3 mb-6 flex items-center gap-2">
             <AlertCircle className="w-4 h-4 shrink-0" />
             {error}
           </div>
@@ -156,16 +154,17 @@ export default function AccountPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
           className="card p-6 md:p-8 mb-6"
+          style={{ borderRadius: 3 }}
         >
           <div className="flex items-center gap-2 mb-6">
             <Crown className="w-5 h-5 text-gold" />
-            <h2 className="font-serif text-xl text-ink font-semibold">המנוי שלי</h2>
+            <h2 className="font-serif text-xl text-ink" style={{ fontWeight: 400 }}>המנוי שלי</h2>
           </div>
 
           {!hasSub ? (
             <div className="text-center py-8">
               <p className="text-ink-muted text-sm font-hebrew mb-4">אין לך מנוי פעיל כרגע</p>
-              <Link href="/#subscribe" className="btn-gold inline-flex items-center gap-2 px-6 py-3 text-sm font-hebrew rounded-lg">
+              <Link href="/#subscribe" className="quiz-cta" style={{ textDecoration: 'none' }}>
                 בחר חבילה <ArrowLeft className="w-3.5 h-3.5" />
               </Link>
             </div>
@@ -173,19 +172,22 @@ export default function AccountPage() {
             <div className="space-y-5">
               {/* Tier + Status */}
               <div className="grid sm:grid-cols-2 gap-4">
-                <div className="bg-bg-secondary rounded-xl p-4">
+                <div style={{ borderTop: '1px solid var(--border-default)', paddingTop: 12 }}>
                   <p className="text-ink-muted text-[11px] font-hebrew font-medium mb-1">החבילה שלך</p>
-                  <p className="font-serif text-2xl text-ink font-bold">{tierHe}</p>
+                  <p className="font-serif text-2xl text-ink" style={{ fontWeight: 400 }}>{tierHe}</p>
                   {tierData && (
                     <p className="text-ink-faint text-xs font-sans mt-1" dir="ltr">
                       ₪{tierData.price}/month
                     </p>
                   )}
                 </div>
-                <div className="bg-bg-secondary rounded-xl p-4">
+                <div style={{ borderTop: '1px solid var(--border-default)', paddingTop: 12 }}>
                   <p className="text-ink-muted text-[11px] font-hebrew font-medium mb-1">סטטוס</p>
                   {statusInfo && (
-                    <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-hebrew font-medium border ${statusInfo.color}`}>
+                    <span
+                      className="inline-flex items-center gap-1.5 text-xs font-hebrew font-medium"
+                      style={{ color: sub?.status === 'active' || sub?.status === 'trialing' ? 'var(--gold)' : 'var(--color-reject, #e74c3c)' }}
+                    >
                       {sub?.status === 'active' && <CheckCircle2 className="w-3 h-3" />}
                       {statusInfo.text}
                     </span>
@@ -194,15 +196,13 @@ export default function AccountPage() {
               </div>
 
               {/* Renewal date */}
-              <div className="bg-bg-secondary rounded-xl p-4 flex items-center gap-3">
-                <div className="w-10 h-10 rounded-lg bg-gold-faint flex items-center justify-center shrink-0">
-                  <Calendar className="w-4 h-4 text-gold" />
-                </div>
+              <div style={{ borderTop: '1px solid var(--border-default)', paddingTop: 12 }} className="flex items-center gap-3">
+                <Calendar className="w-4 h-4 text-gold shrink-0" />
                 <div className="flex-1">
                   <p className="text-ink-muted text-[11px] font-hebrew font-medium">
                     {sub?.cancelAtPeriodEnd ? 'תאריך סיום המנוי' : 'תאריך החידוש הבא'}
                   </p>
-                  <p className="text-ink font-serif text-base font-semibold">
+                  <p className="text-ink font-serif text-base" style={{ fontWeight: 500 }}>
                     {formatDate(sub?.currentPeriodEnd ?? null)}
                   </p>
                 </div>
@@ -210,9 +210,9 @@ export default function AccountPage() {
 
               {/* Cancel notice */}
               {sub?.cancelAtPeriodEnd && (
-                <div className="bg-amber-50 border border-amber-200 rounded-xl p-4">
-                  <p className="text-amber-800 text-sm font-hebrew flex items-start gap-2">
-                    <AlertCircle className="w-4 h-4 mt-0.5 shrink-0" />
+                <div style={{ borderTop: '2px solid var(--gold)', paddingTop: 12 }}>
+                  <p className="text-ink-secondary text-sm font-hebrew flex items-start gap-2">
+                    <AlertCircle className="w-4 h-4 mt-0.5 shrink-0" style={{ color: 'var(--gold)' }} />
                     <span>המנוי שלך יבוטל בתאריך הנ&quot;ל. עד אז תיהנה מכל ההטבות.</span>
                   </p>
                 </div>
@@ -223,7 +223,7 @@ export default function AccountPage() {
                 <button
                   onClick={openPortal}
                   disabled={actionLoading !== null}
-                  className="btn-outline flex-1 py-3 text-sm font-hebrew flex items-center justify-center gap-2 rounded-lg disabled:opacity-60"
+                  className="quiz-chip flex-1 justify-center disabled:opacity-60"
                 >
                   {actionLoading === 'portal'
                     ? <Loader2 className="w-3.5 h-3.5 animate-spin" />
@@ -235,7 +235,8 @@ export default function AccountPage() {
                   <button
                     onClick={() => setConfirm(true)}
                     disabled={actionLoading !== null}
-                    className="flex-1 py-3 text-sm font-hebrew rounded-lg border border-red-200 text-red-600 hover:bg-red-50 flex items-center justify-center gap-2 disabled:opacity-60"
+                    className="quiz-chip flex-1 justify-center disabled:opacity-60"
+                    style={{ borderColor: 'var(--color-reject, #e74c3c)', color: 'var(--color-reject, #e74c3c)' }}
                   >
                     <XCircle className="w-3.5 h-3.5" />
                     בטל מנוי
@@ -246,7 +247,7 @@ export default function AccountPage() {
                   <button
                     onClick={() => handleCancel(true)}
                     disabled={actionLoading !== null}
-                    className="flex-1 py-3 text-sm font-hebrew rounded-lg border border-emerald-200 text-emerald-700 hover:bg-emerald-50 flex items-center justify-center gap-2 disabled:opacity-60"
+                    className="quiz-chip quiz-chip--selected flex-1 justify-center disabled:opacity-60"
                   >
                     {actionLoading === 'resume'
                       ? <Loader2 className="w-3.5 h-3.5 animate-spin" />
@@ -266,21 +267,17 @@ export default function AccountPage() {
           transition={{ delay: 0.2 }}
           className="grid sm:grid-cols-2 gap-3"
         >
-          <Link href="/dashboard" className="card p-4 flex items-center gap-3 hover:border-gold transition-colors">
-            <div className="w-10 h-10 rounded-lg bg-gold-faint flex items-center justify-center">
-              <Crown className="w-4 h-4 text-gold" />
-            </div>
+          <Link href="/dashboard" className="card p-4 flex items-center gap-3 hover:border-gold transition-colors" style={{ borderRadius: 3 }}>
+            <Crown className="w-4 h-4 text-gold" />
             <div>
-              <p className="font-serif text-sm text-ink font-semibold">הדשבורד שלי</p>
+              <p className="font-serif text-sm text-ink" style={{ fontWeight: 500 }}>הדשבורד שלי</p>
               <p className="text-ink-faint text-[11px] font-hebrew">קולקציה ויומן</p>
             </div>
           </Link>
-          <Link href="/#subscribe" className="card p-4 flex items-center gap-3 hover:border-gold transition-colors">
-            <div className="w-10 h-10 rounded-lg bg-gold-faint flex items-center justify-center">
-              <Calendar className="w-4 h-4 text-gold" />
-            </div>
+          <Link href="/#subscribe" className="card p-4 flex items-center gap-3 hover:border-gold transition-colors" style={{ borderRadius: 3 }}>
+            <Calendar className="w-4 h-4 text-gold" />
             <div>
-              <p className="font-serif text-sm text-ink font-semibold">חבילות מנוי</p>
+              <p className="font-serif text-sm text-ink" style={{ fontWeight: 500 }}>חבילות מנוי</p>
               <p className="text-ink-faint text-[11px] font-hebrew">השווה ושדרג</p>
             </div>
           </Link>
@@ -292,13 +289,12 @@ export default function AccountPage() {
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="bg-bg-primary rounded-2xl p-6 max-w-md w-full shadow-xl"
+              className="bg-bg-primary p-6 max-w-md w-full shadow-xl"
+              style={{ borderRadius: 3, borderTop: '2px solid var(--color-reject, #e74c3c)' }}
             >
               <div className="flex items-center gap-3 mb-3">
-                <div className="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center">
-                  <AlertCircle className="w-5 h-5 text-red-600" />
-                </div>
-                <h3 className="font-serif text-lg text-ink font-bold">לבטל את המנוי?</h3>
+                <AlertCircle className="w-5 h-5" style={{ color: 'var(--color-reject, #e74c3c)' }} />
+                <h3 className="font-serif text-lg text-ink" style={{ fontWeight: 400 }}>לבטל את המנוי?</h3>
               </div>
               <p className="text-ink-muted text-sm font-hebrew mb-6">
                 המנוי יישאר פעיל עד {formatDate(sub?.currentPeriodEnd ?? null)}.
@@ -308,14 +304,15 @@ export default function AccountPage() {
                 <button
                   onClick={() => setConfirm(false)}
                   disabled={actionLoading !== null}
-                  className="flex-1 py-2.5 text-sm font-hebrew rounded-lg btn-outline"
+                  className="quiz-chip flex-1 justify-center"
                 >
                   השאר את המנוי
                 </button>
                 <button
                   onClick={() => handleCancel(false)}
                   disabled={actionLoading !== null}
-                  className="flex-1 py-2.5 text-sm font-hebrew rounded-lg bg-red-600 text-white hover:bg-red-700 flex items-center justify-center gap-2 disabled:opacity-60"
+                  className="flex-1 py-2.5 text-sm font-hebrew flex items-center justify-center gap-2 disabled:opacity-60"
+                  style={{ background: 'var(--color-reject, #e74c3c)', color: '#fff', border: 'none' }}
                 >
                   {actionLoading === 'cancel' && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
                   כן, בטל

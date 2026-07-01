@@ -54,7 +54,7 @@ export default function HowItWorks() {
           <h2 className="ed-h">
             שלושה שלבים,{' '}
             <em style={{ fontFamily: 'Georgia, serif', fontStyle: 'italic', color: 'var(--gold)' }}>
-              בלי לצאת מהבית.
+              לפני שאתה מתחייב.
             </em>
           </h2>
         </div>
@@ -86,6 +86,19 @@ export default function HowItWorks() {
             </motion.div>
           ))}
         </div>
+
+        {/* Closing note — AI narrows down, it doesn't replace smelling */}
+        <p
+          style={{
+            marginTop: 'var(--s6)',
+            fontSize: 13,
+            color: 'var(--text-muted)',
+            lineHeight: 1.7,
+            maxWidth: 520,
+          }}
+        >
+          מכאן הכדור אצלך — תבקש דוגמית לכל המלצה ותריח בעצמך, לפני שאתה משלם על בקבוק שלם.
+        </p>
       </div>
     </section>
   );

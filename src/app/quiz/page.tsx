@@ -83,24 +83,14 @@ function Pill({
       onClick={onClick}
       disabled={disabled}
       aria-pressed={selected}
-      style={{
-        width: '100%', textAlign: 'right', padding: '14px 18px',
-        border: selected ? '1.5px solid var(--gold)' : '1px solid var(--border-default)',
-        background: selected ? 'rgba(201,169,97,0.07)' : 'var(--bg-card)',
-        cursor: disabled ? 'not-allowed' : 'pointer',
-        opacity: disabled ? 0.4 : 1,
-        transition: 'all 0.15s',
-        display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12,
-        borderRadius: 8, minHeight: 48,
-      }}
+      className={`quiz-option${selected ? ' quiz-option--selected' : ''}`}
+      style={{ opacity: disabled ? 0.4 : 1, cursor: disabled ? 'not-allowed' : 'pointer' }}
     >
       <div style={{ flex: 1 }}>
-        <p style={{ fontSize: 14, fontWeight: 500, color: selected ? 'var(--gold)' : 'var(--text-primary)', marginBottom: desc ? 3 : 0 }}>
-          {label}
-        </p>
-        {desc && <p style={{ fontSize: 11, color: 'var(--text-muted)', lineHeight: 1.5 }}>{desc}</p>}
+        <p className="quiz-option-label" style={{ fontSize: 15 }}>{label}</p>
+        {desc && <p className="quiz-option-desc">{desc}</p>}
       </div>
-      {selected && <Check size={14} color="var(--gold)" style={{ flexShrink: 0 }} />}
+      <Check size={15} className="quiz-option-check" />
     </button>
   );
 }
@@ -116,20 +106,12 @@ function DirectionGrid({ selected, onSelect }: { selected: string; onSelect: (v:
             key={opt.id}
             onClick={() => onSelect(opt.id)}
             aria-pressed={isSel}
-            style={{
-              padding: '16px', textAlign: 'right',
-              border: isSel ? '1.5px solid var(--gold)' : '1px solid var(--border-default)',
-              background: isSel ? 'rgba(201,169,97,0.07)' : 'var(--bg-card)',
-              borderRadius: 10, cursor: 'pointer', transition: 'all 0.15s',
-              display: 'flex', flexDirection: 'column', gap: 8, minHeight: 90,
-            }}
+            className={`quiz-option-tile${isSel ? ' quiz-option-tile--selected' : ''}`}
           >
-            <span aria-hidden="true" style={{ color: isSel ? 'var(--gold)' : 'var(--text-muted)', display: 'flex', lineHeight: 0 }}>{opt.icon}</span>
-            <div style={{ color: 'inherit' }}>
-              <p style={{ margin: '0 0 3px', fontSize: 13, fontWeight: 600, color: isSel ? 'var(--gold)' : 'var(--text-primary)' }}>
-                {opt.label}
-              </p>
-              <p style={{ margin: 0, fontSize: 10, color: 'var(--text-tertiary)', lineHeight: 1.4 }}>{opt.desc}</p>
+            <span aria-hidden="true" className="quiz-option-tile-icon" style={{ display: 'flex', lineHeight: 0 }}>{opt.icon}</span>
+            <div>
+              <p className="quiz-option-tile-label">{opt.label}</p>
+              <p className="quiz-option-tile-desc">{opt.desc}</p>
             </div>
           </button>
         );
@@ -153,14 +135,7 @@ function NoteChips({ selected, onChange }: { selected: string[]; onChange: (v: s
             key={note}
             onClick={() => toggle(note)}
             aria-pressed={isSel}
-            style={{
-              padding: '8px 16px', borderRadius: 100,
-              border: isSel ? '1.5px solid var(--gold)' : '1px solid var(--border-default)',
-              background: isSel ? 'rgba(201,169,97,0.12)' : 'var(--bg-card)',
-              color: isSel ? 'var(--gold)' : 'var(--text-secondary)',
-              fontSize: 13, cursor: 'pointer', transition: 'all 0.15s',
-              display: 'flex', alignItems: 'center', gap: 6, minHeight: 44,
-            }}
+            className={`quiz-chip${isSel ? ' quiz-chip--selected' : ''}`}
           >
             {isSel && <Check size={11} />}
             {note}
@@ -178,7 +153,7 @@ function AvoidedGrid({ selected, onChange }: { selected: string[]; onChange: (v:
     else onChange([...selected, id]);
   };
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+    <div className="quiz-option-list">
       {AVOIDED_OPTIONS.map(opt => {
         const isSel = selected.includes(opt.id);
         return (
@@ -186,32 +161,23 @@ function AvoidedGrid({ selected, onChange }: { selected: string[]; onChange: (v:
             key={opt.id}
             onClick={() => toggle(opt.id)}
             aria-pressed={isSel}
-            style={{
-              width: '100%', textAlign: 'right', padding: '10px 16px',
-              border: isSel ? '1.5px solid #c0392b' : '1px solid var(--border-default)',
-              background: isSel ? 'rgba(192,57,43,0.07)' : 'var(--bg-card)',
-              cursor: 'pointer', transition: 'all 0.15s',
-              display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12,
-              borderRadius: 8, minHeight: 44,
-            }}
+            className={`quiz-option${isSel ? ' quiz-option--reject-selected' : ''}`}
           >
             <div style={{ flex: 1 }}>
-              <p style={{ fontSize: 14, fontWeight: 500, color: isSel ? '#e74c3c' : 'var(--text-primary)', marginBottom: 2 }}>
-                {opt.label}
-              </p>
-              <p style={{ fontSize: 11, color: 'var(--text-muted)' }}>{opt.desc}</p>
+              <p className="quiz-option-label" style={{ fontSize: 15 }}>{opt.label}</p>
+              <p className="quiz-option-desc">{opt.desc}</p>
             </div>
-            {isSel && <Ban size={14} color="#e74c3c" style={{ flexShrink: 0 }} />}
+            <Ban size={15} className="quiz-option-check" />
           </button>
         );
       })}
       <button
         onClick={() => onChange([])}
         style={{
-          marginTop: 4, padding: '12px', width: '100%',
+          marginTop: 16, padding: '12px', width: '100%',
           border: '1px dashed var(--border-default)',
           background: 'transparent', color: 'var(--text-muted)',
-          fontSize: 13, cursor: 'pointer', borderRadius: 8, minHeight: 44,
+          fontSize: 13, cursor: 'pointer', borderRadius: 3, minHeight: 44,
         }}
       >
         אין לי תווים בעייתיים
@@ -223,7 +189,7 @@ function AvoidedGrid({ selected, onChange }: { selected: string[]; onChange: (v:
 /* ─── Q6: Projection dots ────────────────────────────────────────────── */
 function ProjectionCards({ selected, onSelect }: { selected: string; onSelect: (v: string) => void }) {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+    <div className="quiz-option-list">
       {PROJECTION_OPTIONS.map(opt => {
         const isSel = selected === opt.id;
         return (
@@ -231,36 +197,27 @@ function ProjectionCards({ selected, onSelect }: { selected: string; onSelect: (
             key={opt.id}
             onClick={() => onSelect(opt.id)}
             aria-pressed={isSel}
-            style={{
-              width: '100%', textAlign: 'right', padding: '16px 18px',
-              border: isSel ? '1.5px solid var(--gold)' : '1px solid var(--border-default)',
-              background: isSel ? 'rgba(201,169,97,0.07)' : 'var(--bg-card)',
-              cursor: 'pointer', transition: 'all 0.15s',
-              display: 'flex', alignItems: 'center', gap: 16,
-              borderRadius: 8, minHeight: 56,
-            }}
+            className={`quiz-option${isSel ? ' quiz-option--selected' : ''}`}
           >
             <div style={{ display: 'flex', gap: 5, flexShrink: 0 }}>
               {[1, 2, 3].map(d => (
                 <div
                   key={d}
                   style={{
-                    width: 10, height: 10, borderRadius: '50%',
+                    width: 8, height: 8, borderRadius: '50%',
                     background: d <= opt.dots
                       ? (isSel ? 'var(--gold)' : 'var(--text-muted)')
                       : 'var(--border-default)',
-                    transition: 'background 0.15s',
+                    transition: 'background 150ms ease',
                   }}
                 />
               ))}
             </div>
             <div style={{ flex: 1 }}>
-              <p style={{ fontSize: 14, fontWeight: 500, color: isSel ? 'var(--gold)' : 'var(--text-primary)', marginBottom: 2 }}>
-                {opt.label}
-              </p>
-              <p style={{ fontSize: 11, color: 'var(--text-muted)' }}>{opt.desc}</p>
+              <p className="quiz-option-label" style={{ fontSize: 15 }}>{opt.label}</p>
+              <p className="quiz-option-desc">{opt.desc}</p>
             </div>
-            {isSel && <Check size={14} color="var(--gold)" style={{ flexShrink: 0 }} />}
+            <Check size={15} className="quiz-option-check" />
           </button>
         );
       })}
@@ -291,19 +248,13 @@ function CollectionSearch({ selected, onChange }: { selected: string[]; onChange
     <div>
       {/* Chips of selected */}
       {selectedFragrances.length > 0 && (
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 12 }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 16 }}>
           {selectedFragrances.map(f => (
             <button
               key={f.id}
               onClick={() => toggle(String(f.id))}
               aria-label={`הסר ${f.name}`}
-              style={{
-                display: 'flex', alignItems: 'center', gap: 6,
-                padding: '5px 12px',
-                border: '1px solid var(--border-gold)',
-                background: 'rgba(201,169,97,0.08)',
-                borderRadius: 100, fontSize: 12, color: 'var(--gold)', cursor: 'pointer',
-              }}
+              className="quiz-chip quiz-chip--selected"
             >
               {f.name} <X size={11} />
             </button>
@@ -312,7 +263,7 @@ function CollectionSearch({ selected, onChange }: { selected: string[]; onChange
       )}
 
       {/* Search input */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 10, border: '1px solid var(--border-default)', background: 'var(--bg-card)', padding: '12px 16px', marginBottom: 8, borderRadius: 8 }}>
+      <div className="quiz-search-field">
         <Search size={16} style={{ color: 'var(--text-muted)', flexShrink: 0 }} />
         <input
           ref={inputRef}
@@ -322,11 +273,10 @@ function CollectionSearch({ selected, onChange }: { selected: string[]; onChange
           onChange={e => setQuery(e.target.value)}
           dir="rtl"
           aria-label="חיפוש בשמים"
-          style={{ flex: 1, border: 'none', outline: 'none', background: 'transparent', fontSize: 14, color: 'var(--text-primary)' }}
           autoComplete="off"
         />
         {query && (
-          <button onClick={() => setQuery('')} aria-label="נקה חיפוש" style={{ color: 'var(--text-muted)', background: 'none', border: 'none', cursor: 'pointer' }}>
+          <button onClick={() => setQuery('')} aria-label="נקה חיפוש" className="quiz-search-clear">
             <X size={14} />
           </button>
         )}
@@ -334,25 +284,20 @@ function CollectionSearch({ selected, onChange }: { selected: string[]; onChange
 
       {/* Dropdown results */}
       {results.length > 0 && (
-        <div style={{ marginBottom: 12, border: '1px solid var(--border-default)', borderRadius: 8, overflow: 'hidden' }}>
-          {results.map((f, i) => {
+        <div className="quiz-dropdown">
+          {results.map(f => {
             const isSel = selected.includes(String(f.id));
             return (
               <button
                 key={f.id}
                 onClick={() => toggle(String(f.id))}
-                style={{
-                  width: '100%', textAlign: 'right', padding: '10px 14px',
-                  border: 'none', borderBottom: i < results.length - 1 ? '1px solid var(--border-subtle)' : 'none',
-                  background: isSel ? 'rgba(201,169,97,0.07)' : 'var(--bg-card)',
-                  cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, minHeight: 44,
-                }}
+                className={`quiz-dropdown-item${isSel ? ' quiz-dropdown-item--selected' : ''}`}
               >
-                <div style={{ flex: 1 }}>
-                  <span style={{ fontWeight: 500, fontSize: 13, color: 'var(--text-primary)' }}>{f.name}</span>
-                  <span style={{ fontSize: 11, color: 'var(--text-muted)', marginRight: 8 }}>{f.house}</span>
+                <div>
+                  <span className="quiz-dropdown-item-name">{f.name}</span>
+                  <span className="quiz-dropdown-item-house">{f.house}</span>
                 </div>
-                {isSel && <Check size={13} color="var(--gold)" />}
+                {isSel && <Check size={13} />}
               </button>
             );
           })}
@@ -369,7 +314,7 @@ function CollectionSearch({ selected, onChange }: { selected: string[]; onChange
           padding: '12px 0', width: '100%',
           border: '1px dashed var(--border-default)',
           background: 'transparent', color: 'var(--text-muted)',
-          fontSize: 13, cursor: 'pointer', borderRadius: 8, minHeight: 44,
+          fontSize: 13, cursor: 'pointer', borderRadius: 3, minHeight: 44,
         }}
       >
         אין לי בשמים עדיין - תמליץ מאפס
@@ -433,29 +378,12 @@ function EmailGate({ onSubmit, onSkip, topFragrance }: {
       </h1>
 
       {/* Preview card - #1 visible */}
-      <div style={{
-        background: 'var(--bg-card)', border: '1.5px solid var(--border-gold)',
-        borderRadius: 12, padding: '16px 18px', marginBottom: 6,
-        display: 'flex', alignItems: 'center', gap: 14,
-      }}>
-        <div style={{
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          width: 44, height: 44, borderRadius: '50%',
-          background: 'rgba(201,169,97,0.12)', border: '1px solid var(--border-gold)',
-          flexShrink: 0,
-        }}>
-          <span style={{ fontFamily: 'Georgia, serif', fontWeight: 400, fontSize: 13, color: 'var(--gold)' }}>
-            {displayTop.score}%
-          </span>
+      <div className="rec-card rec-card--top" style={{ marginBottom: 10 }}>
+        <div className="rec-card-head">
+          <p className="rec-card-house">{displayTop.house}</p>
+          <span className="rec-card-score">{displayTop.score}<small>ציון</small></span>
         </div>
-        <div style={{ flex: 1, minWidth: 0 }}>
-          <p style={{ fontSize: 9, letterSpacing: 2, textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: 3 }}>
-            {displayTop.house}
-          </p>
-          <p style={{ fontSize: 15, fontWeight: 500, color: 'var(--text-primary)', fontFamily: 'Georgia, serif' }}>
-            {displayTop.name}
-          </p>
-        </div>
+        <h2 className="rec-card-name" style={{ marginBottom: 0 }}>{displayTop.name}</h2>
       </div>
 
       {/* Blurred preview cards */}
@@ -463,34 +391,22 @@ function EmailGate({ onSubmit, onSkip, topFragrance }: {
         <div
           key={i}
           aria-hidden="true"
-          style={{
-            background: 'var(--bg-card)', border: '1px solid var(--border-subtle)',
-            borderRadius: 10, padding: '14px 18px', marginBottom: 6,
-            display: 'flex', alignItems: 'center', gap: 14,
-            filter: 'blur(4px)', opacity: 0.45,
-            userSelect: 'none',
-          }}
+          className="rec-card"
+          style={{ marginBottom: 10, filter: 'blur(4px)', opacity: 0.45, userSelect: 'none' }}
         >
-          <div style={{ width: 44, height: 44, borderRadius: '50%', background: 'var(--border-default)', flexShrink: 0 }} />
-          <div style={{ flex: 1 }}>
-            <div style={{ height: 8, width: '35%', background: 'var(--border-default)', borderRadius: 4, marginBottom: 8 }} />
-            <div style={{ height: 13, width: '60%', background: 'var(--border-default)', borderRadius: 4 }} />
-          </div>
+          <div style={{ height: 8, width: '35%', background: 'var(--border-default)', marginBottom: 10 }} />
+          <div style={{ height: 15, width: '60%', background: 'var(--border-default)' }} />
         </div>
       ))}
 
-      {/* Lock pill */}
-      <div style={{ textAlign: 'center', marginBottom: 24 }}>
-        <span style={{
-          display: 'inline-flex', alignItems: 'center', gap: 6,
-          padding: '5px 14px', borderRadius: 100,
-          background: 'rgba(201,169,97,0.08)', border: '1px solid var(--border-gold)',
-          fontSize: 11, color: 'var(--gold)',
-        }}>
-          <Lock size={11} />
-          עוד 9 התאמות נעולות
-        </span>
-      </div>
+      {/* Lock label */}
+      <p style={{
+        display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
+        fontSize: 11, letterSpacing: 1, color: 'var(--gold)', marginBottom: 24,
+      }}>
+        <Lock size={11} />
+        עוד 9 התאמות נעולות
+      </p>
 
       {/* Email form */}
       <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 12 }}>
@@ -503,7 +419,7 @@ function EmailGate({ onSubmit, onSkip, topFragrance }: {
           dir="rtl"
           aria-label="כתובת אימייל"
           style={{
-            padding: '14px 16px', borderRadius: 8,
+            padding: '14px 16px', borderRadius: 3,
             border: '1px solid var(--border-default)', background: 'var(--bg-card)',
             color: 'var(--text-primary)', fontSize: 14,
             width: '100%', boxSizing: 'border-box',
@@ -512,14 +428,8 @@ function EmailGate({ onSubmit, onSkip, topFragrance }: {
         <button
           type="submit"
           disabled={loading || !email.includes('@')}
-          style={{
-            padding: '14px', borderRadius: 8,
-            background: email.includes('@') ? 'var(--gold)' : 'var(--border-default)',
-            color: email.includes('@') ? '#050505' : 'var(--text-muted)',
-            border: 'none', fontSize: 14, fontWeight: 600,
-            cursor: email.includes('@') && !loading ? 'pointer' : 'not-allowed',
-            transition: 'all 0.2s', minHeight: 48,
-          }}
+          className="quiz-cta"
+          style={{ width: '100%' }}
         >
           {loading ? 'מנתח...' : 'חשוף את כל ה-10'}
         </button>
@@ -588,18 +498,7 @@ function IntroScreen({ onStart }: { onStart: () => void }) {
       </div>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-        <button
-          onClick={onStart}
-          data-quiz-start
-          style={{
-            fontSize: 14, fontWeight: 600, padding: '15px 48px',
-            borderRadius: 8, background: 'var(--gold)', color: '#050505',
-            border: 'none', cursor: 'pointer', minHeight: 48,
-            transition: 'opacity 0.2s',
-          }}
-          onMouseEnter={e => (e.currentTarget.style.opacity = '0.87')}
-          onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
-        >
+        <button onClick={onStart} data-quiz-start className="quiz-cta">
           בוא נתחיל את המסע
         </button>
         <p style={{ fontSize: 11, color: 'var(--text-faint)' }}>3 דקות · ללא הרשמה · מיידי</p>
@@ -797,7 +696,7 @@ export default function QuizPage() {
 
       {/* Body */}
       <div
-        style={{ flex: 1, display: 'flex', flexDirection: 'column', maxWidth: 600, width: '100%', margin: '0 auto', padding: '28px 20px 140px' }}
+        style={{ flex: 1, display: 'flex', flexDirection: 'column', maxWidth: 600, width: '100%', margin: '0 auto', padding: '28px 20px 140px', overflow: 'hidden' }}
         dir="rtl"
       >
         <AnimatePresence mode="wait" custom={direction}>
@@ -938,7 +837,7 @@ export default function QuizPage() {
 
       {/* Footer CTA */}
       <div
-        style={{ position: 'fixed', bottom: 0, left: 0, right: 0, background: 'var(--bg-primary)', borderTop: '1px solid var(--border-subtle)', padding: '16px 20px 28px', zIndex: 40 }}
+        style={{ position: 'fixed', bottom: 0, left: 0, right: 0, background: 'var(--bg-primary)', borderTop: '1px solid var(--border-subtle)', padding: '16px 20px max(28px, env(safe-area-inset-bottom))', zIndex: 40 }}
         dir="rtl"
       >
         <div style={{ maxWidth: 600, margin: '0 auto' }}>

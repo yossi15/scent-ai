@@ -55,7 +55,7 @@ function BottleVisual({ fragrance, size = 'lg' }: { fragrance: Fragrance; size?:
   }
 
   return (
-    <div style={{ width: w, height: h, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(201,169,97,0.08)', borderRadius: 12 }}>
+    <div style={{ width: w, height: h, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(201,169,97,0.08)', borderRadius: 3 }}>
       <span style={{ fontFamily: "Georgia, serif", fontSize: size === 'lg' ? 56 : 28, color: 'var(--text-muted)', userSelect: 'none' }} aria-hidden="true">
         {fragrance.house.charAt(0)}
       </span>
@@ -88,7 +88,7 @@ function NotesPyramid({ notes }: { notes: Fragrance['notes'] }) {
               {tierNotes.map(n => (
                 <span
                   key={n.name}
-                  style={{ fontSize: 11, padding: '4px 10px', borderRadius: 100, background: tier.bg, color: tier.color, border: `1px solid ${tier.bg}` }}
+                  style={{ fontSize: 11, padding: '4px 10px', borderRadius: 3, background: tier.bg, color: tier.color, border: `1px solid ${tier.bg}` }}
                   dir="ltr"
                 >
                   {n.name}
@@ -188,7 +188,7 @@ export default function FragranceSlugPage() {
     return (
       <div style={{ minHeight: '100dvh', background: 'var(--bg-primary)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 16 }}>
         <p style={{ fontSize: 14, color: 'var(--text-muted)' }}>הבושם לא נמצא</p>
-        <Link href="/collection" style={{ padding: '10px 24px', background: 'var(--gold)', color: '#050505', textDecoration: 'none', borderRadius: 6, fontSize: 13, fontWeight: 600 }}>
+        <Link href="/collection" className="quiz-cta" style={{ textDecoration: 'none' }}>
           חזרה לקולקציה
         </Link>
       </div>
@@ -243,15 +243,15 @@ export default function FragranceSlugPage() {
               <div style={{
                 background: 'linear-gradient(160deg, rgba(201,169,97,0.15), rgba(201,169,97,0.04))',
                 border: '1px solid rgba(201,169,97,0.15)',
-                borderRadius: 16, padding: 24,
+                borderRadius: 3, padding: 24,
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 boxShadow: '0 30px 60px rgba(201,169,97,0.12)',
               }}>
                 <BottleVisual fragrance={fragrance} size="lg" />
               </div>
             </div>
-            {/* Rating badge */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: 4, background: 'var(--bg-card)', border: '1px solid var(--border-default)', borderRadius: 100, padding: '4px 10px' }}>
+            {/* Rating */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
               <Star size={12} color="var(--gold)" fill="var(--gold)" />
               <span style={{ fontSize: 11, color: 'var(--text-secondary)', fontWeight: 600 }}>{fragrance.rating}</span>
             </div>
@@ -267,14 +267,10 @@ export default function FragranceSlugPage() {
               {fragrance.name}
             </h1>
 
-            {/* Meta chips */}
-            <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
-              {[fragrance.year, fragrance.concentration, fragrance.gender, fragrance.size].filter(Boolean).map(chip => (
-                <span key={chip} style={{ fontSize: 9, padding: '3px 8px', background: 'var(--bg-tertiary)', border: '1px solid var(--border-default)', borderRadius: 100, color: 'var(--text-muted)' }}>
-                  {chip}
-                </span>
-              ))}
-            </div>
+            {/* Meta line */}
+            <p style={{ fontSize: 12, color: 'var(--text-muted)', letterSpacing: 0.3, margin: 0 }} dir="ltr">
+              {[fragrance.year, fragrance.concentration, fragrance.gender, fragrance.size].filter(Boolean).join(' · ')}
+            </p>
 
             {/* Price */}
             <div>
@@ -293,18 +289,15 @@ export default function FragranceSlugPage() {
                 href={buyUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                style={{
-                  flex: 1, minWidth: 160, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 6,
-                  padding: '12px 20px', borderRadius: 8, background: 'var(--gold)', color: '#050505',
-                  fontSize: 13, fontWeight: 600, textDecoration: 'none', whiteSpace: 'nowrap',
-                }}
+                className="quiz-cta"
+                style={{ flex: 1, minWidth: 160, gap: 6, textDecoration: 'none', whiteSpace: 'nowrap' }}
               >
                 מצא מחיר טוב ביותר <ExternalLink size={13} />
               </a>
 
               {isLoaded && !isSignedIn ? (
                 <SignInButton mode="modal">
-                  <button style={{ flex: 'none', display: 'inline-flex', alignItems: 'center', gap: 6, padding: '12px 16px', borderRadius: 8, border: '1px solid var(--border-default)', background: 'transparent', color: 'var(--text-secondary)', fontSize: 13, cursor: 'pointer' }}>
+                  <button className="quiz-chip" style={{ flex: 'none' }}>
                     <Plus size={14} />
                     לאוסף
                   </button>
@@ -312,7 +305,8 @@ export default function FragranceSlugPage() {
               ) : (
                 <button
                   onClick={toggleCollection}
-                  style={{ flex: 'none', display: 'inline-flex', alignItems: 'center', gap: 6, padding: '12px 16px', borderRadius: 8, border: inCollection ? '1px solid var(--border-gold)' : '1px solid var(--border-default)', background: inCollection ? 'rgba(201,169,97,0.08)' : 'transparent', color: inCollection ? 'var(--gold)' : 'var(--text-secondary)', fontSize: 13, cursor: 'pointer' }}
+                  className={`quiz-chip${inCollection ? ' quiz-chip--selected' : ''}`}
+                  style={{ flex: 'none' }}
                 >
                   {inCollection ? <Check size={14} /> : <Plus size={14} />}
                   {inCollection ? 'באוסף' : 'לאוסף'}
@@ -324,11 +318,9 @@ export default function FragranceSlugPage() {
 
         {/* ── "למה זה אתה" (only when logged in + quiz done) ────────── */}
         {isSignedIn && (
-          <div className="frag-section-outer" style={{ margin: '0 28px 8px', background: 'var(--bg-card)', border: '1px solid var(--border-gold)', borderRadius: 12, padding: 18 }}>
+          <div className="frag-section-outer rec-card rec-card--top" style={{ margin: '0 28px 8px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
-              <div style={{ width: 32, height: 32, borderRadius: '50%', background: 'rgba(201,169,97,0.1)', border: '1px solid var(--border-gold)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <Sparkles size={14} color="var(--gold)" />
-              </div>
+              <Sparkles size={16} color="var(--gold)" style={{ flexShrink: 0 }} />
               <div>
                 <p style={{ fontSize: 9, color: 'var(--gold-text)', letterSpacing: 2, textTransform: 'uppercase', marginBottom: 2 }}>הניתוח האישי שלך</p>
                 <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-primary)' }}>למה זה אתה</p>
@@ -339,9 +331,9 @@ export default function FragranceSlugPage() {
                 ? `בחרת בניחוחות חמים ועוטפים. ${fragrance.name} מחבר בין ${fragrance.notes.filter(n => n.type === 'base').slice(0, 2).map(n => n.name).join(' ו-')} לכדי חוויה ייחודית שמתאימה לפרופיל שלך.`
                 : `הבושם הזה מתאים לפרופיל הריחני שלך ומשלים את האוסף הקיים שלך בצורה מעניינת.`}
             </p>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
               {[`✓ ${fragrance.family}`, `✓ עמידות ${fragrance.longevity}/10`, `✓ הקרנה ${fragrance.sillage}/10`].map(chip => (
-                <span key={chip} style={{ fontSize: 10, padding: '4px 10px', background: 'var(--gold-faint)', border: '1px solid var(--border-gold)', borderRadius: 100, color: 'var(--gold-text)' }}>
+                <span key={chip} className="quiz-chip quiz-chip--selected" style={{ cursor: 'default' }}>
                   {chip}
                 </span>
               ))}
@@ -351,11 +343,11 @@ export default function FragranceSlugPage() {
 
         {/* ── Notes + Performance ───────────────────────────────────── */}
         <div className="frag-section-pad" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 20, padding: '28px 28px' }}>
-          <div style={{ background: 'var(--bg-card)', border: '1px solid var(--border-default)', borderRadius: 12, padding: 20 }}>
+          <div className="rec-card">
             <p style={{ fontSize: 11, fontWeight: 600, color: 'var(--text-secondary)', marginBottom: 16, letterSpacing: 1 }}>פירמידת הריח</p>
             <NotesPyramid notes={fragrance.notes} />
           </div>
-          <div style={{ background: 'var(--bg-card)', border: '1px solid var(--border-default)', borderRadius: 12, padding: 20 }}>
+          <div className="rec-card">
             <p style={{ fontSize: 11, fontWeight: 600, color: 'var(--text-secondary)', marginBottom: 16, letterSpacing: 1 }}>ביצועים</p>
             <PerformanceBars longevity={fragrance.longevity} sillage={fragrance.sillage} />
           </div>
@@ -370,14 +362,14 @@ export default function FragranceSlugPage() {
             { name: 'Fragranza.co.il',  shipping: 'משלוח 30&#8362; · 5-7 ימים', inStock: false, price: Math.round(basePrice * 1.20), cheapest: false },
           ];
           return (
-            <div className="frag-section-outer" style={{ margin: '0 28px 28px', background: 'var(--bg-card)', border: '1px solid var(--border-default)', borderRadius: 12, padding: 20 }}>
+            <div className="frag-section-outer rec-card" style={{ margin: '0 28px 28px' }}>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
                 <div>
                   <p style={{ fontSize: 9, color: 'var(--gold-text)', letterSpacing: 2, textTransform: 'uppercase', marginBottom: 4 }}>השוואת מחירים</p>
                   <h2 style={{ fontSize: 16, fontWeight: 600, color: 'var(--text-primary)', margin: 0 }}>איפה הכי משתלם.</h2>
                 </div>
-                {/* Live badge */}
-                <div style={{ display: 'flex', alignItems: 'center', gap: 5, padding: '4px 10px', borderRadius: 100, background: 'var(--bg-tertiary)', border: '1px solid var(--border-default)' }}>
+                {/* Live indicator */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
                   <span style={{ width: 5, height: 5, borderRadius: '50%', background: '#4caf50', display: 'inline-block', flexShrink: 0 }} />
                   <span style={{ fontSize: 9, color: 'var(--text-muted)' }}>עודכן לפני 6 שעות</span>
                 </div>
@@ -410,7 +402,7 @@ export default function FragranceSlugPage() {
                         <td style={{ padding: '12px', fontSize: 12, color: 'var(--text-primary)', fontWeight: store.cheapest ? 600 : 400 }}>
                           {store.name}
                           {store.cheapest && (
-                            <span style={{ fontSize: 8, fontWeight: 700, background: 'var(--gold)', color: '#050505', padding: '2px 6px', borderRadius: 4, marginRight: 6 }}>
+                            <span style={{ fontSize: 8, fontWeight: 700, letterSpacing: 0.5, background: 'var(--gold)', color: '#050505', padding: '2px 6px', marginRight: 6 }}>
                               הכי זול
                             </span>
                           )}
@@ -434,13 +426,12 @@ export default function FragranceSlugPage() {
                             rel="noopener noreferrer"
                             style={{
                               fontSize: 11,
-                              textDecoration: 'none',
-                              padding: '5px 12px',
-                              borderRadius: 6,
+                              textDecoration: store.cheapest ? 'none' : 'underline',
+                              textUnderlineOffset: 2,
+                              padding: store.cheapest ? '5px 12px' : 0,
                               whiteSpace: 'nowrap',
                               background: store.cheapest ? 'var(--gold)' : 'transparent',
                               color: store.cheapest ? '#050505' : 'var(--gold)',
-                              border: store.cheapest ? 'none' : '1px solid var(--border-gold)',
                               fontWeight: store.cheapest ? 600 : 400,
                             }}
                           >
@@ -475,7 +466,8 @@ export default function FragranceSlugPage() {
                 >
                   <Link
                     href={`/fragrance/${toSlug(f.name)}`}
-                    style={{ display: 'block', background: 'var(--bg-card)', border: '1px solid var(--border-default)', borderRadius: 12, padding: 16, textDecoration: 'none', transition: 'border-color 0.2s' }}
+                    className="rec-card"
+                    style={{ display: 'block', textDecoration: 'none', transition: 'border-color 0.2s' }}
                     onMouseEnter={e => (e.currentTarget.style.borderColor = 'var(--border-gold)')}
                     onMouseLeave={e => (e.currentTarget.style.borderColor = 'var(--border-default)')}
                   >

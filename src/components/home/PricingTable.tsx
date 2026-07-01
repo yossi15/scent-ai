@@ -30,12 +30,14 @@ function FeatureCell({ val, highlight }: { val: FeatureVal; highlight: boolean }
 
   if (val === true) return (
     <td style={base}>
-      <span style={{ color: 'var(--gold)', fontWeight: 600 }}>✓</span>
+      <span aria-hidden="true" style={{ color: 'var(--gold)', fontWeight: 600 }}>✓</span>
+      <span className="sr-only">כלול</span>
     </td>
   );
   if (val === false) return (
     <td style={base}>
-      <span style={{ color: 'var(--text-dim, var(--text-faint))' }}>-</span>
+      <span aria-hidden="true" style={{ color: 'var(--text-dim, var(--text-faint))' }}>-</span>
+      <span className="sr-only">לא כלול</span>
     </td>
   );
   return (
@@ -54,21 +56,21 @@ function DesktopTable() {
       style={{
         background: 'var(--bg-card)',
         border: '1px solid var(--border-2, var(--border-default))',
-        borderRadius: 16, overflow: 'hidden',
-        boxShadow: 'var(--shadow-card)',
+        borderRadius: 3, overflow: 'hidden',
       }}
       className="table-wrap"
     >
       <table style={{ width: '100%', borderCollapse: 'collapse', tableLayout: 'fixed' }}>
+        <caption className="sr-only">השוואת מסלולי המנוי של SCENTORY - גילוי, אספן ומומחה</caption>
         <thead>
           <tr>
-            <th style={{
+            <th scope="col" style={{
               padding: 'var(--s3) 20px', textAlign: 'right',
               fontSize: 13.5, color: 'var(--text-muted)', fontWeight: 400,
               borderBottom: '1px solid var(--border-default)',
             }}>תכונה</th>
             {PLANS.map(p => (
-              <th key={p.id} style={{
+              <th key={p.id} scope="col" style={{
                 padding: 'var(--s3) 20px', textAlign: 'center',
                 borderBottom: '1px solid var(--border-default)',
                 background: p.highlight ? 'var(--gold-faint)' : 'transparent',
@@ -77,8 +79,8 @@ function DesktopTable() {
                 {p.badge && (
                   <span style={{
                     display: 'inline-block', marginBottom: 6,
-                    fontSize: 12, letterSpacing: '0.2em', padding: '3px 8px',
-                    background: 'var(--gold)', color: '#1a1410', borderRadius: 4, fontWeight: 700,
+                    fontSize: 10, letterSpacing: '0.2em', textTransform: 'uppercase',
+                    color: 'var(--gold)', fontWeight: 600,
                   }}>
                     {p.badge}
                   </span>
@@ -104,7 +106,7 @@ function DesktopTable() {
                       style={{
                         display: 'inline-block',
                         fontSize: 13, fontWeight: 500,
-                        padding: '10px 18px', borderRadius: 10,
+                        padding: '10px 18px', borderRadius: 2,
                         background: p.highlight ? 'var(--gold)' : 'transparent',
                         color: p.highlight ? '#1a1410' : 'var(--text-secondary)',
                         border: p.highlight ? '1px solid var(--gold)' : '1px solid var(--border-strong, var(--border-default))',
@@ -123,9 +125,9 @@ function DesktopTable() {
         <tbody>
           {FEATURES.map((feat, fi) => (
             <tr key={feat.label} style={{ borderTop: '1px solid var(--border-subtle)' }}>
-              <td style={{ padding: '18px 20px', fontSize: 13.5, color: 'var(--text-primary)', fontWeight: 500 }}>
+              <th scope="row" style={{ padding: '18px 20px', fontSize: 13.5, color: 'var(--text-primary)', fontWeight: 500, textAlign: 'right' }}>
                 {feat.label}
-              </td>
+              </th>
               <FeatureCell val={feat.discovery} highlight={false} />
               <FeatureCell val={feat.collector} highlight={true} />
               <FeatureCell val={feat.expert}    highlight={false} />
@@ -157,7 +159,7 @@ function MobileCards() {
         <div
           key={p.id}
           style={{
-            borderRadius: 16, padding: 20,
+            borderRadius: 3, padding: 20,
             border: p.highlight ? '1.5px solid var(--gold-soft)' : '1px solid var(--border-2, var(--border-default))',
             background: p.highlight ? 'var(--gold-faint)' : 'var(--bg-card)',
             position: 'relative',
@@ -167,7 +169,8 @@ function MobileCards() {
             <span style={{
               position: 'absolute', top: -10, right: 16,
               background: 'var(--gold)', color: '#1a1410',
-              fontSize: 12, fontWeight: 700, padding: '3px 10px', borderRadius: 100,
+              fontSize: 10, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase',
+              padding: '3px 8px',
             }}>
               {p.badge}
             </span>
@@ -205,7 +208,7 @@ function MobileCards() {
             style={{
               display: 'block', textAlign: 'center',
               fontSize: 13, fontWeight: 500,
-              padding: '11px 0', borderRadius: 10,
+              padding: '11px 0', borderRadius: 2,
               background: p.highlight ? 'var(--gold)' : 'transparent',
               color: p.highlight ? '#1a1410' : 'var(--text-secondary)',
               border: p.highlight ? 'none' : '1px solid var(--border-2, var(--border-default))',
@@ -238,11 +241,7 @@ export default function PricingTable() {
             <span aria-hidden="true" style={{ width: 18, height: 1, background: 'var(--gold)', display: 'inline-block' }} />
             מסלולים
           </span>
-          <h2 style={{
-            fontWeight: 700, fontSize: 'clamp(26px, 3vw, 40px)',
-            lineHeight: 1.15, letterSpacing: '-0.025em', margin: 0,
-            color: 'var(--text-primary)',
-          }}>
+          <h2 className="ed-h" style={{ fontSize: 'clamp(26px, 3vw, 40px)' }}>
             בחר את הרמה שלך.
           </h2>
           <p style={{ color: 'var(--text-muted)', fontSize: 15.5, maxWidth: 540, margin: 0, lineHeight: 1.65 }}>

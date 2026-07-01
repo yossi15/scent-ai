@@ -1,8 +1,157 @@
-﻿
+
 /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    EDITORIAL HOMEPAGE â€” luxury fragrance aesthetic
    All classes prefixed ed- / flow- / note- / hero-consult
-   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+   Added: hero-v3 (full-screen hero), glass-card
+   
+ */
+
+/* ── Hero · editorial, content-sized (not viewport-forced) ──────────── */
+.hero-lux {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+  min-height: 620px;
+  padding: 160px 80px 110px;
+  background: var(--bg);
+}
+.hero-lux::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(48% 60% at 28% 20%, var(--gold-faint) 0%, transparent 66%);
+}
+@media (max-width: 768px) {
+  .hero-lux { padding: 120px 24px 72px; min-height: 520px; }
+}
+
+/* ── Results page · editorial recommendation cards ─────────────────── */
+.results-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 10px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--gold);
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+.results-eyebrow::before { content: ""; width: 18px; height: 1px; background: var(--gold); display: inline-block; }
+
+.dna-panel {
+  border-top: 1px solid var(--border-default);
+  border-bottom: 1px solid var(--border-default);
+  padding: 24px 0;
+  margin-bottom: 40px;
+}
+
+.rec-card {
+  position: relative;
+  background: var(--bg-card);
+  border: 1px solid var(--border-default);
+  border-radius: 3px;
+  padding: 22px 20px 20px;
+}
+.rec-card::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  inset-inline: 20px;
+  height: 1px;
+  background: var(--border-default);
+}
+.rec-card--top {
+  background: linear-gradient(135deg, var(--top-rec-bg-start, #1a1410), var(--top-rec-bg-end, #131310));
+  border-color: rgba(230,196,121,0.35);
+}
+.rec-card--top::before { background: var(--gold); }
+
+.rec-card-top-tag {
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  font-weight: 600;
+  margin-bottom: 14px;
+}
+
+.rec-card-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.rec-card-house {
+  font-size: 9px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.rec-card--top .rec-card-house { color: rgba(230,196,121,0.7); }
+.rec-card-score {
+  flex-shrink: 0;
+  font-family: Georgia, serif;
+  font-size: 15px;
+  color: var(--gold);
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+.rec-card-score small { font-size: 8px; letter-spacing: 0.1em; color: var(--text-faint); font-family: 'Heebo', sans-serif; }
+
+.rec-card-name {
+  font-family: Georgia, 'Frank Ruhl Libre', serif;
+  font-weight: 400;
+  font-size: clamp(17px, 3vw, 21px);
+  color: var(--text-primary);
+  line-height: 1.2;
+  margin: 0 0 14px;
+}
+
+.rec-card-why {
+  border-inline-start: 2px solid var(--border-default);
+  padding-inline-start: 12px;
+  margin-bottom: 16px;
+}
+.rec-card--top .rec-card-why { border-inline-start-color: var(--border-gold); }
+.rec-card-why p {
+  font-size: 12.5px;
+  line-height: 1.75;
+  color: var(--text-tertiary);
+  margin: 0;
+}
+.rec-card--top .rec-card-why p { color: var(--text-secondary); }
+
+.rec-card-actions {
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.rec-card-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  text-decoration: none;
+  transition: color 150ms ease;
+}
+.rec-card-action:hover { color: var(--gold); }
+.rec-card-action--muted { color: var(--text-muted); }
+.rec-card-action--gold { color: var(--gold); border-bottom: 1px solid var(--border-gold); padding-bottom: 2px; }
+
 
 /* Shared display heading â€” serif, regular weight, large */
 .ed-h {
@@ -22,7 +171,7 @@
   overflow: hidden;
   min-height: 88vh;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   padding: 96px 24px 120px;
   background: var(--bg);
 }
@@ -43,7 +192,7 @@
   text-transform: uppercase;
   color: var(--text-dim, #4a4a4a);
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   gap: 18px;
   pointer-events: none;
 }
@@ -72,7 +221,7 @@
   color: var(--text-muted);
   font-weight: 600;
   display: inline-flex;
-  align-items: center;
+  align-items: flex-end;
   gap: 13px;
 }
 .hero-folio::before {
@@ -97,7 +246,7 @@
 .hero-step { display: flex; flex-direction: column; gap: 16px; max-width: 580px; }
 .hero-field {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   gap: 14px;
   border-bottom: 1px solid var(--border-strong, rgba(255,255,255,0.18));
   padding: 14px 2px;
@@ -125,15 +274,15 @@
   background: transparent;
   color: var(--text-secondary);
   display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  align-items: flex-end;
+  justify-content: flex-start;
   cursor: pointer;
   transition: all 200ms;
 }
 .hero-field-btn:hover { border-color: var(--gold); color: var(--gold); transform: translateX(-2px); }
 .hero-suggest {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   flex-wrap: wrap;
   gap: 8px 16px;
 }
@@ -230,7 +379,7 @@
   position: relative;
   overflow: hidden;
   padding: 120px 24px;
-  background: #060606;
+  background: #151919;
   border-top: 1px solid rgba(255,255,255,0.06);
   border-bottom: 1px solid rgba(255,255,255,0.06);
 }
@@ -257,13 +406,13 @@
   font-size: 10.5px;
   letter-spacing: 0.24em;
   text-transform: uppercase;
-  color: #c9a961;
+  color: #e6c479;
   font-weight: 600;
   display: inline-flex;
-  align-items: center;
+  align-items: flex-end;
   gap: 8px;
 }
-.ed-pain-eyebrow::before { content: ""; width: 18px; height: 1px; background: #c9a961; display: inline-block; }
+.ed-pain-eyebrow::before { content: ""; width: 18px; height: 1px; background: #e6c479; display: inline-block; }
 .ed-pain-h {
   font-family: Georgia, serif;
   font-weight: 400;
@@ -271,13 +420,13 @@
   line-height: 1.04;
   letter-spacing: -0.02em;
   margin: 0;
-  color: #f3f0ea;
+  color: #e3e2e2;
   text-wrap: balance;
 }
 .ed-pain-body {
   font-size: 18px;
   line-height: 1.85;
-  color: #9a9a9a;
+  color: #8a8a8a;
   margin: 0;
   max-width: 52ch;
   text-wrap: pretty;
@@ -297,7 +446,7 @@
   margin: 96px auto 0;
   padding-top: 48px;
   text-align: center;
-  border-top: 1px solid rgba(201,169,97,0.28);
+  border-top: 1px solid rgba(230,196,121,0.28);
 }
 .ed-pullquote p {
   font-family: Georgia, serif;
@@ -305,7 +454,7 @@
   font-weight: 400;
   font-size: clamp(22px, 2.8vw, 33px);
   line-height: 1.42;
-  color: #c9a961;
+  color: #e6c479;
   margin: 0;
   text-wrap: balance;
 }
@@ -444,7 +593,7 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 80px;
-  align-items: center;
+  align-items: flex-end;
 }
 .note-lede { display: flex; flex-direction: column; gap: 24px; align-items: flex-start; }
 .note-lede .ed-h { font-size: 46px; }
@@ -500,7 +649,7 @@
   color: var(--gold);
   margin-bottom: 8px;
 }
-.note-bottle-wrap { display: flex; justify-content: center; padding: 8px 0; }
+.note-bottle-wrap { display: flex; justify-content: flex-start; padding: 8px 0; }
 .note-brand-label {
   text-align: center;
   font-size: 10.5px;
@@ -572,3 +721,262 @@
   .note-grid { grid-template-columns: 1fr; gap: 40px; }
   .note-lede .ed-h { font-size: 32px; }
 }
+
+/* luxury hero editorial */
+.hero-lux-content {
+  position: relative;
+  z-index: 1;
+  max-width: 860px;
+  width: 100%;
+}
+.hero-lux-h1 {
+  font-family: Georgia, 'Frank Ruhl Libre', serif;
+  font-weight: 400;
+  font-size: clamp(52px, 9vw, 108px);
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+  color: var(--text-primary);
+  margin: 0 0 52px;
+}
+.hero-lux-h1-em {
+  font-style: italic;
+  color: var(--gold);
+  display: block;
+  margin-top: 6px;
+}
+.hero-lux-rule {
+  width: 48px;
+  height: 1px;
+  background: rgba(230,196,121,0.35);
+  margin: 0 0 36px;
+}
+.hero-lux-cta {
+  display: inline-block;
+  font-size: 10.5px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(230,196,121,0.3);
+  padding-bottom: 3px;
+  transition: border-color 0.2s, color 0.2s;
+}
+.hero-lux-cta:hover {
+  border-color: var(--gold);
+}
+@media (max-width: 640px) {
+  .hero-v3 { padding: 0 28px 80px; }
+}
+
+/* ── Quiz · editorial option controls ──────────────────────────────── */
+/* Replaces generic rounded-pill/card buttons with the same hairline +
+   gold-accent language used across the homepage (ed-vs-list, note-points). */
+.quiz-option-list {
+  display: flex;
+  flex-direction: column;
+}
+.quiz-option {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+  min-height: 44px;
+  text-align: right;
+  cursor: pointer;
+  padding: 18px 4px 18px 8px;
+  background: none;
+  border: none;
+  border-top: 1px solid var(--border-default);
+  color: var(--text-secondary);
+  transition: color 150ms ease, padding-inline-start 150ms ease;
+}
+.quiz-option-list > .quiz-option:last-child { border-bottom: 1px solid var(--border-default); }
+.quiz-option::before {
+  content: "";
+  position: absolute;
+  inset-inline-start: -1px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 22px;
+  background: var(--gold);
+  transition: width 150ms ease;
+}
+.quiz-option:hover { color: var(--text-primary); }
+.quiz-option:hover::before { width: 2px; }
+.quiz-option--selected { padding-inline-start: 16px; color: var(--text-primary); }
+.quiz-option--selected::before { width: 3px; }
+/* Reject variant (Q3 "avoid this note") â€” same hairline language, red accent */
+.quiz-option--reject-selected { padding-inline-start: 16px; color: var(--color-reject, #e74c3c); }
+.quiz-option--reject-selected::before { width: 3px; background: var(--color-reject, #e74c3c); }
+.quiz-option--reject-selected .quiz-option-label { color: var(--color-reject, #e74c3c); }
+.quiz-option--reject-selected .quiz-option-check { color: var(--color-reject, #e74c3c); }
+.quiz-option-icon { flex-shrink: 0; color: var(--text-muted); display: flex; transition: color 150ms ease; }
+.quiz-option--selected .quiz-option-icon { color: var(--gold); }
+.quiz-option-label {
+  font-family: Georgia, 'Frank Ruhl Libre', serif;
+  font-size: 16px;
+  color: inherit;
+  margin: 0 0 3px;
+}
+.quiz-option--selected .quiz-option-label { color: var(--gold); }
+.quiz-option-desc {
+  font-family: 'Heebo', system-ui, sans-serif;
+  font-size: 11.5px;
+  color: var(--text-muted);
+  margin: 0;
+  line-height: 1.5;
+}
+.quiz-option-check {
+  flex-shrink: 0;
+  color: var(--gold);
+  opacity: 0;
+  transform: scale(0.7);
+  transition: opacity 150ms ease, transform 150ms ease;
+}
+.quiz-option--selected .quiz-option-check { opacity: 1; transform: scale(1); }
+
+/* Grid tile variant (Q1 direction grid) â€” icon + label stacked in a cell */
+.quiz-option-tile {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-height: 108px;
+  padding: 18px;
+  text-align: right;
+  background: none;
+  border: 1px solid var(--border-default);
+  border-radius: 3px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: border-color 150ms ease, transform 150ms ease, box-shadow 150ms ease;
+}
+.quiz-option-tile:hover { border-color: var(--border-gold-strong); transform: translateY(-2px); }
+.quiz-option-tile--selected,
+.quiz-option-tile--selected:hover {
+  border-color: var(--gold);
+  box-shadow: inset 0 0 0 1px var(--gold);
+}
+.quiz-option-tile-icon { color: var(--text-muted); transition: color 150ms ease; }
+.quiz-option-tile--selected .quiz-option-tile-icon { color: var(--gold); }
+.quiz-option-tile-label {
+  font-family: Georgia, 'Frank Ruhl Libre', serif;
+  font-size: 14px;
+  color: var(--text-primary);
+  margin: 0;
+}
+.quiz-option-tile--selected .quiz-option-tile-label { color: var(--gold); }
+.quiz-option-tile-desc {
+  font-family: 'Heebo', system-ui, sans-serif;
+  font-size: 11px;
+  color: var(--text-tertiary);
+  line-height: 1.4;
+  margin: 0;
+}
+
+/* Chips (multi-select notes) — sharp corners, not pills */
+.quiz-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  padding: 9px 18px;
+  border: 1px solid var(--border-default);
+  border-radius: 3px;
+  background: none;
+  color: var(--text-secondary);
+  font-family: 'Heebo', system-ui, sans-serif;
+  font-size: 13px;
+  cursor: pointer;
+  transition: border-color 150ms ease, color 150ms ease, background 150ms ease, transform 100ms ease;
+}
+.quiz-chip:hover { border-color: var(--border-gold-strong); color: var(--text-primary); }
+.quiz-chip:active { transform: scale(0.97); }
+.quiz-chip--selected {
+  border-color: var(--gold);
+  color: var(--gold);
+  background: rgba(230,196,121,0.08);
+}
+
+/* Primary quiz CTA — same treatment as the old hero-v3-cta motif */
+.quiz-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 48px;
+  padding: 15px 44px;
+  background: var(--gold);
+  color: #121414;
+  font-family: 'Heebo', system-ui, sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  border: none;
+  border-radius: 2px;
+  cursor: pointer;
+  box-shadow: 0 0 32px -8px rgba(230,196,121,0.35);
+  transition: transform 200ms cubic-bezier(.4,0,.2,1), box-shadow 200ms cubic-bezier(.4,0,.2,1), background 200ms;
+}
+.quiz-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 40px -8px rgba(230,196,121,0.5); }
+.quiz-cta:active { transform: translateY(0); }
+.quiz-cta:disabled { background: var(--border-default); color: var(--text-muted); box-shadow: none; cursor: not-allowed; transform: none; }
+
+/* Search field + dropdown (Q9 collection search) — sharp, hairline, no rounded boxes */
+.quiz-search-field {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: none;
+  border-bottom: 1px solid var(--border-strong, rgba(255,255,255,0.18));
+  background: none;
+  padding: 12px 2px;
+  margin-bottom: 20px;
+  transition: border-color 150ms ease;
+}
+.quiz-search-field:focus-within { border-color: var(--gold); }
+.quiz-search-field input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: 'Heebo', system-ui, sans-serif;
+  font-size: 14px;
+  color: var(--text-primary);
+}
+.quiz-search-field input::placeholder { color: var(--text-muted); }
+.quiz-search-clear {
+  color: var(--text-muted);
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+}
+.quiz-search-clear:hover { color: var(--text-primary); }
+
+.quiz-dropdown { margin-bottom: 20px; }
+.quiz-dropdown-item {
+  width: 100%;
+  text-align: right;
+  padding: 12px 4px;
+  border: none;
+  border-top: 1px solid var(--border-subtle);
+  background: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  min-height: 44px;
+  color: var(--text-primary);
+  transition: color 150ms ease;
+}
+.quiz-dropdown-item:hover { color: var(--gold); }
+.quiz-dropdown-item--selected { color: var(--gold); }
+.quiz-dropdown-item-name { font-size: 13px; font-weight: 500; }
+.quiz-dropdown-item-house { font-size: 11px; color: var(--text-muted); margin-inline-start: 8px; }

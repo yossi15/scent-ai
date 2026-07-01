@@ -54,11 +54,7 @@ export default function Testimonials() {
             <span aria-hidden="true" style={{ width: 18, height: 1, background: 'var(--gold)', display: 'inline-block' }} />
             קהילה מ-500 הראשונים
           </span>
-          <h2 style={{
-            fontWeight: 700, fontSize: 'clamp(24px, 3vw, 40px)',
-            lineHeight: 1.15, letterSpacing: '-0.025em', margin: 0,
-            color: 'var(--text-primary)',
-          }}>
+          <h2 className="ed-h" style={{ fontSize: 'clamp(24px, 3vw, 40px)' }}>
             דברים שאמרו לנו אחרי שמצאו את הניחוח שלהם.
           </h2>
         </div>
@@ -78,9 +74,8 @@ export default function Testimonials() {
               style={{
                 background: 'var(--bg-card)',
                 border: '1px solid var(--border-2, var(--border-default))',
-                borderRadius: 16, padding: 'var(--s3)',
+                borderRadius: 3, padding: 'var(--s3)',
                 display: 'flex', flexDirection: 'column', gap: 16,
-                boxShadow: 'var(--shadow-card)',
                 transition: 'transform 280ms, border-color 280ms',
               }}
               whileHover={{ y: -3 }}
@@ -116,11 +111,8 @@ export default function Testimonials() {
                   </div>
 
                   <span style={{
-                    fontSize: 12, color: 'var(--gold)', fontWeight: 600,
-                    letterSpacing: '0.04em', textTransform: 'uppercase',
-                    padding: '3px 8px', borderRadius: 999,
-                    background: 'var(--gold-faint)',
-                    border: '1px solid var(--gold-soft)',
+                    fontSize: 10, color: 'var(--gold)', fontWeight: 600,
+                    letterSpacing: '0.1em', textTransform: 'uppercase',
                     whiteSpace: 'nowrap',
                     display: 'inline-flex', alignItems: 'center', gap: 4,
                   }}>

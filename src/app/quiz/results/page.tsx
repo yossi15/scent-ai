@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { motion, useInView } from 'framer-motion';
-import { RotateCcw, Share2, ExternalLink, ShoppingBag, ChevronDown } from 'lucide-react';
+import { RotateCcw, Share2, ExternalLink, ShoppingBag, ChevronDown, Droplet, Check } from 'lucide-react';
 import { fragrances } from '@/data/fragrances';
 
 /* ─── Types ─────────────────────────────────────────────────────────── */
@@ -72,129 +72,83 @@ function DnaBar({ label, value, delay }: { label: string; value: number; delay: 
 }
 
 /* ─── Recommendation card ────────────────────────────────────────────── */
-function RecCard({ rec, index }: { rec: Rec; index: number }) {
+function RecCard({ rec, index, email }: { rec: Rec; index: number; email: string | null }) {
   const frag = rec.id ? fragrances.find(f => f.id === rec.id) : null;
   const buyUrl = `https://www.google.com/search?tbm=shop&q=${encodeURIComponent(rec.name + ' ' + rec.house + ' fragrance')}`;
   const isTop = index === 0;
+  const [sampleState, setSampleState] = useState<'idle' | 'loading' | 'sent' | 'error'>('idle');
+
+  const handleSampleRequest = async () => {
+    if (!email || sampleState !== 'idle') return;
+    setSampleState('loading');
+    try {
+      const res = await fetch('/api/sample-request', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, fragrance_name: rec.name, brand: rec.house }),
+      });
+      setSampleState(res.ok ? 'sent' : 'error');
+    } catch {
+      setSampleState('error');
+    }
+  };
 
   return (
     <motion.div
       initial={{ opacity: 0, y: 24 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.55, delay: 0.1 + index * 0.08, ease }}
-      style={{
-        background: isTop
-          ? 'linear-gradient(135deg, var(--top-rec-bg-start, #1a1410), var(--top-rec-bg-end, #131310))'
-          : 'var(--bg-card)',
-        border: isTop ? '1px solid rgba(201,169,97,0.4)' : '1px solid var(--border-default)',
-        borderRadius: 14, padding: 20, position: 'relative', overflow: 'hidden',
-        boxShadow: isTop ? '0 0 40px rgba(201,169,97,0.08)' : 'none',
-      }}
+      className={`rec-card${isTop ? ' rec-card--top' : ''}`}
+      dir="rtl"
     >
-      {isTop && (
-        <div style={{
-          position: 'absolute', top: 0, right: 0,
-          background: 'var(--gold)', color: '#050505',
-          fontSize: 9, fontWeight: 700, letterSpacing: 1.5,
-          textTransform: 'uppercase', padding: '4px 10px', borderBottomLeftRadius: 8,
-        }}>
-          ההתאמה המושלמת
-        </div>
-      )}
+      {isTop && <p className="rec-card-top-tag">ההתאמה המושלמת</p>}
 
-      <div style={{ display: 'flex', gap: 14, alignItems: 'flex-start' }}>
-        {/* Score badge */}
-        <div style={{
-          display: 'flex', flexDirection: 'column', alignItems: 'center',
-          gap: 2, flexShrink: 0, paddingTop: isTop ? 22 : 2,
-        }}>
-          <span style={{
-            fontFamily: 'Georgia, serif',
-            fontSize: isTop ? 26 : 20,
-            color: 'var(--gold)', opacity: isTop ? 1 : 0.6, lineHeight: 1,
-          }}>
-            {rec.match_score}%
-          </span>
-          <span style={{ fontSize: 8, color: 'var(--text-faint)', letterSpacing: 0.5 }}>התאמה</span>
-        </div>
+      <div className="rec-card-head">
+        <p className="rec-card-house">{rec.house}</p>
+        <span className="rec-card-score">{rec.match_score}<small>ציון</small></span>
+      </div>
 
-        {/* Bottle placeholder */}
-        <div style={{
-          width: 56, height: 74, flexShrink: 0,
-          background: isTop ? 'rgba(201,169,97,0.08)' : 'var(--bg-secondary)',
-          borderRadius: 8,
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          border: isTop ? '1px solid var(--border-gold)' : 'none',
-          marginTop: isTop ? 22 : 0,
-        }}>
-          <span style={{ fontFamily: 'Georgia, serif', fontSize: 24, color: isTop ? 'var(--gold)' : 'var(--text-muted)', opacity: 0.7 }}>
-            {rec.house.charAt(0)}
-          </span>
-        </div>
+      <h2 className="rec-card-name">{rec.name}</h2>
 
-        {/* Content */}
-        <div style={{ flex: 1, minWidth: 0, paddingTop: isTop ? 22 : 0 }} dir="rtl">
-          <p style={{
-            fontSize: 9, letterSpacing: 2.5, textTransform: 'uppercase',
-            color: isTop ? 'rgba(201,169,97,0.7)' : 'var(--text-muted)', marginBottom: 4,
-          }}>
-            {rec.house}
-          </p>
-          <h2 style={{
-            fontFamily: 'Georgia, serif', fontWeight: 400,
-            fontSize: 'clamp(16px, 3vw, 20px)', color: 'var(--text-primary)',
-            lineHeight: 1.2, marginBottom: 10,
-          }}>
-            {rec.name}
-          </h2>
+      <div className="rec-card-why">
+        <p data-why-text>{rec.why_text}</p>
+      </div>
 
-          {/* Why text */}
-          <div style={{
-            background: isTop ? 'rgba(201,169,97,0.06)' : 'transparent',
-            border: isTop ? 'none' : 'none',
-            borderRight: isTop ? '2px solid var(--border-gold)' : '2px solid var(--border-default)',
-            paddingRight: 10, marginBottom: 14,
-          }}>
-            <p style={{
-              fontSize: 12.5, lineHeight: 1.75,
-              color: isTop ? 'rgba(245,245,245,0.8)' : 'var(--text-tertiary)',
-            }}>
-              {rec.why_text}
-            </p>
-          </div>
-
-          {/* Actions */}
-          <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap', alignItems: 'center' }}>
-            {rec.in_catalog && rec.id && frag && (
-              <Link
-                href={`/fragrance/${toSlug(rec.name)}`}
-                style={{
-                  fontSize: 10, letterSpacing: 1.5, textTransform: 'uppercase',
-                  color: 'var(--gold)',
-                  borderBottom: '1px solid var(--border-gold)',
-                  paddingBottom: 2, textDecoration: 'none',
-                }}
-              >
-                פרטי הבושם
-              </Link>
-            )}
-            <a
-              href={buyUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                fontSize: 10, letterSpacing: 1.5, textTransform: 'uppercase',
-                color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: 4,
-                textDecoration: 'none',
-              }}
-              aria-label={`השוואת מחירים עבור ${rec.name}`}
-            >
-              <ShoppingBag size={11} />
-              השוואת מחירים
-              <ExternalLink size={10} />
-            </a>
-          </div>
-        </div>
+      <div className="rec-card-actions">
+        {rec.in_catalog && rec.id && frag && (
+          <Link href={`/fragrance/${toSlug(rec.name)}`} className="rec-card-action rec-card-action--gold">
+            פרטי הבושם
+          </Link>
+        )}
+        {email && (
+          <button
+            onClick={handleSampleRequest}
+            disabled={sampleState !== 'idle'}
+            className={`rec-card-action${sampleState === 'sent' ? ' rec-card-action--gold' : ''}`}
+            style={{ cursor: sampleState === 'idle' ? 'pointer' : 'default' }}
+            aria-label={`בקש דוגמית להרחה של ${rec.name}`}
+          >
+            {sampleState === 'sent' ? <Check size={11} /> : <Droplet size={11} />}
+            {sampleState === 'sent'
+              ? 'דוגמית בדרך למייל שלך'
+              : sampleState === 'loading'
+              ? 'שולח...'
+              : sampleState === 'error'
+              ? 'שגיאה, נסה שוב'
+              : 'בקש דוגמית להרחה'}
+          </button>
+        )}
+        <a
+          href={buyUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="rec-card-action rec-card-action--muted"
+          aria-label={`השוואת מחירים עבור ${rec.name}`}
+        >
+          <ShoppingBag size={11} />
+          השוואת מחירים
+          <ExternalLink size={10} />
+        </a>
       </div>
     </motion.div>
   );
@@ -271,7 +225,7 @@ export default function QuizResults() {
           <button
             onClick={handleShare}
             aria-label="שתף תוצאות"
-            style={{ background: 'none', border: '1px solid var(--border-default)', padding: '7px 10px', cursor: 'pointer', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: 6, borderRadius: 6, fontSize: 11 }}
+            style={{ background: 'none', border: '1px solid var(--border-default)', padding: '7px 10px', cursor: 'pointer', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: 6, borderRadius: 3, fontSize: 11 }}
           >
             <Share2 size={14} />
             שתף
@@ -279,7 +233,7 @@ export default function QuizResults() {
           <button
             onClick={handleRetake}
             aria-label="עשה שאלון מחדש"
-            style={{ background: 'none', border: '1px solid var(--border-default)', padding: 8, cursor: 'pointer', color: 'var(--text-muted)', display: 'flex', borderRadius: 6 }}
+            style={{ background: 'none', border: '1px solid var(--border-default)', padding: 8, cursor: 'pointer', color: 'var(--text-muted)', display: 'flex', borderRadius: 3 }}
           >
             <RotateCcw size={14} />
           </button>
@@ -294,15 +248,7 @@ export default function QuizResults() {
           transition={{ duration: 0.55, ease }}
           style={{ marginBottom: 32, textAlign: 'center' }}
         >
-          <div style={{
-            display: 'inline-flex', alignItems: 'center', gap: 6,
-            padding: '5px 14px', borderRadius: 100,
-            background: 'rgba(201,169,97,0.08)', border: '1px solid var(--border-gold)',
-            marginBottom: 16,
-          }}>
-            <span style={{ width: 5, height: 5, borderRadius: '50%', background: 'var(--gold)', display: 'inline-block' }} className="animate-gold-pulse" />
-            <span style={{ fontSize: 10, color: 'var(--gold)', letterSpacing: 1.5 }}>הפרופיל הריחני שלך</span>
-          </div>
+          <p className="results-eyebrow">הפרופיל הריחני שלך</p>
           <h1 style={{
             fontFamily: 'Georgia, serif', fontWeight: 400,
             fontSize: 'clamp(24px, 4vw, 34px)',
@@ -323,10 +269,7 @@ export default function QuizResults() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2, ease }}
-            style={{
-              background: 'var(--bg-card)', border: '1px solid var(--border-default)',
-              borderRadius: 14, padding: 24, marginBottom: 32,
-            }}
+            className="dna-panel"
           >
             <p style={{ fontSize: 10, letterSpacing: 2, textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: 18 }}>
               פרופיל DNA ריחני
@@ -345,7 +288,7 @@ export default function QuizResults() {
         {/* Recommendations */}
         <div ref={listRef} style={{ display: 'flex', flexDirection: 'column', gap: 14, marginBottom: 40 }}>
           {data.recommendations.map((rec, i) => (
-            <RecCard key={rec.id ?? rec.name + i} rec={rec} index={i} />
+            <RecCard key={rec.id ?? rec.name + i} rec={rec} index={i} email={data.email} />
           ))}
         </div>
 
@@ -361,7 +304,7 @@ export default function QuizResults() {
               onClick={() => listRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
               style={{
                 display: 'inline-flex', alignItems: 'center', gap: 6,
-                padding: '10px 24px', borderRadius: 8,
+                padding: '10px 24px', borderRadius: 3,
                 border: '1px solid var(--border-default)', background: 'transparent',
                 color: 'var(--text-secondary)', fontSize: 13, cursor: 'pointer',
               }}
@@ -380,17 +323,7 @@ export default function QuizResults() {
           transition={{ duration: 0.6, delay: 0.8 }}
           style={{ display: 'flex', flexDirection: 'column', gap: 12, alignItems: 'center' }}
         >
-          <button
-            onClick={handleShare}
-            style={{
-              display: 'flex', alignItems: 'center', gap: 8,
-              padding: '13px 36px', background: 'var(--gold)', color: '#050505',
-              fontWeight: 600, fontSize: 12, letterSpacing: 1.5, textTransform: 'uppercase',
-              border: 'none', cursor: 'pointer', borderRadius: 8, transition: 'opacity 0.2s',
-            }}
-            onMouseEnter={e => (e.currentTarget.style.opacity = '0.85')}
-            onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
-          >
+          <button onClick={handleShare} className="quiz-cta" style={{ gap: 8 }}>
             <Share2 size={14} />
             שתף את הפרופיל הריחני שלך
           </button>

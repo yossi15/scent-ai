@@ -39,13 +39,13 @@ export default function FinalCTA() {
 
           {/* Headline */}
           <h2 style={{
-            fontWeight: 700,
+            fontFamily: "Georgia, 'Frank Ruhl Libre', serif", fontWeight: 400,
             fontSize: 'clamp(32px, 5vw, 56px)',
-            lineHeight: 1.1, letterSpacing: '-0.035em', margin: 0,
+            lineHeight: 1.1, letterSpacing: '-0.02em', margin: 0,
             color: 'var(--text-primary)', maxWidth: 620,
           }}>
             מצא את הריח שלך
-            <span style={{ color: 'var(--gold-text)' }}> ב-3 דקות</span>.
+            <em style={{ fontStyle: 'italic', color: 'var(--gold)' }}> ב-3 דקות</em>.
           </h2>
 
           {/* Sub */}
@@ -54,28 +54,7 @@ export default function FinalCTA() {
           </p>
 
           {/* CTA */}
-          <Link
-            href="/quiz"
-            style={{
-              display: 'inline-flex', alignItems: 'center', gap: 8,
-              fontSize: 16, fontWeight: 600,
-              padding: '18px 36px', borderRadius: 12,
-              background: 'var(--gold)', color: '#1a1410',
-              textDecoration: 'none',
-              border: '1px solid var(--gold)',
-              boxShadow: '0 1px 0 rgba(255,255,255,0.2) inset, 0 16px 40px -12px var(--gold-soft)',
-              transition: 'all 200ms cubic-bezier(.4,0,.2,1)',
-              marginTop: 'var(--s1)',
-            }}
-            onMouseEnter={e => {
-              e.currentTarget.style.background = 'var(--gold-strong)';
-              e.currentTarget.style.transform = 'translateY(-2px)';
-            }}
-            onMouseLeave={e => {
-              e.currentTarget.style.background = 'var(--gold)';
-              e.currentTarget.style.transform = 'translateY(0)';
-            }}
-          >
+          <Link href="/quiz" className="quiz-cta" style={{ fontSize: 14, padding: '18px 40px', marginTop: 'var(--s1)', textDecoration: 'none' }}>
             התחל את השאלון ←
           </Link>
         </motion.div>

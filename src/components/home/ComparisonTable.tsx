@@ -17,7 +17,7 @@ const ROWS = [
   },
   {
     feature: 'השוואת מחירים בין ספקים',
-    scentory: { yes: true,  note: 'זמן אמת' },
+    scentory: { yes: true,  note: 'מספקים שונים' },
     fragrantica: { partial: true, note: 'חלקי' },
     store: { yes: false, note: '' },
   },
@@ -54,18 +54,26 @@ function Cell({ val }: { val: CellVal }) {
   if (val.partial) {
     return (
       <span style={{ fontSize: 13, color: 'var(--text-muted)' }}>
-        ◐{val.note ? <span style={{ fontSize: 12, color: 'var(--text-muted)', marginRight: 4 }}> {val.note}</span> : null}
+        <span aria-hidden="true">◐</span>
+        <span className="sr-only">חלקי</span>
+        {val.note ? <span style={{ fontSize: 12, color: 'var(--text-muted)', marginRight: 4 }}> {val.note}</span> : null}
       </span>
     );
   }
   return val.yes
     ? (
       <span>
-        <span style={{ color: 'var(--gold)', fontSize: 14, fontWeight: 600 }}>✓</span>
+        <span aria-hidden="true" style={{ color: 'var(--gold)', fontSize: 14, fontWeight: 600 }}>✓</span>
+        <span className="sr-only">כלול</span>
         {val.note && <span style={{ fontSize: 12, color: 'var(--text-muted)', marginRight: 6 }}> {val.note}</span>}
       </span>
     )
-    : <span style={{ color: 'var(--text-dim, var(--text-faint))', fontSize: 14 }}>✗</span>;
+    : (
+      <span>
+        <span aria-hidden="true" style={{ color: 'var(--text-dim, var(--text-faint))', fontSize: 14 }}>✗</span>
+        <span className="sr-only">לא כלול</span>
+      </span>
+    );
 }
 
 export default function ComparisonTable() {
@@ -90,11 +98,7 @@ export default function ComparisonTable() {
             <span style={{ width: 18, height: 1, background: 'var(--gold)', display: 'inline-block' }} />
             השוואה
           </span>
-          <h2 style={{
-            fontWeight: 700, fontSize: 'clamp(26px, 3vw, 40px)',
-            lineHeight: 1.15, letterSpacing: '-0.025em', margin: 0,
-            color: 'var(--text-primary)',
-          }}>
+          <h2 className="ed-h" style={{ fontSize: 'clamp(26px, 3vw, 40px)' }}>
             SCENTORY מול האלטרנטיבות.
           </h2>
           <p style={{ color: 'var(--text-muted)', fontSize: 15.5, maxWidth: 540, margin: 0, lineHeight: 1.65 }}>
@@ -112,15 +116,15 @@ export default function ComparisonTable() {
           style={{
             background: 'var(--bg-card)',
             border: '1px solid var(--border-2, var(--border-default))',
-            borderRadius: 16, overflow: 'hidden',
-            boxShadow: 'var(--shadow-card)',
+            borderRadius: 3, overflow: 'hidden',
             minWidth: 480,
           }}
         >
           <table style={{ width: '100%', borderCollapse: 'collapse', tableLayout: 'fixed' }}>
+            <caption className="sr-only">השוואת תכונות בין SCENTORY, Fragrantica וחנות בקניון</caption>
             <thead>
               <tr>
-                <th style={{
+                <th scope="col" style={{
                   padding: '18px 20px', textAlign: 'right',
                   fontSize: 12, letterSpacing: '0.16em', textTransform: 'uppercase',
                   color: 'var(--text-muted)', fontWeight: 500,
@@ -132,7 +136,7 @@ export default function ComparisonTable() {
                   { label: 'Fragrantica', gold: false },
                   { label: 'חנות בקניון', gold: false },
                 ].map(col => (
-                  <th key={col.label} style={{
+                  <th key={col.label} scope="col" style={{
                     padding: '18px 20px', textAlign: 'center',
                     borderBottom: '1px solid var(--border-subtle)',
                     background: col.gold ? 'var(--gold-faint)' : 'transparent',
@@ -154,11 +158,11 @@ export default function ComparisonTable() {
             <tbody>
               {ROWS.map((row, i) => (
                 <tr key={row.feature} style={{ borderBottom: i < ROWS.length - 1 ? '1px solid var(--border-subtle)' : 'none' }}>
-                  <td style={{
+                  <th scope="row" style={{
                     padding: '18px 20px', fontSize: 14,
                     color: 'var(--text-primary)', fontWeight: 500,
-                    verticalAlign: 'middle',
-                  }}>{row.feature}</td>
+                    verticalAlign: 'middle', textAlign: 'right',
+                  }}>{row.feature}</th>
                   <td style={{ padding: '18px 20px', textAlign: 'center', background: 'var(--gold-faint)', verticalAlign: 'middle' }}>
                     <Cell val={row.scentory as CellVal} />
                   </td>

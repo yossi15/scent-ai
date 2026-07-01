@@ -7,11 +7,13 @@ import { Menu, X, Moon, Sun } from 'lucide-react';
 import Logo from './shared/Logo';
 
 const NAV_LINKS = [
-  { href: '/collection', label: 'קולקציה' },
   { href: '#how-it-works', label: 'איך זה עובד' },
-  { href: '#pricing', label: 'מסלולים' },
-  { href: '/blog', label: 'בלוג' },
+  { href: '/collection',   label: 'קולקציה' },
+  { href: '#pricing',      label: 'מסלולים' },
+  { href: '/blog',         label: 'בלוג' },
 ];
+
+const ANN_H = 36; // announcement bar height
 
 export default function Navigation() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -40,8 +42,9 @@ export default function Navigation() {
   return (
     <>
       <header
-        className={`fixed top-0 inset-x-0 z-50 nav-header${scrolled ? ' nav-scrolled' : ''}`}
+        className={`fixed inset-x-0 z-50 nav-header${scrolled ? ' nav-scrolled' : ''}`}
         style={{
+          top: ANN_H,
           backdropFilter: 'blur(12px)',
           WebkitBackdropFilter: 'blur(12px)',
           height: 57,
@@ -62,7 +65,21 @@ export default function Navigation() {
           </Link>
 
           {/* Col 2 → CENTER: Nav links */}
-          <nav className="flex items-center justify-center gap-6">
+          <nav className="flex items-center justify-center gap-6" aria-label="ניווט ראשי">
+            {/* Quiz — highlighted first */}
+            <Link
+              href="/quiz"
+              style={{
+                fontSize: 11, color: 'var(--gold)',
+                textDecoration: 'none', transition: 'color 0.2s',
+                fontWeight: 500, letterSpacing: '0.06em',
+              }}
+              onMouseEnter={e => (e.currentTarget.style.opacity = '0.75')}
+              onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
+            >
+              שאלון ההתאמה
+            </Link>
+
             {NAV_LINKS.map(link => (
               <Link
                 key={link.href}
@@ -85,7 +102,7 @@ export default function Navigation() {
               href="/quiz"
               style={{
                 fontSize: 11, fontWeight: 500,
-                padding: '7px 14px', borderRadius: 5,
+                padding: '7px 14px', borderRadius: 2,
                 background: 'var(--gold)', color: '#000',
                 textDecoration: 'none', whiteSpace: 'nowrap',
                 transition: 'opacity 0.2s',
@@ -124,7 +141,7 @@ export default function Navigation() {
                 alignItems: 'center', justifyContent: 'center',
                 background: 'transparent', border: 'none',
                 cursor: 'pointer', color: 'var(--text-muted)',
-                borderRadius: 8, transition: 'color 0.2s',
+                borderRadius: 2, transition: 'color 0.2s',
               }}
               onMouseEnter={e => (e.currentTarget.style.color = 'var(--text-primary)')}
               onMouseLeave={e => (e.currentTarget.style.color = 'var(--text-muted)')}
@@ -168,7 +185,7 @@ export default function Navigation() {
           id="mobile-nav-dropdown"
           className="md:hidden fixed inset-x-0 z-40 nav-mobile-dropdown"
           style={{
-            top: 57,
+            top: ANN_H + 57,
             backdropFilter: 'blur(12px)',
             borderBottom: '1px solid var(--border-subtle)',
           }}
@@ -195,7 +212,7 @@ export default function Navigation() {
               style={{
                 fontSize: 13, fontWeight: 500,
                 padding: '10px 0', textAlign: 'center', marginTop: 12,
-                borderRadius: 6, background: 'var(--gold)', color: '#050505',
+                borderRadius: 2, background: 'var(--gold)', color: '#121414',
                 textDecoration: 'none', display: 'block',
               }}
               onClick={() => setMobileOpen(false)}
